@@ -43,12 +43,12 @@ export function getAssessments(bankId) {
     return qbankFetch(params)
     .then((res) => res.json())
     .then((data) => {
-      console.log('received', data);
+      console.log('received getting assessments', data);
 
       if (data !== null) {
-        assessments = data.data.results;
+        assessments = data.data.results || [];
 
-        if (assessments.length !== 0) {
+        if (assessments.length > 0) {
           let offeredPromises = _.map(assessments, (assessment) => {
             return qbankFetch({path: `assessment/banks/${bankId}/assessments/${assessment.id}/assessmentsoffered?page=all`});
           });
@@ -56,11 +56,13 @@ export function getAssessments(bankId) {
           return Q.all(offeredPromises);
 
         } else {
-          return Q.reject('done');
+          return Q.when([]);
         }
+
+      } else {
+        return Q.when([]);
       }
 
-      return [];
     })
     .then((res) => {
       let offeredJson = _.map(res, (offered) => offered.json())
