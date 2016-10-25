@@ -19,7 +19,9 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => ({
   // let's load all of our data here that we need. hardcoding this bank Id for now
-  bankId: 'assessment.Bank%3A576d6d3271e4828c441d721a%40bazzim.MIT.EDU'
+  missions: state.missions,
+  // bankId: 'assessment.Bank%3A576d6d3271e4828c441d721a' + '@bazzim.MIT.EDU'
+  bankId: 'assessment.Bank:57d70ed471e482a74879349a' + '@bazzim.MIT.EDU'
 })
 
 /*  Note: mapStateToProps is where you should use `reselect` to create selectors, ie:

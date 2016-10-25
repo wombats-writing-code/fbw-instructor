@@ -8,7 +8,8 @@ import {HomeViewWeb} from './views/Home.web.js'
 class Home extends Component {
   static propTypes = {
     bankId: React.PropTypes.string.isRequired,
-    getAssessments: React.PropTypes.func.isRequired
+    getAssessments: React.PropTypes.func.isRequired,
+    missions: React.PropTypes.array.isRequired
   }
 
   componentDidMount() {

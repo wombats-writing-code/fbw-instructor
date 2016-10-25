@@ -165,6 +165,14 @@ webpackConfig.module.loaders.push(
 )
 /* eslint-enable */
 
+webpackConfig.node = {
+  // console: 'empty',
+  fs: 'empty',
+  net: 'empty',
+  tls: 'empty'
+};
+
+
 // ------------------------------------
 // Finalize Configuration
 // ------------------------------------

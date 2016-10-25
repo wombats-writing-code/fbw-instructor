@@ -14,7 +14,9 @@ export const HomeViewWeb = (props) => {
       <ul>
         {_.map(props.missions, (mission) => {
           return (
-            <li>Hi</li>
+            <li onClick={props.onClickMission(mission)}>
+              Hi
+            </li>
           )
         })}
       </ul>

@@ -4,8 +4,8 @@ import 'lodash'
 var Q = require('q');
 
 import credentials from '../../credentials/credentials';
-let qbankFetch = require('fbw-utils')(credentials).qbankFetch;
-
+import qBankFetchInit from '../../qBankFetch/qBankFetch'
+let qBankFetch = qBankFetchInit(credentials);
 // ----
 // Action types
 export const RECEIVE_ASSESSMENTS = 'RECEIVE_ASSESSMENTS'
@@ -40,7 +40,7 @@ export function getAssessments(bankId) {
     };
 
     let assessments;
-    return qbankFetch(params)
+    return qBankFetch(params)
     .then((res) => res.json())
     .then((data) => {
       console.log('received getting assessments', data);
@@ -50,7 +50,7 @@ export function getAssessments(bankId) {
 
         if (assessments.length > 0) {
           let offeredPromises = _.map(assessments, (assessment) => {
-            return qbankFetch({path: `assessment/banks/${bankId}/assessments/${assessment.id}/assessmentsoffered?page=all`});
+            return qBankFetch({path: `assessment/banks/${bankId}/assessments/${assessment.id}/assessmentsoffered?page=all`});
           });
 
           return Q.all(offeredPromises);
@@ -65,6 +65,7 @@ export function getAssessments(bankId) {
 
     })
     .then((res) => {
+      console.log('got offereds', res);
       let offeredJson = _.map(res, (offered) => offered.json())
       return Q.all(offeredJson);
     })
@@ -78,10 +79,11 @@ export function getAssessments(bankId) {
       });
 
       dispatch(receiveAssessments(missions));
+
+      return Q.when(missions);
     })
     .catch((error) => {
       console.log('error getting assessments + offered data', error);
-    })
-    .done();
+    });
   }
 }
