@@ -1,6 +1,8 @@
 import { connect } from 'react-redux'
 import Home from './Home'
-import {getAssessments, receiveAssessments} from '../../reducers/Assessment/getAssessments'
+
+import {getMissions, receiveMissions} from '../../reducers/Mission/getMissions'
+import {selectMission} from '../../reducers/Mission/selectMission'
 
 /*  This is a container component. Notice it does not contain any JSX,
     nor does it import React. This component is **only** responsible for
@@ -11,18 +13,23 @@ import {getAssessments, receiveAssessments} from '../../reducers/Assessment/getA
     Keys will be passed as props to presentational components. Here we are
     implementing our wrapper around increment; the component doesn't care   */
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    getAssessments: (bankId) => dispatch(getAssessments(bankId))
+    getMissions: (bankId) => dispatch(getMissions(bankId)),    // this gets called when the Home component mounts
+    onClickMission: (mission) => dispatch(selectMission(mission))
   }
 }
 
-const mapStateToProps = (state) => ({
-  // let's load all of our data here that we need. hardcoding this bank Id for now
-  missions: state.missions,
-  // bankId: 'assessment.Bank%3A576d6d3271e4828c441d721a' + '@bazzim.MIT.EDU'
-  bankId: 'assessment.Bank:57d70ed471e482a74879349a' + '@bazzim.MIT.EDU'
-})
+const mapStateToProps = (state, ownProps) => {
+  console.log('state', state);
+
+  return {
+    missions: state.mission ? state.mission.missions : [],
+    // bankId: 'assessment.Bank%3A576d6d3271e4828c441d721a' + '@bazzim.MIT.EDU'
+    bankId: 'assessment.Bank:57d70ed471e482a74879349a' + '@bazzim.MIT.EDU'
+  }
+
+}
 
 /*  Note: mapStateToProps is where you should use `reselect` to create selectors, ie:
 

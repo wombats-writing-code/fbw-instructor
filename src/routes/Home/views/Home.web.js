@@ -3,6 +3,7 @@ import DuckImage from '../assets/Duck.jpg'
 import React from 'react'
 
 export const HomeViewWeb = (props) => {
+
   return (
     <div>
       <h4>Welcome!</h4>
@@ -12,10 +13,11 @@ export const HomeViewWeb = (props) => {
         src={DuckImage} />
 
       <ul>
-        {_.map(props.missions, (mission) => {
+        {_.map(props.missions, (mission, idx) => {
           return (
-            <li onClick={props.onClickMission(mission)}>
-              Hi
+            <li key={idx} onClick={() => props.onClickMission(mission)}>
+              <p>{mission.displayName.text}</p>
+              <p>{mission.description.text}</p>
             </li>
           )
         })}

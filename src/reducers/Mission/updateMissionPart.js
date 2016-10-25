@@ -3,18 +3,14 @@ import 'lodash'
 
 var Q = require('q');
 
-let credentials = require('../../credentials/credentials');
-var qbankFetch = require('fbw-utils')(credentials).qbankFetch;
-
-
-export function updateAssessmentPartOptimistic(data) {
-  return {type: UPDATE_ASSESSMENT_PART, data };
+export function updateMissionPartOptimistic(data) {
+  return {type: UPDATE_MISSION_PART, data };
 }
 
-export function updateAssessmentPart(data, bankId) {
+export function updateMissionPart(data, bankId) {
 
   return function(dispatch) {
-    dispatch(updateAssessmentPartOptimistic(data));
+    dispatch(updateMissionPartOptimistic(data));
 
     var updateSectionParams = {
       data: {
@@ -34,10 +30,10 @@ export function updateAssessmentPart(data, bankId) {
     .then((res) => {
       return res.json();
     })
-    .then((updatedAssessment) => {
+    .then((updatedMission) => {
       // return the newly updated section
-      let updatedSection = _.find(updatedAssessment.sections, {id: data.params.id});
-      //_this.getAssessments();
+      let updatedSection = _.find(updatedMission.sections, {id: data.params.id});
+      //_this.getMissions();
       // when updating a section with items, need to return the itemIds
       // back, so the UI can be updated appropriately
       if (data.params.itemIds) {

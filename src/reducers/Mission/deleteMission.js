@@ -3,10 +3,6 @@ import 'lodash'
 
 var Q = require('q');
 
-let credentials = require('../../credentials/credentials');
-var qbankFetch = require('fbw-utils')(credentials).qbankFetch;
-
-
 export function deleteAssessmentOptimistic(data) {
   return { type: DELETE_ASSESSMENT, data };
 }
