@@ -1,7 +1,7 @@
 
 import 'lodash'
 
-var Q = require('q');
+import {getDomain} from '../common'
 
 // ----
 // Action types
@@ -31,7 +31,7 @@ export function getMissions(bankId) {
   return function(dispatch) {
     dispatch(getMissionsOptimistic([]));
 
-    let url = `http://localhost:8888/middleman/banks/${bankId}/missions`;
+    let url = getDomain(location.host) + `/middleman/banks/${bankId}/missions`;
 
     let missions;
     return fetch(url)

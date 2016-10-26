@@ -13,7 +13,6 @@ class Home extends Component {
     onClickMission: React.PropTypes.func.isRequired,
     onClickAddMission: React.PropTypes.func.isRequired,
     onClickEditMission: React.PropTypes.func.isRequired,
-    onClickViewMission: React.PropTypes.func.isRequired,
     missions: React.PropTypes.array.isRequired,
     currentMission: React.PropTypes.object,
   }

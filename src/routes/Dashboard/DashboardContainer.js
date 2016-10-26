@@ -1,19 +1,19 @@
 import { connect } from 'react-redux'
 import Dashboard from './Dashboard'
 
-import {getMissions, receiveMissions} from '../../reducers/Mission/getMissions'
-import {selectMission} from '../../reducers/Mission/selectMission'
+import {changeView} from '../../reducers/view'
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    getResults: () => _.noop()      // TODO once i think through state tree
-    // onClickMission: (mission) => dispatch(selectMission(mission))
+    onChangeView: (viewName) => dispatch(changeView({name: viewName})),
   }
 }
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    currentMission: state.mission ? state.mission.currentMission : null
+    view: state.view,
+    mission: state.mission ? state.mission.currentMission : null,
+    results: state.mission ? state.mission.results : []
   }
 
 }

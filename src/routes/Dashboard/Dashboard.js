@@ -14,7 +14,6 @@ import {DashboardViewWeb} from './views/Dashboard.web'
 class Dashboard extends Component {
 
   componentDidMount() {
-    this.props.getResults();
   }
 
   render() {

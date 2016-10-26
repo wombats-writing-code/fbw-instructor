@@ -1,20 +1,25 @@
-// assessment store
 
 import 'lodash'
-
-var Q = require('q');
 
 // ------------------------------------
 // Actions
 // ------------------------------------
 
 export const CREATE_MISSION = 'CREATE_MISSION'
+export const RECEIVE_CREATE_MISSION = 'RECEIVE_CREATE_MISSION'
 
-// optimistic action creator - this won't be called directly
-// by the React components, but from our async thunk function
-export function createMissionOptimistic(mission) {
-  return {type: CREATE_MISSION, mission };
+// @Cole:
+// can't be bothered to do the optimistic part, so we'll just wait for the server to give us a response,
+// and in the then block it'll dispatch this action,
+// and then the reducer will handle it and modify state as needed
+export function receiveCreateMission(mission) {
+  return {type: RECEIVE_CREATE_MISSION, mission };
 }
+
+//
+// export function createMissionOptimistic(mission) {
+//   return {type: CREATE_MISSION, mission };
+// }
 
 // this is the actual async createMission function that calls qbank
 export function createMission(data, bankId) {
@@ -30,7 +35,7 @@ export function createMission(data, bankId) {
     // here starts the code that actually gets executed when the
     // createMission action creator is dispatched
 
-    dispatch(createMissionOptimistic(data));
+    // dispatch(createMissionOptimistic(data));     // let's not worry about the optimistic part for now
 
     // return qbankFetch(params)
     // .then((res) => {

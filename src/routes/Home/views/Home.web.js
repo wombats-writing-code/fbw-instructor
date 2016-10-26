@@ -41,7 +41,7 @@ let styles = {
 export const HomeViewWeb = (props) => {
 
   let view;
-  if (props.view.name === 'dashboard') {
+  if (props.view.name.startsWith('dashboard')) {
     view = (
       <div>
         <DashboardContainer.component></DashboardContainer.component>
@@ -76,10 +76,7 @@ export const HomeViewWeb = (props) => {
                 </div>
                 <div style={styles.rowItemButtons}>
                   <button className="button small" style={styles.rowItemButton}
-                          onClick={() => props.onClickEditMission(mission)}>Edit</button>
-
-                  <button className="button small" style={styles.rowItemButton}
-                          onClick={() => props.onClickViewMission(mission)}>View</button>
+                          onClick={(e) => {props.onClickEditMission(mission); e.stopPropagation()}}>Edit</button>
                 </div>
               </li>
             )

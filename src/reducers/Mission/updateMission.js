@@ -4,16 +4,12 @@ import 'lodash'
 
 var Q = require('q');
 
-export const UPDATE_MISSION = 'UPDATE_MISSION'
+export const RECEIVE_UPDATE_MISSION = 'RECEIVE_UPDATE_MISSION'
 
-export function updateMissionOptimistic(mission) {
-  return {type: UPDATE_MISSION, mission };
-}
 
 export function updateMission(data, bankId) {
 
   return function(dispatch) {
-    dispatch(updateMissionOptimistic(data));
 
     // var updateSectionParams = {
     //   data: {

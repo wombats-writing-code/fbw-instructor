@@ -5,7 +5,7 @@ import Home from './Home'
 import {getMissions, receiveMissions} from '../../reducers/Mission/getMissions'
 import {selectMission} from '../../reducers/Mission/selectMission'
 import {changeView} from '../../reducers/view'
-
+import {getResults} from '../../reducers/Mission/getResults'
 
 /*  This is a container component. Notice it does not contain any JSX,
     nor does it import React. This component is **only** responsible for
@@ -19,10 +19,16 @@ import {changeView} from '../../reducers/view'
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     getMissions: (bankId) => dispatch(getMissions(bankId)),    // this gets called when the Home component mounts
-    onClickMission: (mission) => dispatch(selectMission(mission)),
+    onClickMission: (mission) => {
+      dispatch(getResults(mission));
+      dispatch(selectMission(mission));
+      dispatch(changeView({name: 'dashboard', mission: mission}))
+    },
     onClickAddMission: () => dispatch(changeView({name: 'add-mission'})),
-    onClickEditMission: (name, mission) => dispatch(changeView({name: 'edit-mission', mission: mission})),
-    onClickViewMission: (name, mission) => dispatch(changeView({name: 'dashboard', mission: mission}))
+    onClickEditMission: (name, mission) => {
+      dispatch(selectMission(mission));
+      dispatch(changeView({name: 'edit-mission', mission: mission}));
+    },
   }
 }
 
