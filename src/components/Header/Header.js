@@ -8,6 +8,12 @@ export const Header = () => (
     <IndexLink to='/' activeClassName='route--active'>
       Home
     </IndexLink>
+
+    {' · '}
+    <Link to='/mission-control' activeClassName='route--active'>
+      Mission Control
+    </Link>
+
     {' · '}
     <Link to='/counter' activeClassName='route--active'>
       Counter

@@ -1,10 +1,13 @@
 import { combineReducers } from 'redux'
 import locationReducer from './location'
+
+import viewReducer from './view'
 import missionReducer from './Mission/Mission'
 
 export const makeRootReducer = (asyncReducers) => {
   return combineReducers({
     location: locationReducer,
+    view: viewReducer,
     mission: missionReducer,
     ...asyncReducers
   })

@@ -1,8 +1,11 @@
 import { connect } from 'react-redux'
 import Home from './Home'
 
+
 import {getMissions, receiveMissions} from '../../reducers/Mission/getMissions'
 import {selectMission} from '../../reducers/Mission/selectMission'
+import {changeView} from '../../reducers/view'
+
 
 /*  This is a container component. Notice it does not contain any JSX,
     nor does it import React. This component is **only** responsible for
@@ -16,7 +19,10 @@ import {selectMission} from '../../reducers/Mission/selectMission'
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     getMissions: (bankId) => dispatch(getMissions(bankId)),    // this gets called when the Home component mounts
-    onClickMission: (mission) => dispatch(selectMission(mission))
+    onClickMission: (mission) => dispatch(selectMission(mission)),
+    onClickAddMission: () => dispatch(changeView({name: 'add-mission'})),
+    onClickEditMission: (name, mission) => dispatch(changeView({name: 'edit-mission', mission: mission})),
+    onClickViewMission: (name, mission) => dispatch(changeView({name: 'dashboard', mission: mission}))
   }
 }
 
@@ -24,9 +30,11 @@ const mapStateToProps = (state, ownProps) => {
   console.log('state', state);
 
   return {
-    missions: state.mission ? state.mission.missions : [],
     // bankId: 'assessment.Bank%3A576d6d3271e4828c441d721a' + '@bazzim.MIT.EDU'
-    bankId: 'assessment.Bank:57d70ed471e482a74879349a' + '@bazzim.MIT.EDU'
+    bankId: 'assessment.Bank:57d70ed471e482a74879349a' + '@bazzim.MIT.EDU',
+    missions: state.mission ? state.mission.missions : [],
+    currentMission: state.mission ? state.mission.currentMission : null,
+    view: state.view
   }
 
 }

@@ -6,8 +6,8 @@ import 'lodash'
 import {RECEIVE_MISSIONS, getMissions, getMissionsOptimistic} from './getMissions'
 import {SELECT_MISSION, selectMission} from './selectMission'
 
-import {createMission, createMissionOptimistic} from './createMission'
-import {updateMission, updateMissionOptimistic} from './updateMission'
+import {CREATE_MISSION, createMission, createMissionOptimistic} from './createMission'
+import {UPDATE_MISSION, updateMission, updateMissionOptimistic} from './updateMission'
 import {deleteMission, deleteMissionOptimistic} from './deleteMission'
 
 // import {createMissionPart, createMissionPartOptimistic} from './createMissionPart'
@@ -22,42 +22,54 @@ const initialState = null
 export default function missionReducer (state = initialState, action) {
   switch (action.type) {
     case RECEIVE_MISSIONS:
-      return {
+      return _.assign({}, state, {
         missions: action.missions
-      }
+      });
 
     case SELECT_MISSION:
-      console.log('SELECT_MISSION', action);
       return _.assign({}, state, {
         currentMission: action.mission
       })
 
+    case CREATE_MISSION:
+      return _.assign({}, state, {
+        missions: [...state.missions, action.mission],      // creates a new array of existing missions with the new mission appended
+        currentMission: action.mission
+      })
 
-    // case GET_ASSESSMENT:
+    case UPDATE_MISSION:
+      return _.assign({}, state, {
+        missions: _.map((m) => {
+          if (m.id === action.mission.id) {
+            return action.mission;
+          }
+
+          return m;
+        }),
+        currentMission: action.mission
+      })
+
+    // case GET_MISSION:
     //   return _.find(state.missions, {id: action.missionId});
     //
-    // case GET_ASSESSMENTS:
+    // case GET_MISSIONS:
     //   return getMissions(action.data)
     //
-    // case CREATE_ASSESSMENT:
-    //   return createMission(action.data)
+
     //
-    // case UPDATE_ASSESSMENT:
-    //   return updateMission(action.data)
-    //
-    // case DELETE_ASSESSMENT:
+    // case DELETE_MISSION:
     //   return deleteMission(action.data)
     //
-    // case CREATE_ASSESSMENT_PART:
+    // case CREATE_MISSION_PART:
     //   return createMissionPart(action.data)
     //
-    // case UPDATE_ASSESSMENT_PART:
+    // case UPDATE_MISSION_PART:
     //   return updateMissionPart(action.data)
     //
-    // case DELETE_ASSESSMENT_PART:
+    // case DELETE_MISSION_PART:
     //   return deleteMission(action.data)
     //
-    // case UPDATE_ASSESSMENT_OFFERED:
+    // case UPDATE_MISSION_OFFERED:
     //   return updateMissionOffered(action.data)
 
     default:
