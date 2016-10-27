@@ -95,7 +95,7 @@ if (!__TEST__) {
 // JavaScript / JSON
 webpackConfig.module.loaders = [{
   test    : /\.(js|jsx)$/,
-  exclude : /node_modules/,
+  exclude : /node_modules\/(?!(rhumbl-dao)\/).*/,       // TODO: luwen to get rid of this when she fixes rhumbl-dao
   loader  : 'babel',
   query   : config.compiler_babel
 }, {

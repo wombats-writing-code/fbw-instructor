@@ -1,8 +1,8 @@
 import { connect } from 'react-redux'
 import Home from './Home'
 
-
-import {getMissions, receiveMissions} from '../../reducers/Mission/getMissions'
+import {getMapping} from '../../reducers/Mapping/getMapping'
+import {getMissions} from '../../reducers/Mission/getMissions'
 import {selectMission} from '../../reducers/Mission/selectMission'
 import {changeView} from '../../reducers/view'
 import {getResults} from '../../reducers/Mission/getResults'
@@ -18,6 +18,7 @@ import {getResults} from '../../reducers/Mission/getResults'
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
+    getMapping: (bankId, names) => dispatch(getMapping(bankId, names)),    // this gets called when the Home component mounts
     getMissions: (bankId) => dispatch(getMissions(bankId)),    // this gets called when the Home component mounts
     onClickMission: (mission) => {
       dispatch(getResults(mission));
@@ -37,6 +38,7 @@ const mapStateToProps = (state, ownProps) => {
 
   return {
     // bankId: 'assessment.Bank%3A576d6d3271e4828c441d721a' + '@bazzim.MIT.EDU'
+    departmentNames: ['accounting'],
     bankId: 'assessment.Bank:57d70ed471e482a74879349a' + '@bazzim.MIT.EDU',
     missions: state.mission ? state.mission.missions : [],
     currentMission: state.mission ? state.mission.currentMission : null,

@@ -24,7 +24,6 @@ export function getResultsOptimistic(results) {
 export function getResults(mission) {
 
   let url = getDomain(location.host) + `/middleman/banks/${mission.assignedBankIds[0]}/offereds/${mission.assessmentOfferedId}/results`;
-  console.log(url);
 
   return function(dispatch) {
     dispatch(getResultsOptimistic([]));
