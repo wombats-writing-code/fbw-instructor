@@ -70,7 +70,7 @@ export default function missionReducer (state = initialState, action) {
 
     case RECEIVE_UPDATE_MISSION:
       return _.assign({}, state, {
-        missions: _.map((m) => {
+        missions: _.map(state.missions, (m) => {
           if (m.id === action.mission.id) {
             return action.mission;
           }
