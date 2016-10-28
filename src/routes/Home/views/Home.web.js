@@ -58,11 +58,11 @@ let styles = {
     display: 'flex',
     alignItems: 'flex-start',
     justifyContent: 'space-between',
-    fontSize: '.875rem',
+    fontSize: '.8rem',
     borderBottomWidth: 1,
     borderBottomStyle: 'solid',
     borderColor: '#ddd',
-    paddingTop: '1.125rem',
+    paddingTop: '.5rem',
     paddingLeft: 10.5,
     cursor: 'pointer',
     textAlign: 'left',
@@ -116,8 +116,10 @@ export const HomeViewWeb = (props) => {
           {_.map(props.banks, (bank, idx) => {
             let key = `bank_${idx}`,
               bankStyles = styles.bankCollectionItem;
-            if (bank.id === props.currentBank.id) {
-              bankStyles = styles.selectedBankItem
+            if (props.currentBank) {
+              if (bank.id === props.currentBank.id) {
+                bankStyles = styles.selectedBankItem
+              }
             }
             return (
               <li key={key} style={bankStyles} onClick={() => props.onClickBank(bank)}>
@@ -138,7 +140,7 @@ export const HomeViewWeb = (props) => {
               <li key={key} style={styles.missionCollectionItem} onClick={() => props.onClickMission(mission)}>
                 <div style={styles.rowItemInfo}>
                   <p>{mission.displayName.text}</p>
-                  <p>{mission.description.text}</p>
+                  <p style={styles.rowItemSubtitle}>Closes: {mission.deadline.month} - {mission.deadline.day} - {mission.deadline.year}</p>
                 </div>
                 <div style={styles.rowItemButtons}>
                   <button className="button small" style={styles.rowItemButton}

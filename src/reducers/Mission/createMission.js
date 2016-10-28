@@ -1,6 +1,8 @@
 
 import 'lodash'
 
+import {getDomain, momentToQBank} from '../common'
+
 // ------------------------------------
 // Actions
 // ------------------------------------
@@ -23,12 +25,17 @@ export function receiveCreateMission(mission) {
 
 // this is the actual async createMission function that calls qbank
 export function createMission(data, bankId) {
-  console.log(data)
-
   let params = {
-      data: data,
-      method: 'POST',
-      path: `assessment/banks/${bankId}/assessments`
+    body: JSON.stringify({
+      name: data.displayName,
+      genusTypeId: data.genusTypeId,
+      startTime: momentToQBank(data.startTime),
+      deadline: momentToQBank(data.deadline)
+    }),
+    headers: {
+      'content-type': 'application/json'
+    },
+    method: 'POST'
   };
 
   return function(dispatch) {
@@ -38,16 +45,15 @@ export function createMission(data, bankId) {
 
     let url = getDomain(location.host) + `/middleman/banks/${bankId}/missions`;
 
-    let missions;
-    return fetch(url)
+    return fetch(url, params)
     .then((res) => res.json())
-    .then((missions) => {
-      console.log('received getting missions', missions);
+    .then((mission) => {
+      console.log('created mission', mission);
 
-      dispatch(receiveMissions(missions));
+      dispatch(receiveCreateMission(mission));
     })
     .catch((error) => {
-      console.log('error getting missions data', error);
+      console.log('error creating mission', error);
     });
 
 

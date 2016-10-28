@@ -37,7 +37,7 @@ export const AddMissionWeb = (props) => {
 
   return (
     <div>
-      <form onSubmit={() => props.onAddMission(props.newMission)}>
+      <form onSubmit={() => props.onAddMission(props.newMission, props.currentBank.id)}>
         <div>
           <label htmlFor="displayName">Mission Name</label>
           <input type="text"

@@ -48,7 +48,6 @@ export default function missionReducer (state = initialState, action) {
         results: action.results
       });
 
-
     case RECEIVE_CREATE_MISSION:
       return _.assign({}, state, {
         missions: [...state.missions, action.mission],      // creates a new array of existing missions with the new mission appended
