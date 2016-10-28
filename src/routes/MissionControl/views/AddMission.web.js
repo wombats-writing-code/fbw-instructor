@@ -20,6 +20,21 @@ export const AddMissionWeb = (props) => {
   // @Cole: need help
   // use https://github.com/airbnb/react-dates for date picking
 
+  let alert = <div />,
+    save = <div />;
+
+  if (props.newMission.formError) {
+    alert = (
+      <div className="formError">
+        Please fill in all form data before saving.
+      </div>
+    )
+  } else {
+    save = (
+      <button className="button" type="submit">Save</button>
+    )
+  }
+
   return (
     <div>
       <form onSubmit={() => props.onAddMission(props.newMission)}>
@@ -53,8 +68,8 @@ export const AddMissionWeb = (props) => {
                            startDate={props.newMission.startTime}
                            endDate={props.newMission.deadline} />
         </div>
-
-        <button className="button" type="submit">Save</button>
+        {alert}
+        {save}
       </form>
 
     </div>

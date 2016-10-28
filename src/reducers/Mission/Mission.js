@@ -33,7 +33,8 @@ export default function missionReducer (state = initialState, action) {
           deadline: null,
           displayName: '',
           genusTypeId: 'assessment-genus%3Afbw-homework-mission%40ODL.MIT.EDU',
-          focusedInput: null
+          focusedInput: null,
+          formError: true
         }
       });
 
@@ -75,13 +76,29 @@ export default function missionReducer (state = initialState, action) {
       } else if (_.has(action.data, "focusedInput")) {
         nextFocusedInput = action.data.focusedInput
       }
+
+      let newStartTime = _.has(action.data, "startDate") ? action.data.startDate : state.newMission.startTime,
+        newDeadline = _.has(action.data, "endDate") ? action.data.endDate : state.newMission.deadline,
+        newDisplayName = _.has(action.data, "displayName") ? action.data.displayName : state.newMission.displayName,
+        newGenusTypeId = _.has(action.data, "genusTypeId") ? action.data.genusTypeId : state.newMission.genusTypeId;
+
+      // lets do form validation
+      let formError = false;
+      if (newStartTime === null ||
+          newDeadline === null ||
+          newGenusTypeId === '' ||
+          newDisplayName === '') {
+        formError = true;
+      }
+
       return _.assign({}, state, {
         newMission: {
-          startTime: _.has(action.data, "startDate") ? action.data.startDate : state.newMission.startTime,
-          deadline: _.has(action.data, "endDate") ? action.data.endDate : state.newMission.deadline,
-          displayName: _.has(action.data, "displayName") ? action.data.displayName : state.newMission.displayName,
-          genusTypeId: _.has(action.data, "genusTypeId") ? action.data.genusTypeId : state.newMission.genusTypeId,
-          focusedInput: nextFocusedInput
+          startTime: newStartTime,
+          deadline: newDeadline,
+          displayName: newDisplayName,
+          genusTypeId: newGenusTypeId,
+          focusedInput: nextFocusedInput,
+          formError: formError
         }
       })
 

@@ -9,7 +9,7 @@ import {updateMissionForm} from '../../reducers/Mission/updateMissionForm'
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    onAddMission: (newMission) => { dispatch(createMission(newMission)) },
+    onAddMission: (newMission) => { dispatch(createMission(newMission, bankId)) },
     onUpdateMission: (newMission) => { dispatch(updateMission(newMission)) },
     updateMissionForm: (missionFormData) => { dispatch(updateMissionForm(missionFormData)) }
   }

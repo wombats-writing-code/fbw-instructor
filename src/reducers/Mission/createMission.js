@@ -22,8 +22,8 @@ export function receiveCreateMission(mission) {
 // }
 
 // this is the actual async createMission function that calls qbank
-export function createMission(data) {
-  let currentBankId = '';
+export function createMission(data, bankId) {
+  console.log(data)
 
   let params = {
       data: data,
@@ -36,6 +36,19 @@ export function createMission(data) {
     // createMission action creator is dispatched
     // take the data in the "newMission" form in state, and send that to the server
 
+    let url = getDomain(location.host) + `/middleman/banks/${bankId}/missions`;
+
+    let missions;
+    return fetch(url)
+    .then((res) => res.json())
+    .then((missions) => {
+      console.log('received getting missions', missions);
+
+      dispatch(receiveMissions(missions));
+    })
+    .catch((error) => {
+      console.log('error getting missions data', error);
+    });
 
 
     // dispatch(createMissionOptimistic(data));     // let's not worry about the optimistic part for now
