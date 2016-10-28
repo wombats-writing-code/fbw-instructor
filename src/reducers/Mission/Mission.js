@@ -70,17 +70,17 @@ export default function missionReducer (state = initialState, action) {
       // let's add some logic to the datepicker interactions ...
       // Probably shouldn't go here, but I'm not sure where it should really go
       let nextFocusedInput = null;
-      if (state.newMission.startTime != action.data.startDate) {
+      if (_.has(action.data, "startDate") && state.newMission.startTime != action.data.startDate) {
         nextFocusedInput = END_DATE
-      } else if (action.data.focusedInput) {
+      } else if (_.has(action.data, "focusedInput")) {
         nextFocusedInput = action.data.focusedInput
       }
       return _.assign({}, state, {
         newMission: {
-          startTime: action.data.startDate || state.newMission.startTime,
-          deadline: action.data.endDate || state.newMission.deadline,
-          displayName: action.data.displayName || state.newMission.displayName,
-          genusTypeId: action.data.genusTypeId || state.newMission.genusTypeId,
+          startTime: _.has(action.data, "startDate") ? action.data.startDate : state.newMission.startTime,
+          deadline: _.has(action.data, "endDate") ? action.data.endDate : state.newMission.deadline,
+          displayName: _.has(action.data, "displayName") ? action.data.displayName : state.newMission.displayName,
+          genusTypeId: _.has(action.data, "genusTypeId") ? action.data.genusTypeId : state.newMission.genusTypeId,
           focusedInput: nextFocusedInput
         }
       })

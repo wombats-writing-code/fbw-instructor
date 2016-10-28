@@ -20,11 +20,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     view: state.view,
     mission: state.mission.currentMission,
-    startTime: state.mission.newMission.startTime,
-    deadline: state.mission.newMission.deadline,
-    displayName: state.mission.newMission.displayName,
-    genusTypeId: state.mission.newMission.genusTypeId,
-    focusedInput: state.mission.newMission.focusedInput
+    newMission: state.mission.newMission
   }
 }
 

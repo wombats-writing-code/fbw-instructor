@@ -22,12 +22,13 @@ export const AddMissionWeb = (props) => {
 
   return (
     <div>
-      <form onSubmit={props.onAddMission}>
+      <form onSubmit={() => props.onAddMission(props.newMission)}>
         <div>
           <label htmlFor="displayName">Mission Name</label>
           <input type="text"
-                 value={props.displayName}
-                 id="displayName" />
+                 value={props.newMission.displayName}
+                 id="displayName"
+                 onChange={(e) => props.updateMissionForm({displayName: e.target.value})} />
         </div>
         <div>
           <div>Mission Type</div>
@@ -48,9 +49,9 @@ export const AddMissionWeb = (props) => {
         <div>
           <DateRangePicker onDatesChange={props.updateMissionForm}
                            onFocusChange={(input) => props.updateMissionForm({focusedInput: input})}
-                           focusedInput={props.focusedInput}
-                           startDate={props.startTime}
-                           endDate={props.deadline} />
+                           focusedInput={props.newMission.focusedInput}
+                           startDate={props.newMission.startTime}
+                           endDate={props.newMission.deadline} />
         </div>
 
         <button className="button" type="submit">Save</button>

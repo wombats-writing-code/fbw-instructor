@@ -22,7 +22,7 @@ export function receiveCreateMission(mission) {
 // }
 
 // this is the actual async createMission function that calls qbank
-export function createMission(data, bankId) {
+export function createMission(data) {
   let currentBankId = '';
 
   let params = {
@@ -34,6 +34,9 @@ export function createMission(data, bankId) {
   return function(dispatch) {
     // here starts the code that actually gets executed when the
     // createMission action creator is dispatched
+    // take the data in the "newMission" form in state, and send that to the server
+
+
 
     // dispatch(createMissionOptimistic(data));     // let's not worry about the optimistic part for now
 
