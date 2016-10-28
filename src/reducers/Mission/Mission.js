@@ -11,8 +11,12 @@ import {SELECT_MISSION} from './selectMission'
 import {RECEIVE_CREATE_MISSION} from './createMission'
 import {RECEIVE_UPDATE_MISSION} from './updateMission'
 import {UPDATE_MISSION_FORM} from './updateMissionForm'
+import {UPDATE_EDIT_MISSION_FORM} from './updateEditMissionForm'
 
 import {RECEIVE_RESULTS} from './getResults'
+
+// this probably shouldn't belong here...
+import {qbankToMoment} from '../common'
 
 // import {createMissionPart, createMissionPartOptimistic} from './createMissionPart'
 // import {updateMissionPart, updateMissionPartOptimistic} from './updateMissionPart'
@@ -40,7 +44,15 @@ export default function missionReducer (state = initialState, action) {
 
     case SELECT_MISSION:
       return _.assign({}, state, {
-        currentMission: action.mission
+        currentMission: action.mission,
+        editMission: {
+          displayName: action.mission.displayName.text,
+          genusTypeId: action.mission.genusTypeId,
+          focusedInput: null,
+          formError: false,
+          startTime: qbankToMoment(action.mission.startTime),
+          deadline: qbankToMoment(action.mission.deadline)
+        }
       })
 
     case RECEIVE_RESULTS:
@@ -98,6 +110,41 @@ export default function missionReducer (state = initialState, action) {
           genusTypeId: newGenusTypeId,
           focusedInput: nextFocusedInput,
           formError: formError
+        }
+      })
+
+    case UPDATE_EDIT_MISSION_FORM:
+      // let's add some logic to the datepicker interactions ...
+      // Probably shouldn't go here, but I'm not sure where it should really go
+      let nextFocusedInputEdit = null;
+      if (_.has(action.data, "startDate") && state.editMission.startTime != action.data.startDate) {
+        nextFocusedInputEdit = END_DATE
+      } else if (_.has(action.data, "focusedInput")) {
+        nextFocusedInputEdit = action.data.focusedInput
+      }
+
+      let newStartTimeEdit = _.has(action.data, "startDate") ? action.data.startDate : state.editMission.startTime,
+        newDeadlineEdit = _.has(action.data, "endDate") ? action.data.endDate : state.editMission.deadline,
+        newDisplayNameEdit = _.has(action.data, "displayName") ? action.data.displayName : state.editMission.displayName,
+        newGenusTypeIdEdit = _.has(action.data, "genusTypeId") ? action.data.genusTypeId : state.editMission.genusTypeId;
+
+      // lets do form validation
+      let formErrorEdit = false;
+      if (newStartTimeEdit === null ||
+          newDeadlineEdit === null ||
+          newGenusTypeIdEdit === '' ||
+          newDisplayNameEdit === '') {
+        formErrorEdit = true;
+      }
+
+      return _.assign({}, state, {
+        editMission: {
+          startTime: newStartTimeEdit,
+          deadline: newDeadlineEdit,
+          displayName: newDisplayNameEdit,
+          genusTypeId: newGenusTypeIdEdit,
+          focusedInput: nextFocusedInputEdit,
+          formError: formErrorEdit
         }
       })
 

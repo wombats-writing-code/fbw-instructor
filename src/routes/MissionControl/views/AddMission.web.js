@@ -37,7 +37,7 @@ export const AddMissionWeb = (props) => {
 
   return (
     <div>
-      <form onSubmit={() => props.onAddMission(props.newMission, props.currentBank.id)}>
+      <form onSubmit={(e) => {props.onAddMission(props.newMission, props.currentBank.id); e.preventDefault();}}>
         <div>
           <label htmlFor="displayName">Mission Name</label>
           <input type="text"
@@ -47,19 +47,21 @@ export const AddMissionWeb = (props) => {
         </div>
         <div>
           <div>Mission Type</div>
-          <label htmlFor="homework">Homework</label>
-          <input type="radio"
-                 value="assessment-genus%3Afbw-homework-mission%40ODL.MIT.EDU"
-                 id="homework"
-                 defaultChecked={true}
-                 name="missionType"
-                 onChange={(e) => props.updateMissionForm({genusTypeId: e.target.value})} />
-          <label htmlFor="inClass">In-class</label>
-          <input type="radio"
-                 value="assessment-genus%3Afbw-in-class-mission%40ODL.MIT.EDU"
-                 id="inClass"
-                 name="missionType"
-                 onChange={(e) => props.updateMissionForm({genusTypeId: e.target.value})} />
+          <div className="row">
+            <label htmlFor="homework">Homework</label>
+            <input type="radio"
+                   value="assessment-genus%3Afbw-homework-mission%40ODL.MIT.EDU"
+                   id="homework"
+                   defaultChecked={true}
+                   name="missionType"
+                   onChange={(e) => props.updateMissionForm({genusTypeId: e.target.value})} />
+            <label htmlFor="inClass">In-class</label>
+            <input type="radio"
+                   value="assessment-genus%3Afbw-in-class-mission%40ODL.MIT.EDU"
+                   id="inClass"
+                   name="missionType"
+                   onChange={(e) => props.updateMissionForm({genusTypeId: e.target.value})} />
+          </div>
         </div>
         <div>
           <DateRangePicker onDatesChange={props.updateMissionForm}

@@ -4,14 +4,21 @@ import MissionControl from './MissionControl'
 import {createMission} from '../../reducers/Mission/createMission'
 import {updateMission} from '../../reducers/Mission/updateMission'
 import {updateMissionForm} from '../../reducers/Mission/updateMissionForm'
+import {updateEditMissionForm} from '../../reducers/Mission/updateEditMissionForm'
+
+import {changeView} from '../../reducers/view'
 
 
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    onAddMission: (newMission, bankId) => { dispatch(createMission(newMission, bankId)) },
+    onAddMission: (newMission, bankId) => {
+      dispatch(createMission(newMission, bankId));
+      dispatch(changeView({name: 'dashboard', mission: newMission}))
+    },
     onUpdateMission: (newMission) => { dispatch(updateMission(newMission)) },
-    updateMissionForm: (missionFormData) => { dispatch(updateMissionForm(missionFormData)) }
+    updateMissionForm: (missionFormData) => { dispatch(updateMissionForm(missionFormData)) },
+    updateEditMissionForm: (missionFormData) => { dispatch(updateEditMissionForm(missionFormData)) }
   }
 }
 
@@ -21,7 +28,8 @@ const mapStateToProps = (state, ownProps) => {
     view: state.view,
     mission: state.mission.currentMission,
     newMission: state.mission.newMission,
-    currentBank: state.bank.currentBank
+    currentBank: state.bank.currentBank,
+    editMission: state.mission.editMission
   }
 }
 

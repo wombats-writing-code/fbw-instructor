@@ -43,7 +43,7 @@ let styles = {
     backgroundColor: '#2199e8',
     color: '#fefefe',
     ":hover": {
-      backgroundColor: '#f0f0f0'
+      backgroundColor: '#3221E8'
     }
   },
   rowItemSubtitle: {
@@ -68,6 +68,24 @@ let styles = {
     textAlign: 'left',
     ":hover": {
       backgroundColor: '#f0f0f0'
+    }
+  },
+  selectedMissionItem: {
+    display: 'flex',
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
+    fontSize: '.8rem',
+    borderBottomWidth: 1,
+    borderBottomStyle: 'solid',
+    borderColor: '#ddd',
+    paddingTop: '.5rem',
+    paddingLeft: 10.5,
+    cursor: 'pointer',
+    textAlign: 'left',
+    backgroundColor: '#2199e8',
+    color: '#fefefe',
+    ":hover": {
+      backgroundColor: '#3221E8'
     }
   },
   rowItemInfo: {
@@ -135,9 +153,15 @@ export const HomeViewWeb = (props) => {
 
         <ul style={styles.missionCollection}>
           {_.map(props.missions, (mission, idx) => {
-            let key = `mission_${idx}`
+            let key = `mission_${idx}`,
+              missionStyles = styles.missionCollectionItem;
+            if (props.currentMission) {
+              if (mission.id === props.currentMission.id) {
+                missionStyles = styles.selectedMissionItem
+              }
+            }
             return (
-              <li key={key} style={styles.missionCollectionItem} onClick={() => props.onClickMission(mission)}>
+              <li key={key} style={missionStyles} onClick={() => props.onClickMission(mission)}>
                 <div style={styles.rowItemInfo}>
                   <p>{mission.displayName.text}</p>
                   <p style={styles.rowItemSubtitle}>Closes: {mission.deadline.month} - {mission.deadline.day} - {mission.deadline.year}</p>

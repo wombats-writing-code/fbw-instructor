@@ -19,33 +19,35 @@ export function receiveCreateMission(mission) {
 }
 
 //
-// export function createMissionOptimistic(mission) {
-//   return {type: CREATE_MISSION, mission };
-// }
+export function createMissionOptimistic(mission) {
+   return {type: CREATE_MISSION, mission };
+}
 
 // this is the actual async createMission function that calls qbank
 export function createMission(data, bankId) {
-  let params = {
-    body: JSON.stringify({
-      name: data.displayName,
-      genusTypeId: data.genusTypeId,
-      startTime: momentToQBank(data.startTime),
-      deadline: momentToQBank(data.deadline)
-    }),
-    headers: {
-      'content-type': 'application/json'
-    },
-    method: 'POST'
-  };
+  let missionParams = {
+        displayName: data.displayName,
+        genusTypeId: data.genusTypeId,
+        startTime: momentToQBank(data.startTime),
+        deadline: momentToQBank(data.deadline)
+      },
+    fetchParams = {
+      body: JSON.stringify(missionParams),
+      headers: {
+        'content-type': 'application/json'
+      },
+      method: 'POST'
+    };
 
   return function(dispatch) {
     // here starts the code that actually gets executed when the
     // createMission action creator is dispatched
     // take the data in the "newMission" form in state, and send that to the server
+    dispatch(createMissionOptimistic(missionParams));
 
     let url = getDomain(location.host) + `/middleman/banks/${bankId}/missions`;
 
-    return fetch(url, params)
+    return fetch(url, fetchParams)
     .then((res) => res.json())
     .then((mission) => {
       console.log('created mission', mission);

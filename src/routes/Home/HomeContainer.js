@@ -32,7 +32,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(changeView({name: 'dashboard', mission: mission}))
     },
     onClickAddMission: () => dispatch(changeView({name: 'add-mission'})),
-    onClickEditMission: (name, mission) => {
+    onClickEditMission: (mission) => {
       dispatch(selectMission(mission));
       dispatch(changeView({name: 'edit-mission', mission: mission}));
     },
@@ -43,7 +43,6 @@ const mapStateToProps = (state, ownProps) => {
   console.log('state', state);
 
   return {
-    // bankId: 'assessment.Bank%3A576d6d3271e4828c441d721a' + '@bazzim.MIT.EDU',
     banks: state.bank ? state.bank.banks : [],
     currentBank: state.bank.currentBank ? state.bank.currentBank : null,
     missions: state.mission ? state.mission.missions : [],
