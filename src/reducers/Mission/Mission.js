@@ -3,11 +3,14 @@
 import thunk from 'redux-thunk';
 import 'lodash'
 
+import {END_DATE} from 'react-dates/constants'
+
 import {RECEIVE_MISSIONS} from './getMissions'
 import {SELECT_MISSION} from './selectMission'
 
 import {RECEIVE_CREATE_MISSION} from './createMission'
 import {RECEIVE_UPDATE_MISSION} from './updateMission'
+import {UPDATE_MISSION_FORM} from './updateMissionForm'
 
 import {RECEIVE_RESULTS} from './getResults'
 
@@ -19,12 +22,19 @@ import {RECEIVE_RESULTS} from './getResults'
 // ------------------------------------
 // Reducer
 // ------------------------------------
-const initialState = null
+const initialState = {}
 export default function missionReducer (state = initialState, action) {
   switch (action.type) {
     case RECEIVE_MISSIONS:
       return _.assign({}, state, {
-        missions: action.missions
+        missions: action.missions,
+        newMission: {
+          startTime: null,
+          deadline: null,
+          displayName: '',
+          genusTypeId: 'assessment-genus%3Afbw-homework-mission%40ODL.MIT.EDU',
+          focusedInput: null
+        }
       });
 
     case SELECT_MISSION:
@@ -54,6 +64,25 @@ export default function missionReducer (state = initialState, action) {
           return m;
         }),
         currentMission: action.mission
+      })
+
+    case UPDATE_MISSION_FORM:
+      // let's add some logic to the datepicker interactions ...
+      // Probably shouldn't go here, but I'm not sure where it should really go
+      let nextFocusedInput = null;
+      if (state.newMission.startTime != action.data.startDate) {
+        nextFocusedInput = END_DATE
+      } else if (action.data.focusedInput) {
+        nextFocusedInput = action.data.focusedInput
+      }
+      return _.assign({}, state, {
+        newMission: {
+          startTime: action.data.startDate || state.newMission.startTime,
+          deadline: action.data.endDate || state.newMission.deadline,
+          displayName: action.data.displayName || state.newMission.displayName,
+          genusTypeId: action.data.genusTypeId || state.newMission.genusTypeId,
+          focusedInput: nextFocusedInput
+        }
       })
 
     default:
