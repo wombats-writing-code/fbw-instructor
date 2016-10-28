@@ -46,6 +46,8 @@ export default function missionReducer (state = initialState, action) {
       return _.assign({}, state, {
         currentMission: action.mission,
         editMission: {
+          id: action.mission.id,
+          assessmentOfferedId: action.mission.assessmentOfferedId,
           displayName: action.mission.displayName.text,
           genusTypeId: action.mission.genusTypeId,
           focusedInput: null,
@@ -139,6 +141,8 @@ export default function missionReducer (state = initialState, action) {
 
       return _.assign({}, state, {
         editMission: {
+          id: state.editMission.id,
+          assessmentOfferedId: state.editMission.assessmentOfferedId,
           startTime: newStartTimeEdit,
           deadline: newDeadlineEdit,
           displayName: newDisplayNameEdit,

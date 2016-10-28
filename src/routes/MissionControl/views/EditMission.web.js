@@ -35,7 +35,7 @@ export const EditMissionWeb = (props) => {
 
   return (
     <div>
-      <form onSubmit={() => props.onUpdateMission(props.newMission, props.currentBank.id)}>
+      <form onSubmit={(e) => {props.onUpdateMission(props.editMission, props.currentBank.id); e.preventDefault();}}>
         <div>
           <label htmlFor="displayName">Mission Name</label>
           <input type="text"

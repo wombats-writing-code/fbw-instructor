@@ -16,7 +16,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(createMission(newMission, bankId));
       dispatch(changeView({name: 'dashboard', mission: newMission}))
     },
-    onUpdateMission: (newMission) => { dispatch(updateMission(newMission)) },
+    onUpdateMission: (newMission, bankId) => { dispatch(updateMission(newMission, bankId)) },
     updateMissionForm: (missionFormData) => { dispatch(updateMissionForm(missionFormData)) },
     updateEditMissionForm: (missionFormData) => { dispatch(updateEditMissionForm(missionFormData)) }
   }

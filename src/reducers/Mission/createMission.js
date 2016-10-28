@@ -18,7 +18,7 @@ export function receiveCreateMission(mission) {
   return {type: RECEIVE_CREATE_MISSION, mission };
 }
 
-//
+
 export function createMissionOptimistic(mission) {
    return {type: CREATE_MISSION, mission };
 }
@@ -57,54 +57,5 @@ export function createMission(data, bankId) {
     .catch((error) => {
       console.log('error creating mission', error);
     });
-
-
-    // dispatch(createMissionOptimistic(data));     // let's not worry about the optimistic part for now
-
-    // return qbankFetch(params)
-    // .then((res) => {
-    //   return res.json();
-    // })
-    // .then((assessmentData) => {
-    //   let offeredParams = {
-    //       data: data,
-    //       method: 'POST',
-    //       path: `assessment/banks/${currentBankId}/assessments/${assessmentData.id}/assessmentsoffered`
-    //     };
-    //
-    //   newMission = assessmentData;
-    //
-    //   // set the Offered params for when solutions can be reviewed
-    //   offeredParams.data['reviewOptions'] = {
-    //     solution: {
-    //       duringAttempt: true,
-    //       afterAttempt: true,
-    //       beforeDeadline: true,
-    //       afterDeadline: true
-    //     },
-    //     whetherCorrect: {
-    //       duringAttempt: true,
-    //       afterAttempt: true,
-    //       beforeDeadline: true,
-    //       afterDeadline: true
-    //     }
-    //   };
-    //
-    //   return qbankFetch(offeredParams);
-    // })
-    // .then((res) => {
-    //   return res.json();
-    // })
-    // .then((offeredData) => {
-    //   let mashUp = {};
-    //   mashUp.startTime = offeredData.startTime;
-    //   mashUp.deadline = offeredData.deadline;
-    //   mashUp.assessmentOfferedId = offeredData.id;
-    //
-    // })
-    // .catch((error) => {
-    //   console.log('error creating an assessment + offered');
-    // })
-    // .done();
   }
 }
