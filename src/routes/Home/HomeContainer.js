@@ -2,6 +2,9 @@ import { connect } from 'react-redux'
 import Home from './Home'
 
 
+import {getBanks} from '../../reducers/Bank/getBanks'
+import {selectBank} from '../../reducers/Bank/selectBank'
+
 import {getMissions, receiveMissions} from '../../reducers/Mission/getMissions'
 import {selectMission} from '../../reducers/Mission/selectMission'
 import {changeView} from '../../reducers/view'
@@ -18,7 +21,11 @@ import {getResults} from '../../reducers/Mission/getResults'
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    getMissions: (bankId) => dispatch(getMissions(bankId)),    // this gets called when the Home component mounts
+    getBanks: () => dispatch(getBanks()),     // this gets called when the Home component mounts
+    onClickBank: (bank) => {
+      dispatch(selectBank(bank));
+      dispatch(getMissions(bank.id));
+    },
     onClickMission: (mission) => {
       dispatch(getResults(mission));
       dispatch(selectMission(mission));
@@ -36,8 +43,9 @@ const mapStateToProps = (state, ownProps) => {
   console.log('state', state);
 
   return {
-    // bankId: 'assessment.Bank%3A576d6d3271e4828c441d721a' + '@bazzim.MIT.EDU'
-    bankId: 'assessment.Bank:57d70ed471e482a74879349a' + '@bazzim.MIT.EDU',
+    // bankId: 'assessment.Bank%3A576d6d3271e4828c441d721a' + '@bazzim.MIT.EDU',
+    banks: state.bank ? state.bank.banks : [],
+    currentBank: state.bank.currentBank ? state.bank.currentBank : null,
     missions: state.mission ? state.mission.missions : [],
     currentMission: state.mission ? state.mission.currentMission : null,
     view: state.view
