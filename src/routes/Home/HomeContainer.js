@@ -3,8 +3,13 @@ import Home from './Home'
 
 import {getMapping} from '../../reducers/Mapping/getMapping'
 import {getMissions} from '../../reducers/Mission/getMissions'
+
+import {getBanks} from '../../reducers/Bank/getBanks'
+import {selectBank} from '../../reducers/Bank/selectBank'
+
 import {selectMission} from '../../reducers/Mission/selectMission'
 import {changeView} from '../../reducers/view'
+
 import {getResults} from '../../reducers/Mission/getResults'
 
 /*  This is a container component. Notice it does not contain any JSX,
@@ -20,13 +25,18 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     getMapping: (bankId, names) => dispatch(getMapping(bankId, names)),    // this gets called when the Home component mounts
     getMissions: (bankId) => dispatch(getMissions(bankId)),    // this gets called when the Home component mounts
+    getBanks: () => dispatch(getBanks()),     // this gets called when the Home component mounts
+    onClickBank: (bank) => {
+      dispatch(selectBank(bank));
+      dispatch(getMissions(bank.id));
+    },
     onClickMission: (mission) => {
       dispatch(getResults(mission));
       dispatch(selectMission(mission));
       dispatch(changeView({name: 'dashboard', mission: mission}))
     },
     onClickAddMission: () => dispatch(changeView({name: 'add-mission'})),
-    onClickEditMission: (name, mission) => {
+    onClickEditMission: (mission) => {
       dispatch(selectMission(mission));
       dispatch(changeView({name: 'edit-mission', mission: mission}));
     },
@@ -37,9 +47,14 @@ const mapStateToProps = (state, ownProps) => {
   console.log('state', state);
 
   return {
+<<<<<<< HEAD
     // bankId: 'assessment.Bank%3A576d6d3271e4828c441d721a' + '@bazzim.MIT.EDU'
     departmentNames: ['accounting'],
     bankId: 'assessment.Bank:57d70ed471e482a74879349a' + '@bazzim.MIT.EDU',
+=======
+    banks: state.bank ? state.bank.banks : [],
+    currentBank: state.bank.currentBank ? state.bank.currentBank : null,
+>>>>>>> 88621139febd674a6564256eb86c3f240890c167
     missions: state.mission ? state.mission.missions : [],
     currentMission: state.mission ? state.mission.currentMission : null,
     view: state.view

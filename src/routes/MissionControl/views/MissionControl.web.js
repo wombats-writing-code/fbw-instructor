@@ -24,7 +24,6 @@ export const MissionControlWeb = (props) => {
     <div>
       <h1>Mission Control: Add and edit missions here</h1>
       <p>{props.mission ? props.mission.displayName.text : null}</p>
-
       {view}
     </div>
   )

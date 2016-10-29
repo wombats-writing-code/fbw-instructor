@@ -2,14 +2,51 @@
 import thunk from 'redux-thunk';
 import 'lodash'
 
-var Q = require('q');
+import {getDomain, momentToQBank} from '../common'
 
+export const UPDATE_MISSION = 'UPDATE_MISSION'
 export const RECEIVE_UPDATE_MISSION = 'RECEIVE_UPDATE_MISSION'
 
+export function receiveUpdateMission(mission) {
+  return {type: RECEIVE_UPDATE_MISSION, mission };
+}
+
+
+export function updateMissionOptimistic(mission) {
+   return {type: UPDATE_MISSION, mission };
+}
 
 export function updateMission(data, bankId) {
+  let missionParams = {
+      assessmentOfferedId: data.assessmentOfferedId,
+      displayName: data.displayName,
+      genusTypeId: data.genusTypeId,
+      startTime: momentToQBank(data.startTime),
+      deadline: momentToQBank(data.deadline)
+    },
+  fetchParams = {
+    body: JSON.stringify(missionParams),
+    headers: {
+      'content-type': 'application/json'
+    },
+    method: 'PUT'
+  };
 
   return function(dispatch) {
+    dispatch(updateMissionOptimistic(missionParams));
+
+    let url = getDomain(location.host) + `/middleman/banks/${bankId}/missions/${data.id}`;
+
+    return fetch(url, fetchParams)
+    .then((res) => res.json())
+    .then((mission) => {
+      console.log('updated mission', mission);
+
+      dispatch(receiveUpdateMission(mission));
+    })
+    .catch((error) => {
+      console.log('error updating mission', error);
+    });
 
     // var updateSectionParams = {
     //   data: {

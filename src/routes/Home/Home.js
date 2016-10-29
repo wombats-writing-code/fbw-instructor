@@ -16,11 +16,14 @@ class Home extends Component {
     onClickEditMission: React.PropTypes.func.isRequired,
     missions: React.PropTypes.array.isRequired,
     currentMission: React.PropTypes.object,
+    banks: React.PropTypes.array.isRequired,
+    currentBank: React.PropTypes.object,
   }
 
   componentDidMount() {
     this.props.getMissions(this.props.bankId);
     this.props.getMapping(this.props.bankId, this.props.departmentNames);
+    this.props.getBanks();
   }
 
   render() {
