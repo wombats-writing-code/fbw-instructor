@@ -12,43 +12,31 @@ let styles = {
     listStyle: 'none',
     marginLeft: 0
   },
+  rowItem: {
+    fontSize: '.875rem',
+    padding: '.75rem 0 .125rem 1em',
+    textAlign: 'left',
+    cursor: 'pointer',
+  },
+  rowItemSubtitle: {
+    color: '#555'
+  },
   bankCollectionItem: {
     display: 'flex',
     alignItems: 'flex-start',
     justifyContent: 'space-between',
-    fontSize: '.8rem',
     borderBottomWidth: 1,
     borderBottomStyle: 'solid',
     borderColor: '#ddd',
-    paddingTop: '.5rem',
-    paddingLeft: 10.5,
-    cursor: 'pointer',
-    textAlign: 'left',
     ":hover": {
-      backgroundColor: '#f0f0f0'
+      backgroundColor: '#f8f8f8'
     }
   },
   selectedBankItem: {
-    display: 'flex',
-    alignItems: 'flex-start',
-    justifyContent: 'space-between',
-    fontSize: '.8rem',
-    borderBottomWidth: 1,
-    borderBottomStyle: 'solid',
-    borderColor: '#ddd',
-    paddingTop: '.5rem',
-    paddingLeft: 10.5,
-    cursor: 'pointer',
-    textAlign: 'left',
-    backgroundColor: '#2199e8',
-    color: '#fefefe',
+    backgroundColor: '#f0f0f0',
     ":hover": {
-      backgroundColor: '#3221E8'
+      cursor: 'default'
     }
-  },
-  rowItemSubtitle: {
-    fontSize: '.6rem',
-    color: 'darkgray'
   },
   missionCollection: {
     listStyle: 'none',
@@ -58,34 +46,18 @@ let styles = {
     display: 'flex',
     alignItems: 'flex-start',
     justifyContent: 'space-between',
-    fontSize: '.8rem',
     borderBottomWidth: 1,
     borderBottomStyle: 'solid',
     borderColor: '#ddd',
-    paddingTop: '.5rem',
-    paddingLeft: 10.5,
-    cursor: 'pointer',
     textAlign: 'left',
     ":hover": {
       backgroundColor: '#f0f0f0'
     }
   },
   selectedMissionItem: {
-    display: 'flex',
-    alignItems: 'flex-start',
-    justifyContent: 'space-between',
-    fontSize: '.8rem',
-    borderBottomWidth: 1,
-    borderBottomStyle: 'solid',
-    borderColor: '#ddd',
-    paddingTop: '.5rem',
-    paddingLeft: 10.5,
-    cursor: 'pointer',
-    textAlign: 'left',
-    backgroundColor: '#2199e8',
-    color: '#fefefe',
+    backgroundColor: '#f0f0f0',
     ":hover": {
-      backgroundColor: '#3221E8'
+      cursor: 'default'
     }
   },
   rowItemInfo: {
@@ -129,41 +101,35 @@ export const HomeViewWeb = (props) => {
         className='duck'
         src={DuckImage} /> */}
 
-      <div className="medium-3 large-3 columns"  style={styles.sidebar}>
+      <div className="medium-4 large-4 columns"  style={styles.sidebar}>
         <ul style={styles.bankCollection}>
           {_.map(props.banks, (bank, idx) => {
-            let key = `bank_${idx}`,
-              bankStyles = styles.bankCollectionItem;
-            if (props.currentBank) {
-              if (bank.id === props.currentBank.id) {
-                bankStyles = styles.selectedBankItem
-              }
-            }
+            let key = `bank_${idx}`;
+            let selectedStyle = (props.currentBank && bank.id === props.currentBank.id) ? styles.selectedBankItem : null;
+
             return (
-              <li key={key} style={bankStyles} onClick={() => props.onClickBank(bank)}>
+              <li key={key} style={[styles.bankCollection, styles.rowItem, selectedStyle]}
+                            onClick={() => props.onClickBank(bank)}>
                 <div style={styles.rowItemInfo}>
-                  <p>{bank.displayName.text}</p>
+                  <p style={styles.rowItemTitle}>{bank.displayName.text}</p>
                   <p style={styles.rowItemSubtitle}>{bank.description.text}</p>
                 </div>
               </li>
             )
           })}
         </ul>
+
         {createMissionButton}
 
         <ul style={styles.missionCollection}>
           {_.map(props.missions, (mission, idx) => {
-            let key = `mission_${idx}`,
-              missionStyles = styles.missionCollectionItem;
-            if (props.currentMission) {
-              if (mission.id === props.currentMission.id) {
-                missionStyles = styles.selectedMissionItem
-              }
-            }
+            let key = `mission_${idx}`;
+            let selectedStyle = (props.currentMission && mission.id === props.currentMission.id) ? styles.selectedMissionItem : null;
+
             return (
-              <li key={key} style={missionStyles} onClick={() => props.onClickMission(mission)}>
+              <li key={key} style={[styles.rowItem, styles.missionCollectionItem, selectedStyle]} onClick={() => props.onClickMission(mission)}>
                 <div style={styles.rowItemInfo}>
-                  <p>{mission.displayName.text}</p>
+                  <p style={styles.rowItemTitle}>{mission.displayName.text}</p>
                   <p style={styles.rowItemSubtitle}>Closes: {mission.deadline.month} - {mission.deadline.day} - {mission.deadline.year}</p>
                 </div>
                 <div style={styles.rowItemButtons}>
@@ -176,7 +142,7 @@ export const HomeViewWeb = (props) => {
         </ul>
       </div>
 
-      <div className="medium-9 large-9 columns">
+      <div className="medium-8 large-8 columns">
         {view}
       </div>
 

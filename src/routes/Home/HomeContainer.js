@@ -23,12 +23,12 @@ import {getResults} from '../../reducers/Mission/getResults'
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    getMapping: (bankId, names) => dispatch(getMapping(bankId, names)),    // this gets called when the Home component mounts
     getMissions: (bankId) => dispatch(getMissions(bankId)),    // this gets called when the Home component mounts
     getBanks: () => dispatch(getBanks()),     // this gets called when the Home component mounts
     onClickBank: (bank) => {
       dispatch(selectBank(bank));
       dispatch(getMissions(bank.id));
+      dispatch(getMapping(bank.id, ['accounting']))     // @Cole: how do I find out the department name from the bank name?
     },
     onClickMission: (mission) => {
       dispatch(getResults(mission));
@@ -47,9 +47,6 @@ const mapStateToProps = (state, ownProps) => {
   console.log('state', state);
 
   return {
-    // bankId: 'assessment.Bank%3A576d6d3271e4828c441d721a' + '@bazzim.MIT.EDU'
-    departmentNames: ['accounting'],
-    bankId: 'assessment.Bank:57d70ed471e482a74879349a' + '@bazzim.MIT.EDU',
     banks: state.bank ? state.bank.banks : [],
     currentBank: state.bank.currentBank ? state.bank.currentBank : null,
     missions: state.mission ? state.mission.missions : [],

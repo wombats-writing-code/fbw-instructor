@@ -24,6 +24,7 @@ const getSVGDimensions = () => {
    let d = document, root= d.documentElement, body= d.body;
    let width = window.innerWidth || root.clientWidth || body.clientWidth;
    let height = window.innerHeight || root.clientHeight || body.clientHeight ;
+   let sidePadding = 21;
 
   return {height: height - 80, width: width*3.2/4.2 - sidePadding*2}
 }
@@ -70,11 +71,11 @@ export const OutcomesViewWeb = (props) => {
   });
 
   return (
-    <Svg height={height} width={width} style={styles.svg}>
+    <svg height={height} width={width} style={styles.svg}>
       {edges}
       {nodes}
       {nodeBottomLabels}
-    </Svg>
+    </svg>
   )
 }
 

@@ -105,6 +105,7 @@
     "q": "^1.4.1",
     "radium": "^0.18.1",
     "react": "^15.3.2",
+    "react-addons-css-transition-group": "^15.3.2",
     "react-addons-shallow-compare": "^15.3.2",
     "react-bootstrap": "^0.30.5",
     "react-dates": "^3.4.0",
