@@ -47,14 +47,11 @@ const mapStateToProps = (state, ownProps) => {
   console.log('state', state);
 
   return {
-<<<<<<< HEAD
     // bankId: 'assessment.Bank%3A576d6d3271e4828c441d721a' + '@bazzim.MIT.EDU'
     departmentNames: ['accounting'],
     bankId: 'assessment.Bank:57d70ed471e482a74879349a' + '@bazzim.MIT.EDU',
-=======
     banks: state.bank ? state.bank.banks : [],
     currentBank: state.bank.currentBank ? state.bank.currentBank : null,
->>>>>>> 88621139febd674a6564256eb86c3f240890c167
     missions: state.mission ? state.mission.missions : [],
     currentMission: state.mission ? state.mission.currentMission : null,
     view: state.view
