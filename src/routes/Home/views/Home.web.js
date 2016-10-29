@@ -35,7 +35,8 @@ let styles = {
   selectedBankItem: {
     backgroundColor: '#f0f0f0',
     ":hover": {
-      cursor: 'default'
+      cursor: 'default',
+      backgroundColor: '#f0f0f0'
     }
   },
   missionCollection: {
@@ -51,13 +52,14 @@ let styles = {
     borderColor: '#ddd',
     textAlign: 'left',
     ":hover": {
-      backgroundColor: '#f0f0f0'
+      backgroundColor: '#f8f8f8'
     }
   },
   selectedMissionItem: {
     backgroundColor: '#f0f0f0',
     ":hover": {
-      cursor: 'default'
+      cursor: 'default',
+      backgroundColor: '#f0f0f0'
     }
   },
   rowItemInfo: {
@@ -105,10 +107,11 @@ export const HomeViewWeb = (props) => {
         <ul style={styles.bankCollection}>
           {_.map(props.banks, (bank, idx) => {
             let key = `bank_${idx}`;
-            let selectedStyle = (props.currentBank && bank.id === props.currentBank.id) ? styles.selectedBankItem : null;
+            let selectedStyle = (props.currentBank && bank.id === props.currentBank.id) ?
+                                styles.selectedBankItem : null;
 
             return (
-              <li key={key} style={[styles.bankCollection, styles.rowItem, selectedStyle]}
+              <li key={key} style={[styles.rowItem, styles.bankCollectionItem, selectedStyle]}
                             onClick={() => props.onClickBank(bank)}>
                 <div style={styles.rowItemInfo}>
                   <p style={styles.rowItemTitle}>{bank.displayName.text}</p>
