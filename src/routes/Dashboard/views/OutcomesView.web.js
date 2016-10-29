@@ -52,7 +52,7 @@ export const OutcomesViewWeb = (props) => {
   let nodes = _.map(data.nodes, (node, idx) => {
     return (
       <Circle id={node.id} cx={node.x} cy={node.y} r={node.r}
-              fill={this._getNodeFill(node)} stroke={node.stroke} strokeWidth={node.strokeWidth}
+              fill={node.fill} stroke={node.stroke} strokeWidth={node.strokeWidth}
               onPress={() => props.onPressNode(node)}
               key={node.id}
       />

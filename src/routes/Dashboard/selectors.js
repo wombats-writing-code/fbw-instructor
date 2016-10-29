@@ -3,6 +3,9 @@ import _ from 'lodash'
 import 'moment'
 import 'moment-timezone'
 
+// import 'Xoces/dist/Xoces'
+let Xoces = require('Xoces/dist/Xoces');      // TODO: luwen to refactor Xoces and make it es6 compat
+
 import getIncomingEntitiesAll from 'rhumbl-dao/src/getIncomingEntitiesAll'
 import getPathway from 'rhumbl-dao/src/getPathway'
 import rankDAG from 'rhumbl-dao/src/rankDAG'
@@ -14,6 +17,8 @@ export const isTarget = (question) => {
 
   return undefined;
 }
+
+
 /**
   layoutSelector(): given an array of outcomes you want to display, and the entire graph you want to compute on,
                   returns the positions and styling of the outcomes and their relevant relationships
@@ -52,9 +57,44 @@ export const outcomesViewSelector = (results, mapping) => {
   let ranked = rankDAG(dag, (item) => getIncomingEntitiesAll(item.id, ['mc3-relationship%3Amc3.lo.2.lo.requisite%40MIT-OEIT'], graph));
   console.log('ranked', ranked);
 
+  console.log('Xoces', Xoces, xoces);
 
-  let layout = Xoces.tree.layout(params, ranked, dag.edges);
+  //
+  // let {height, width} = this._getSVGDimensions();
+  let params = {
+    drawing: {
+      background: '#eee',
+      width: 800,
+      height: 600,
+    },
+    node: {
+      r: 20,
+      stroke: '#cccccc',
+      strokeWidth: 1,
+      borderRadius: '50%',
+    },
+    nodeCenterLabel: {
+      fontSize: 12,
+      property: (outcome) => {
+          return outcome.id.split('%')[1];
+      }
+    },
+    nodeBottomLabel: {
+      fontSize: 12,
+      property: outcome => _.truncate(outcome.name, {lenght: 40})
+    }
+  };
 
+  let layout = xoces.tree.layout(params, ranked, dag.edges);
+
+  // assign coloring to nodes
+  layout.nodes = _.map(layout.nodes, (node) => {
+    return _.assign({}, node, {
+      fill: '#B5E655'
+    });
+  });
+
+  // assign coloring to links
   layout.links = _.map(layout.links, (link) => {
     return _.assign({}, link, {
       stroke: '#ccc',
@@ -66,32 +106,7 @@ export const outcomesViewSelector = (results, mapping) => {
 
   return layout;
 }
-  //   if (!(this.props.takenResults && this.props.relationships)) return null;
-  //
-  //   let {height, width} = this._getSVGDimensions();
-  //   let params = {
-  //     drawing: {
-  //       background: '#eee',
-  //       width: width,
-  //       height: height,
-  //     },
-  //     node: {
-  //       r: 20,
-  //       stroke: '#cccccc',
-  //       strokeWidth: 1,
-  //       borderRadius: '50%',
-  //     },
-  //     nodeCenterLabel: {
-  //       fontSize: 12,
-  //       property: (outcome) => {
-  //           return outcome.id.split('%')[1];
-  //       }
-  //     },
-  //     nodeBottomLabel: {
-  //       fontSize: 12,
-  //       property: outcome => _.truncate(outcome.name)
-  //     }
-  //   };
+
   //
   //   // get all outcomes
   //   let allOutcomes = _.map(_.toArray(ModuleStore.getOutcomes()), (outcome) => {
