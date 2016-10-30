@@ -10,16 +10,7 @@ import getIncomingEntitiesAll from 'rhumbl-dao/src/getIncomingEntitiesAll'
 import getPathway from 'rhumbl-dao/src/getPathway'
 import rankDAG from 'rhumbl-dao/src/rankDAG'
 
-import {getResults, getMapping} from './common'
-
-export const isTarget = (question) => {
-  if (question && question.displayName) {
-    return question.displayName.text.indexOf('.') < 0;
-  }
-
-  return undefined;
-}
-
+import {getResults, getMapping, isTarget} from './common'
 
 /**
   outcomesViewSelector(): given an array of outcomes you want to display, and the entire graph you want to compute on,

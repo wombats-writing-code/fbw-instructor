@@ -25,20 +25,57 @@ import 'lodash'
 
 
 let styles = {
+  container: {
+    display: 'flex'
+  },
+  directiveCollection: {
+    marginLeft: 0,
+    borderRightWidth: 1,
+    borderRightColor: '#ddd',
+    borderRightStyle: 'solid',
+    flex: 1
+  },
+  questionCollection: {
+    marginLeft: 0,
+    paddingLeft: '1em',
+    flex: 3
+  },
+  directiveItem: {
+    paddingTop: '.725rem',
+    paddingLeft: '1em',
+    paddingRight: '1em',
+    paddingBottom: '.9rem',
+    borderBottomWidth: 1,
+    borderBottomColor: '#ddd',
+    borderBottomStyle: 'solid',
+    cursor: 'pointer',
+    ':hover': {
+      backgroundColor: '#f8f8f8'
+    }
+  },
+  directiveItemSelected: {
+    backgroundColor: '#f8f8f8',
+    cursor: 'default'
+  },
+  directiveText: {
+    color: '#333',
+    fontSize: '.875rem',
+    lineHeight: 1.25,
+    marginBottom: 0,
+    textAlign: 'left'
+  },
   questionItem: {
     display: 'flex',
-
   },
   question: {
     textAlign: 'left',
-    maxHeight: '3rem',
+    // maxHeight: '3rem',
     overflow: 'hidden',
-    marginBottom: '1.5rem',
-    fontSize: '.8875rem',
-    color: '#333',
+    marginBottom: '1.625rem',
+    fontSize: '.875rem',
     width: '75%',
     flex: 3
-  }
+  },
 }
 
 
@@ -48,25 +85,42 @@ const createMarkup = (htmlString) => {
 
 export const QuestionsViewWeb = (props) => {
 
+  if (!props.viewState || !props.questionsViewData) return null;
+
   let questionCollection;
   if (props.questionsViewData) {
     questionCollection;
+
   }
 
   return (
-    <ul style={styles.questionCollection}>
-      {/* {questionCollection} */}
+    <div style={styles.container}>
+      <ul style={styles.directiveCollection} className="clearfix">
+        {_.map(props.questionsViewData.directives, (outcome, idx) => {
+          console.log('outocme', outcome);
+            return (
+              <div key={`outcome_${idx}`} style={[styles.directiveItem, props.viewState.currentDirective === outcome ? styles.directiveItemSelected : null]}
+                  onClick={(e) => props.onClickDirective(outcome, 'dashboard.questionsView')}>
+                <p style={styles.directiveText}>{outcome.displayName.text}</p>
+              </div>
+            )
+        })}
+      </ul>
 
-      {_.map(props.questionsViewData.questions, (question, idx) => {
-          return (
-            <div style={styles.questionItem}>
-              <div style={styles.question} key={`question_${idx}`}
-                dangerouslySetInnerHTML={createMarkup(question.text.text)}>
-              </div><span>...</span>
-            </div>
-          )
-      })}
-    </ul>
+      <ul style={styles.questionCollection}>
+        {/* {questionCollection} */}
+
+        {_.map(props.questionsViewData.questions, (question, idx) => {
+            return (
+              <div key={`question_${idx}`} style={styles.questionItem}>
+                <div style={styles.question} dangerouslySetInnerHTML={createMarkup(question.text.text)}>
+                </div>
+              </div>
+            )
+        })}
+      </ul>
+    </div>
+
   )
 
   // renderRow = (questionWithComputed) => {

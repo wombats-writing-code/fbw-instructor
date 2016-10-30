@@ -138,7 +138,7 @@ export const HomeViewWeb = (props) => {
 
   return (
     <div className="row">
-      <div className="medium-4 large-4 columns"  style={styles.sidebar}>
+      <div className="medium-4 large-3 columns"  style={styles.sidebar}>
         <ul style={styles.bankCollection}>
           {_.map(props.banks, (bank, idx) => {
             let key = `bank_${idx}`;
@@ -165,7 +165,7 @@ export const HomeViewWeb = (props) => {
         {missionsLoadingBox}
       </div>
 
-      <div className="medium-8 large-8 columns">
+      <div className="medium-8 large-9 columns">
         {view}
       </div>
 

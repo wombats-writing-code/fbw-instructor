@@ -3,6 +3,8 @@
 // ------------------------------------
 export const CHANGE_MOUSEOVER = 'CHANGE_MOUSEOVER'
 export const CHANGE_CLICK = 'CHANGE_CLICK'
+export const SELECT_DIRECTIVE = 'SELECT_DIRECTIVE'
+
 
 // ------------------------------------
 // Actions
@@ -19,6 +21,14 @@ export function changeClick(entity, viewName) {
   return {
     type    : CHANGE_CLICK,
     entity,
+    viewName
+  }
+}
+
+export function selectDirective(directive, viewName) {
+  return {
+    type    : SELECT_DIRECTIVE,
+    directive,
     viewName
   }
 }
@@ -52,6 +62,12 @@ export default function analysisReducer (state = initialState, action) {
         }
       });
 
+    case SELECT_DIRECTIVE:
+      return _.assign({}, state, {
+        [action.viewName]: {
+          currentDirective: action.directive
+        }
+      })
 
     default:
       return state

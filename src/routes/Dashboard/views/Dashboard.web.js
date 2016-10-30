@@ -8,14 +8,17 @@ import {OutcomesViewWeb} from './OutcomesView.web'
 import LoadingBox from '../../../components/LoadingBox'
 
 let styles = {
+  navBar: {
+    display: 'flex',
+    alignItems: 'center'
+  },
   viewControl: {
+    marginLeft: 0,
     width: '100%',
     display: 'flex',
-    marginLeft: 0
-    // justifyContent: 'space-around',
-
+    flex: 3
   },
-  buttonGroupChild: {
+  viewControlChild: {
     flexGrow: 1
   },
   viewControlButton: {
@@ -33,7 +36,9 @@ let styles = {
   navBarTitle: {
     color: '#777',
     fontWeight: "700",
-    fontSize: "1rem"
+    fontSize: "1rem",
+    flex: 1,
+    textAlign: 'left'
   }
 }
 
@@ -56,22 +61,25 @@ export const DashboardViewWeb = (props) => {
 
   return (
     <div>
-      <p style={styles.navBarTitle}>{props.mission ? props.mission.displayName.text : ''}</p>
-
-      <ul className="button-group" style={styles.viewControl}>
-        <li style={styles.buttonGroupChild}>
-          <a className="button" style={[styles.viewControlButton, props.view.name === 'dashboard.questionsView' ? styles.viewControlButtonActive : null]}
-            onClick={() => props.onChangeView('dashboard.questionsView')}>Questions View</a>
-        </li>
-        <li style={styles.buttonGroupChild}>
-          <a className="button" style={styles.viewControlButton}
-            onClick={() => props.onChangeView('dashboard.outcomesView')}>Outcomes View</a>
-        </li>
-        <li style={styles.buttonGroupChild}>
-          <a className="button" style={styles.viewControlButton}
-            onClick={() => props.onChangeView('dashboard.outcomesView')}>Student View</a>
-        </li>
+      <div style={styles.navBar}>
+        <p style={styles.navBarTitle}>{props.mission ? props.mission.displayName.text : ''}</p>
+        <ul className="button-group" style={styles.viewControl}>
+          <li style={styles.viewControlChild}>
+            <a className="button" style={[styles.viewControlButton, props.view.name === 'dashboard.questionsView' ? styles.viewControlButtonActive : null]}
+              onClick={() => props.onChangeView('dashboard.questionsView')}>Questions View</a>
+          </li>
+          <li style={styles.viewControlChild}>
+            <a className="button" style={[styles.viewControlButton, props.view.name === 'dashboard.outcomesView' ? styles.viewControlButtonActive : null]}
+              onClick={() => props.onChangeView('dashboard.outcomesView')}>Outcomes View</a>
+          </li>
+          <li style={styles.viewControlChild}>
+            <a className="button" style={[styles.viewControlButton, props.view.name === 'dashboard.studentView' ? styles.viewControlButtonActive : null]}
+              onClick={() => props.onChangeView('dashboard.studentView')}>Student View</a>
+          </li>
       </ul>
+
+
+      </div>
 
       <div className="row">
         {view}
