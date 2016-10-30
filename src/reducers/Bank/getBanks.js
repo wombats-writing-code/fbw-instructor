@@ -34,7 +34,7 @@ let banks = ['assessment.Bank%3A57d70ed471e482a74879349a%40bazzim.MIT.EDU', 'ass
 
 export function getBanks() {
 
-  console.log('getBanks');
+  // console.log('getBanks');
 
   return function(dispatch) {
     dispatch(getBanksOptimistic([]));

@@ -23,6 +23,7 @@
 import React, {Component} from 'react';
 import 'lodash'
 
+import BASE_STYLES from '../../../styles/baseStyles'
 
 let styles = {
   container: {
@@ -57,6 +58,9 @@ let styles = {
     backgroundColor: '#f8f8f8',
     cursor: 'default'
   },
+  directiveItemLast: {
+    borderBottomColor: 'transparent',
+  },
   directiveText: {
     color: '#333',
     fontSize: '.875rem',
@@ -64,18 +68,33 @@ let styles = {
     marginBottom: 0,
     textAlign: 'left'
   },
-  questionItem: {
+  resultItem: {
     display: 'flex',
   },
-  question: {
+  questionText: {
     textAlign: 'left',
-    // maxHeight: '3rem',
     overflow: 'hidden',
     marginBottom: '1.625rem',
     fontSize: '.875rem',
     width: '75%',
-    flex: 3
+    flex: 4
   },
+  warning: {
+    color: BASE_STYLES.warningColor,
+    fontWeight: '500'
+  },
+  muted: {
+    color: '#888'
+  },
+  resultInfoTotal: {
+    color: '#666',
+    fontWeight: '500'
+  },
+  resultInfo: {
+    marginLeft: '1em',
+    fontSize: '1.25rem',
+    flex: 1
+  }
 }
 
 
@@ -85,21 +104,43 @@ const createMarkup = (htmlString) => {
 
 export const QuestionsViewWeb = (props) => {
 
-  if (!props.viewState || !props.questionsViewData) return null;
+  let viewData = props.questionsViewData;
 
+  if (!props.viewState || !viewData) return null;
+
+  let currentDirectiveId = props.viewState.currentDirective ? props.viewState.currentDirective.id : null;
   let questionCollection;
-  if (props.questionsViewData) {
-    questionCollection;
+  if (currentDirectiveId) {
+    let collection = viewData.resultsByDirective[currentDirectiveId];
+    // console.log('currentDirectiveId', currentDirectiveId, 'resultsByDirective', viewData.resultsByDirective, 'resultsByDirective', collection);
 
+    questionCollection = (
+      <ul style={styles.questionCollection}>
+        {_.map(collection, (result, idx) => {
+            return (
+              <div key={`question_${idx}`} style={[styles.resultItem]}>
+                <div style={styles.questionText} dangerouslySetInnerHTML={createMarkup(result.questionText)}></div>
+                <div style={styles.resultInfo}>
+                  <span style={styles.warning}>{result.numStudentsNotAchieved}</span> &nbsp;
+                  <span style={styles.muted}>of</span> &nbsp;
+                  <span style={styles.resultInfoTotal}>{result.numStudentsAttempted}</span>
+                </div>
+              </div>
+            )
+        })}
+      </ul>
+    )
   }
+
 
   return (
     <div style={styles.container}>
       <ul style={styles.directiveCollection} className="clearfix">
-        {_.map(props.questionsViewData.directives, (outcome, idx) => {
-          console.log('outocme', outcome);
+        {_.map(viewData.directives, (outcome, idx) => {
+            let lastItemStyle = idx === viewData.directives.length-1 ? styles.directiveItemLast : null
             return (
-              <div key={`outcome_${idx}`} style={[styles.directiveItem, props.viewState.currentDirective === outcome ? styles.directiveItemSelected : null]}
+              <div key={`outcome_${idx}`}
+                  style={[styles.directiveItem, props.viewState.currentDirective === outcome ? styles.directiveItemSelected : null, lastItemStyle]}
                   onClick={(e) => props.onClickDirective(outcome, 'dashboard.questionsView')}>
                 <p style={styles.directiveText}>{outcome.displayName.text}</p>
               </div>
@@ -107,18 +148,8 @@ export const QuestionsViewWeb = (props) => {
         })}
       </ul>
 
-      <ul style={styles.questionCollection}>
-        {/* {questionCollection} */}
+      {questionCollection}
 
-        {_.map(props.questionsViewData.questions, (question, idx) => {
-            return (
-              <div key={`question_${idx}`} style={styles.questionItem}>
-                <div style={styles.question} dangerouslySetInnerHTML={createMarkup(question.text.text)}>
-                </div>
-              </div>
-            )
-        })}
-      </ul>
     </div>
 
   )

@@ -23,11 +23,11 @@ const mapStateToProps = (state, ownProps) => {
   return {
     view: state.view,
     viewState: state.analysis[state.view.name],
+    outcomesViewData: outcomesViewSelector(state),        // might restructure this state shape with viewState
+    questionsViewData: questionsViewSelector(state),
     mission: state.mission ? state.mission.currentMission : null,
     results: state.mission ? state.mission.results : [],
     isGetResultsInProgress: state.mission ? state.mission.isGetResultsInProgress : false,
-    outcomesViewData: outcomesViewSelector(state),
-    questionsViewData: questionsViewSelector(state),
   }
 }
 
