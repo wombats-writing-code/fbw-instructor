@@ -40,24 +40,28 @@ export const outcomesViewSelector = (results, mapping) => {
     }),
   };
 
-  console.log('results', results, 'mapping', graph);
+  // console.log('results', results, 'mapping', graph);
 
-  let targetQuestions =  _.filter(_.uniqBy(_.flatMap(results, 'questions'), 'itemId'), (q) => isTarget(q));
+  let allQuestions = _.flatMap(results, 'questions');
+
+  let targetQuestions =  _.filter(_.uniqBy(allQuestions, 'itemId'), (q) => isTarget(q));
   let targetOutcomes = _.compact(_.map(_.uniq(_.flatMap(targetQuestions, 'learningObjectiveIds')), (id) => _.find(graph.entities, {id: id})));
 
-  console.log('targetQuestions', targetQuestions);
-  console.log('targetOutcomes', targetOutcomes);
-    // console.log('outcomes', _.map(outcomes, 'displayName.text'))
+
+  // !temporary until i ask Cole
+  targetOutcomes = [targetOutcomes[0], targetOutcomes[1]];
+
+  // console.log('targetQuestions', targetQuestions);
+  // console.log('targetOutcomes', targetOutcomes);
+  // console.log('targetOutcomes', _.map(targetOutcomes, 'displayName.text'))
 
   // get the entire Directed Acyclic Graph that concerns the target outcomes
   // note that this DAG may contain outcomes that didn't show up in the taken results
   let dag = getPathway(_.map(targetOutcomes, 'id'), ['mc3-relationship%3Amc3.lo.2.lo.requisite%40MIT-OEIT'], 'OUTGOING_ALL', graph);
-  console.log('dag', dag);
+  // console.log('dag', dag);
 
   let ranked = rankDAG(dag, (item) => getIncomingEntitiesAll(item.id, ['mc3-relationship%3Amc3.lo.2.lo.requisite%40MIT-OEIT'], graph));
-  console.log('ranked', ranked);
-
-  console.log('Xoces', Xoces, xoces);
+  // console.log('ranked', ranked);
 
   //
   // let {height, width} = this._getSVGDimensions();
@@ -69,7 +73,7 @@ export const outcomesViewSelector = (results, mapping) => {
     },
     node: {
       r: 20,
-      stroke: '#cccccc',
+      stroke: '#fff',
       strokeWidth: 1,
       borderRadius: '50%',
     },
@@ -81,16 +85,25 @@ export const outcomesViewSelector = (results, mapping) => {
     },
     nodeBottomLabel: {
       fontSize: 12,
-      property: outcome => _.truncate(outcome.name, {lenght: 40})
+      property: outcome => _.truncate(outcome.name, {length: 40})
     }
   };
 
   let layout = xoces.tree.layout(params, ranked, dag.edges);
 
+  // =======
+  // build out layout object, need to refactor this out
+  // =====
   // assign coloring to nodes
   layout.nodes = _.map(layout.nodes, (node) => {
+    let questions = _.filter(allQuestions, (q) => q.learningObjectiveIds.indexOf(node.id) > -1);
+    let numCorrect = correctWithinAttempts(_.map(questions, 'itemId'), results, 1);
+    let didClassMaster = numCorrect.length / results.length;
+
+    // console.log('num correct', numCorrect);
+
     return _.assign({}, node, {
-      fill: '#B5E655'
+      fill: didClassMaster > .5 ? '#AAD8B0' : '#FF6F69'
     });
   });
 
@@ -98,26 +111,67 @@ export const outcomesViewSelector = (results, mapping) => {
   layout.links = _.map(layout.links, (link) => {
     return _.assign({}, link, {
       stroke: '#ccc',
-      strokeWidth: 1
+      strokeWidth: 3
     })
   });
 
-  console.log('layout', layout);
+  layout.nodeBottomLabelsTruncated = layout.nodeBottomLabels;
+  layout.nodeBottomLabelsFull = _.map(layout.nodeBottomLabels, (label) => {
+    return _.assign({}, label, {
+      text: label.entity.name
+    })
+  })
+
+  // console.log('layout', layout);
 
   return layout;
 }
 
-  //
-  //   // get all outcomes
-  //   let allOutcomes = _.map(_.toArray(ModuleStore.getOutcomes()), (outcome) => {
-  //     return _.assign({}, outcome, {
-  //       type: 'outcome',
-  //       name: outcome.displayName.text
-  //     })
-  //   });
-  //
-  // }
+/**
+  correctWithinAttempts: takes a single question id or array of question ids, and searches
+*/
+export const correctWithinAttempts = (questionIdOrIds, takenResults, maxAttempts) => {
 
+  let questionIds;
+  if (!_.isArray(questionIdOrIds)) {
+    questionIds = [questionIdOrIds];
+  } else {
+    questionIds = questionIdOrIds;
+  }
+
+  return _.compact(_.map(takenResults, (taken) => {
+    // console.log(taken);
+    // let question = _.find(taken.questions, {itemId: questionId});
+    let numAttempts = 0;
+    let numSeen = 0;
+    for (let i=0; i<taken.questions.length; i++) {
+      let question = taken.questions[i];
+
+      // match the question by its itemId
+      if (questionIds.indexOf(question.itemId) > -1) {
+        numSeen++;
+
+        // console.log('matched question. its reponses', question.responses[0]);
+        let response = question.responses[0];
+
+        if (response) {
+          numAttempts++;
+
+          // console.log(response, 'numAttempts', numAttempts, maxAttempts, 'max attempt');
+
+          // if the response is not correct, and the number of student attempts equals or exceeded the given attempt number,
+          // then we say the student has not achieved
+          if (response.isCorrect && numAttempts <= maxAttempts) {
+            return taken;
+          }
+        }
+
+      }
+    }
+
+    return null;
+  }));
+}
 
 //
 //
@@ -209,41 +263,7 @@ export const outcomesViewSelector = (results, mapping) => {
 //   return attemptsCounter;
 // }
 //
-// export const correctWithinAttempts = (questionId, takenResults, maxAttempts) => {
-//
-//   return _.compact(_.map(takenResults, (taken) => {
-//     // console.log(taken);
-//     // let question = _.find(taken.questions, {itemId: questionId});
-//     let numAttempts = 0;
-//     let numSeen = 0;
-//     for (let i=0; i<taken.questions.length; i++) {
-//       let question = taken.questions[i];
-//
-//       // match the question by its itemId
-//       if (question.itemId === questionId) {
-//         numSeen++;
-//
-//         // console.log('matched question. its reponses', question.responses[0]);
-//         let response = question.responses[0];
-//
-//         if (response) {
-//           numAttempts++;
-//
-//           // console.log(response, 'numAttempts', numAttempts, maxAttempts, 'max attempt');
-//
-//           // if the response is not correct, and the number of student attempts equals or exceeded the given attempt number,
-//           // then we say the student has not achieved
-//           if (response.isCorrect && numAttempts <= maxAttempts) {
-//             return taken;
-//           }
-//         }
-//
-//       }
-//     }
-//
-//     return null;
-//   }));
-// }
+
 //
 // export const sortBySubmissionTime  = (responseA, responseB) => {
 //   if (responseA && responseB) {

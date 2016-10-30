@@ -20,15 +20,13 @@ export function receiveMapping(mapping) {
 // returns a list of Mission offereds
 export function getMapping(bankId, departmentNames) {
 
-  console.log('getMapping of', departmentNames);
-
   return function(dispatch) {
     let getContentLibraryIds = _.map(departmentNames, (name) => fetch(getDomain(location.host) + `/middleman/departments/${name}/library`));
 
     return Q.all(getContentLibraryIds)
     .then( (res) => Q.all(_.map(res, (r) => r.text())) )
     .then( (res) => {
-      console.log('get contentlib', res);
+      // console.log('get contentlib', res);
 
       let outcomesUrl = getDomain(location.host) + `/middleman/objectivebanks/${res[0]}/outcomes`;
       let relationshipsUrl = getDomain(location.host) + `/middleman/objectivebanks/${res[0]}/relationships`;

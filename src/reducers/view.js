@@ -16,7 +16,7 @@ export function changeView (view) {
 // ------------------------------------
 // Reducer
 // ------------------------------------
-const initialState = {name: 'dashboard'}
+const initialState = {name: 'dashboard.outcomesView'}
 export default function viewReducer (state = initialState, action) {
   switch (action.type) {
     case CHANGE_VIEW:

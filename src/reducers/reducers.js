@@ -2,15 +2,17 @@ import { combineReducers } from 'redux'
 import locationReducer from './location'
 
 import viewReducer from './view'
+import analysisReducer from './analysis'
+
 import missionReducer from './Mission/Mission'
 import mappingReducer from './Mapping/Mapping'
-
 import bankReducer from './Bank/Bank'
 
 export const makeRootReducer = (asyncReducers) => {
   return combineReducers({
     location: locationReducer,
     view: viewReducer,
+    analysis: analysisReducer,
     mission: missionReducer,
     mapping: mappingReducer,
     bank: bankReducer,

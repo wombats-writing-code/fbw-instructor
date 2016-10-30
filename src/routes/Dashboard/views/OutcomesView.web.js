@@ -34,7 +34,7 @@ export const OutcomesViewWeb = (props) => {
   let data = props.outcomesViewData;
 
   if (!(data && data.nodes && data.links)) {
-    return null;
+    return <p>Outcomes View</p>;
   }
 
   let {height, width} = getSVGDimensions();
@@ -42,8 +42,8 @@ export const OutcomesViewWeb = (props) => {
   // render edges as lines
   let edges = _.map(data.links, (edge, idx) => {
     return (
-      <Line id={edge.id} x1={edge.x1} y1={edge.y1} x2={edge.x2} y2={edge.y2} stroke={edge.stroke}
-            strokeWidth={edge.strokeWidth}
+      <line id={edge.id} x1={edge.x1} y1={edge.y1} x2={edge.x2} y2={edge.y2} stroke={edge.stroke}
+            strokeWidth={edge.strokeWidth} onMouseOver={() => props.onEdgeMouseover(edge, 'outcomesView')}
             key={edge.id}
       />
     )
@@ -52,29 +52,49 @@ export const OutcomesViewWeb = (props) => {
   // render nodes as circles
   let nodes = _.map(data.nodes, (node, idx) => {
     return (
-      <Circle id={node.id} cx={node.x} cy={node.y} r={node.r}
+      <circle id={node.id} cx={node.x} cy={node.y} r={node.r}
               fill={node.fill} stroke={node.stroke} strokeWidth={node.strokeWidth}
-              onPress={() => props.onPressNode(node)}
+              onClick={() => props.onNodeClick(node, 'outcomesView')}
+              onMouseOver={() => props.onNodeMouseover(node, 'outcomesView')} onMouseLeave={() => props.onNodeMouseover(null, 'outcomesView')}
               key={node.id}
       />
     )
   });
 
+  // ===
   // render nodeBottomLabels
-  let nodeBottomLabels = _.map(data.nodeBottomLabels, (label, idx) => {
-    // console.log(label);
+  let nodeBottomLabelsTruncated = _.compact(_.map(data.nodeBottomLabelsTruncated, (label, idx) => {
+    if (props.viewState.currentMouseOver && label.entity.id === props.viewState.currentMouseOver.id) return null;
+
     return (
-      <Text key={idx+1} x={label.x} y={label.y} fontSize={label.fontSize} lineHeight={label.lineHeight}>
+      <text key={idx+1} x={label.x} y={label.y} textAnchor="middle"
+            fontSize={label.fontSize}>
         {label.text || ''}
-      </Text>
+      </text>
     )
-  });
+  }));
+
+
+  // only show the ones that are either currently mouseover'ed or click'ed on
+  let nodeBottomLabelsFull = _.compact(_.map(data.nodeBottomLabelsFull, (label, idx) => {
+    if (props.viewState.currentMouseOver && label.entity.id === props.viewState.currentMouseOver.id) {
+      return (
+        <text key={idx+1} x={label.x} y={label.y} textAnchor="middle"
+              fontSize={label.fontSize}>
+          {label.text || ''}
+        </text>
+      )
+    }
+
+    return null;
+  }));
 
   return (
     <svg height={height} width={width} style={styles.svg}>
       {edges}
       {nodes}
-      {nodeBottomLabels}
+      {nodeBottomLabelsTruncated}
+      {nodeBottomLabelsFull}
     </svg>
   )
 }
