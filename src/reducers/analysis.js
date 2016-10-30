@@ -27,9 +27,12 @@ export function changeClick(entity, viewName) {
 // Reducer
 // ------------------------------------
 const initialState = {
-  outcomesView: {
+  'dashboard.outcomesView': {
     currentMouseOver: null,
     currentClick: null
+  },
+  'dashboard.questionsView': {
+
   }
 }
 export default function analysisReducer (state = initialState, action) {

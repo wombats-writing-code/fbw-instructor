@@ -13,7 +13,7 @@ import {RECEIVE_UPDATE_MISSION} from './updateMission'
 import {UPDATE_MISSION_FORM} from './updateMissionForm'
 import {UPDATE_EDIT_MISSION_FORM} from './updateEditMissionForm'
 
-import {RECEIVE_RESULTS} from './getResults'
+import {GET_RESULTS_OPTIMISTIC, RECEIVE_RESULTS} from './getResults'
 
 // this probably shouldn't belong here...
 import {qbankToMoment} from '../common'
@@ -63,9 +63,15 @@ export default function missionReducer (state = initialState, action) {
         }
       })
 
+    case GET_RESULTS_OPTIMISTIC:
+      return _.assign({}, state, {
+        isGetResultsInProgress: true
+      });
+
     case RECEIVE_RESULTS:
       return _.assign({}, state, {
-        results: action.results
+        results: action.results,
+        isGetResultsInProgress: false
       });
 
     case RECEIVE_CREATE_MISSION:

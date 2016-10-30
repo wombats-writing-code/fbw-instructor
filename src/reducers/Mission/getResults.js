@@ -10,6 +10,7 @@ import {getDomain} from '../common'
 // ------------------------------------
 
 export const GET_RESULTS = 'GET_RESULTS'
+export const GET_RESULTS_OPTIMISTIC = 'GET_RESULTS_OPTIMISTIC'
 export const RECEIVE_RESULTS = 'RECEIVE_RESULTS'
 
 export function receiveResults(results) {
@@ -17,7 +18,7 @@ export function receiveResults(results) {
 }
 
 export function getResultsOptimistic(results) {
-  return {type: GET_RESULTS, results };
+  return {type: GET_RESULTS_OPTIMISTIC, results };
 }
 
 // this is the actual async create function that calls qbank
@@ -26,7 +27,7 @@ export function getResults(mission) {
   let url = getDomain(location.host) + `/middleman/banks/${mission.assignedBankIds[0]}/offereds/${mission.assessmentOfferedId}/results`;
 
   return function(dispatch) {
-    dispatch(getResultsOptimistic([]));
+    dispatch(getResultsOptimistic());
 
     return fetch(url)
     .then((res) => res.json())

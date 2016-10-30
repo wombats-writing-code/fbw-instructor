@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect'
-import _ from 'lodash'
+import 'lodash'
 import 'moment'
 import 'moment-timezone'
 
@@ -9,6 +9,8 @@ let Xoces = require('Xoces/dist/Xoces');      // TODO: luwen to refactor Xoces a
 import getIncomingEntitiesAll from 'rhumbl-dao/src/getIncomingEntitiesAll'
 import getPathway from 'rhumbl-dao/src/getPathway'
 import rankDAG from 'rhumbl-dao/src/rankDAG'
+
+import {getResults, getMapping} from './common'
 
 export const isTarget = (question) => {
   if (question && question.displayName) {
@@ -20,10 +22,10 @@ export const isTarget = (question) => {
 
 
 /**
-  layoutSelector(): given an array of outcomes you want to display, and the entire graph you want to compute on,
+  outcomesViewSelector(): given an array of outcomes you want to display, and the entire graph you want to compute on,
                   returns the positions and styling of the outcomes and their relevant relationships
 */
-export const outcomesViewSelector = (results, mapping) => {
+export const outcomesViewSelector = createSelector([getResults, getMapping], (results, mapping) => {
   if (!results || !mapping) return null;
 
   let graph = {
@@ -125,7 +127,7 @@ export const outcomesViewSelector = (results, mapping) => {
   // console.log('layout', layout);
 
   return layout;
-}
+})
 
 /**
   correctWithinAttempts: takes a single question id or array of question ids, and searches

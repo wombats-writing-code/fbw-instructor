@@ -43,7 +43,7 @@ export const OutcomesViewWeb = (props) => {
   let edges = _.map(data.links, (edge, idx) => {
     return (
       <line id={edge.id} x1={edge.x1} y1={edge.y1} x2={edge.x2} y2={edge.y2} stroke={edge.stroke}
-            strokeWidth={edge.strokeWidth} onMouseOver={() => props.onEdgeMouseover(edge, 'outcomesView')}
+            strokeWidth={edge.strokeWidth} onMouseOver={() => props.onEdgeMouseover(edge, 'dashboard.outcomesView')}
             key={edge.id}
       />
     )
@@ -54,8 +54,8 @@ export const OutcomesViewWeb = (props) => {
     return (
       <circle id={node.id} cx={node.x} cy={node.y} r={node.r}
               fill={node.fill} stroke={node.stroke} strokeWidth={node.strokeWidth}
-              onClick={() => props.onNodeClick(node, 'outcomesView')}
-              onMouseOver={() => props.onNodeMouseover(node, 'outcomesView')} onMouseLeave={() => props.onNodeMouseover(null, 'outcomesView')}
+              onClick={() => props.onNodeClick(node, 'dashboard.outcomesView')}
+              onMouseOver={() => props.onNodeMouseover(node, 'dashboard.outcomesView')} onMouseLeave={() => props.onNodeMouseover(null, 'outcomesView')}
               key={node.id}
       />
     )

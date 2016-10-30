@@ -21,12 +21,53 @@
 
 'use strict';
 import React, {Component} from 'react';
-
 import 'lodash'
+
+
+let styles = {
+  questionItem: {
+    display: 'flex',
+
+  },
+  question: {
+    textAlign: 'left',
+    maxHeight: '3rem',
+    overflow: 'hidden',
+    marginBottom: '1.5rem',
+    fontSize: '.8875rem',
+    color: '#333',
+    width: '75%',
+    flex: 3
+  }
+}
+
+
+const createMarkup = (htmlString) => {
+  return {__html: htmlString};
+}
 
 export const QuestionsViewWeb = (props) => {
 
-  return <p>Cole please help</p>
+  let questionCollection;
+  if (props.questionsViewData) {
+    questionCollection;
+  }
+
+  return (
+    <ul style={styles.questionCollection}>
+      {/* {questionCollection} */}
+
+      {_.map(props.questionsViewData.questions, (question, idx) => {
+          return (
+            <div style={styles.questionItem}>
+              <div style={styles.question} key={`question_${idx}`}
+                dangerouslySetInnerHTML={createMarkup(question.text.text)}>
+              </div><span>...</span>
+            </div>
+          )
+      })}
+    </ul>
+  )
 
   // renderRow = (questionWithComputed) => {
   //
@@ -172,15 +213,5 @@ export const QuestionsViewWeb = (props) => {
   //   );
   // }
   //
-  // _wrapHTMLWithMathjax = (markup) => {
-  //   return `<!DOCTYPE html>
-  //     <html>
-  //       <head>
-  //         <script src="${MathJaxURL}"></script>
-  //       </head>
-  //       <body>
-  //         ${markup}
-  //       </body>
-  //     </html>`;
-  // }
+
 }
