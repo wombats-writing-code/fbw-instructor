@@ -5,7 +5,7 @@ import 'lodash'
 
 import {END_DATE} from 'react-dates/constants'
 
-import {RECEIVE_MISSIONS} from './getMissions'
+import {GET_MISSIONS_OPTIMISTIC, RECEIVE_MISSIONS} from './getMissions'
 import {SELECT_MISSION} from './selectMission'
 
 import {RECEIVE_CREATE_MISSION} from './createMission'
@@ -29,6 +29,11 @@ import {qbankToMoment} from '../common'
 const initialState = {}
 export default function missionReducer (state = initialState, action) {
   switch (action.type) {
+    case GET_MISSIONS_OPTIMISTIC:
+      return _.assign({}, state, {
+        isGetMissionsInProgress: true
+      });
+
     case RECEIVE_MISSIONS:
       return _.assign({}, state, {
         missions: action.missions,
@@ -39,7 +44,8 @@ export default function missionReducer (state = initialState, action) {
           genusTypeId: 'assessment-genus%3Afbw-homework-mission%40ODL.MIT.EDU',
           focusedInput: null,
           formError: true
-        }
+        },
+        isGetMissionsInProgress: false
       });
 
     case SELECT_MISSION:

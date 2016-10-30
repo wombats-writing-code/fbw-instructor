@@ -51,6 +51,7 @@ const mapStateToProps = (state, ownProps) => {
     currentBank: state.bank.currentBank ? state.bank.currentBank : null,
     missions: state.mission ? state.mission.missions : [],
     currentMission: state.mission ? state.mission.currentMission : null,
+    isGetMissionsInProgress: state.mission ? state.mission.isGetMissionsInProgress : null,
     view: state.view
   }
 

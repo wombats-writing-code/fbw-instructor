@@ -1,7 +1,8 @@
 
-import DuckImage from '../assets/Duck.jpg'
 import React from 'react'
+let moment = require('moment')
 
+import LoadingBox from '../../../components/LoadingBox'
 import DashboardContainer from '../../Dashboard/'
 import MissionControlContainer from '../../MissionControl/'
 
@@ -90,19 +91,53 @@ export const HomeViewWeb = (props) => {
   }
 
   let createMissionButton = <div />
-
   if (props.currentBank) {
     createMissionButton = <button className="button" onClick={() => props.onClickAddMission()}>Create a mission</button>
   }
 
+  let missionCollection;
+  if (!props.isGetMissionsInProgress) {
+    missionCollection = (
+      <ul key="missionCollection" style={styles.missionCollection}>
+      {_.map(props.missions, (mission, idx) => {
+          let key = `mission_${idx}`;
+          let selectedStyle = (props.currentMission && mission.id === props.currentMission.id) ? styles.selectedMissionItem : null;
+
+          // @Cole can you take a look at this?
+          let editMissionButton;
+          // console.log(moment(mission.deadline).isBefore(moment()));
+          if (true || moment(mission.deadline).isBefore(moment()) ) {
+            editMissionButton =  (<button className="button small" style={styles.rowItemButton}
+                      onClick={(e) => {props.onClickEditMission(mission); e.stopPropagation()}}>Edit</button>)
+          }
+
+          return (
+            <li key={key} style={[styles.rowItem, styles.missionCollectionItem, selectedStyle]} onClick={() => props.onClickMission(mission)}>
+              <div style={styles.rowItemInfo}>
+                <p style={styles.rowItemTitle}>{mission.displayName.text}</p>
+                <p style={styles.rowItemSubtitle}>Closes: {mission.deadline.month} - {mission.deadline.day} - {mission.deadline.year}</p>
+              </div>
+              <div style={styles.rowItemButtons}>
+                {editMissionButton}
+              </div>
+            </li>
+          )
+        })}
+      </ul>
+    )
+  }
+
+  // if there are no missions, and we aren't loading, display an empty box
+  let missionsLoadingBox;
+  if (!props.isGetMissionsInProgress) {
+    missionsLoadingBox = LoadingBox('enter')
+
+  } else if (props.isGetMissionsInProgress && !props.mission) {
+    missionsLoadingBox = LoadingBox('enter-active')
+  }
+
   return (
     <div className="row">
-      {/* <h4>Welcome!</h4>
-      <img
-        alt='This is a duck, because Redux!'
-        className='duck'
-        src={DuckImage} /> */}
-
       <div className="medium-4 large-4 columns"  style={styles.sidebar}>
         <ul style={styles.bankCollection}>
           {_.map(props.banks, (bank, idx) => {
@@ -122,27 +157,12 @@ export const HomeViewWeb = (props) => {
           })}
         </ul>
 
+
+
         {createMissionButton}
 
-        <ul style={styles.missionCollection}>
-          {_.map(props.missions, (mission, idx) => {
-            let key = `mission_${idx}`;
-            let selectedStyle = (props.currentMission && mission.id === props.currentMission.id) ? styles.selectedMissionItem : null;
-
-            return (
-              <li key={key} style={[styles.rowItem, styles.missionCollectionItem, selectedStyle]} onClick={() => props.onClickMission(mission)}>
-                <div style={styles.rowItemInfo}>
-                  <p style={styles.rowItemTitle}>{mission.displayName.text}</p>
-                  <p style={styles.rowItemSubtitle}>Closes: {mission.deadline.month} - {mission.deadline.day} - {mission.deadline.year}</p>
-                </div>
-                <div style={styles.rowItemButtons}>
-                  <button className="button small" style={styles.rowItemButton}
-                          onClick={(e) => {props.onClickEditMission(mission); e.stopPropagation()}}>Edit</button>
-                </div>
-              </li>
-            )
-          })}
-        </ul>
+        {missionCollection}
+        {missionsLoadingBox}
       </div>
 
       <div className="medium-8 large-8 columns">

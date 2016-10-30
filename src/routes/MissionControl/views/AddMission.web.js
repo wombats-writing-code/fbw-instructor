@@ -37,15 +37,46 @@ let styles = {
     display: 'flex',
     alignItems: 'center',
   },
-  missionTypeOption: {
-    marginRight: '1rem'
+  missionTypeSelect: {
+    fontSize: '2rem',
+    marginRight: '2rem',
+    paddingLeft: '1rem',
+    paddingRight: '1rem',
+    paddingBottom: '.5rem',
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderColor: '#bbb',
+    borderRadius: 3,
+    color: '#bbb',
+    cursor: 'pointer',
+    ':hover': {
+      backgroundColor: BASE_STYLES.primaryColor,
+      borderColor: 'transparent',
+      color: '#fff'
+    },
+    color: '#999'
+  },
+  missionTypeSelectText: {
+    fontSize: '1rem',
+    fontWeight: '500'
+  },
+  missionTypeSelected: {
+    backgroundColor: BASE_STYLES.primaryColor,
+    color: '#fff',
+    borderColor: 'transparent',
+    cursor: 'default'
   },
   saveButton: {
-
+    marginLeft: 0,
+    display: 'block',
+    marginRight: 'auto',
+    width: '8rem'
   }
 };
 
 export const AddMissionWeb = (props) => {
+
+  if (!props.newMission) return;
 
   // @Cole: need help
   // use https://github.com/airbnb/react-dates for date picking
@@ -65,6 +96,9 @@ export const AddMissionWeb = (props) => {
     )
   }
 
+  console.log('genusTypeId', props.newMission.genusTypeId)
+
+
   return (
     <div>
       <form onSubmit={(e) => {props.onAddMission(props.newMission, props.currentBank.id); e.preventDefault();}}>
@@ -79,23 +113,16 @@ export const AddMissionWeb = (props) => {
         <div style={styles.formSection}>
           <label style={styles.formLabel}>Mission Type</label>
           <div style={styles.missionTypeOptions}>
-            <div style={styles.missionTypeOption}>
-              <label htmlFor="homework">Homework</label>
-              <input type="radio"
-                     value="assessment-genus%3Afbw-homework-mission%40ODL.MIT.EDU"
-                     id="homework"
-                     defaultChecked={true}
-                     name="missionType"
-                     onChange={(e) => props.updateMissionForm({genusTypeId: e.target.value})} />
+            <div key='homework'
+                  style={[styles.missionTypeSelect, (props.newMission.genusTypeId === 'assessment-genus%3Afbw-homework-mission%40ODL.MIT.EDU') ? styles.missionTypeSelected : null]}
+                  onClick={() => props.updateMissionForm({genusTypeId: 'assessment-genus%3Afbw-homework-mission%40ODL.MIT.EDU'})}>
+              &#x02A2F;  <span style={styles.missionTypeSelectText}>Preflight</span>
             </div>
-            <div style={styles.option}>
-              <label htmlFor="inClass">In-class</label>
-              <input type="radio"
-                     value="assessment-genus%3Afbw-in-class-mission%40ODL.MIT.EDU"
-                     id="inClass"
-                     name="missionType"
-                     onChange={(e) => props.updateMissionForm({genusTypeId: e.target.value})} />
-             </div>
+            <div key='in-class'
+                  style={[styles.missionTypeSelect, (props.newMission.genusTypeId === 'assessment-genus%3Afbw-in-class-mission%40ODL.MIT.EDU') ? styles.missionTypeSelected : null]}
+                  onClick={() => props.updateMissionForm({genusTypeId: 'assessment-genus%3Afbw-in-class-mission%40ODL.MIT.EDU'})}>
+              &#x02A2F; <span style={styles.missionTypeSelectText}>Testflight</span>
+            </div>
           </div>
         </div>
 
@@ -110,7 +137,7 @@ export const AddMissionWeb = (props) => {
         </div>
 
 
-        <div className="row">
+        <div className="">
           {alert}
           {save}
         </div>
