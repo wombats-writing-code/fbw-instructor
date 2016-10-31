@@ -8,6 +8,7 @@ import {RECEIVE_MAPPING} from './getMapping'
 // Reducer
 // ------------------------------------
 const initialState = {
+  modules: null,
   outcomes: null,
   relationships: null
 }

@@ -8,6 +8,7 @@ import {updateEditMissionForm} from '../../reducers/Mission/updateEditMissionFor
 
 import {changeView} from '../../reducers/view'
 
+import {moduleTreeSelector} from './selectors/'
 
 
 const mapDispatchToProps = (dispatch, ownProps) => {
@@ -16,6 +17,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(createMission(newMission, bankId));
       dispatch(changeView({name: 'dashboard', mission: newMission}))
     },
+    // onSelectModule: (module) => dispatch(selectModule(module)),
     onUpdateMission: (newMission, bankId) => { dispatch(updateMission(newMission, bankId)) },
     updateMissionForm: (missionFormData) => { dispatch(updateMissionForm(missionFormData)) },
     updateEditMissionForm: (missionFormData) => { dispatch(updateEditMissionForm(missionFormData)) }
@@ -29,7 +31,8 @@ const mapStateToProps = (state, ownProps) => {
     mission: state.mission.currentMission,
     newMission: state.mission.newMission,
     currentBank: state.bank.currentBank,
-    editMission: state.mission.editMission
+    editMission: state.mission.editMission,
+    moduleTree: moduleTreeSelector(state)
   }
 }
 

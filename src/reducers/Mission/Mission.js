@@ -116,6 +116,24 @@ export default function missionReducer (state = initialState, action) {
         formError = true;
       }
 
+      // let selectedModule = _.clone(state.newMission.selectedModule);
+      // if (action.data.selectedModule) {
+      //   selectedModule = action.data.selectedModule;
+      // }
+
+      let selectedDirectives = _.clone(state.newMission.selectedDirectives) || [];
+      if (action.data.toggledDirective) {
+        if (!state.newMission.selectedDirectives) {
+          selectedDirectives = [action.data.toggledDirective];
+
+        } else if (state.newMission.selectedDirectives.indexOf(action.data.toggledDirective) > -1) {
+          selectedDirectives = _.reject(state.newMission.selectedDirectives, {id: action.data.toggledDirective.id});
+
+        } else {
+          selectedDirectives = [...selectedDirectives, action.data.toggledDirective];
+        }
+      }
+
       return _.assign({}, state, {
         newMission: {
           startTime: newStartTime,
@@ -123,7 +141,9 @@ export default function missionReducer (state = initialState, action) {
           displayName: newDisplayName,
           genusTypeId: newGenusTypeId,
           focusedInput: nextFocusedInput,
-          formError: formError
+          formError: formError,
+          selectedModule: action.data.selectedModule || _.clone(state.newMission.selectedModule),
+          selectedDirectives: selectedDirectives
         }
       })
 

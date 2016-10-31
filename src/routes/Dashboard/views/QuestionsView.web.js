@@ -31,10 +31,15 @@ let styles = {
   },
   directiveCollection: {
     marginLeft: 0,
+    borderLeftWidth: 1,
+    borderLeftColor: '#ddd',
+    borderLeftStyle: 'solid',
     borderRightWidth: 1,
     borderRightColor: '#ddd',
     borderRightStyle: 'solid',
-    flex: 1
+    minWidth: '25%',
+    flex: 1,
+    flexGrow: 0
   },
   questionCollection: {
     marginLeft: 0,
