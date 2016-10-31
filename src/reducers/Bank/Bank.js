@@ -6,6 +6,7 @@ import 'lodash'
 import {RECEIVE_BANKS} from './getBanks'
 import {SELECT_BANK} from './selectBank'
 
+import {RECEIVE_ITEMS} from './getItems'
 
 // ------------------------------------
 // Reducer
@@ -21,6 +22,11 @@ export default function bankReducer (state = initialState, action) {
     case SELECT_BANK:
       return _.assign({}, state, {
         currentBank: action.bank
+      });
+
+    case RECEIVE_ITEMS:
+      return _.assign({}, state, {
+        items: action.items
       });
 
     default:

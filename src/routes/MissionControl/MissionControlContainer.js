@@ -9,6 +9,7 @@ import {updateEditMissionForm} from '../../reducers/Mission/updateEditMissionFor
 import {changeView} from '../../reducers/view'
 
 import {moduleTreeSelector} from './selectors/'
+import {itemsForDirectivesSelector} from './selectors/'
 
 
 const mapDispatchToProps = (dispatch, ownProps) => {
@@ -32,7 +33,8 @@ const mapStateToProps = (state, ownProps) => {
     newMission: state.mission.newMission,
     currentBank: state.bank.currentBank,
     editMission: state.mission.editMission,
-    moduleTree: moduleTreeSelector(state)
+    moduleTree: moduleTreeSelector(state),
+    numberItemsForDirectives: itemsForDirectivesSelector(state),
   }
 }
 

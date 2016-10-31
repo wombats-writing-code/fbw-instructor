@@ -133,10 +133,10 @@ export const AddMissionWeb = (props) => {
   if (props.newMission.selectedModule && props.newMission.selectedDirectives) {
     selectDirectives = (<ul style={[styles.selectList, styles.outcomesList]}>
       {_.map(props.newMission.selectedModule.children, (outcome, idx) => {
-        let selectedStyle = props.newMission.selectedDirectives.indexOf(outcome) > -1 ? styles.listItemSelected : null;
+        let isSelected = _.find(props.newMission.selectedDirectives, (item) => item.outcome === outcome);
         return (
-          <li key={`selectOutcome_${idx}`} style={[styles.listItem, selectedStyle]}
-              onClick={(e) => props.updateMissionForm({toggledDirective: outcome})}>
+          <li key={`selectOutcome_${idx}`} style={[styles.listItem, isSelected ? styles.listItemSelected : null]}
+              onClick={(e) => props.updateMissionForm({toggledDirective: {outcome, numberItems: props.numberItemsForDirectives[outcome.id]}})}>
             {outcome.displayName.text}
           </li>
         )
@@ -147,10 +147,12 @@ export const AddMissionWeb = (props) => {
   let selectedDirectives;
   if (props.newMission.selectedDirectives) {
     selectedDirectives = (<ul style={styles.selectedDirectives}>
-      {_.map(props.newMission.selectedDirectives, (outcome, idx) => {
+      {_.map(props.newMission.selectedDirectives, (item, idx) => {
+        let outcome = item.outcome;
         return (
-          <li key={`selectedDirective_${idx}`}>
-            {outcome.displayName.text}
+          <li key={`selectedDirective_${idx}`} style={styles.selectedDirective}>
+            <span>{props.numberItemsForDirectives[outcome.id]}</span>
+            <span>{outcome.displayName.text}</span>
           </li>
         )
       })}
