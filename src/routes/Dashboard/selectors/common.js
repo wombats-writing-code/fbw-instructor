@@ -16,7 +16,10 @@ export const isTarget = (question) => {
   notCorrectWithinAttempts:
   returns {# of students who did not get this question right within N attempts, # of total students who attempted}
 */
-export const notAchievedWithinAttempts = (questionId, takenResults, maxAttempts) => {
+
+// cjshaw
+// TODO: Make sure this calculation matches the method name
+export const notAchievedOnAttempt = (questionId, takenResults, maxAttempts) => {
 
   let total = [];
   let notAchieved = _.compact(_.map(takenResults, (taken) => {
@@ -27,16 +30,17 @@ export const notAchievedWithinAttempts = (questionId, takenResults, maxAttempts)
 
     for (let i=0; i<responses.length; i++) {
       let response = responses[i];
-      if (!response.isCorrect) {
-        numAttempts++;
-      }
+//      if (!response.isCorrect) {
+//        numAttempts++;
+//      }
 
       // console.log(response, 'numAttempts', numAttempts, maxAttempts, 'max attempt');
 
       // if the response is not correct, and the number of student attempts equals or exceeded the given attempt number,
       // then we say the student has not achieved
       // TODO: clean this up somehow? This could still be Wrong / Right / Wrong pattern
-      if (!response.isCorrect && numAttempts >= maxAttempts) {
+//      if (!response.isCorrect && numAttempts >= maxAttempts) {
+      if (!response.isCorrect) {
         //console.log(_.filter(taken.questions, {'itemId': questionId}));
         return taken;
       }
