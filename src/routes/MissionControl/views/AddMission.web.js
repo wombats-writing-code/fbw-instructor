@@ -221,7 +221,7 @@ export const AddMissionWeb = (props) => {
 
         <div className="">
           {alert}
-          <button className="button" type="submit" style={styles.saveButton}>Save</button>
+          <button className="button" type="submit" style={styles.saveButton}>Create mission</button>
         </div>
 
       </form>

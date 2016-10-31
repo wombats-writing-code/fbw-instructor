@@ -1,10 +1,9 @@
 import { connect } from 'react-redux'
 import Dashboard from './Dashboard'
 
-import {changeView} from '../../reducers/view'
-import {changeMouseOver, changeClick, selectDirective} from '../../reducers/analysis'
+import {changeView, changeMouseOver, changeClick, selectDirective} from '../../reducers/view'
 
-import {outcomesViewSelector} from './selectors/outcomesViewSelector'
+// import {outcomesViewSelector} from './selectors/outcomesViewSelector'
 import {questionsViewSelector} from './selectors/questionsViewSelector'
 
 
@@ -12,9 +11,9 @@ import {questionsViewSelector} from './selectors/questionsViewSelector'
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     onChangeView: (viewName) => dispatch(changeView({name: viewName})),
-    onNodeMouseover: (node, viewName) => dispatch(changeMouseOver(node, viewName)),
-    onNodeClick: (node, viewName) => dispatch(changeClick(node, viewName)),
     onClickDirective: (directive, viewName) => dispatch(selectDirective(directive, viewName))
+    // onNodeMouseover: (node, viewName) => dispatch(changeMouseOver(node, viewName)),
+    // onNodeClick: (node, viewName) => dispatch(changeClick(node, viewName)),
     // onEdgeMouseover: (node) => dispatch()
   }
 }
@@ -22,9 +21,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 const mapStateToProps = (state, ownProps) => {
   return {
     view: state.view,
-    viewState: state.analysis[state.view.name],
-    outcomesViewData: outcomesViewSelector(state),        // might restructure this state shape with viewState
-    questionsViewData: questionsViewSelector(state),
+    // viewState: state.analysis[state.view.name],
+    // outcomesViewData: outcomesViewSelector(state),        // might restructure this state shape with viewState
+    viewData: questionsViewSelector(state),
     mission: state.mission ? state.mission.currentMission : null,
     results: state.mission ? state.mission.results : [],
     isGetResultsInProgress: state.mission ? state.mission.isGetResultsInProgress : false,

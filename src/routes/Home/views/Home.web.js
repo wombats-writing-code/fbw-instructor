@@ -19,7 +19,11 @@ let styles = {
     textAlign: 'left',
     cursor: 'pointer',
   },
+  rowItemTitle: {
+    fontWeight: "500"
+  },
   rowItemSubtitle: {
+    fontSize: '.9em',
     color: '#555'
   },
   bankCollectionItem: {
@@ -70,6 +74,11 @@ let styles = {
     flex: 1,
     display: 'flex',
     justifyContent: 'space-between'
+  },
+  dateText: {
+  },
+  date: {
+    fontWeight: '500'
   }
 }
 
@@ -104,22 +113,27 @@ export const HomeViewWeb = (props) => {
           let selectedStyle = (props.currentMission && mission.id === props.currentMission.id) ? styles.selectedMissionItem : null;
 
           // @Cole can you take a look at this?
-          let editMissionButton;
-          // console.log(moment(mission.deadline).isBefore(moment()));
-          if (true || moment(mission.deadline).isBefore(moment()) ) {
-            editMissionButton =  (<button className="button small" style={styles.rowItemButton}
-                      onClick={(e) => {props.onClickEditMission(mission); e.stopPropagation()}}>Edit</button>)
-          }
+          // let editMissionButton;
+          // // console.log(moment(mission.deadline).isBefore(moment()));
+          // if (moment(mission.deadline).isBefore(moment()) ) {
+          //   editMissionButton =  (<button className="button small" style={styles.rowItemButton}
+          //             onClick={(e) => {props.onClickEditMission(mission); e.stopPropagation()}}>Edit</button>)
+          // }
 
           return (
             <li key={key} style={[styles.rowItem, styles.missionCollectionItem, selectedStyle]} onClick={() => props.onClickMission(mission)}>
               <div style={styles.rowItemInfo}>
                 <p style={styles.rowItemTitle}>{mission.displayName.text}</p>
-                <p style={styles.rowItemSubtitle}>Closes: {mission.deadline.month} - {mission.deadline.day} - {mission.deadline.year}</p>
+                <p style={styles.rowItemSubtitle}>
+                  <span style={styles.dateText}>From </span>
+                  <span style={styles.date}>{moment(mission.startTime).format('dddd MMM D')} </span>
+                  <span style={styles.dateText}>to </span>
+                  <span style={styles.date}>{moment(mission.deadline).format('dddd MMM D')}</span>
+                  </p>
               </div>
-              <div style={styles.rowItemButtons}>
+              {/* <div style={styles.rowItemButtons}>
                 {editMissionButton}
-              </div>
+              </div> */}
             </li>
           )
         })}
