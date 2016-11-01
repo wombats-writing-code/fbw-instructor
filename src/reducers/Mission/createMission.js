@@ -1,7 +1,13 @@
 
 import 'lodash'
 
-import {getDomain, momentToQBank} from '../common'
+import {
+  getDomain,
+  momentToQBank,
+  afterMidnight,
+  beforeMidnight,
+  LO_SCAFFOLD_MISSION_GENUS_TYPE
+} from '../common'
 
 // ------------------------------------
 // Actions
@@ -24,14 +30,27 @@ export function createMissionOptimistic(mission) {
 }
 
 // this is the actual async createMission function that calls qbank
-export function createMission(data, bankId) {
+export function createMission(data, bankId, directivesItemsMap, itemBankId) {
   // cjshaw
   // TODO: Set time to a minute after midnight to startTime, midnight for deadline
   let missionParams = {
         displayName: data.displayName,
         genusTypeId: data.genusTypeId,
-        startTime: momentToQBank(data.startTime),
-        deadline: momentToQBank(data.deadline)
+        startTime: afterMidnight(momentToQBank(data.startTime)),
+        deadline: beforeMidnight(momentToQBank(data.deadline)),
+        sections: _.map(data.selectedDirectives, (directive) => {
+          let outcomeId = directive.outcome.id,
+            numItems = directivesItemsMap[outcomeId];
+
+          return {
+            type: LO_SCAFFOLD_MISSION_GENUS_TYPE,
+            learningObjectiveId: outcomeId,
+            quota: Math.floor(numItems / 2) || 1,
+            waypointQuota: 1,
+            itemBankId: itemBankId,
+            minimumProficiency: (Math.floor(numItems / 4) || 1).toString()
+          }
+        })
       },
     fetchParams = {
       body: JSON.stringify(missionParams),
@@ -40,7 +59,7 @@ export function createMission(data, bankId) {
       },
       method: 'POST'
     };
-
+    console.log(missionParams)
   return function(dispatch) {
     // here starts the code that actually gets executed when the
     // createMission action creator is dispatched

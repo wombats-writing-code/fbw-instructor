@@ -122,13 +122,15 @@ export const AddMissionWeb = (props) => {
 
   let alert = <div />;
   if (props.newMission.formError) {
-    // alert = (
-    //   <div className="formError">
-    //     Please fill in all form data before saving.
-    //   </div>
-    // )
+//    alert = (
+      // This should really be put back in ... after the demo?
+//       <div className="formError">
+//         Please fill in all form data before saving.
+//       </div>
+//    )
   } else {
   }
+
   let selectDirectives;
   if (props.newMission.selectedModule && props.newMission.selectedDirectives) {
     selectDirectives = (<ul style={[styles.selectList, styles.outcomesList]}>
@@ -161,7 +163,7 @@ export const AddMissionWeb = (props) => {
 
   return (
     <div>
-      <form onSubmit={(e) => {props.onAddMission(props.newMission, props.currentBank.id); e.preventDefault();}}>
+      <form onSubmit={(e) => {props.onAddMission(props.newMission, props.currentBank.id, props.numberItemsForDirectives, props.itemBankId); e.preventDefault();}}>
         <div style={styles.formSection}>
           <label style={styles.formLabel} htmlFor="displayName">Mission Name</label>
           <input type="text" style={styles.textInput}

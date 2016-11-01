@@ -14,8 +14,8 @@ import {itemsForDirectivesSelector} from './selectors/'
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    onAddMission: (newMission, bankId) => {
-      dispatch(createMission(newMission, bankId));
+    onAddMission: (newMission, bankId, directivesItemsMap, itemBankId) => {
+      dispatch(createMission(newMission, bankId, directivesItemsMap, itemBankId));
       dispatch(changeView({name: 'dashboard', mission: newMission}))
     },
     // onSelectModule: (module) => dispatch(selectModule(module)),
@@ -32,6 +32,7 @@ const mapStateToProps = (state, ownProps) => {
     mission: state.mission.currentMission,
     newMission: state.mission.newMission,
     currentBank: state.bank.currentBank,
+    itemBankId: state.bank.items[0].bankId, // need this to create the directives correctly on server-side
     editMission: state.mission.editMission,
     moduleTree: moduleTreeSelector(state),
     numberItemsForDirectives: itemsForDirectivesSelector(state),
