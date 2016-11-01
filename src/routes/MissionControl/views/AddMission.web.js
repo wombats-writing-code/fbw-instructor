@@ -95,7 +95,7 @@ export const AddMissionWeb = (props) => {
       <button className="button" type="submit" style={styles.saveButton}>Save</button>
     )
   }
-
+// TODO: Add "add directive" controls
   console.log('genusTypeId', props.newMission.genusTypeId)
 
 

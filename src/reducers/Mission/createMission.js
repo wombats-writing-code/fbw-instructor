@@ -25,6 +25,8 @@ export function createMissionOptimistic(mission) {
 
 // this is the actual async createMission function that calls qbank
 export function createMission(data, bankId) {
+  // cjshaw
+  // TODO: Set time to a minute after midnight to startTime, midnight for deadline
   let missionParams = {
         displayName: data.displayName,
         genusTypeId: data.genusTypeId,
