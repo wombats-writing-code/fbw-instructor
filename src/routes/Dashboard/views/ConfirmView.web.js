@@ -42,7 +42,6 @@ export const ConfirmViewWeb = (props) => {
     <div style={styles.container}>
       <p>The Fly-by-Wire system recommends the following action to take:</p>
     <button className="button button-secondary">Approve and launch for all</button>
-    <button className="button button-secondary">Approve and launch for all</button>
 
       <ul style={styles.studentCollection}>
         {_.map(viewData.students, (student, idx) => {
