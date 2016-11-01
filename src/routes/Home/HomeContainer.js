@@ -15,6 +15,9 @@ import {changeView} from '../../reducers/view'
 
 import {getResults} from '../../reducers/Mission/getResults'
 
+// this should ONLY be used for simpleLogin / non-LMS installs. This is NOT scalable.
+import {BANK_TO_DOMAIN, BANK_TO_LIBRARY} from '../../reducers/common'
+
 /*  This is a container component. Notice it does not contain any JSX,
     nor does it import React. This component is **only** responsible for
     wiring in the actions and state necessary to render a presentational
@@ -33,8 +36,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(selectBank(bank));
       dispatch(getMissions(bank.id));
       dispatch(selectMission(null));
-      dispatch(getMapping(bank.id, ['accounting']))     // @Cole: how do I find out the department name from the bank name?
-      dispatch(getItems(bank.id));
+      dispatch(getMapping(bank.id, [BANK_TO_DOMAIN[bank.id]]))     // @Cole: how do I find out the department name from the bank name?
+      dispatch(getItems(BANK_TO_LIBRARY[bank.id]));  // these two mappings need to be modified after we switch to D2L / LMS
     },
     onClickMission: (mission) => {
       dispatch(getResults(mission));

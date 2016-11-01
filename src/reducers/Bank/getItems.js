@@ -22,8 +22,6 @@ export function getItemsOptimistic(data) {
   return {type: GET_ITEMS, data };
 }
 
-let banks = ['assessment.Item%3A57d70ed471e482a74879349a%40bazzim.MIT.EDU', 'assessment.Item%3A576d6d3271e4828c441d721a%40bazzim.MIT.EDU']
-
 export function getItems(bankId) {
 
   return function(dispatch) {
