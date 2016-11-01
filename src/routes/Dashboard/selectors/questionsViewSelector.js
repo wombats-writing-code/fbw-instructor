@@ -6,14 +6,15 @@ import 'moment-timezone'
 import {getResults, getMapping, isTarget, notAchievedOnAttempt} from './common'
 
 export const questionsViewSelector = createSelector([getResults, getMapping], (results, mapping) => {
-
   if (!results || !mapping) return null;
 
   // console.log('questionsViewSelector results', results, ' questions', allQuestions, 'mapping', mapping);
 
-  let allQuestions = _.flatMap(results, 'questions');
+  let allQuestions = _.flatMap(_.flatMap(results, 'sections'), 'questions');
   let targetQuestions =  _.filter(_.uniqBy(allQuestions, 'itemId'), (q) => isTarget(q));
   let targetOutcomes = _.compact(_.map(_.uniq(_.flatMap(targetQuestions, 'learningObjectiveIds')), (id) => _.find(mapping.outcomes, {id: id})));
+
+  console.log('allQuestions', allQuestions)
 
   if (targetOutcomes.length === 0) return null;
 
