@@ -10,6 +10,7 @@ import {selectBank} from '../../reducers/Bank/selectBank'
 import {getItems} from '../../reducers/Bank/getItems'
 
 import {selectMission} from '../../reducers/Mission/selectMission'
+import {clearSelectedMission} from '../../reducers/Mission/clearSelectedMission'
 import {changeView} from '../../reducers/view'
 
 import {getResults} from '../../reducers/Mission/getResults'
@@ -41,8 +42,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       // dispatch(changeView({name: 'dashboard.outcomesView', mission: mission}))      // for development only
       dispatch(changeView({name: 'dashboard.preflightView', mission: mission}))      // true default
     },
-    onClickAddMission: () => dispatch(changeView({name: 'add-mission'})),
-    onClickEditMission: (mission) => {
+    onClickAddMission: () =>
+    {
+      dispatch(clearSelectedMission())
+      dispatch(changeView({name: 'add-mission'}))
+    },
+      onClickEditMission: (mission) => {
       dispatch(selectMission(mission));
       dispatch(changeView({name: 'edit-mission', mission: mission}));
     },

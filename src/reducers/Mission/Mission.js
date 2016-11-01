@@ -7,6 +7,7 @@ import {END_DATE} from 'react-dates/constants'
 
 import {GET_MISSIONS_OPTIMISTIC, RECEIVE_MISSIONS} from './getMissions'
 import {SELECT_MISSION} from './selectMission'
+import {CLEAR_SELECTED_MISSION} from './clearSelectedMission'
 
 import {RECEIVE_CREATE_MISSION} from './createMission'
 import {RECEIVE_UPDATE_MISSION} from './updateMission'
@@ -61,6 +62,11 @@ export default function missionReducer (state = initialState, action) {
           startTime: qbankToMoment(action.mission.startTime),
           deadline: qbankToMoment(action.mission.deadline)
         } : null
+      })
+
+    case CLEAR_SELECTED_MISSION:
+      return _.assign({}, state, {
+        currentMission: null
       })
 
     case GET_RESULTS_OPTIMISTIC:
