@@ -6,6 +6,8 @@ import LoadingBox from '../../../components/LoadingBox'
 import DashboardContainer from '../../Dashboard/'
 import MissionControlContainer from '../../MissionControl/'
 
+import {PRE_FLIGHT_MISSION} from '../../../reducers/common'
+
 import BASE_STYLES from '../../../styles/baseStyles'
 
 let styles = {
@@ -108,7 +110,7 @@ export const HomeViewWeb = (props) => {
   if (!props.isGetMissionsInProgress) {
     missionCollection = (
       <ul key="missionCollection" style={styles.missionCollection}>
-      {_.map(props.missions, (mission, idx) => {
+      {_.map(_.filter(props.missions, {genusTypeId: PRE_FLIGHT_MISSION}), (mission, idx) => {
           let key = `mission_${idx}`;
           let selectedStyle = (props.currentMission && mission.id === props.currentMission.id) ? styles.selectedMissionItem : null;
 

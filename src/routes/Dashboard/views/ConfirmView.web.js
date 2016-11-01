@@ -38,10 +38,13 @@ export const ConfirmViewWeb = (props) => {
   //   )
   // }
 
+  // TODO: I think we still need to include a "release date" option for launching these
+
   return (
     <div style={styles.container}>
       <p>The Fly-by-Wire system recommends the following action to take:</p>
-    <button className="button button-secondary">Approve and launch for all</button>
+    <button className="button button-secondary"
+            onClick={() => props.createTestFlightMissions(viewData.students, props.currentBankId)}>Approve and launch for all</button>
 
       <ul style={styles.studentCollection}>
         {_.map(viewData.students, (student, idx) => {

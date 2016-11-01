@@ -10,6 +10,7 @@ import {SELECT_MISSION} from './selectMission'
 import {CLEAR_SELECTED_MISSION} from './clearSelectedMission'
 
 import {RECEIVE_CREATE_MISSION} from './createMission'
+import {RECEIVE_CREATE_TEST_FLIGHT_MISSIONS} from './createTestFlightMissions'
 import {RECEIVE_UPDATE_MISSION} from './updateMission'
 import {UPDATE_MISSION_FORM} from './updateMissionForm'
 import {UPDATE_EDIT_MISSION_FORM} from './updateEditMissionForm'
@@ -193,6 +194,10 @@ export default function missionReducer (state = initialState, action) {
           formError: formErrorEdit
         }
       })
+
+    case RECEIVE_CREATE_TEST_FLIGHT_MISSIONS:
+      console.log('Created all test flight missions')
+      return _.assign({}, state)
 
     default:
       return state

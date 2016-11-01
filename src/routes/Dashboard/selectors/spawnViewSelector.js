@@ -32,7 +32,6 @@ export const spawnViewSelector = createSelector([getResults, getMapping], (resul
         })).length;
       if (numberRight < parseInt(section.minimumProficiency)) {
         newDirectives.push({
-          type: '',
           learningObjectiveId: section.learningObjectiveId,
           quota: targetQuestions.length,
           waypointQuota: 1,
@@ -41,10 +40,11 @@ export const spawnViewSelector = createSelector([getResults, getMapping], (resul
         })
       }
     })
-    
+
     return {
       name: parseAgentId(taken.takingAgentId),
       nextMission: {
+        name: `parseAgentId(taken.takingAgentId)'s TestFlight for ${taken.displayName.text}`,
         directives: newDirectives,
         numberItemsForDirectives: _.sumBy(newDirectives, 'quota')
       }
