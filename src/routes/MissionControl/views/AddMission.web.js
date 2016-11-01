@@ -129,7 +129,6 @@ export const AddMissionWeb = (props) => {
     // )
   } else {
   }
-// TODO: Add "add directive" controls cjshaw
   let selectDirectives;
   if (props.newMission.selectedModule && props.newMission.selectedDirectives) {
     selectDirectives = (<ul style={[styles.selectList, styles.outcomesList]}>

@@ -128,8 +128,9 @@ export default function missionReducer (state = initialState, action) {
       // }
 
       let selectedDirectives = _.clone(state.newMission.selectedDirectives) || [];
-      let isAlreadySelected = _.find(state.newMission.selectedDirectives, (item) => item.outcome.id === action.data.toggledDirective.outcome.id);
       if (action.data.toggledDirective) {
+        let isAlreadySelected = _.find(state.newMission.selectedDirectives, (item) => item.outcome.id === action.data.toggledDirective.outcome.id);
+      
         if (!state.newMission.selectedDirectives) {
           selectedDirectives = [action.data.toggledDirective];
 
