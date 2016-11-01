@@ -36,10 +36,11 @@ let styles = {
   missionTypeOptions: {
     display: 'flex',
     alignItems: 'center',
+    justifyContent: 'space-between'
   },
   missionTypeSelect: {
+    width: '48%',
     fontSize: '2rem',
-    marginRight: '2rem',
     paddingLeft: '1rem',
     paddingRight: '1rem',
     paddingBottom: '.5rem',
@@ -66,6 +67,44 @@ let styles = {
     borderColor: 'transparent',
     cursor: 'default'
   },
+  selectFromLists: {
+    display: 'flex',
+  },
+  selectList: {
+    fontSize: '.875rem',
+    marginLeft: 0,
+    listStyle: 'none',
+    textAlign: 'left',
+    flex: 1
+  },
+  outcomesList: {
+    flex: 2,
+  },
+  listItem: {
+    paddingLeft: '1em',
+    paddingRight: '1em',
+    paddingTop: '.75rem',
+    paddingBottom: '.625rem',
+    borderBottom: '1px solid #ddd',
+    ':hover': {
+      backgroundColor: '#f8f8f8'
+    },
+    cursor: 'pointer'
+  },
+  listItemSelected: {
+    backgroundColor: '#f8f8f8',
+    cursor: 'default'
+  },
+  selectedDirectives: {
+    marginLeft: 0,
+    listStyle: 'none',
+    textAlign: 'left',
+    fontSize: '.875rem',
+    flex: 2
+  },
+  selectedDirective: {
+
+  },
   saveButton: {
     marginLeft: 0,
     display: 'block',
@@ -78,26 +117,45 @@ export const AddMissionWeb = (props) => {
 
   if (!props.newMission) return;
 
-  // @Cole: need help
-  // use https://github.com/airbnb/react-dates for date picking
-
-  let alert = <div />,
-    save = <div />;
-
+  let alert = <div />;
   if (props.newMission.formError) {
-    alert = (
-      <div className="formError">
-        Please fill in all form data before saving.
-      </div>
-    )
+    // alert = (
+    //   <div className="formError">
+    //     Please fill in all form data before saving.
+    //   </div>
+    // )
   } else {
-    save = (
-      <button className="button" type="submit" style={styles.saveButton}>Save</button>
-    )
   }
-// TODO: Add "add directive" controls
-  console.log('genusTypeId', props.newMission.genusTypeId)
+// TODO: Add "add directive" controls cjshaw
+  let selectDirectives;
+  if (props.newMission.selectedModule && props.newMission.selectedDirectives) {
+    selectDirectives = (<ul style={[styles.selectList, styles.outcomesList]}>
+      {_.map(props.newMission.selectedModule.children, (outcome, idx) => {
+        let isSelected = _.find(props.newMission.selectedDirectives, (item) => item.outcome === outcome);
+        return (
+          <li key={`selectOutcome_${idx}`} style={[styles.listItem, isSelected ? styles.listItemSelected : null]}
+              onClick={(e) => props.updateMissionForm({toggledDirective: {outcome, numberItems: props.numberItemsForDirectives[outcome.id]}})}>
+            {outcome.displayName.text}
+          </li>
+        )
+      })}
+    </ul>)
+  }
 
+  let selectedDirectives;
+  if (props.newMission.selectedDirectives) {
+    selectedDirectives = (<ul style={styles.selectedDirectives}>
+      {_.map(props.newMission.selectedDirectives, (item, idx) => {
+        let outcome = item.outcome;
+        return (
+          <li key={`selectedDirective_${idx}`} style={styles.selectedDirective}>
+            <span>{props.numberItemsForDirectives[outcome.id]}</span>
+            <span>{outcome.displayName.text}</span>
+          </li>
+        )
+      })}
+    </ul>)
+  }
 
   return (
     <div>
@@ -128,7 +186,7 @@ export const AddMissionWeb = (props) => {
 
 
         <div style={styles.formSection} className="clearfix">
-          <label style={styles.formLabel}>Mission Dates</label>
+          <label style={styles.formLabel}>Dates</label>
           <DateRangePicker style={styles.datepicker} onDatesChange={props.updateMissionForm}
                            onFocusChange={(input) => props.updateMissionForm({focusedInput: input})}
                            focusedInput={props.newMission.focusedInput}
@@ -136,11 +194,34 @@ export const AddMissionWeb = (props) => {
                            endDate={props.newMission.deadline} />
         </div>
 
+        <div style={styles.formSection} className="clearfix">
+          <label style={styles.formLabel}>Selected directives</label>
+
+
+          <div style={styles.selectFromLists}>
+            {selectedDirectives}
+
+            <ol style={[styles.selectList]}>
+              {_.map(props.moduleTree.children, (m, idx) => {
+                let selectedStyle = props.newMission.selectedModule === m ? styles.listItemSelected : null;
+                return (
+                  <li key={`selectModule_${idx}`} style={[styles.listItem, selectedStyle]}
+                      onClick={(e) => props.updateMissionForm({selectedModule: m})}>{m.displayName}
+                  </li>
+                )
+              })}
+            </ol>
+
+            {selectDirectives}
+          </div>
+        </div>
+
 
         <div className="">
           {alert}
-          {save}
+          <button className="button" type="submit" style={styles.saveButton}>Create mission</button>
         </div>
+
       </form>
 
     </div>

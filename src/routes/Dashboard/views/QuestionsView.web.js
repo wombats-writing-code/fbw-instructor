@@ -24,17 +24,22 @@ import React, {Component} from 'react';
 import 'lodash'
 
 import BASE_STYLES from '../../../styles/baseStyles'
-
+import EmptyState from '../../../components/EmptyState'
 let styles = {
   container: {
     display: 'flex'
   },
   directiveCollection: {
     marginLeft: 0,
+    borderLeftWidth: 1,
+    borderLeftColor: '#ddd',
+    borderLeftStyle: 'solid',
     borderRightWidth: 1,
     borderRightColor: '#ddd',
     borderRightStyle: 'solid',
-    flex: 1
+    minWidth: '25%',
+    flex: 1,
+    flexGrow: 0
   },
   questionCollection: {
     marginLeft: 0,
@@ -106,7 +111,13 @@ export const QuestionsViewWeb = (props) => {
 
   let viewData = props.questionsViewData;
 
-  if (!props.viewState || !viewData) return null;
+  if (!props.viewState || !viewData || !viewData.resultsByDirective) {
+    return (
+      <div className="columns">
+        { EmptyState('There are no results yet. Try refreshing or waiting for a student to try a question.')}
+      </div>
+    )
+  }
 
   let currentDirectiveId = props.viewState.currentDirective ? props.viewState.currentDirective.id : null;
   let questionCollection;

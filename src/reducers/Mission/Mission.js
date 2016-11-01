@@ -51,7 +51,7 @@ export default function missionReducer (state = initialState, action) {
     case SELECT_MISSION:
       return _.assign({}, state, {
         currentMission: action.mission,
-        editMission: {
+        editMission: action.mission ? {
           id: action.mission.id,
           assessmentOfferedId: action.mission.assessmentOfferedId,
           displayName: action.mission.displayName.text,
@@ -60,7 +60,7 @@ export default function missionReducer (state = initialState, action) {
           formError: false,
           startTime: qbankToMoment(action.mission.startTime),
           deadline: qbankToMoment(action.mission.deadline)
-        }
+        } : null
       })
 
     case GET_RESULTS_OPTIMISTIC:
@@ -116,6 +116,27 @@ export default function missionReducer (state = initialState, action) {
         formError = true;
       }
 
+      // let selectedModule = _.clone(state.newMission.selectedModule);
+      // if (action.data.selectedModule) {
+      //   selectedModule = action.data.selectedModule;
+      // }
+
+      let selectedDirectives = _.clone(state.newMission.selectedDirectives) || [];
+      let isAlreadySelected = _.find(state.newMission.selectedDirectives, (item) => item.outcome.id === action.data.toggledDirective.outcome.id);
+      if (action.data.toggledDirective) {
+        if (!state.newMission.selectedDirectives) {
+          selectedDirectives = [action.data.toggledDirective];
+
+        } else if (isAlreadySelected) {
+          selectedDirectives = _.reject(state.newMission.selectedDirectives, (item) => item.outcome.id === isAlreadySelected.outcome.id);
+
+        } else {
+          selectedDirectives = [...selectedDirectives, action.data.toggledDirective];
+        }
+      }
+
+      // console.log('selectedDirectives', selectedDirectives)
+
       return _.assign({}, state, {
         newMission: {
           startTime: newStartTime,
@@ -123,7 +144,9 @@ export default function missionReducer (state = initialState, action) {
           displayName: newDisplayName,
           genusTypeId: newGenusTypeId,
           focusedInput: nextFocusedInput,
-          formError: formError
+          formError: formError,
+          selectedModule: action.data.selectedModule || _.clone(state.newMission.selectedModule),
+          selectedDirectives: selectedDirectives
         }
       })
 

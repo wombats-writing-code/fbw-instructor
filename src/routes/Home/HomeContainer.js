@@ -7,6 +7,8 @@ import {getMissions} from '../../reducers/Mission/getMissions'
 import {getBanks} from '../../reducers/Bank/getBanks'
 import {selectBank} from '../../reducers/Bank/selectBank'
 
+import {getItems} from '../../reducers/Bank/getItems'
+
 import {selectMission} from '../../reducers/Mission/selectMission'
 import {changeView} from '../../reducers/view'
 
@@ -25,16 +27,19 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     getMissions: (bankId) => dispatch(getMissions(bankId)),    // this gets called when the Home component mounts
     getBanks: () => dispatch(getBanks()),     // this gets called when the Home component mounts
+
     onClickBank: (bank) => {
       dispatch(selectBank(bank));
       dispatch(getMissions(bank.id));
+      dispatch(selectMission(null));
       dispatch(getMapping(bank.id, ['accounting']))     // @Cole: how do I find out the department name from the bank name?
+      dispatch(getItems(bank.id));
     },
     onClickMission: (mission) => {
       dispatch(getResults(mission));
       dispatch(selectMission(mission));
       // dispatch(changeView({name: 'dashboard.outcomesView', mission: mission}))      // for development only
-      dispatch(changeView({name: 'dashboard.questionsView', mission: mission}))      // true default
+      dispatch(changeView({name: 'dashboard.preflightView', mission: mission}))      // true default
     },
     onClickAddMission: () => dispatch(changeView({name: 'add-mission'})),
     onClickEditMission: (mission) => {
