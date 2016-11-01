@@ -1,7 +1,7 @@
 
 import 'lodash'
 
-import {getDomain} from '../common'
+import {getDomain, convertPythonDateToJS} from '../common'
 
 // ----
 // Action types
@@ -40,6 +40,13 @@ export function getMissions(bankId) {
     .then((res) => res.json())
     .then((missions) => {
       console.log('received getting missions', missions);
+      // JavaScript months run from 1-12, Python months run from 0-11. We need to adjust the dates here.
+      missions = _.map(missions, (mission) => {
+        return _.assign({}, mission, {
+          startTime: convertPythonDateToJS(mission.startTime),
+          deadline: convertPythonDateToJS(mission.deadline)
+        })
+      })
 
       dispatch(receiveMissions(missions));
     })
