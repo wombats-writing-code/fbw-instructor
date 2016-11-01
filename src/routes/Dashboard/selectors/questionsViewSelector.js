@@ -3,7 +3,7 @@ import 'lodash'
 import 'moment'
 import 'moment-timezone'
 
-import {getResults, getMapping, isTarget, notAchievedWithinAttempts} from './common'
+import {getResults, getMapping, isTarget, notAchievedOnAttempt} from './common'
 
 export const questionsViewSelector = createSelector([getResults, getMapping], (results, mapping) => {
 
@@ -25,7 +25,7 @@ export const questionsViewSelector = createSelector([getResults, getMapping], (r
     let question = arrayQuestions[0];
     // hmmm: note to self: there could be more than one question per directive...we should show an array of arrays
 
-    let {notAchieved, total} = notAchievedWithinAttempts(question.itemId, results, 1);
+    let {notAchieved, total} = notAchievedOnAttempt(question.itemId, results, 1);
 
     result[outcomeId] = result[outcomeId] || [];
     result[outcomeId].push({
