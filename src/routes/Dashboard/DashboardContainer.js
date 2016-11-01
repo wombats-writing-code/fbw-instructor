@@ -5,7 +5,7 @@ import {changeView, changeMouseOver, changeClick, selectDirective} from '../../r
 
 // import {outcomesViewSelector} from './selectors/outcomesViewSelector'
 import {questionsViewSelector} from './selectors/questionsViewSelector'
-
+import {spawnViewSelector} from './selectors/spawnViewSelector'
 
 
 const mapDispatchToProps = (dispatch, ownProps) => {
@@ -23,7 +23,7 @@ const mapStateToProps = (state, ownProps) => {
     view: state.view,
     // viewState: state.analysis[state.view.name],
     // outcomesViewData: outcomesViewSelector(state),        // might restructure this state shape with viewState
-    viewData: questionsViewSelector(state),
+    viewData: state.view.name === 'dashboard.confirmView' ? spawnViewSelector(state) : questionsViewSelector(state),
     mission: state.mission ? state.mission.currentMission : null,
     results: state.mission ? state.mission.results : [],
     isGetResultsInProgress: state.mission ? state.mission.isGetResultsInProgress : false,

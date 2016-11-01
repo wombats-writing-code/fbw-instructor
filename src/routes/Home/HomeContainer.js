@@ -31,6 +31,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     onClickBank: (bank) => {
       dispatch(selectBank(bank));
       dispatch(getMissions(bank.id));
+      dispatch(selectMission(null));
       dispatch(getMapping(bank.id, ['accounting']))     // @Cole: how do I find out the department name from the bank name?
       dispatch(getItems(bank.id));
     },

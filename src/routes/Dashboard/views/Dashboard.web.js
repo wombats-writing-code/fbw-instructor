@@ -5,6 +5,7 @@ import React, {Component} from 'react'
 import {QuestionsViewWeb} from './QuestionsView.web'
 // import {OutcomesViewWeb} from './OutcomesView.web'
 import {PreflightViewWeb} from './PreflightView.web'
+import {ConfirmViewWeb} from './ConfirmView.web'
 
 import LoadingBox from '../../../components/LoadingBox'
 
@@ -62,6 +63,11 @@ export const DashboardViewWeb = (props) => {
 
     case 'dashboard.preflightView':
       view = PreflightViewWeb(props);
+      break;
+
+    case 'dashboard.confirmView':
+      view = ConfirmViewWeb(props);
+      break;
   }
 
 
@@ -100,10 +106,10 @@ export const DashboardViewWeb = (props) => {
               </a>
           </li>
           <li style={styles.viewControlChild}>
-            <a className="button" style={[styles.viewControlButton, props.view.name === 'dashboard.reviewView' ? styles.viewControlButtonActive : null]}
-              onClick={() => props.onChangeView('dashboard.reviewView')}>
+            <a className="button" style={[styles.viewControlButton, props.view.name === 'dashboard.confirmView' ? styles.viewControlButtonActive : null]}
+              onClick={() => props.onChangeView('dashboard.confirmView')}>
               <span style={styles.processNumber}>2</span>
-              Review</a>
+              Confirm</a>
           </li>
           <li style={styles.viewControlChild}>
             <a className="button" style={[styles.viewControlButton, props.view.name === 'dashboard.testflightView' ? styles.viewControlButtonActive : null]}

@@ -51,7 +51,7 @@ export default function missionReducer (state = initialState, action) {
     case SELECT_MISSION:
       return _.assign({}, state, {
         currentMission: action.mission,
-        editMission: {
+        editMission: action.mission ? {
           id: action.mission.id,
           assessmentOfferedId: action.mission.assessmentOfferedId,
           displayName: action.mission.displayName.text,
@@ -60,7 +60,7 @@ export default function missionReducer (state = initialState, action) {
           formError: false,
           startTime: qbankToMoment(action.mission.startTime),
           deadline: qbankToMoment(action.mission.deadline)
-        }
+        } : null
       })
 
     case GET_RESULTS_OPTIMISTIC:

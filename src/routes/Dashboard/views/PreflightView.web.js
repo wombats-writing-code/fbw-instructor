@@ -91,12 +91,15 @@ export const PreflightViewWeb = (props) => {
   let view = props.view;
   let viewData = props.viewData;
 
-  if (!view) {
+  if (!props.isGetResultsInProgress && (!view || !viewData)) {
     return (
       <div className="columns">
         { EmptyState('There are no results yet. Try refreshing or waiting for a student to try a question.')}
       </div>
     )
+
+  } else if (!view || !viewData) {
+    return null;
   }
 
   let currentDirectiveId = view.currentDirective ? view.currentDirective.id : null;
@@ -128,7 +131,7 @@ export const PreflightViewWeb = (props) => {
     <div style={styles.container}>
       <ul style={styles.directiveCollection} className="clearfix">
         {_.map(viewData.directives, (outcome, idx) => {
-            let lastItemStyle = idx === viewData.directives.length-1 ? styles.directiveItemLast : null
+            let lastItemStyle = idx === viewData.directives.length-1 ? styles.directiveItemLast : null;
             return (
               <div key={`outcome_${idx}`}
                   style={[styles.directiveItem, view.currentDirective === outcome ? styles.directiveItemSelected : null, lastItemStyle]}
