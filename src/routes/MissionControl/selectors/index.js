@@ -6,7 +6,7 @@ const getModules = (state) => state.mapping ? state.mapping.modules : null
 const getOutcomes = (state) => state.mapping ? state.mapping.outcomes : null
 const getRelationships = (state) => state.mapping ? state.mapping.relationships : null
 const getItems = (state) => state.bank ? state.bank.items : null
-const getSelectedDirectives = (state) => state.mission && state.newMission ? state.newMission.selectedDirectives : null
+const getSelectedDirectives = (state) => state.mission && state.mission.newMission ? state.mission.newMission.selectedDirectives : null
 
 
 export const moduleTreeSelector = createSelector([getModules, getOutcomes, getRelationships], (modules, outcomes, relationships) => {
@@ -45,17 +45,18 @@ export const moduleTreeSelector = createSelector([getModules, getOutcomes, getRe
 
 export const itemsForDirectivesSelector = createSelector([getSelectedDirectives, getItems], (selectedDirectives, allItems) => {
 
-  console.log('allItems', allItems, 'selectedDirectives', selectedDirectives);
+  //console.log('allItems', allItems, 'selectedDirectives', selectedDirectives);
 
   let selectedDirectiveIds = _.map(selectedDirectives, 'outcome.id');
 
   let numberItemsForDirectives = _.reduce(allItems, (result, item) => {
     if (selectedDirectiveIds.indexOf(item.learningObjectiveIds[0]) > -1) {
-      result[item.itemId] = (result[item.itemId] || 0) + 1;
+      result[item.learningObjectiveIds[0]] = (result[item.learningObjectiveIds[0]] || 0) + 1;
     }
 
     return result;
   }, {});
 
+  // currently this is the full count of all items for a given LO
   return numberItemsForDirectives;
 })

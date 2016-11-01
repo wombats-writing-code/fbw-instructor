@@ -14,8 +14,8 @@ export const GET_ITEMS = 'GET_ITEMS'
 // Actions
 // ------------------------------------
 
-export function receiveItems(banks) {
-  return {type: RECEIVE_ITEMS, banks};
+export function receiveItems(items) {
+  return {type: RECEIVE_ITEMS, items};
 }
 
 export function getItemsOptimistic(data) {

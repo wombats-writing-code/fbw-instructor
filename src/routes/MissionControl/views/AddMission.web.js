@@ -110,6 +110,9 @@ let styles = {
     display: 'block',
     marginRight: 'auto',
     width: '8rem'
+  },
+  selectedDirectiveItemCount: {
+    marginRight: 8
   }
 };
 
@@ -149,7 +152,7 @@ export const AddMissionWeb = (props) => {
         let outcome = item.outcome;
         return (
           <li key={`selectedDirective_${idx}`} style={styles.selectedDirective}>
-            <span>{props.numberItemsForDirectives[outcome.id]}</span>
+            <span style={styles.selectedDirectiveItemCount}>{props.numberItemsForDirectives[outcome.id] || 0}</span>
             <span>{outcome.displayName.text}</span>
           </li>
         )
