@@ -38,17 +38,32 @@ export const ConfirmViewWeb = (props) => {
   //   )
   // }
 
+  let spawnComplete = (
+    <div>
+      Completed spawning testflight missions!
+    </div>
+      ),
+    spawnVerb = 'got'
+
+  if (!props.spawnComplete) {
+    spawnVerb = 'will get'
+    spawnComplete = <button className="button button-secondary"
+            onClick={() => props.createTestFlightMissions(viewData.students, props.currentBankId)}>Approve and launch for all</button>
+  }
+
+  // TODO: I think we still need to include a "release date" option for launching these
+
   return (
     <div style={styles.container}>
       <p>The Fly-by-Wire system recommends the following action to take:</p>
-    <button className="button button-secondary">Approve and launch for all</button>
+      {spawnComplete}
 
       <ul style={styles.studentCollection}>
         {_.map(viewData.students, (student, idx) => {
           return (
             <li key={`student_${idx}`}>
               <p> <span key={`studentName__${idx}`} style={styles.studentName}>{student.name}</span>
-                  <span> will get </span>
+                  <span> {spawnVerb} </span>
                   <span>{student.nextMission.directives.length} </span>
                   <span>directives with a total of </span>
                   <span>{student.nextMission.numberItemsForDirectives} </span>

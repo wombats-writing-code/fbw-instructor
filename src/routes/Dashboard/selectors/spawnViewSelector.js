@@ -3,7 +3,7 @@ import 'lodash'
 import 'moment'
 import 'moment-timezone'
 
-import {getResults, getMapping, isTarget, notAchievedWithinAttempts} from './common'
+import {getResults, getMapping, isTarget, notAchievedOnAttempt} from './common'
 import {itemsForDirectivesSelector} from '../../MissionControl/selectors/'
 
 const parseAgentId = (agentId) => {
@@ -16,19 +16,40 @@ export const spawnViewSelector = createSelector([getResults, getMapping], (resul
 
   if (!results || !mapping) return null;
 
-  let agentIds = _.map(results, 'takingAgentId');
+  let studentsWithRecommendations = _.map(results, (taken) => {
+    // let's say that they have to re-take a directive if
+    // they did not meet the minimumProficiency for target questions
+    let newDirectives = [];
 
-  let studentsWithRecommendations = _.map(agentIds, (agentId) => {
+    _.each(taken.sections, function (section) {
+      let targetQuestions = _.filter(section.questions, isTarget),
+        numberRight = _.compact(_.map(targetQuestions, function (question) {
+          if (question.responses[0]) {
+            if (question.responses[0].isCorrect) {
+              return question
+            }
+          }
+        })).length;
+      if (numberRight < parseInt(section.minimumProficiency)) {
+        newDirectives.push({
+          learningObjectiveId: section.learningObjectiveId,
+          quota: targetQuestions.length,
+          waypointQuota: 1,
+          itemBankId: section.questions[0].bankId,
+          minimumProficiency: section.minimumProficiency
+        })
+      }
+    })
 
     return {
-      name: parseAgentId(agentId),
+      name: parseAgentId(taken.takingAgentId),
       nextMission: {
-        directives: [],
-        numberItemsForDirectives: Math.round(Math.random() * 10)
+        name: `${parseAgentId(taken.takingAgentId)}'s TestFlight for ${taken.displayName.text}`,
+        directives: newDirectives,
+        numberItemsForDirectives: _.sumBy(newDirectives, 'quota')
       }
     }
   });
-  console.log('results', results);
   // for
 
   return {
