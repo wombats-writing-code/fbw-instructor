@@ -3,7 +3,7 @@ import 'lodash'
 import 'moment'
 import 'moment-timezone'
 
-import {getResults, getMapping, isTarget, notAchievedWithinAttempts} from './common'
+import {getResults, getMapping, isTarget, notAchievedOnAttempt} from './common'
 import {itemsForDirectivesSelector} from '../../MissionControl/selectors/'
 
 const parseAgentId = (agentId) => {
@@ -50,7 +50,6 @@ export const spawnViewSelector = createSelector([getResults, getMapping], (resul
       }
     }
   });
-  console.log('results', results);
   // for
 
   return {

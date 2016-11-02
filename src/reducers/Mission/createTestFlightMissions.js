@@ -49,16 +49,16 @@ export function createTestFlightMissions(data, bankId) {
       }),
       startTime: afterMidnight(momentToQBank(now)),
       deadline: beforeMidnight(momentToQBank(now))
-    },
-    params = {
-      body: JSON.stringify(studentParams),
+    }
+    testFlightParameters.push(studentParams)
+  })
+  let params = {
+      body: JSON.stringify(testFlightParameters),
       headers: {
         'content-type': 'application/json'
       },
       method: 'POST'
     };
-    testFlightParameters.push(params)
-  })
   return function(dispatch) {
     // here starts the code that actually gets executed when the
     // createMission action creator is dispatched
@@ -66,12 +66,7 @@ export function createTestFlightMissions(data, bankId) {
     dispatch(createTestFlightMissionsOptimistic([]));
 
     let url = getDomain(location.host) + `/middleman/banks/${bankId}/personalmissions`;
-    let promises = _.map(testFlightParameters, function (params) {
-      return fetch(url, params)
-    })
-
-    return Q.all(promises)
-    .then((res) => Q.all(_.map((res), function (response) {response.json()})))
+    return fetch(url, params)
     .then((missions) => {
       console.log('created test flight missions', missions);
 

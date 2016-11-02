@@ -29,7 +29,8 @@ const mapStateToProps = (state, ownProps) => {
     mission: state.mission ? state.mission.currentMission : null,
     results: state.mission ? state.mission.results : [],
     isGetResultsInProgress: state.mission ? state.mission.isGetResultsInProgress : false,
-    currentBankId: state.bank.currentBank ? state.bank.currentBank.id : null
+    currentBankId: state.bank.currentBank ? state.bank.currentBank.id : null,
+    spawnComplete: state.mission.spawnComplete ? state.mission.spawnComplete : false
   }
 }
 

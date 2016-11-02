@@ -53,6 +53,7 @@ export default function missionReducer (state = initialState, action) {
     case SELECT_MISSION:
       return _.assign({}, state, {
         currentMission: action.mission,
+        spawnComplete: false,
         editMission: action.mission ? {
           id: action.mission.id,
           assessmentOfferedId: action.mission.assessmentOfferedId,
@@ -197,7 +198,9 @@ export default function missionReducer (state = initialState, action) {
 
     case RECEIVE_CREATE_TEST_FLIGHT_MISSIONS:
       console.log('Created all test flight missions')
-      return _.assign({}, state)
+      return _.assign({}, state, {
+        spawnComplete: true
+      })
 
     default:
       return state
