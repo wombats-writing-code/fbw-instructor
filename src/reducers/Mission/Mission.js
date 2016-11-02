@@ -38,14 +38,7 @@ export default function missionReducer (state = initialState, action) {
     case RECEIVE_MISSIONS:
       return _.assign({}, state, {
         missions: action.missions,
-        newMission: {
-          startTime: null,
-          deadline: null,
-          displayName: '',
-          genusTypeId: 'assessment-genus%3Afbw-homework-mission%40ODL.MIT.EDU',
-          focusedInput: null,
-          formError: true
-        },
+        newMission: stampNewMission(),
         isGetMissionsInProgress: false
       });
 
@@ -88,6 +81,7 @@ export default function missionReducer (state = initialState, action) {
     case RECEIVE_CREATE_MISSION:
       return _.assign({}, state, {
         missions: [...state.missions, action.mission],      // creates a new array of existing missions with the new mission appended
+        newMission: stampNewMission(),
         currentMission: action.mission,
         isCreateMissionInProgress: false
       })
@@ -204,5 +198,17 @@ export default function missionReducer (state = initialState, action) {
 
     default:
       return state
+  }
+}
+
+
+const stampNewMission = () => {
+  return {
+    startTime: null,
+    deadline: null,
+    displayName: '',
+    genusTypeId: 'assessment-genus%3Afbw-homework-mission%40ODL.MIT.EDU',
+    focusedInput: null,
+    formError: true
   }
 }

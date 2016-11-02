@@ -3,6 +3,7 @@ import React from 'react'
 import BASE_STYLES from '../../../styles/baseStyles'
 
 import EmptyState from '../../../components/EmptyState'
+import LoadingBox from '../../../components/LoadingBox'
 
 
 import {
@@ -39,7 +40,9 @@ let styles = {
     flex: 1
   },
   textInput: {
-    border: '1px solid #bbb',
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderColor: '#bbb',
     borderRadius: 1,
     paddingLeft: '.75em',
     opacity: 1,
@@ -123,7 +126,6 @@ let styles = {
 };
 
 export const AddMissionWeb = (props) => {
-
   if (!props.newMission) return;
 
   let alert = <div />;
@@ -136,6 +138,13 @@ export const AddMissionWeb = (props) => {
 //       </div>
 //    )
   } else {
+  }
+
+  let loadingBox;
+  if (props.isCreateMissionInProgress) {
+    loadingBox = LoadingBox('enter-active');
+  } else {
+    loadingBox = LoadingBox('enter');
   }
 
   let selectDirectives;
@@ -177,8 +186,9 @@ export const AddMissionWeb = (props) => {
     selectedDirectives = EmptyState("You haven't selected a directive. Click on a module below to find a directive.")
   }
 
-  return (
-    <div>
+  let form;
+  if (!props.isCreateMissionInProgress) {
+    form = (
       <form onSubmit={(e) => {e.preventDefault(); props.onAddMission(props.newMission, props.currentBank.id, props.numberItemsForDirectives, props.itemBankId); e.preventDefault();}}>
         <div className="row">
           <div className="medium-6 columns" style={styles.formSection}>
@@ -236,7 +246,13 @@ export const AddMissionWeb = (props) => {
         </div>
 
       </form>
+    )
+  }
 
+  return (
+    <div>
+      {form}
+      {loadingBox}
     </div>
   )
 
