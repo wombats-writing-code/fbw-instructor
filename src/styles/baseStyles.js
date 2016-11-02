@@ -5,6 +5,7 @@ const BASE_STYLES = {
     display: 'flex'
   },
   primaryColor: '#96CEB4',
+  primaryColorDark: '#366659',
   warningColor: '#FF6F69',
   linkColor: '#00A388'
 }

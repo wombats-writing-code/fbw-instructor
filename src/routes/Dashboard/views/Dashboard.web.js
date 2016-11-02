@@ -128,10 +128,8 @@ export const DashboardViewWeb = (props) => {
       <div className="row">
         {dashboardNav}
         {view}
-        
-        <div className="columns">
-          {loadingBox}
-        </div>
+
+        {loadingBox}
       </div>
 
     </div>

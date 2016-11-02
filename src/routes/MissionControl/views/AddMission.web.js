@@ -2,6 +2,9 @@
 import React from 'react'
 import BASE_STYLES from '../../../styles/baseStyles'
 
+import EmptyState from '../../../components/EmptyState'
+
+
 import {
   DateRangePicker
 } from 'react-dates'
@@ -23,59 +26,45 @@ let styles = {
     textAlign: 'left',
     fontWeight: "500"
   },
+  formSubLabelRow: {
+    display: 'flex',
+    flexDirection: 'row'
+  },
+  formSubLabel: {
+    fontSize: '.875rem',
+    color: BASE_STYLES.primaryColorDark,
+    textAlign: 'left',
+    marginTop: '1.125rem',
+    fontWeight: "500",
+    flex: 1
+  },
   textInput: {
-    border: '2px solid ' + BASE_STYLES.primaryColor,
-    borderRadius: '2px',
-    opacity: .5,
+    border: '1px solid #bbb',
+    borderRadius: 1,
+    paddingLeft: '.75em',
+    opacity: 1,
     boxShadow: 'none',
     ':focus': {
-      opacity: 1,
+      borderColor: BASE_STYLES.primaryColor,
       boxShadow: 'none',
-    }
-  },
-  missionTypeOptions: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between'
-  },
-  missionTypeSelect: {
-    width: '48%',
-    fontSize: '2rem',
-    paddingLeft: '1rem',
-    paddingRight: '1rem',
-    paddingBottom: '.5rem',
-    borderWidth: 1,
-    borderStyle: 'solid',
-    borderColor: '#bbb',
-    borderRadius: 3,
-    color: '#bbb',
-    cursor: 'pointer',
-    ':hover': {
-      backgroundColor: BASE_STYLES.primaryColor,
-      borderColor: 'transparent',
-      color: '#fff'
     },
-    color: '#999'
-  },
-  missionTypeSelectText: {
-    fontSize: '1rem',
-    fontWeight: '500'
-  },
-  missionTypeSelected: {
-    backgroundColor: BASE_STYLES.primaryColor,
-    color: '#fff',
-    borderColor: 'transparent',
-    cursor: 'default'
+    height: 50
   },
   selectFromLists: {
     display: 'flex',
   },
   selectList: {
+    borderLeftWidth: 1,
+    borderLeftStyle: 'solid',
+    borderLeftColor: '#ddd',
     fontSize: '.875rem',
     marginLeft: 0,
     listStyle: 'none',
     textAlign: 'left',
     flex: 1
+  },
+  modulesList: {
+    borderLeftWidth: 0
   },
   outcomesList: {
     flex: 2,
@@ -85,15 +74,30 @@ let styles = {
     paddingRight: '1em',
     paddingTop: '.75rem',
     paddingBottom: '.625rem',
-    borderBottom: '1px solid #ddd',
+    // borderBottom: '1px solid #ddd',
     ':hover': {
-      backgroundColor: '#f8f8f8'
+      backgroundColor: '#f0f0f0'
     },
     cursor: 'pointer'
   },
   listItemSelected: {
-    backgroundColor: '#f8f8f8',
+    backgroundColor: '#f0f0f0',
     cursor: 'default'
+  },
+  directiveItem: {
+    cursor: 'default'
+  },
+  selectDirectiveIcon: {
+    display: 'inline-block',
+    textAlign: 'center',
+    width: 30,
+    height: 30,
+    fontSize: 20,
+    marginRight: '1rem',
+    cursor: 'pointer',
+    ':hover': {
+      color: BASE_STYLES.primaryColor
+    }
   },
   selectedDirectives: {
     marginLeft: 0,
@@ -112,7 +116,9 @@ let styles = {
     width: '8rem'
   },
   selectedDirectiveItemCount: {
-    marginRight: 8
+    color: '#666',
+    fontWeight: "500",
+    textAlign: 'right',
   }
 };
 
@@ -124,6 +130,7 @@ export const AddMissionWeb = (props) => {
   if (props.newMission.formError) {
 //    alert = (
       // This should really be put back in ... after the demo?
+        // after the demo.
 //       <div className="formError">
 //         Please fill in all form data before saving.
 //       </div>
@@ -136,9 +143,15 @@ export const AddMissionWeb = (props) => {
     selectDirectives = (<ul style={[styles.selectList, styles.outcomesList]}>
       {_.map(props.newMission.selectedModule.children, (outcome, idx) => {
         let isSelected = _.find(props.newMission.selectedDirectives, (item) => item.outcome === outcome);
+        let selectDirectiveIcon = isSelected ?
+                                  (<span key={`icon_${idx}`} style={styles.selectDirectiveIcon}>&#x02296;</span>) :
+                                  (<span key={`icon_${idx}`} style={styles.selectDirectiveIcon}>&oplus;</span>);
+
         return (
           <li key={`selectOutcome_${idx}`} style={[styles.listItem, isSelected ? styles.listItemSelected : null]}
               onClick={(e) => props.updateMissionForm({toggledDirective: {outcome, numberItems: props.numberItemsForDirectives[outcome.id]}})}>
+
+            {selectDirectiveIcon}
             {outcome.displayName.text}
           </li>
         )
@@ -153,56 +166,69 @@ export const AddMissionWeb = (props) => {
         let outcome = item.outcome;
         return (
           <li key={`selectedDirective_${idx}`} style={styles.selectedDirective}>
-            <span style={styles.selectedDirectiveItemCount}>{props.numberItemsForDirectives[outcome.id] || 0}</span>
-            <span>{outcome.displayName.text}</span>
+            <span>{outcome.displayName.text} </span>&nbsp;
+            (<span style={styles.selectedDirectiveItemCount}>{props.numberItemsForDirectives[outcome.id] || 0}</span>)
           </li>
         )
       })}
     </ul>)
+  } else {
+
+    selectedDirectives = EmptyState("You haven't selected a directive. Click on a module below to find a directive.")
   }
 
   return (
     <div>
       <form onSubmit={(e) => {props.onAddMission(props.newMission, props.currentBank.id, props.numberItemsForDirectives, props.itemBankId); e.preventDefault();}}>
-        <div className="medium-6 columns" style={styles.formSection}>
-          <label style={styles.formLabel} htmlFor="displayName">Mission Name</label>
-          <input type="text" style={styles.textInput}
-                 value={props.newMission.displayName}
-                 id="displayName"
-                 onChange={(e) => props.updateMissionForm({displayName: e.target.value})} />
-        </div>
+        <div className="row">
+          <div className="medium-6 columns" style={styles.formSection}>
+            <label style={styles.formLabel} htmlFor="displayName">Mission Name</label>
+            <input type="text" style={styles.textInput}
+                   value={props.newMission.displayName}
+                   id="displayName"
+                   onChange={(e) => props.updateMissionForm({displayName: e.target.value})} />
+          </div>
 
-        <div className="medium-6 columns clearfix" style={styles.formSection}>
-          <label style={styles.formLabel}>Dates</label>
-          <DateRangePicker style={styles.datepicker} onDatesChange={props.updateMissionForm}
-                           onFocusChange={(input) => props.updateMissionForm({focusedInput: input})}
-                           focusedInput={props.newMission.focusedInput}
-                           startDate={props.newMission.startTime}
-                           endDate={props.newMission.deadline} />
-        </div>
-
-        <div style={styles.formSection} className="clearfix">
-          <label style={styles.formLabel}>Selected directives</label>
-
-
-          <div style={styles.selectFromLists}>
-            {selectedDirectives}
-
-            <ol style={[styles.selectList]}>
-              {_.map(props.moduleTree.children, (m, idx) => {
-                let selectedStyle = props.newMission.selectedModule === m ? styles.listItemSelected : null;
-                return (
-                  <li key={`selectModule_${idx}`} style={[styles.listItem, selectedStyle]}
-                      onClick={(e) => props.updateMissionForm({selectedModule: m})}>{m.displayName}
-                  </li>
-                )
-              })}
-            </ol>
-
-            {selectDirectives}
+          <div className="medium-6 columns clearfix" style={styles.formSection}>
+            <label style={styles.formLabel}>Dates</label>
+            <DateRangePicker style={styles.datepicker} onDatesChange={props.updateMissionForm}
+                             onFocusChange={(input) => props.updateMissionForm({focusedInput: input})}
+                             focusedInput={props.newMission.focusedInput}
+                             startDate={props.newMission.startTime}
+                             endDate={props.newMission.deadline} />
           </div>
         </div>
 
+
+        <div style={styles.formSection}>
+
+          <div className="clearfix" >
+            <label style={styles.formLabel}>Directives</label>
+
+            <p style={styles.formSubLabel}>Selected directives (# questions available)</p>
+            {selectedDirectives}
+          </div>
+
+          <div className="clearfix" >
+            <p style={styles.formSubLabel}>Select a module to find directives</p>
+            <div className="" style={styles.selectFromLists}>
+              <ol style={[styles.selectList, styles.modulesList]}>
+                {_.map(props.moduleTree.children, (m, idx) => {
+                  let selectedStyle = props.newMission.selectedModule && props.newMission.selectedModule.id === m.id ? styles.listItemSelected : null;
+                  let unselectedStyle = props.newMission.selectedModule && props.newMission.selectedModule.id !== m.id ? styles.filterListItemUnselected : null;
+
+                  return (
+                    <li key={`selectModule_${idx}`} style={[styles.listItem, selectedStyle, unselectedStyle]}
+                        onClick={(e) => props.updateMissionForm({selectedModule: m})}>{m.displayName}
+                    </li>
+                  )
+                })}
+              </ol>
+
+              {selectDirectives}
+            </div>
+          </div>
+        </div>
 
         <div className="">
           {alert}
