@@ -9,7 +9,7 @@ import {GET_MISSIONS_OPTIMISTIC, RECEIVE_MISSIONS} from './getMissions'
 import {SELECT_MISSION} from './selectMission'
 import {CLEAR_SELECTED_MISSION} from './clearSelectedMission'
 
-import {RECEIVE_CREATE_MISSION} from './createMission'
+import {RECEIVE_CREATE_MISSION, CREATE_MISSION_OPTIMISTIC} from './createMission'
 import {RECEIVE_UPDATE_MISSION} from './updateMission'
 import {UPDATE_MISSION_FORM} from './updateMissionForm'
 import {UPDATE_EDIT_MISSION_FORM} from './updateEditMissionForm'
@@ -80,10 +80,16 @@ export default function missionReducer (state = initialState, action) {
         isGetResultsInProgress: false
       });
 
+    case CREATE_MISSION_OPTIMISTIC:
+      return _.assign({}, state, {
+        isCreateMissionInProgress: true,
+      })
+
     case RECEIVE_CREATE_MISSION:
       return _.assign({}, state, {
         missions: [...state.missions, action.mission],      // creates a new array of existing missions with the new mission appended
-        currentMission: action.mission
+        currentMission: action.mission,
+        isCreateMissionInProgress: false
       })
 
     case RECEIVE_UPDATE_MISSION:
@@ -153,7 +159,7 @@ export default function missionReducer (state = initialState, action) {
           genusTypeId: newGenusTypeId,
           focusedInput: nextFocusedInput,
           formError: formError,
-          selectedModule: action.data.selectedModule || _.clone(state.newMission.selectedModule),
+          selectedModule: action.data.selectedModule || state.newMission.selectedModule,
           selectedDirectives: selectedDirectives
         }
       })

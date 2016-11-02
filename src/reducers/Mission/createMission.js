@@ -15,6 +15,7 @@ import {
 
 export const CREATE_MISSION = 'CREATE_MISSION'
 export const RECEIVE_CREATE_MISSION = 'RECEIVE_CREATE_MISSION'
+export const CREATE_MISSION_OPTIMISTIC = 'CREATE_MISSION_OPTIMISTIC'
 
 // @Cole:
 // can't be bothered to do the optimistic part, so we'll just wait for the server to give us a response,
@@ -26,7 +27,7 @@ export function receiveCreateMission(mission) {
 
 
 export function createMissionOptimistic(mission) {
-   return {type: CREATE_MISSION, mission };
+   return {type: CREATE_MISSION_OPTIMISTIC, mission };
 }
 
 // this is the actual async createMission function that calls qbank

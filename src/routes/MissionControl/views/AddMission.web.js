@@ -100,14 +100,14 @@ let styles = {
     }
   },
   selectedDirectives: {
-    marginLeft: 0,
-    listStyle: 'none',
+    // marginLeft: 0,
+    // listStyle: 'none',
     textAlign: 'left',
     fontSize: '.875rem',
     flex: 2
   },
   selectedDirective: {
-
+    marginBottom: '.125rem'
   },
   saveButton: {
     marginLeft: 0,
@@ -161,7 +161,7 @@ export const AddMissionWeb = (props) => {
 
   let selectedDirectives;
   if (props.newMission.selectedDirectives) {
-    selectedDirectives = (<ul style={styles.selectedDirectives}>
+    selectedDirectives = (<ol style={styles.selectedDirectives}>
       {_.map(props.newMission.selectedDirectives, (item, idx) => {
         let outcome = item.outcome;
         return (
@@ -171,7 +171,7 @@ export const AddMissionWeb = (props) => {
           </li>
         )
       })}
-    </ul>)
+    </ol>)
   } else {
 
     selectedDirectives = EmptyState("You haven't selected a directive. Click on a module below to find a directive.")
@@ -179,7 +179,7 @@ export const AddMissionWeb = (props) => {
 
   return (
     <div>
-      <form onSubmit={(e) => {props.onAddMission(props.newMission, props.currentBank.id, props.numberItemsForDirectives, props.itemBankId); e.preventDefault();}}>
+      <form onSubmit={(e) => {e.preventDefault(); props.onAddMission(props.newMission, props.currentBank.id, props.numberItemsForDirectives, props.itemBankId); e.preventDefault();}}>
         <div className="row">
           <div className="medium-6 columns" style={styles.formSection}>
             <label style={styles.formLabel} htmlFor="displayName">Mission Name</label>
@@ -214,8 +214,8 @@ export const AddMissionWeb = (props) => {
             <div className="" style={styles.selectFromLists}>
               <ol style={[styles.selectList, styles.modulesList]}>
                 {_.map(props.moduleTree.children, (m, idx) => {
-                  let selectedStyle = props.newMission.selectedModule && props.newMission.selectedModule.id === m.id ? styles.listItemSelected : null;
-                  let unselectedStyle = props.newMission.selectedModule && props.newMission.selectedModule.id !== m.id ? styles.filterListItemUnselected : null;
+                  let selectedStyle = props.newMission.selectedModule === m ? styles.listItemSelected : null;
+                  let unselectedStyle = props.newMission.selectedModule !== m ? styles.filterListItemUnselected : null;
 
                   return (
                     <li key={`selectModule_${idx}`} style={[styles.listItem, selectedStyle, unselectedStyle]}
