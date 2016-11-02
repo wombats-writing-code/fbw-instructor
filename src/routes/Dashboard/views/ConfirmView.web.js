@@ -7,9 +7,11 @@ import LoadingBox from '../../../components/LoadingBox'
 
 let styles = {
   studentCollection: {
+    marginLeft: 0,
     listStyle: 'none',
     textAlign: 'left',
-    fontSize: '.875rem'
+    fontSize: '.875rem',
+    marginBottom: '2.625rem'
   },
   studentName: {
     color: BASE_STYLES.linkColor,
@@ -18,6 +20,15 @@ let styles = {
     ':hover': {
       opacity: .7
     }
+  },
+  spawnStatus: {
+    color: '#333',
+    textAlign: 'left',
+    marginTop: '1.5rem',
+    marginBottom: '1.5rem'
+  },
+  spawnButton: {
+    width: '100%'
   }
 }
 
@@ -41,6 +52,7 @@ export const ConfirmViewWeb = (props) => {
 
   let spawnStatus;
   let spawnVerb;
+  let spawnButton;
   if (props.spawnedMissions) {
     spawnStatus = (
       <p> Completed spawning testflight missions!</p>
@@ -48,14 +60,14 @@ export const ConfirmViewWeb = (props) => {
     spawnVerb = 'got';
 
   } else if (!props.isSpawnInProgress && !props.spawnedMissions) {
-    <p>The Fly-by-Wire system recommends the following action to take:</p>
 
-    spawnStatus = (<button className="button button-secondary"
-                    onClick={() => props.createTestFlightMissions(viewData.students, props.currentBankId, props.mission)}>
-                    Approve and launch for all</button>
-                )
-
+    spawnStatus = <p style={styles.spawnStatus}>Your Fly-by-Wire system recommends to give personalized Testflight missions:</p>
     spawnVerb = 'will get';
+
+    spawnButton = (<button className="button button-secondary" style={styles.spawnButton}
+                          onClick={() => props.createTestFlightMissions(viewData.students, props.currentBankId, props.mission)}>
+                          Approve and launch for all</button>)
+
   }
 
   let studentCollection;
@@ -84,6 +96,7 @@ export const ConfirmViewWeb = (props) => {
     <div style={styles.container}>
       {spawnStatus}
       {studentCollection}
+      {spawnButton}
       {loadingBox}
 
     </div>

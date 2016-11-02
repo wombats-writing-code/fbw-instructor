@@ -116,7 +116,7 @@ let styles = {
     marginLeft: 0,
     display: 'block',
     marginRight: 'auto',
-    width: '8rem'
+    width: '100%'
   },
   selectedDirectiveItemCount: {
     color: '#666',

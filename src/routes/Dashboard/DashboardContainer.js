@@ -3,7 +3,7 @@ import Dashboard from './Dashboard'
 
 import {changeView, changeMouseOver, changeClick, selectDirective} from '../../reducers/view'
 import {createTestFlightMissions} from '../../reducers/Mission/createTestFlightMissions'
-import {getResultsAll} from '../../reducers/Mission/getResults'
+import {getResultsAll, getResults} from '../../reducers/Mission/getResults'
 
 // import {outcomesViewSelector} from './selectors/outcomesViewSelector'
 import {questionsViewSelector} from './selectors/questionsViewSelector'
@@ -15,7 +15,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     onChangeView: (viewName) => dispatch(changeView({name: viewName})),
     onClickDirective: (directive, viewName) => dispatch(selectDirective(directive, viewName)),
     createTestFlightMissions: (studentData, bankId, currentMission) => dispatch(createTestFlightMissions(studentData, bankId, currentMission)),
-    getResultsAll: (missions) => dispatch(getResultsAll(missions))
+    getResultsAll: (missions) => dispatch(getResultsAll(missions)),
+    getResults: (mission) => dispatch(getResults(mission)),
     // onNodeMouseover: (node, viewName) => dispatch(changeMouseOver(node, viewName)),
     // onNodeClick: (node, viewName) => dispatch(changeClick(node, viewName)),
     // onEdgeMouseover: (node) => dispatch()

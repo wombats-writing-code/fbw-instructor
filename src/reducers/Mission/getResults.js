@@ -54,12 +54,12 @@ export function getResults(mission) {
 }
 
 export function getResultsAll(missions) {
-  if (!missions) return;
-  
-  console.log('will getResultsAll of', missions);
 
   return function(dispatch) {
     dispatch(getResultsOptimistic(null));
+
+    if (!missions) return;
+    console.log('will getResultsAll of', missions);
 
     let getResultsPromises = _.map(missions, fetchResult);
 

@@ -6,6 +6,7 @@ import {QuestionsViewWeb} from './QuestionsView.web'
 // import {OutcomesViewWeb} from './OutcomesView.web'
 import {PreflightViewWeb} from './PreflightView.web'
 import {ConfirmViewWeb} from './ConfirmView.web'
+import {TestflightViewWeb} from './TestflightView.web'
 
 import LoadingBox from '../../../components/LoadingBox'
 
@@ -70,11 +71,14 @@ export const DashboardViewWeb = (props) => {
       case 'dashboard.confirmView':
         view = ConfirmViewWeb(props);
         break;
+
+      case 'dashboard.testflightView':
+        view = TestflightViewWeb(props);
     }
 
     dashboardNav = (
       <div style={styles.navBar}>
-        <p style={styles.navBarTitle}>{props.mission ? props.mission.displayName.text : ''}</p>
+        <p style={styles.navBarTitle} onMouseOver={() => props.getResults(props.mission)}>{props.mission ? props.mission.displayName.text : ''}</p>
         <ul className="button-group" style={styles.viewControl}>
           <li style={styles.viewControlChild}>
             <a className="button" style={[styles.viewControlButton, props.view.name === 'dashboard.preflightView' ? styles.viewControlButtonActive : null]}

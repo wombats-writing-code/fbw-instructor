@@ -46,6 +46,11 @@ let styles = {
       backgroundColor: '#f0f0f0'
     }
   },
+  addMissionButton: {
+    display: 'block',
+    marginRight: 0,
+    marginLeft: 'auto'
+  },
   missionCollection: {
     listStyle: 'none',
     marginLeft: 0
@@ -103,7 +108,7 @@ export const HomeViewWeb = (props) => {
 
   let createMissionButton = <div />
   if (props.currentBank) {
-    createMissionButton = <button className="button" onClick={() => props.onClickAddMission()}>Create a mission</button>
+    createMissionButton = <button className="button" style={styles.addMissionButton} onClick={() => props.onClickAddMission()}>Add a mission</button>
   }
 
   let missionCollection;

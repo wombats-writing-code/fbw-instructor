@@ -7,44 +7,7 @@ import QuestionResult from '../../../components/QuestionResult'
 
 let styles = {
   container: {
-  },
-  summarySection: {
-    paddingLeft: '1em',
-    paddingTop: '.25rem',
-    paddingBottom: '.25rem',
-    marginBottom: '1.5rem',
-    backgroundColor: '#f8f8f8'
-  },
-  detailedSection: {
     display: 'flex'
-  },
-  summaryBlurb: {
-    maxWidth: 100,
-    textAlign: 'left',
-    marginLeft: 0,
-    marginRight: 'auto',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    // borderColor: BASE_STYLES.primaryColor,
-    // borderStyle: 'solid',
-    // borderWidth: 2,
-    // borderRadius: '50%'
-  },
-  summaryNumber: {
-    fontSize: "2.5em",
-    fontWeight: "500",
-    marginRight: ".2em",
-    marginBottom: 0,
-    color: BASE_STYLES.primaryColor
-  },
-  summaryText: {
-    marginBottom: 0,
-    textAlign: 'left',
-    color: '#666',
-    lineHeight: .9,
-    fontSize: '.875rem',
-    maxWidth: 60
   },
   directiveSection: {
     minWidth: '25%',
@@ -102,13 +65,14 @@ let styles = {
   }
 }
 
-export const PreflightViewWeb = (props) => {
+export const TestflightViewWeb = (props) => {
 
   let view = props.view;
   let viewData = props.viewData;
 
   // if the view is not loading AND there are no results, show empty state
-  if (!props.isGetResultsInProgress && (!view || !viewData)) {
+  // always return this because we just ran out of time
+  if (true || !props.isGetResultsInProgress && (!view || !viewData)) {
     return (
       <div className="columns">
         {EmptyState('There are no results yet. Try refreshing or waiting for a student to try a question.')}
@@ -133,38 +97,31 @@ export const PreflightViewWeb = (props) => {
     )
   }
 
+
   return (
     <div style={styles.container}>
 
-      <div className="clearfix" style={styles.summarySection}>
-        <div style={styles.summaryBlurb}>
-          <p style={styles.summaryNumber}>{props.results.length}</p>
-          <p style={styles.summaryText}>opened up the mission</p>
-        </div>
+      <div style={styles.directiveSection}>
+        <p style={styles.label}>DIRECTIVES</p>
+        <ul style={styles.directiveCollection} className="clearfix">
+          {_.map(viewData.directives, (outcome, idx) => {
+              let lastItemStyle = idx === viewData.directives.length-1 ? styles.directiveItemLast : null;
+              return (
+                <div key={`outcome_${idx}`}
+                    style={[styles.directiveItem, view.currentDirective === outcome ? styles.directiveItemSelected : null, lastItemStyle]}
+                    onClick={(e) => props.onClickDirective(outcome, 'dashboard.questionsView')}>
+                  <p style={styles.directiveText}>{outcome.displayName.text}</p>
+                </div>
+              )
+          })}
+        </ul>
       </div>
 
-      <div style={styles.detailedSection}>
-        <div style={styles.directiveSection}>
-          <p style={styles.label}>DIRECTIVES</p>
-          <ul style={styles.directiveCollection} className="clearfix">
-            {_.map(viewData.directives, (outcome, idx) => {
-                let lastItemStyle = idx === viewData.directives.length-1 ? styles.directiveItemLast : null;
-                return (
-                  <div key={`outcome_${idx}`}
-                      style={[styles.directiveItem, view.currentDirective === outcome ? styles.directiveItemSelected : null, lastItemStyle]}
-                      onClick={(e) => props.onClickDirective(outcome, 'dashboard.questionsView')}>
-                    <p style={styles.directiveText}>{outcome.displayName.text}</p>
-                  </div>
-                )
-            })}
-          </ul>
-        </div>
-
-        <div style={styles.questionSection}>
-          <p style={styles.label}>STUDENTS WHO DID NOT ACHIEVE QUESTION</p>
-          {questionCollection}
-        </div>
+      <div style={styles.questionSection}>
+        <p style={styles.label}>STUDENTS WHO DID NOT ACHIEVE QUESTION</p>
+        {questionCollection}
       </div>
+
     </div>
 
   )
