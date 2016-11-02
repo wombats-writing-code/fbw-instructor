@@ -9,8 +9,8 @@ import {GET_MISSIONS_OPTIMISTIC, RECEIVE_MISSIONS} from './getMissions'
 import {SELECT_MISSION} from './selectMission'
 import {CLEAR_SELECTED_MISSION} from './clearSelectedMission'
 
-import {RECEIVE_CREATE_TEST_FLIGHT_MISSIONS} from './createTestFlightMissions'
-import {RECEIVE_CREATE_MISSION, CREATE_MISSION_OPTIMISTIC} from './createMission'
+import {CREATE_TEST_FLIGHT_MISSIONS_OPTIMISTIC, RECEIVE_CREATE_TEST_FLIGHT_MISSIONS} from './createTestFlightMissions'
+import {CREATE_MISSION_OPTIMISTIC, RECEIVE_CREATE_MISSION} from './createMission'
 import {RECEIVE_UPDATE_MISSION} from './updateMission'
 import {UPDATE_MISSION_FORM} from './updateMissionForm'
 import {UPDATE_EDIT_MISSION_FORM} from './updateEditMissionForm'
@@ -46,7 +46,7 @@ export default function missionReducer (state = initialState, action) {
     case SELECT_MISSION:
       return _.assign({}, state, {
         currentMission: action.mission,
-        spawnComplete: false,
+        isSpawnInProgress: false,
         editMission: action.mission ? {
           id: action.mission.id,
           assessmentOfferedId: action.mission.assessmentOfferedId,
@@ -198,10 +198,18 @@ export default function missionReducer (state = initialState, action) {
         }
       })
 
+    case CREATE_TEST_FLIGHT_MISSIONS_OPTIMISTIC:
+      return _.assign({}, state, {
+        isSpawnInProgress: true
+      })
+
     case RECEIVE_CREATE_TEST_FLIGHT_MISSIONS:
       console.log('Created all test flight missions')
       return _.assign({}, state, {
-        spawnComplete: true
+        isSpawnInProgress: false,
+        spawnedMissionsByMission: _.assign({}, state.spawnedMissionsByMission, {
+          [action.originalMission.id]: action.missions
+        })
       })
 
     default:

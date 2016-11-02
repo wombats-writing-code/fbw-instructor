@@ -1,5 +1,6 @@
 
 import 'lodash'
+let Q = require('q')
 
 import {getDomain} from '../common'
 
@@ -17,20 +18,31 @@ export function receiveResults(results) {
   return {type: RECEIVE_RESULTS, results};
 }
 
+export function receiveResultsAll(results) {
+  return {type: RECEIVE_RESULTS, results};
+}
+
 export function getResultsOptimistic(results) {
   return {type: GET_RESULTS_OPTIMISTIC, results };
+}
+
+
+const fetchResult = (mission) => {
+  let url = getDomain(location.host) + `/middleman/banks/${mission.assignedBankIds[0]}/offereds/${mission.assessmentOfferedId}/results`;
+
+  return fetch(url)
+  .then((res) => res.json());
 }
 
 // this is the actual async create function that calls qbank
 export function getResults(mission) {
 
-  let url = getDomain(location.host) + `/middleman/banks/${mission.assignedBankIds[0]}/offereds/${mission.assessmentOfferedId}/results`;
-
   return function(dispatch) {
     dispatch(getResultsOptimistic());
 
-    return fetch(url)
-    .then((res) => res.json())
+    let url = getDomain(location.host) + `/middleman/banks/${mission.assignedBankIds[0]}/offereds/${mission.assessmentOfferedId}/results`;
+
+    fetchResult(mission)
     .then((resultsData) => {
       console.log('received getResults', resultsData)
       dispatch(receiveResults(resultsData));
@@ -39,4 +51,27 @@ export function getResults(mission) {
       console.log('error getting mission results');
     })
   }
+}
+
+export function getResultsAll(missions) {
+  if (!missions) return;
+  
+  console.log('will getResultsAll of', missions);
+
+  return function(dispatch) {
+    dispatch(getResultsOptimistic(null));
+
+    let getResultsPromises = _.map(missions, fetchResult);
+
+    return Q.all(getResultsPromises)
+    .then( (res) => {
+      let allResults = _.flatten(res);
+      console.log('got results all', allResults);
+
+      dispatch(receiveResultsAll(allResults));
+
+      return allResults;
+    });
+  }
+
 }

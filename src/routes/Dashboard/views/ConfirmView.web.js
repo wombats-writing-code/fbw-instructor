@@ -3,6 +3,7 @@ import 'lodash'
 
 import BASE_STYLES from '../../../styles/baseStyles'
 import EmptyState from '../../../components/EmptyState'
+import LoadingBox from '../../../components/LoadingBox'
 
 let styles = {
   studentCollection: {
@@ -30,34 +31,36 @@ export const ConfirmViewWeb = (props) => {
   let view = props.view;
   let viewData = props.viewData;
 
-  // if (!view || !viewData) {
-  //   return (
-  //     <div className="columns">
-  //       { EmptyState('There are no results yet. Try refreshing or waiting for a student to try a question.')}
-  //     </div>
-  //   )
-  // }
+  let loadingBox;
+  if (!props.isSpawnInProgress) {
+    loadingBox = LoadingBox('enter')
 
-  let spawnComplete = (
-    <div>
-      Completed spawning testflight missions!
-    </div>
-      ),
-    spawnVerb = 'got'
-
-  if (!props.spawnComplete) {
-    spawnVerb = 'will get'
-    spawnComplete = <button className="button button-secondary"
-            onClick={() => props.createTestFlightMissions(viewData.students, props.currentBankId)}>Approve and launch for all</button>
+  } else if (props.isSpawnInProgress) {
+    loadingBox = LoadingBox('enter-active')
   }
 
-  // TODO: I think we still need to include a "release date" option for launching these
+  let spawnStatus;
+  let spawnVerb;
+  if (props.spawnedMissions) {
+    spawnStatus = (
+      <p> Completed spawning testflight missions!</p>
+    )
+    spawnVerb = 'got';
 
-  return (
-    <div style={styles.container}>
-      <p>The Fly-by-Wire system recommends the following action to take:</p>
-      {spawnComplete}
+  } else if (!props.isSpawnInProgress && !props.spawnedMissions) {
+    <p>The Fly-by-Wire system recommends the following action to take:</p>
 
+    spawnStatus = (<button className="button button-secondary"
+                    onClick={() => props.createTestFlightMissions(viewData.students, props.currentBankId, props.mission)}>
+                    Approve and launch for all</button>
+                )
+
+    spawnVerb = 'will get';
+  }
+
+  let studentCollection;
+  if (!props.isSpawnInProgress) {
+    studentCollection = (
       <ul style={styles.studentCollection}>
         {_.map(viewData.students, (student, idx) => {
           return (
@@ -72,6 +75,16 @@ export const ConfirmViewWeb = (props) => {
           )
         })}
       </ul>
+    )
+  }
+
+  // TODO: I think we still need to include a "release date" option for launching these
+
+  return (
+    <div style={styles.container}>
+      {spawnStatus}
+      {studentCollection}
+      {loadingBox}
 
     </div>
 

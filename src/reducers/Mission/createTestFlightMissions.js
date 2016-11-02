@@ -17,23 +17,21 @@ import {
 // ------------------------------------
 
 export const CREATE_TEST_FLIGHT_MISSIONS = 'CREATE_TEST_FLIGHT_MISSIONS'
+export const CREATE_TEST_FLIGHT_MISSIONS_OPTIMISTIC = 'CREATE_TEST_FLIGHT_MISSIONS_OPTIMISTIC'
+
 export const RECEIVE_CREATE_TEST_FLIGHT_MISSIONS = 'RECEIVE_CREATE_TEST_FLIGHT_MISSIONS'
 
-// @Cole:
-// can't be bothered to do the optimistic part, so we'll just wait for the server to give us a response,
-// and in the then block it'll dispatch this action,
-// and then the reducer will handle it and modify state as needed
-export function receiveCreateTestFlightMissions(missions) {
-  return {type: RECEIVE_CREATE_TEST_FLIGHT_MISSIONS, missions };
+export function receiveCreateTestFlightMissions(missions, originalMission) {
+  return {type: RECEIVE_CREATE_TEST_FLIGHT_MISSIONS, missions, originalMission };
 }
 
 
-export function createTestFlightMissionsOptimistic(missions) {
-   return {type: createTestFlightMissions, missions };
+export function createTestFlightMissionsOptimistic(missions, originalMission) {
+   return {type: CREATE_TEST_FLIGHT_MISSIONS_OPTIMISTIC, missions, originalMission };
 }
 
 // this is the actual async createTestFlightMissions function that calls qbank
-export function createTestFlightMissions(data, bankId) {
+export function createTestFlightMissions(data, bankId, originalMission) {
   // TODO: for demo purposes, we'll seat the TestFlight deadlines
   // to now(), but need to change that somehow
   let testFlightParameters = []
@@ -63,14 +61,22 @@ export function createTestFlightMissions(data, bankId) {
     // here starts the code that actually gets executed when the
     // createMission action creator is dispatched
     // take the data in the "newMission" form in state, and send that to the server
-    dispatch(createTestFlightMissionsOptimistic([]));
+    dispatch(createTestFlightMissionsOptimistic([], originalMission));
+
+    // dummy for UI mock
+    // return setTimeout( () => {
+    //   let missions = [];
+    //   dispatch(receiveCreateTestFlightMissions(missions, originalMission));
+    // }, 7000);
 
     let url = getDomain(location.host) + `/middleman/banks/${bankId}/personalmissions`;
     return fetch(url, params)
+    .then((res) => {
+      return res.json();
+    })
     .then((missions) => {
       console.log('created test flight missions', missions);
-
-      dispatch(receiveCreateTestFlightMissions(missions));
+      dispatch(receiveCreateTestFlightMissions(missions, originalMission));
     })
     .catch((error) => {
       console.log('error creating test flight missions', error);
