@@ -122,6 +122,11 @@ export const HomeViewWeb = (props) => {
           //             onClick={(e) => {props.onClickEditMission(mission); e.stopPropagation()}}>Edit</button>)
           // }
 
+          let deleteMissionButton;
+          // console.log(moment(mission.deadline).isBefore(moment()));
+         deleteMissionButton =  (<button className="button small" style={styles.rowItemButton}
+                   onClick={(e) => {props.onClickDeleteMission(mission); e.stopPropagation()}}>Delete</button>)
+
           return (
             <li key={key} style={[styles.rowItem, styles.missionCollectionItem, selectedStyle]} onClick={() => props.onClickMission(mission)}>
               <div style={styles.rowItemInfo}>
@@ -132,6 +137,9 @@ export const HomeViewWeb = (props) => {
                   <span style={styles.dateText}>to </span>
                   <span style={styles.date}>{moment(mission.deadline).format('dddd MMM D')}</span>
                   </p>
+              </div>
+              <div style={styles.rowItemButtons}>
+                {deleteMissionButton}
               </div>
               {/* <div style={styles.rowItemButtons}>
                 {editMissionButton}

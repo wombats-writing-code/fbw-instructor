@@ -3,33 +3,46 @@ import 'lodash'
 
 var Q = require('q');
 
-export function deleteAssessmentOptimistic(data) {
-  return { type: DELETE_ASSESSMENT, data };
+import {
+  getDomain
+} from '../common'
+
+export const DELETE_MISSION = 'DELETE_MISSION'
+export const RECEIVE_DELETE_MISSION = 'RECEIVE_DELETE_MISSION'
+export const DELETE_MISSION_OPTIMISTIC = 'DELETE_MISSION_OPTIMISTIC'
+
+export function receiveDeleteMission(mission) {
+  return {type: RECEIVE_DELETE_MISSION, mission };
 }
 
-export function deleteAssessment(data, bankId) {
+export function deleteMissionOptimistic(data) {
+  return { type: DELETE_MISSION, data };
+}
+
+export function deleteMission(mission) {
+  let fetchParams = {
+    body: JSON.stringify({
+      assessmentOfferedId: mission.assessmentOfferedId
+    }),
+    headers: {
+      'content-type': 'application/json'
+    },
+    method: 'DELETE'
+  }
 
   return function(dispatch) {
-    dispatch(deleteAssessmentOptimistic(data));
+    //dispatch(deleteMissionOptimistic(data));
 
-    return qbankFetch(deleteOfferedParams)
-    .then( (assessmentOfferedData) => {
-      let deleteAssessmentParams = {
-        method: 'DELETE',
-        path: `assessment/banks/${currentBankId}/assessments/${data.assessmentId}`
-      };
+    let url = getDomain(location.host) + `/middleman/banks/${mission.bankId}/missions/${mission.id}`;
 
-      return qbankFetch(deleteAssessmentParams);
-    })
-    .then( (assessmentData) => {
-      let updatedAssessments = _.filter(_assessments, (assessment) => {
-        return assessment.id !== data.assessmentId;
-      });
+    return fetch(url, fetchParams)
+    .then((results) => {
+      console.log('deleted mission', mission);
+
+      dispatch(receiveDeleteMission(mission));
     })
     .catch((error) => {
-      console.log('error deleting an assessment + offered');
-      console.log(error);
-    })
-    .done();
+      console.log('error deleting mission', error);
+    });
   }
 }
