@@ -14,6 +14,7 @@ import {RECEIVE_CREATE_MISSION, CREATE_MISSION_OPTIMISTIC} from './createMission
 import {RECEIVE_UPDATE_MISSION} from './updateMission'
 import {UPDATE_MISSION_FORM} from './updateMissionForm'
 import {UPDATE_EDIT_MISSION_FORM} from './updateEditMissionForm'
+import {RECEIVE_DELETE_MISSION} from './deleteMission'
 
 import {GET_RESULTS_OPTIMISTIC, RECEIVE_RESULTS} from './getResults'
 
@@ -205,9 +206,15 @@ export default function missionReducer (state = initialState, action) {
       })
 
     case RECEIVE_CREATE_TEST_FLIGHT_MISSIONS:
-      console.log('Created all test flight missions')
       return _.assign({}, state, {
         spawnComplete: true
+      })
+
+    case RECEIVE_DELETE_MISSION:
+      return _.assign({}, state, {
+        missions: _.filter(state.missions, (m) => {
+          return m.id !== action.mission.id
+        })
       })
 
     default:

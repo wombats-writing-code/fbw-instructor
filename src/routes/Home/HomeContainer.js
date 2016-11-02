@@ -15,6 +15,8 @@ import {changeView} from '../../reducers/view'
 
 import {getResults} from '../../reducers/Mission/getResults'
 
+import {deleteMission} from '../../reducers/Mission/deleteMission'
+
 // this should ONLY be used for simpleLogin / non-LMS installs. This is NOT scalable.
 import {BANK_TO_DOMAIN, BANK_TO_LIBRARY} from '../../reducers/common'
 
@@ -54,6 +56,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(selectMission(mission));
       dispatch(changeView({name: 'edit-mission', mission: mission}));
     },
+      onClickDeleteMission: (mission) => {
+      dispatch(deleteMission(mission))
+    }
   }
 }
 
