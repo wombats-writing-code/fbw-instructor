@@ -32,6 +32,12 @@ let styles = {
   }
 }
 
+const _getPlurality = (number) => {
+  if (number === 1) return '';
+
+  return 's';
+}
+
 
 const createMarkup = (htmlString) => {
   return {__html: htmlString};
@@ -55,13 +61,16 @@ export const ConfirmViewWeb = (props) => {
   let spawnButton;
   if (props.spawnedMissions) {
     spawnStatus = (
-      <p> Completed spawning testflight missions!</p>
+      <p style={styles.spawnStatus}>
+        Testflight missions have been created. Every student has received a personalized mission targeting the directives they missed:
+      </p>
     )
-    spawnVerb = 'got';
+    spawnVerb = 'received';
 
   } else if (!props.isSpawnInProgress && !props.spawnedMissions) {
 
-    spawnStatus = <p style={styles.spawnStatus}>Your Fly-by-Wire system recommends to give personalized Testflight missions:</p>
+    spawnStatus = <p style={styles.spawnStatus}>
+      Your Fly-by-Wire system recommends to give personalized Testflight missions:</p>
     spawnVerb = 'will get';
 
     spawnButton = (<button className="button button-secondary" style={styles.spawnButton}
@@ -80,9 +89,9 @@ export const ConfirmViewWeb = (props) => {
               <p> <span key={`studentName__${idx}`} style={styles.studentName}>{student.name}</span>
                   <span> {spawnVerb} </span>
                   <span>{student.nextMission.directives.length} </span>
-                  <span>directives with a total of </span>
+                <span>directive{_getPlurality(student.nextMission.directives.length)} with a total of </span>
                   <span>{student.nextMission.numberItemsForDirectives} </span>
-                  questions.</p>
+                  question{_getPlurality(student.nextMission.numberItemsForDirectives)}.</p>
             </li>
           )
         })}

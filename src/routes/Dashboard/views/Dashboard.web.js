@@ -82,7 +82,9 @@ export const DashboardViewWeb = (props) => {
         <ul className="button-group" style={styles.viewControl}>
           <li style={styles.viewControlChild}>
             <a className="button" style={[styles.viewControlButton, props.view.name === 'dashboard.preflightView' ? styles.viewControlButtonActive : null]}
-              onClick={() => props.onChangeView('dashboard.preflightView')}>
+              onClick={() => {
+                props.onChangeView('dashboard.preflightView'); props.getResults(props.mission);
+              }}>
               <span style={styles.processNumber}>1</span>
               Preflight
               </a>
