@@ -44,7 +44,7 @@ export const spawnViewSelector = createSelector([getResults, getMapping], (resul
     return {
       name: parseAgentId(taken.takingAgentId),
       nextMission: {
-        name: `parseAgentId(taken.takingAgentId)'s TestFlight for ${taken.displayName.text}`,
+        name: `${parseAgentId(taken.takingAgentId)}'s TestFlight for ${taken.displayName.text}`,
         directives: newDirectives,
         numberItemsForDirectives: _.sumBy(newDirectives, 'quota')
       }
