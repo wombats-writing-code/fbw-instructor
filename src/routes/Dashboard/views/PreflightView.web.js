@@ -3,10 +3,22 @@ import 'lodash'
 
 import BASE_STYLES from '../../../styles/baseStyles'
 import EmptyState from '../../../components/EmptyState'
+import QuestionResult from '../../../components/QuestionResult'
 
 let styles = {
   container: {
     display: 'flex'
+  },
+  directiveSection: {
+    minWidth: '25%',
+    flex: 1,
+    flexGrow: 0
+  },
+  label: {
+    textAlign: 'left',
+    fontSize: '.775rem',
+    fontWeight: "700",
+    color: '#555'
   },
   directiveCollection: {
     marginLeft: 0,
@@ -16,14 +28,13 @@ let styles = {
     borderRightWidth: 1,
     borderRightColor: '#ddd',
     borderRightStyle: 'solid',
-    minWidth: '25%',
-    flex: 1,
-    flexGrow: 0
+  },
+  questionSection: {
+    paddingLeft: '1em',
+    flex: 3
   },
   questionCollection: {
     marginLeft: 0,
-    paddingLeft: '1em',
-    flex: 3
   },
   directiveItem: {
     paddingTop: '.725rem',
@@ -51,39 +62,7 @@ let styles = {
     lineHeight: 1.25,
     marginBottom: 0,
     textAlign: 'left'
-  },
-  resultItem: {
-    display: 'flex',
-  },
-  questionText: {
-    textAlign: 'left',
-    overflow: 'hidden',
-    marginBottom: '1.625rem',
-    fontSize: '.875rem',
-    width: '75%',
-    flex: 4
-  },
-  warning: {
-    color: BASE_STYLES.warningColor,
-    fontWeight: '500'
-  },
-  muted: {
-    color: '#888'
-  },
-  resultInfoTotal: {
-    color: '#666',
-    fontWeight: '500'
-  },
-  resultInfo: {
-    marginLeft: '1em',
-    fontSize: '1.25rem',
-    flex: 1
   }
-}
-
-
-const createMarkup = (htmlString) => {
-  return {__html: htmlString};
 }
 
 export const PreflightViewWeb = (props) => {
@@ -91,14 +70,16 @@ export const PreflightViewWeb = (props) => {
   let view = props.view;
   let viewData = props.viewData;
 
+  // if the view is not loading AND there are no results, show empty state
   if (!props.isGetResultsInProgress && (!view || !viewData)) {
     return (
       <div className="columns">
-        { EmptyState('There are no results yet. Try refreshing or waiting for a student to try a question.')}
+        {EmptyState('There are no results yet. Try refreshing or waiting for a student to try a question.')}
       </div>
     )
 
-  } else if (!view || !viewData) {
+  // if the view is loading or there is no results, show nothing
+  } else if (props.isGetResultsInProgress || !view || !viewData) {
     return null;
   }
 
@@ -110,18 +91,7 @@ export const PreflightViewWeb = (props) => {
 
     questionCollection = (
       <ul style={styles.questionCollection}>
-        {_.map(collection, (result, idx) => {
-            return (
-              <div key={`question_${idx}`} style={[styles.resultItem]}>
-                <div style={styles.questionText} dangerouslySetInnerHTML={createMarkup(result.questionText)}></div>
-                <div style={styles.resultInfo}>
-                  <span style={styles.warning}>{result.numStudentsNotAchieved}</span> &nbsp;
-                  <span style={styles.muted}>of</span> &nbsp;
-                  <span style={styles.resultInfoTotal}>{result.numStudentsAttempted}</span>
-                </div>
-              </div>
-            )
-        })}
+        {_.map(collection.questions, (result, idx) => QuestionResult(result, idx))}
       </ul>
     )
   }
@@ -129,20 +99,27 @@ export const PreflightViewWeb = (props) => {
 
   return (
     <div style={styles.container}>
-      <ul style={styles.directiveCollection} className="clearfix">
-        {_.map(viewData.directives, (outcome, idx) => {
-            let lastItemStyle = idx === viewData.directives.length-1 ? styles.directiveItemLast : null;
-            return (
-              <div key={`outcome_${idx}`}
-                  style={[styles.directiveItem, view.currentDirective === outcome ? styles.directiveItemSelected : null, lastItemStyle]}
-                  onClick={(e) => props.onClickDirective(outcome, 'dashboard.questionsView')}>
-                <p style={styles.directiveText}>{outcome.displayName.text}</p>
-              </div>
-            )
-        })}
-      </ul>
 
-      {questionCollection}
+      <div style={styles.directiveSection}>
+        <p style={styles.label}>DIRECTIVES</p>
+        <ul style={styles.directiveCollection} className="clearfix">
+          {_.map(viewData.directives, (outcome, idx) => {
+              let lastItemStyle = idx === viewData.directives.length-1 ? styles.directiveItemLast : null;
+              return (
+                <div key={`outcome_${idx}`}
+                    style={[styles.directiveItem, view.currentDirective === outcome ? styles.directiveItemSelected : null, lastItemStyle]}
+                    onClick={(e) => props.onClickDirective(outcome, 'dashboard.questionsView')}>
+                  <p style={styles.directiveText}>{outcome.displayName.text}</p>
+                </div>
+              )
+          })}
+        </ul>
+      </div>
+
+      <div style={styles.questionSection}>
+        <p style={styles.label}>STUDENTS WHO DID NOT ACHIEVE QUESTION</p>
+        {questionCollection}
+      </div>
 
     </div>
 
