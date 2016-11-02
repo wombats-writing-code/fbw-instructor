@@ -9,8 +9,8 @@ import {GET_MISSIONS_OPTIMISTIC, RECEIVE_MISSIONS} from './getMissions'
 import {SELECT_MISSION} from './selectMission'
 import {CLEAR_SELECTED_MISSION} from './clearSelectedMission'
 
-import {RECEIVE_CREATE_MISSION} from './createMission'
 import {RECEIVE_CREATE_TEST_FLIGHT_MISSIONS} from './createTestFlightMissions'
+import {RECEIVE_CREATE_MISSION, CREATE_MISSION_OPTIMISTIC} from './createMission'
 import {RECEIVE_UPDATE_MISSION} from './updateMission'
 import {UPDATE_MISSION_FORM} from './updateMissionForm'
 import {UPDATE_EDIT_MISSION_FORM} from './updateEditMissionForm'
@@ -82,10 +82,16 @@ export default function missionReducer (state = initialState, action) {
         isGetResultsInProgress: false
       });
 
+    case CREATE_MISSION_OPTIMISTIC:
+      return _.assign({}, state, {
+        isCreateMissionInProgress: true,
+      })
+
     case RECEIVE_CREATE_MISSION:
       return _.assign({}, state, {
         missions: [...state.missions, action.mission],      // creates a new array of existing missions with the new mission appended
-        currentMission: action.mission
+        currentMission: action.mission,
+        isCreateMissionInProgress: false
       })
 
     case RECEIVE_UPDATE_MISSION:
@@ -113,7 +119,8 @@ export default function missionReducer (state = initialState, action) {
       let newStartTime = _.has(action.data, "startDate") ? action.data.startDate : state.newMission.startTime,
         newDeadline = _.has(action.data, "endDate") ? action.data.endDate : state.newMission.deadline,
         newDisplayName = _.has(action.data, "displayName") ? action.data.displayName : state.newMission.displayName,
-        newGenusTypeId = _.has(action.data, "genusTypeId") ? action.data.genusTypeId : state.newMission.genusTypeId;
+        // newGenusTypeId = _.has(action.data, "genusTypeId") ? action.data.genusTypeId : state.newMission.genusTypeId;
+        newGenusTypeId = 'assessment-genus%3Afbw-homework-mission%40ODL.MIT.EDU';
 
       // lets do form validation
       let formError = false;
@@ -132,7 +139,7 @@ export default function missionReducer (state = initialState, action) {
       let selectedDirectives = _.clone(state.newMission.selectedDirectives) || [];
       if (action.data.toggledDirective) {
         let isAlreadySelected = _.find(state.newMission.selectedDirectives, (item) => item.outcome.id === action.data.toggledDirective.outcome.id);
-      
+
         if (!state.newMission.selectedDirectives) {
           selectedDirectives = [action.data.toggledDirective];
 
@@ -154,7 +161,7 @@ export default function missionReducer (state = initialState, action) {
           genusTypeId: newGenusTypeId,
           focusedInput: nextFocusedInput,
           formError: formError,
-          selectedModule: action.data.selectedModule || _.clone(state.newMission.selectedModule),
+          selectedModule: action.data.selectedModule || state.newMission.selectedModule,
           selectedDirectives: selectedDirectives
         }
       })
@@ -172,7 +179,8 @@ export default function missionReducer (state = initialState, action) {
       let newStartTimeEdit = _.has(action.data, "startDate") ? action.data.startDate : state.editMission.startTime,
         newDeadlineEdit = _.has(action.data, "endDate") ? action.data.endDate : state.editMission.deadline,
         newDisplayNameEdit = _.has(action.data, "displayName") ? action.data.displayName : state.editMission.displayName,
-        newGenusTypeIdEdit = _.has(action.data, "genusTypeId") ? action.data.genusTypeId : state.editMission.genusTypeId;
+        // newGenusTypeIdEdit = _.has(action.data, "genusTypeId") ? action.data.genusTypeId : state.editMission.genusTypeId;
+        newGenusTypeIdEdit = 'assessment-genus%3Afbw-homework-mission%40ODL.MIT.EDU';
 
       // lets do form validation
       let formErrorEdit = false;
