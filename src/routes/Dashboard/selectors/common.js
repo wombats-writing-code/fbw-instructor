@@ -25,7 +25,8 @@ export const notAchievedOnAttempt = (questionId, takenResults, maxAttempts) => {
   let notAchieved = _.compact(_.map(takenResults, (taken) => {
 
     let numAttempts = 0;
-    let responses = grabAndSortResponses(taken.questions, questionId);    // gets all responses for this questionId
+    let takenQuestions = _.flatMap(taken.sections, 'questions');
+    let responses = grabAndSortResponses(takenQuestions, questionId);    // gets all responses for this questionId
     if (responses.length > 0) total.push(responses);
 
     for (let i=0; i<responses.length; i++) {

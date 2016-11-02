@@ -51,50 +51,28 @@ let styles = {
 
 export const DashboardViewWeb = (props) => {
 
-  if (!props.mission) return null;
+  // if (!props.mission) return null;
 
   let view;
-  switch (props.view.name) {
-    case 'dashboard.questionsView':
-      // view = QuestionsViewWeb(props);
+  let dashboardNav;
+  if (props.mission) {
+    switch (props.view.name) {
+      case 'dashboard.questionsView':
+        // view = QuestionsViewWeb(props);
 
-    case 'dashboard.outcomesView':
-      // view = OutcomesViewWeb(props);
+      case 'dashboard.outcomesView':
+        // view = OutcomesViewWeb(props);
 
-    case 'dashboard.preflightView':
-      view = PreflightViewWeb(props);
-      break;
+      case 'dashboard.preflightView':
+        view = PreflightViewWeb(props);
+        break;
 
-    case 'dashboard.confirmView':
-      view = ConfirmViewWeb(props);
-      break;
-  }
+      case 'dashboard.confirmView':
+        view = ConfirmViewWeb(props);
+        break;
+    }
 
-
-  let loadingBox;
-  if (!props.isGetResultsInProgress) {
-    loadingBox = LoadingBox('enter');
-  } else {
-    loadingBox = LoadingBox('enter-active');
-  }
-
-//   <ul className="button-group" style={styles.viewControl}>
-//     <li style={styles.viewControlChild}>
-//       <a className="button" style={[styles.viewControlButton, props.view.name === 'dashboard.questionsView' ? styles.viewControlButtonActive : null]}
-//         onClick={() => props.onChangeView('dashboard.questionsView')}>Questions View</a>
-//     </li>
-//     <li style={styles.viewControlChild}>
-//       <a className="button" style={[styles.viewControlButton, props.view.name === 'dashboard.outcomesView' ? styles.viewControlButtonActive : null]}
-//         onClick={() => props.onChangeView('dashboard.outcomesView')}>Outcomes View</a>
-//     </li>
-//     <li style={styles.viewControlChild}>
-//       <a className="button" style={[styles.viewControlButton, props.view.name === 'dashboard.studentView' ? styles.viewControlButtonActive : null]}
-//         onClick={() => props.onChangeView('dashboard.studentView')}>Student View</a>
-//     </li>
-// </ul>
-
-  return (
-    <div>
+    dashboardNav = (
       <div style={styles.navBar}>
         <p style={styles.navBarTitle}>{props.mission ? props.mission.displayName.text : ''}</p>
         <ul className="button-group" style={styles.viewControl}>
@@ -118,13 +96,39 @@ export const DashboardViewWeb = (props) => {
               Testflight
               </a>
           </li>
-      </ul>
-
-
+        </ul>
       </div>
+    )
+  }
 
+  let loadingBox;
+  if (props.isGetResultsInProgress) {
+    loadingBox = LoadingBox('enter-active');
+  } else {
+    loadingBox = LoadingBox('enter');
+  }
+
+//   <ul className="button-group" style={styles.viewControl}>
+//     <li style={styles.viewControlChild}>
+//       <a className="button" style={[styles.viewControlButton, props.view.name === 'dashboard.questionsView' ? styles.viewControlButtonActive : null]}
+//         onClick={() => props.onChangeView('dashboard.questionsView')}>Questions View</a>
+//     </li>
+//     <li style={styles.viewControlChild}>
+//       <a className="button" style={[styles.viewControlButton, props.view.name === 'dashboard.outcomesView' ? styles.viewControlButtonActive : null]}
+//         onClick={() => props.onChangeView('dashboard.outcomesView')}>Outcomes View</a>
+//     </li>
+//     <li style={styles.viewControlChild}>
+//       <a className="button" style={[styles.viewControlButton, props.view.name === 'dashboard.studentView' ? styles.viewControlButtonActive : null]}
+//         onClick={() => props.onChangeView('dashboard.studentView')}>Student View</a>
+//     </li>
+// </ul>
+
+  return (
+    <div>
       <div className="row">
+        {dashboardNav}
         {view}
+        
         <div className="columns">
           {loadingBox}
         </div>

@@ -34,7 +34,7 @@ export function getItems(bankId) {
       return res.json()
     })
     .then((items) => {
-      console.log('items', items);
+      // console.log('items', items);
       dispatch(receiveItems(items))
     })
     .catch((error) => {

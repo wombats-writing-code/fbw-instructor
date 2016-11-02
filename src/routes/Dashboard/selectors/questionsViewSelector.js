@@ -6,14 +6,15 @@ import 'moment-timezone'
 import {getResults, getMapping, isTarget, notAchievedOnAttempt} from './common'
 
 export const questionsViewSelector = createSelector([getResults, getMapping], (results, mapping) => {
-
   if (!results || !mapping) return null;
 
   // console.log('questionsViewSelector results', results, ' questions', allQuestions, 'mapping', mapping);
 
-  let allQuestions = _.flatMap(results, 'questions');
+  let allQuestions = _.flatMap(_.flatMap(results, 'sections'), 'questions');
   let targetQuestions =  _.filter(_.uniqBy(allQuestions, 'itemId'), (q) => isTarget(q));
   let targetOutcomes = _.compact(_.map(_.uniq(_.flatMap(targetQuestions, 'learningObjectiveIds')), (id) => _.find(mapping.outcomes, {id: id})));
+
+  // console.log('allQuestions', allQuestions)
 
   if (targetOutcomes.length === 0) return null;
 
@@ -23,9 +24,8 @@ export const questionsViewSelector = createSelector([getResults, getMapping], (r
   let allUniqueQuestions = _.uniqBy(allQuestions, 'itemId');
   let uniqueQuestionsByOutcome = _.groupBy(allUniqueQuestions, (q) => q.learningObjectiveIds[0]);
 
-  // build up a dictionary of results by directive
+  // build up a dictionary of results for our view by directive
   let resultsByDirective = _.reduce( uniqueQuestionsByOutcome, (result, arrayQuestions, outcomeId) => {
-    // hmmm: note to self: there could be more than one question per directive...we should show an array of arrays
 
     result[outcomeId] = result[outcomeId] || [];
     result[outcomeId] = _.concat(result[outcomeId], _.map(arrayQuestions, (question) => {
@@ -42,7 +42,20 @@ export const questionsViewSelector = createSelector([getResults, getMapping], (r
     return result;
   }, {});
 
-  // console.log('resultsByDirective', resultsByDirective);
+  // sort the inner questions and attach flag
+  _.forOwn(resultsByDirective, (results, directiveId) => {
+    let totalNotAchieved = _.sum(_.map(results, (r) => _.parseInt(r.numStudentsNotAchieved)));
+    let total = _.sum(_.map(results, (r) => _.parseInt(r.numStudentsAttempted)));
+
+    resultsByDirective[directiveId] = {
+      questions: _.orderBy(results, ['numStudentsNotAchieved'], ['desc']),
+      warning: totalNotAchieved >= total / 2
+    };
+
+  });
+
+  console.log('resultsByDirective', resultsByDirective);
+  // console.log('sorted', sorted);
 
   return {
     resultsByDirective,
