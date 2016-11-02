@@ -11,7 +11,7 @@ import {spawnViewSelector} from './selectors/spawnViewSelector'
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     onChangeView: (viewName) => dispatch(changeView({name: viewName})),
-    onClickDirective: (directive, viewName) => dispatch(selectDirective(directive, viewName))
+    onClickDirective: (directive, viewName) => dispatch(selectDirective(directive, viewName)),
     // onNodeMouseover: (node, viewName) => dispatch(changeMouseOver(node, viewName)),
     // onNodeClick: (node, viewName) => dispatch(changeClick(node, viewName)),
     // onEdgeMouseover: (node) => dispatch()

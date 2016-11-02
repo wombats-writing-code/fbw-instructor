@@ -111,7 +111,8 @@ export default function missionReducer (state = initialState, action) {
       let newStartTime = _.has(action.data, "startDate") ? action.data.startDate : state.newMission.startTime,
         newDeadline = _.has(action.data, "endDate") ? action.data.endDate : state.newMission.deadline,
         newDisplayName = _.has(action.data, "displayName") ? action.data.displayName : state.newMission.displayName,
-        newGenusTypeId = _.has(action.data, "genusTypeId") ? action.data.genusTypeId : state.newMission.genusTypeId;
+        // newGenusTypeId = _.has(action.data, "genusTypeId") ? action.data.genusTypeId : state.newMission.genusTypeId;
+        newGenusTypeId = 'assessment-genus%3Afbw-homework-mission%40ODL.MIT.EDU';
 
       // lets do form validation
       let formError = false;
@@ -130,7 +131,7 @@ export default function missionReducer (state = initialState, action) {
       let selectedDirectives = _.clone(state.newMission.selectedDirectives) || [];
       if (action.data.toggledDirective) {
         let isAlreadySelected = _.find(state.newMission.selectedDirectives, (item) => item.outcome.id === action.data.toggledDirective.outcome.id);
-      
+
         if (!state.newMission.selectedDirectives) {
           selectedDirectives = [action.data.toggledDirective];
 
@@ -170,7 +171,8 @@ export default function missionReducer (state = initialState, action) {
       let newStartTimeEdit = _.has(action.data, "startDate") ? action.data.startDate : state.editMission.startTime,
         newDeadlineEdit = _.has(action.data, "endDate") ? action.data.endDate : state.editMission.deadline,
         newDisplayNameEdit = _.has(action.data, "displayName") ? action.data.displayName : state.editMission.displayName,
-        newGenusTypeIdEdit = _.has(action.data, "genusTypeId") ? action.data.genusTypeId : state.editMission.genusTypeId;
+        // newGenusTypeIdEdit = _.has(action.data, "genusTypeId") ? action.data.genusTypeId : state.editMission.genusTypeId;
+        newGenusTypeIdEdit = 'assessment-genus%3Afbw-homework-mission%40ODL.MIT.EDU';
 
       // lets do form validation
       let formErrorEdit = false;

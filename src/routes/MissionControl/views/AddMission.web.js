@@ -164,7 +164,7 @@ export const AddMissionWeb = (props) => {
   return (
     <div>
       <form onSubmit={(e) => {props.onAddMission(props.newMission, props.currentBank.id, props.numberItemsForDirectives, props.itemBankId); e.preventDefault();}}>
-        <div style={styles.formSection}>
+        <div className="medium-6 columns" style={styles.formSection}>
           <label style={styles.formLabel} htmlFor="displayName">Mission Name</label>
           <input type="text" style={styles.textInput}
                  value={props.newMission.displayName}
@@ -172,24 +172,7 @@ export const AddMissionWeb = (props) => {
                  onChange={(e) => props.updateMissionForm({displayName: e.target.value})} />
         </div>
 
-        <div style={styles.formSection}>
-          <label style={styles.formLabel}>Mission Type</label>
-          <div style={styles.missionTypeOptions}>
-            <div key='homework'
-                  style={[styles.missionTypeSelect, (props.newMission.genusTypeId === 'assessment-genus%3Afbw-homework-mission%40ODL.MIT.EDU') ? styles.missionTypeSelected : null]}
-                  onClick={() => props.updateMissionForm({genusTypeId: 'assessment-genus%3Afbw-homework-mission%40ODL.MIT.EDU'})}>
-              &#x02A2F;  <span style={styles.missionTypeSelectText}>Preflight</span>
-            </div>
-            <div key='in-class'
-                  style={[styles.missionTypeSelect, (props.newMission.genusTypeId === 'assessment-genus%3Afbw-in-class-mission%40ODL.MIT.EDU') ? styles.missionTypeSelected : null]}
-                  onClick={() => props.updateMissionForm({genusTypeId: 'assessment-genus%3Afbw-in-class-mission%40ODL.MIT.EDU'})}>
-              &#x02A2F; <span style={styles.missionTypeSelectText}>Testflight</span>
-            </div>
-          </div>
-        </div>
-
-
-        <div style={styles.formSection} className="clearfix">
+        <div className="medium-6 columns clearfix" style={styles.formSection}>
           <label style={styles.formLabel}>Dates</label>
           <DateRangePicker style={styles.datepicker} onDatesChange={props.updateMissionForm}
                            onFocusChange={(input) => props.updateMissionForm({focusedInput: input})}
