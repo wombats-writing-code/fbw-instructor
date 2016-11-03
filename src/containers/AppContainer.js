@@ -4,6 +4,7 @@ import { Provider } from 'react-redux'
 
 require('../styles/foundation.min.css');
 
+
 class AppContainer extends Component {
   static propTypes = {
     routes : PropTypes.object.isRequired,

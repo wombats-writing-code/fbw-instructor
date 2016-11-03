@@ -11,6 +11,19 @@ import {PRE_FLIGHT_MISSION} from '../../../reducers/common'
 import BASE_STYLES from '../../../styles/baseStyles'
 
 let styles = {
+  appTitle: {
+    marginTop: 0,
+    marginLeft: '.55em',
+    fontSize: '1.25rem',
+    textAlign: 'left',
+    color: '#333',
+  },
+  projectName: {
+    fontWeight: "800",
+  },
+  appName: {
+    fontWeight: "300"
+  },
   bankCollection: {
     listStyle: 'none',
     marginLeft: 0
@@ -167,6 +180,7 @@ export const HomeViewWeb = (props) => {
 
   return (
     <div className="row">
+      <h1 className="columns" style={styles.appTitle}><span style={styles.projectName}>Fly-by-Wire </span><span style={styles.appName}>Instructor App</span></h1>
       <div className="medium-4 large-3 columns"  style={styles.sidebar}>
         <ul style={styles.bankCollection}>
           {_.map(props.banks, (bank, idx) => {
