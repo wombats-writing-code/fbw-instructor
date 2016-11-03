@@ -24,6 +24,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 }
 
 const mapStateToProps = (state, ownProps) => {
+  let currentMission = state.mission ? state.mission.currentMission : null;
+
   return {
     view: state.view,
     // viewState: state.analysis[state.view.name],
@@ -34,7 +36,7 @@ const mapStateToProps = (state, ownProps) => {
     isGetResultsInProgress: state.mission ? state.mission.isGetResultsInProgress : false,
     currentBankId: state.bank.currentBank ? state.bank.currentBank.id : null,
     isSpawnInProgress: state.mission.isSpawnInProgress ? state.mission.isSpawnInProgress : false,
-    spawnedMissions: state.mission.spawnedMissionsByMission ? state.mission.spawnedMissionsByMission[state.mission.currentMission.id] : null
+    spawnedMissions: state.mission.spawnedMissionsByMission && currentMission ? state.mission.spawnedMissionsByMission[currentMission.id] : null
   }
 }
 
