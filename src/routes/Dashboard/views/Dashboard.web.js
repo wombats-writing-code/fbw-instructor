@@ -93,7 +93,7 @@ export const DashboardViewWeb = (props) => {
             <a className="button" style={[styles.viewControlButton, props.view.name === 'dashboard.confirmView' ? styles.viewControlButtonActive : null]}
               onClick={() => props.onChangeView('dashboard.confirmView')}>
               <span style={styles.processNumber}>2</span>
-              Confirm</a>
+              Set</a>
           </li>
           <li style={styles.viewControlChild}>
             <a className="button" style={[styles.viewControlButton, props.view.name === 'dashboard.testflightView' ? styles.viewControlButtonActive : null]}
