@@ -6,6 +6,7 @@ import {QuestionsViewWeb} from './QuestionsView.web'
 // import {OutcomesViewWeb} from './OutcomesView.web'
 import {PreflightViewWeb} from './PreflightView.web'
 import {ConfirmViewWeb} from './ConfirmView.web'
+import {TestflightViewWeb} from './TestflightView.web'
 
 import LoadingBox from '../../../components/LoadingBox'
 
@@ -29,7 +30,7 @@ let styles = {
     borderRightWidth: 1,
     borderRightStyle: 'solid',
     borderRightColor: '#fff',
-    fontWeight: "500"
+    fontWeight: "600"
   },
   viewControlButtonActive: {
     backgroundColor: '#72bd9a',
@@ -44,7 +45,7 @@ let styles = {
   },
   processNumber: {
     color: '#eee',
-    fontWeight: "500",
+    fontWeight: "600",
     marginRight: '1em'
   }
 }
@@ -70,15 +71,20 @@ export const DashboardViewWeb = (props) => {
       case 'dashboard.confirmView':
         view = ConfirmViewWeb(props);
         break;
+
+      case 'dashboard.testflightView':
+        view = TestflightViewWeb(props);
     }
 
     dashboardNav = (
       <div style={styles.navBar}>
-        <p style={styles.navBarTitle}>{props.mission ? props.mission.displayName.text : ''}</p>
+        <p style={styles.navBarTitle} onMouseOver={() => props.getResults(props.mission)}>{props.mission ? props.mission.displayName.text : ''}</p>
         <ul className="button-group" style={styles.viewControl}>
           <li style={styles.viewControlChild}>
             <a className="button" style={[styles.viewControlButton, props.view.name === 'dashboard.preflightView' ? styles.viewControlButtonActive : null]}
-              onClick={() => props.onChangeView('dashboard.preflightView')}>
+              onClick={() => {
+                props.onChangeView('dashboard.preflightView'); props.getResults(props.mission);
+              }}>
               <span style={styles.processNumber}>1</span>
               Preflight
               </a>
@@ -87,11 +93,13 @@ export const DashboardViewWeb = (props) => {
             <a className="button" style={[styles.viewControlButton, props.view.name === 'dashboard.confirmView' ? styles.viewControlButtonActive : null]}
               onClick={() => props.onChangeView('dashboard.confirmView')}>
               <span style={styles.processNumber}>2</span>
-              Confirm</a>
+              Set</a>
           </li>
           <li style={styles.viewControlChild}>
             <a className="button" style={[styles.viewControlButton, props.view.name === 'dashboard.testflightView' ? styles.viewControlButtonActive : null]}
-              onClick={() => props.onChangeView('dashboard.testflightView')}>
+              onClick={() => {
+                  props.onChangeView('dashboard.testflightView'); props.getResultsAll(props.spawnedMissions)
+              }}>
               <span style={styles.processNumber}>3</span>
               Testflight
               </a>

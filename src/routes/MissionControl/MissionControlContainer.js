@@ -16,7 +16,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     onAddMission: (newMission, bankId, directivesItemsMap, itemBankId) => {
       dispatch(createMission(newMission, bankId, directivesItemsMap, itemBankId));
-      dispatch(changeView({name: 'dashboard', mission: newMission}))
+      setTimeout( () => {       // this time out really should not be here but too lazy to do it right now before demo and dashboard will need to change anyways
+        dispatch(changeView({name: 'dashboard.preflightView', mission: newMission}))
+      }, 2000);
     },
     // onSelectModule: (module) => dispatch(selectModule(module)),
     onUpdateMission: (newMission, bankId) => { dispatch(updateMission(newMission, bankId)) },
@@ -36,6 +38,7 @@ const mapStateToProps = (state, ownProps) => {
     editMission: state.mission.editMission,
     moduleTree: moduleTreeSelector(state),
     numberItemsForDirectives: itemsForDirectivesSelector(state),
+    isCreateMissionInProgress: state.mission.isCreateMissionInProgress
   }
 }
 

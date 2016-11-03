@@ -3,6 +3,7 @@ import Dashboard from './Dashboard'
 
 import {changeView, changeMouseOver, changeClick, selectDirective} from '../../reducers/view'
 import {createTestFlightMissions} from '../../reducers/Mission/createTestFlightMissions'
+import {getResultsAll, getResults} from '../../reducers/Mission/getResults'
 
 // import {outcomesViewSelector} from './selectors/outcomesViewSelector'
 import {questionsViewSelector} from './selectors/questionsViewSelector'
@@ -13,7 +14,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     onChangeView: (viewName) => dispatch(changeView({name: viewName})),
     onClickDirective: (directive, viewName) => dispatch(selectDirective(directive, viewName)),
-    createTestFlightMissions: (studentData, bankId) => dispatch(createTestFlightMissions(studentData, bankId))
+    createTestFlightMissions: (studentData, bankId, currentMission) => dispatch(createTestFlightMissions(studentData, bankId, currentMission)),
+    getResultsAll: (missions) => dispatch(getResultsAll(missions)),
+    getResults: (mission) => dispatch(getResults(mission)),
     // onNodeMouseover: (node, viewName) => dispatch(changeMouseOver(node, viewName)),
     // onNodeClick: (node, viewName) => dispatch(changeClick(node, viewName)),
     // onEdgeMouseover: (node) => dispatch()
@@ -21,6 +24,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 }
 
 const mapStateToProps = (state, ownProps) => {
+  let currentMission = state.mission ? state.mission.currentMission : null;
+
   return {
     view: state.view,
     // viewState: state.analysis[state.view.name],
@@ -30,7 +35,8 @@ const mapStateToProps = (state, ownProps) => {
     results: state.mission ? state.mission.results : [],
     isGetResultsInProgress: state.mission ? state.mission.isGetResultsInProgress : false,
     currentBankId: state.bank.currentBank ? state.bank.currentBank.id : null,
-    spawnComplete: state.mission.spawnComplete ? state.mission.spawnComplete : false
+    isSpawnInProgress: state.mission.isSpawnInProgress ? state.mission.isSpawnInProgress : false,
+    spawnedMissions: state.mission.spawnedMissionsByMission && currentMission ? state.mission.spawnedMissionsByMission[currentMission.id] : null
   }
 }
 

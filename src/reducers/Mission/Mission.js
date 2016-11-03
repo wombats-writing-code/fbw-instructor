@@ -9,8 +9,8 @@ import {GET_MISSIONS_OPTIMISTIC, RECEIVE_MISSIONS} from './getMissions'
 import {SELECT_MISSION} from './selectMission'
 import {CLEAR_SELECTED_MISSION} from './clearSelectedMission'
 
-import {RECEIVE_CREATE_TEST_FLIGHT_MISSIONS} from './createTestFlightMissions'
-import {RECEIVE_CREATE_MISSION, CREATE_MISSION_OPTIMISTIC} from './createMission'
+import {CREATE_TEST_FLIGHT_MISSIONS_OPTIMISTIC, RECEIVE_CREATE_TEST_FLIGHT_MISSIONS} from './createTestFlightMissions'
+import {CREATE_MISSION_OPTIMISTIC, RECEIVE_CREATE_MISSION} from './createMission'
 import {RECEIVE_UPDATE_MISSION} from './updateMission'
 import {UPDATE_MISSION_FORM} from './updateMissionForm'
 import {UPDATE_EDIT_MISSION_FORM} from './updateEditMissionForm'
@@ -40,21 +40,14 @@ export default function missionReducer (state = initialState, action) {
     case RECEIVE_MISSIONS:
       return _.assign({}, state, {
         missions: action.missions,
-        newMission: {
-          startTime: null,
-          deadline: null,
-          displayName: '',
-          genusTypeId: 'assessment-genus%3Afbw-homework-mission%40ODL.MIT.EDU',
-          focusedInput: null,
-          formError: true
-        },
+        newMission: stampNewMission(),
         isGetMissionsInProgress: false
       });
 
     case SELECT_MISSION:
       return _.assign({}, state, {
         currentMission: action.mission,
-        spawnComplete: false,
+        isSpawnInProgress: false,
         editMission: action.mission ? {
           id: action.mission.id,
           assessmentOfferedId: action.mission.assessmentOfferedId,
@@ -91,6 +84,7 @@ export default function missionReducer (state = initialState, action) {
     case RECEIVE_CREATE_MISSION:
       return _.assign({}, state, {
         missions: [...state.missions, action.mission],      // creates a new array of existing missions with the new mission appended
+        newMission: stampNewMission(),
         currentMission: action.mission,
         isCreateMissionInProgress: false
       })
@@ -205,9 +199,17 @@ export default function missionReducer (state = initialState, action) {
         }
       })
 
+    case CREATE_TEST_FLIGHT_MISSIONS_OPTIMISTIC:
+      return _.assign({}, state, {
+        isSpawnInProgress: true
+      })
+
     case RECEIVE_CREATE_TEST_FLIGHT_MISSIONS:
       return _.assign({}, state, {
-        spawnComplete: true
+        isSpawnInProgress: false,
+        spawnedMissionsByMission: _.assign({}, state.spawnedMissionsByMission, {
+          [action.originalMission.id]: action.missions
+        })
       })
 
     case RECEIVE_DELETE_MISSION:
@@ -219,5 +221,17 @@ export default function missionReducer (state = initialState, action) {
 
     default:
       return state
+  }
+}
+
+
+const stampNewMission = () => {
+  return {
+    startTime: null,
+    deadline: null,
+    displayName: '',
+    genusTypeId: 'assessment-genus%3Afbw-homework-mission%40ODL.MIT.EDU',
+    focusedInput: null,
+    formError: true
   }
 }

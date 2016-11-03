@@ -59,6 +59,7 @@ export function createMission(data, bankId, directivesItemsMap, itemBankId) {
       method: 'POST'
     };
     console.log(missionParams)
+
   return function(dispatch) {
     // here starts the code that actually gets executed when the
     // createMission action creator is dispatched

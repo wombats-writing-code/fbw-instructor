@@ -7,7 +7,14 @@ import {EditMissionWeb} from './EditMission.web'
 import BASE_STYLES from '../../../styles/baseStyles'
 
 let styles = {
-
+  missionControlTitle:{
+    fontSize: '1.25rem',
+    fontWeight: "700",
+    color: '#888',
+    textAlign: "left",
+    marginTop: 0,
+    marginBottom: '1.75rem'
+  }
 };
 
 export const MissionControlWeb = (props) => {
@@ -22,7 +29,7 @@ export const MissionControlWeb = (props) => {
 
   return (
     <div>
-      <h1>Mission Control: Add and edit missions here</h1>
+      <h1 style={styles.missionControlTitle}>Mission Control</h1>
       <p>{props.mission ? props.mission.displayName.text : null}</p>
       {view}
     </div>

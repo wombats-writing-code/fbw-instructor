@@ -51,13 +51,16 @@ export const questionsViewSelector = createSelector([getResults, getMapping], (r
       questions: _.orderBy(results, ['numStudentsNotAchieved'], ['desc']),
       warning: totalNotAchieved >= total / 2
     };
-
   });
+
+  // TODO: compute unique students who actually had a response
+  let totalResponded = 0;
 
   console.log('resultsByDirective', resultsByDirective);
   // console.log('sorted', sorted);
 
   return {
+    totalResponded,
     resultsByDirective,
     questions: allQuestions,
     directives: targetOutcomes

@@ -3,6 +3,7 @@ import React from 'react'
 import BASE_STYLES from '../../../styles/baseStyles'
 
 import EmptyState from '../../../components/EmptyState'
+import LoadingBox from '../../../components/LoadingBox'
 
 
 import {
@@ -24,7 +25,7 @@ let styles = {
     fontSize: '.875rem',
     color: BASE_STYLES.primaryColor,
     textAlign: 'left',
-    fontWeight: "500"
+    fontWeight: "600"
   },
   formSubLabelRow: {
     display: 'flex',
@@ -35,11 +36,13 @@ let styles = {
     color: BASE_STYLES.primaryColorDark,
     textAlign: 'left',
     marginTop: '1.125rem',
-    fontWeight: "500",
+    fontWeight: "600",
     flex: 1
   },
   textInput: {
-    border: '1px solid #bbb',
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderColor: '#bbb',
     borderRadius: 1,
     paddingLeft: '.75em',
     opacity: 1,
@@ -88,6 +91,7 @@ let styles = {
     cursor: 'default'
   },
   selectDirectiveIcon: {
+    fontFamily: 'sans-serif',
     display: 'inline-block',
     textAlign: 'center',
     width: 30,
@@ -113,17 +117,16 @@ let styles = {
     marginLeft: 0,
     display: 'block',
     marginRight: 'auto',
-    width: '8rem'
+    width: '100%'
   },
   selectedDirectiveItemCount: {
     color: '#666',
-    fontWeight: "500",
+    fontWeight: "600",
     textAlign: 'right',
   }
 };
 
 export const AddMissionWeb = (props) => {
-
   if (!props.newMission) return;
 
   let alert = <div />;
@@ -136,6 +139,13 @@ export const AddMissionWeb = (props) => {
 //       </div>
 //    )
   } else {
+  }
+
+  let loadingBox;
+  if (props.isCreateMissionInProgress) {
+    loadingBox = LoadingBox('enter-active');
+  } else {
+    loadingBox = LoadingBox('enter');
   }
 
   let selectDirectives;
@@ -177,8 +187,9 @@ export const AddMissionWeb = (props) => {
     selectedDirectives = EmptyState("You haven't selected a directive. Click on a module below to find a directive.")
   }
 
-  return (
-    <div>
+  let form;
+  if (!props.isCreateMissionInProgress) {
+    form = (
       <form onSubmit={(e) => {e.preventDefault(); props.onAddMission(props.newMission, props.currentBank.id, props.numberItemsForDirectives, props.itemBankId); e.preventDefault();}}>
         <div className="row">
           <div className="medium-6 columns" style={styles.formSection}>
@@ -236,7 +247,13 @@ export const AddMissionWeb = (props) => {
         </div>
 
       </form>
+    )
+  }
 
+  return (
+    <div>
+      {form}
+      {loadingBox}
     </div>
   )
 
