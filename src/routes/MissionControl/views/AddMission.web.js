@@ -25,7 +25,7 @@ let styles = {
     fontSize: '.875rem',
     color: BASE_STYLES.primaryColor,
     textAlign: 'left',
-    fontWeight: "500"
+    fontWeight: "600"
   },
   formSubLabelRow: {
     display: 'flex',
@@ -36,7 +36,7 @@ let styles = {
     color: BASE_STYLES.primaryColorDark,
     textAlign: 'left',
     marginTop: '1.125rem',
-    fontWeight: "500",
+    fontWeight: "600",
     flex: 1
   },
   textInput: {
@@ -91,6 +91,7 @@ let styles = {
     cursor: 'default'
   },
   selectDirectiveIcon: {
+    fontFamily: 'sans-serif',
     display: 'inline-block',
     textAlign: 'center',
     width: 30,
@@ -120,7 +121,7 @@ let styles = {
   },
   selectedDirectiveItemCount: {
     color: '#666',
-    fontWeight: "500",
+    fontWeight: "600",
     textAlign: 'right',
   }
 };
