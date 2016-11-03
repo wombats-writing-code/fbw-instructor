@@ -73,10 +73,10 @@ export const TestflightViewWeb = (props) => {
   // if the view is not loading AND there are no results, show empty state
   // always return this because we just ran out of time
   if (true || !props.isGetResultsInProgress && (!view || !viewData)) {
-    return (
-      <div className="columns">
-        {EmptyState('There are no results yet. Try refreshing or waiting for a student to try a question.')}
-      </div>
+    return (null
+      // <div className="columns">
+      //   {EmptyState('There are no results yet. Try refreshing or waiting for a student to try a question.')}
+      // </div>
     )
 
   // if the view is loading or there is no results, show nothing

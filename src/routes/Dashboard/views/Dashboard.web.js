@@ -30,7 +30,7 @@ let styles = {
     borderRightWidth: 1,
     borderRightStyle: 'solid',
     borderRightColor: '#fff',
-    fontWeight: "500"
+    fontWeight: "600"
   },
   viewControlButtonActive: {
     backgroundColor: '#72bd9a',
@@ -45,7 +45,7 @@ let styles = {
   },
   processNumber: {
     color: '#eee',
-    fontWeight: "500",
+    fontWeight: "600",
     marginRight: '1em'
   }
 }

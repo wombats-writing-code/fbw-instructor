@@ -4,8 +4,8 @@ const BASE_STYLES = {
   flexContainer: {
     display: 'flex'
   },
-  primaryColor: '#96CEB4',
-  primaryColorDark: '#366659',
+  primaryColor: '#324D5C',
+  primaryColorDark: '#46B29D',
   warningColor: '#FF6F69',
   linkColor: '#00A388'
 }

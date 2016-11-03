@@ -11,12 +11,18 @@ import {PRE_FLIGHT_MISSION} from '../../../reducers/common'
 import BASE_STYLES from '../../../styles/baseStyles'
 
 let styles = {
+  topBar: {
+    paddingTop: '2rem',
+    paddingBottom: '1rem',
+    marginBottom: '1.5rem',
+    backgroundColor: BASE_STYLES.primaryColor,
+  },
   appTitle: {
     marginTop: 0,
-    marginLeft: '.55em',
+    marginLeft: '10em',
     fontSize: '1.25rem',
     textAlign: 'left',
-    color: '#333',
+    color: '#fff',
   },
   projectName: {
     fontWeight: "800",
@@ -35,7 +41,7 @@ let styles = {
     cursor: 'pointer',
   },
   rowItemTitle: {
-    fontWeight: "500"
+    fontWeight: "600"
   },
   rowItemSubtitle: {
     fontSize: '.9em',
@@ -179,40 +185,41 @@ export const HomeViewWeb = (props) => {
   }
 
   return (
-    <div className="row">
-      <h1 className="columns" style={styles.appTitle}><span style={styles.projectName}>Fly-by-Wire </span><span style={styles.appName}>Instructor App</span></h1>
-      <div className="medium-4 large-3 columns"  style={styles.sidebar}>
-        <ul style={styles.bankCollection}>
-          {_.map(props.banks, (bank, idx) => {
-            let key = `bank_${idx}`;
-            let selectedStyle = (props.currentBank && bank.id === props.currentBank.id) ?
-                                styles.selectedBankItem : null;
-
-            return (
-              <li key={key} style={[styles.rowItem, styles.bankCollectionItem, selectedStyle]}
-                            onClick={() => props.onClickBank(bank)}>
-                <div style={styles.rowItemInfo}>
-                  <p style={styles.rowItemTitle}>{bank.displayName.text}</p>
-                  <p style={styles.rowItemSubtitle}>{bank.description.text}</p>
-                </div>
-              </li>
-            )
-          })}
-        </ul>
-
-
-
-        {createMissionButton}
-
-        {missionCollection}
-        {missionsLoadingBox}
+    <div>
+      <div style={styles.topBar}>
+        <h1 className="row" style={styles.appTitle}>
+          <span style={styles.projectName}>Fly-by-Wire </span><span style={styles.appName}>Instructor App</span>
+        </h1>
       </div>
+      <div className="row">
+        <div className="medium-4 large-3 columns"  style={styles.sidebar}>
+          <ul style={styles.bankCollection}>
+            {_.map(props.banks, (bank, idx) => {
+              let key = `bank_${idx}`;
+              let selectedStyle = (props.currentBank && bank.id === props.currentBank.id) ?
+                                  styles.selectedBankItem : null;
 
-      <div className="medium-8 large-9 columns">
-        {view}
+              return (
+                <li key={key} style={[styles.rowItem, styles.bankCollectionItem, selectedStyle]}
+                              onClick={() => props.onClickBank(bank)}>
+                  <div style={styles.rowItemInfo}>
+                    <p style={styles.rowItemTitle}>{bank.displayName.text}</p>
+                    <p style={styles.rowItemSubtitle}>{bank.description.text}</p>
+                  </div>
+                </li>
+              )
+            })}
+          </ul>
+          {createMissionButton}
+
+          {missionCollection}
+          {missionsLoadingBox}
+        </div>
+
+        <div className="medium-8 large-9 columns">
+          {view}
+        </div>
       </div>
-
-
     </div>
   )
 }
