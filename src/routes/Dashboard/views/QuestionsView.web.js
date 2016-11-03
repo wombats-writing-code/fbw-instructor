@@ -86,14 +86,14 @@ let styles = {
   },
   warning: {
     color: BASE_STYLES.warningColor,
-    fontWeight: '500'
+    fontWeight: '600'
   },
   muted: {
     color: '#888'
   },
   resultInfoTotal: {
     color: '#666',
-    fontWeight: '500'
+    fontWeight: '600'
   },
   resultInfo: {
     marginLeft: '1em',
