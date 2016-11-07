@@ -2,6 +2,9 @@
 import 'lodash'
 let Q = require('q')
 
+require('es6-promise').polyfill();
+require('isomorphic-fetch');
+
 import {getDomain} from '../common'
 
 // ----

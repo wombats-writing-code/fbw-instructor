@@ -2,6 +2,9 @@
 import thunk from 'redux-thunk';
 import 'lodash'
 
+require('es6-promise').polyfill();
+require('isomorphic-fetch');
+
 import {getDomain, momentToQBank} from '../common'
 
 export const UPDATE_MISSION = 'UPDATE_MISSION'

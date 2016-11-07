@@ -1,6 +1,9 @@
 import thunk from 'redux-thunk';
 import 'lodash'
 
+require('es6-promise').polyfill();
+require('isomorphic-fetch');
+
 var Q = require('q');
 
 import {

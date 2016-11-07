@@ -3,6 +3,9 @@ import 'lodash'
 let Q = require('q')
 let moment = require('moment')
 
+require('es6-promise').polyfill();
+require('isomorphic-fetch');
+
 import {
   getDomain,
   momentToQBank,

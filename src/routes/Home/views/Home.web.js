@@ -1,4 +1,4 @@
-
+require('es6-shim')
 import React from 'react'
 let moment = require('moment')
 
