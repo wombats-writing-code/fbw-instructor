@@ -9,7 +9,8 @@ import {
   momentToQBank,
   afterMidnight,
   beforeMidnight,
-  LO_SCAFFOLD_MISSION_GENUS_TYPE
+  LO_SCAFFOLD_MISSION_GENUS_TYPE,
+  PHASE_I_MISSION_RECORD_TYPE
 } from '../common'
 
 // ------------------------------------
@@ -34,12 +35,14 @@ export function createMissionOptimistic(mission) {
 }
 
 // this is the actual async createMission function that calls qbank
+// Note that this creates a Phase I mission -- NOT the Phase II missions
 export function createMission(data, bankId, directivesItemsMap, itemBankId) {
   let missionParams = {
         displayName: data.displayName,
         genusTypeId: data.genusTypeId,
         startTime: afterMidnight(momentToQBank(data.startTime)),
         deadline: beforeMidnight(momentToQBank(data.deadline)),
+        recordTypeIds: [PHASE_I_MISSION_RECORD_TYPE],
         sections: _.map(data.selectedDirectives, (directive) => {
           let outcomeId = directive.outcome.id,
             numItems = directivesItemsMap[outcomeId];

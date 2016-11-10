@@ -19,6 +19,8 @@ export const spawnViewSelector = createSelector([getResults, getMapping], (resul
   let studentsWithRecommendations = _.map(results, (taken) => {
     // let's say that they have to re-take a directive if
     // they did not meet the minimumProficiency for target questions
+    // TODO: if the taken has no sections, need to just copy the
+    // original mission -- the student didn't get the questions or try them
     let newDirectives = [];
 
     _.each(taken.sections, function (section) {
@@ -43,8 +45,9 @@ export const spawnViewSelector = createSelector([getResults, getMapping], (resul
 
     return {
       name: parseAgentId(taken.takingAgentId),
+      takenId: taken.id,
       nextMission: {
-        name: `${parseAgentId(taken.takingAgentId)}'s TestFlight for ${taken.displayName.text}`,
+        name: `${parseAgentId(taken.takingAgentId)}'s Phase II for ${taken.displayName.text}`,
         directives: newDirectives,
         numberItemsForDirectives: _.sumBy(newDirectives, 'quota')
       }

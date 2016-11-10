@@ -53,25 +53,33 @@ export function getResults(mission) {
   }
 }
 
-export function getResultsAll(missions) {
+export function getResultsAll(mission, bankId) {
+  // to get results of the Phase II missions
+  // pass in the original mission ID, the middleman
+  // handles the intervening steps.
+  // Use separate bankId param because can't
+  //   use the mission.assignedBankIds[0] bank -- that is the shared bank
+  //   but we need to find Phase II missions in the private banks, so
+  //   rely on hierarchy of the selected "class" bank (i.e. Accounting)
 
   return function(dispatch) {
     dispatch(getResultsOptimistic(null));
 
-    if (!missions) return;
-    console.log('will getResultsAll of', missions);
+    if (!mission) return;
+    console.log('will getResultsAll of', mission);
 
-    let getResultsPromises = _.map(missions, fetchResult);
+    let url = getDomain(location.host) + `/middleman/banks/${bankId}/offereds/${mission.assessmentOfferedId}/p2results`;
 
-    return Q.all(getResultsPromises)
-    .then( (res) => {
-      let allResults = _.flatten(res);
-      console.log('got results all', allResults);
+    return fetch(url)
+    .then((res) => {return res.json()})
+    .then( (results) => {
+      console.log('got results all', results);
 
-      dispatch(receiveResultsAll(allResults));
-
-      return allResults;
-    });
+      dispatch(receiveResultsAll(results));
+    })
+    .catch((error) => {
+      console.log('error getting all phase 2 mission results');
+    })
   }
 
 }

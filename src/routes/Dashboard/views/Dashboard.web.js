@@ -98,7 +98,7 @@ export const DashboardViewWeb = (props) => {
           <li style={styles.viewControlChild}>
             <a className="button" style={[styles.viewControlButton, props.view.name === 'dashboard.testflightView' ? styles.viewControlButtonActive : null]}
               onClick={() => {
-                  props.onChangeView('dashboard.testflightView'); props.getResultsAll(props.spawnedMissions)
+                  props.onChangeView('dashboard.testflightView'); props.getResultsAll(props.mission, props.currentBankId)
               }}>
               <span style={styles.processNumber}>3</span>
               Testflight

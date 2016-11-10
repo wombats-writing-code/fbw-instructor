@@ -14,6 +14,7 @@ import {CREATE_MISSION_OPTIMISTIC, RECEIVE_CREATE_MISSION} from './createMission
 import {RECEIVE_UPDATE_MISSION} from './updateMission'
 import {UPDATE_MISSION_FORM} from './updateMissionForm'
 import {UPDATE_EDIT_MISSION_FORM} from './updateEditMissionForm'
+import {UPDATE_SPAWN_DATE} from './updateSpawnDate'
 import {RECEIVE_DELETE_MISSION} from './deleteMission'
 
 import {GET_RESULTS_OPTIMISTIC, RECEIVE_RESULTS} from './getResults'
@@ -48,6 +49,8 @@ export default function missionReducer (state = initialState, action) {
       return _.assign({}, state, {
         currentMission: action.mission,
         isSpawnInProgress: false,
+        spawnDate: null,
+        spawnDateFocused: false,
         editMission: action.mission ? {
           id: action.mission.id,
           assessmentOfferedId: action.mission.assessmentOfferedId,
@@ -202,6 +205,13 @@ export default function missionReducer (state = initialState, action) {
     case CREATE_TEST_FLIGHT_MISSIONS_OPTIMISTIC:
       return _.assign({}, state, {
         isSpawnInProgress: true
+      })
+
+    case UPDATE_SPAWN_DATE:
+      let newSpawnDate = _.has(action.data, "date") ? action.data.date : state.spawnDate
+      return _.assign({}, state, {
+        spawnDate: newSpawnDate,
+        spawnDateFocused: action.data.focused ? action.data.focused : false
       })
 
     case RECEIVE_CREATE_TEST_FLIGHT_MISSIONS:
