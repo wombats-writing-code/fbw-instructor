@@ -5,6 +5,14 @@ import BASE_STYLES from '../../../styles/baseStyles'
 import EmptyState from '../../../components/EmptyState'
 import LoadingBox from '../../../components/LoadingBox'
 
+import {
+  SingleDatePicker
+} from 'react-dates'
+import 'react-dates/css/variables.scss'
+import 'react-dates/css/styles.scss'
+
+require('./datepicker.css')
+
 let styles = {
   studentCollection: {
     marginLeft: 0,
@@ -59,7 +67,8 @@ export const ConfirmViewWeb = (props) => {
   let spawnStatus;
   let spawnVerb;
   let spawnButton;
-  if (props.spawnedMissions) {
+  let spawnDate;
+  if (props.mission.hasSpawnedFollowOnPhase || props.spawnedMissions) {
     spawnStatus = (
       <p style={styles.spawnStatus}>
         Testflight missions have been created. Every student has received a personalized mission targeting the directives they missed:
@@ -73,9 +82,18 @@ export const ConfirmViewWeb = (props) => {
       Your Fly-by-Wire system recommends to give personalized Testflight missions:</p>
     spawnVerb = 'will get';
 
-    spawnButton = (<button className="button button-secondary" style={styles.spawnButton}
-                          onClick={() => props.createTestFlightMissions(viewData.students, props.currentBankId, props.mission)}>
-                          Approve and launch for all</button>)
+    if (props.spawnDate) {
+      spawnButton = (<button className="button button-secondary" style={styles.spawnButton}
+      onClick={() => props.createTestFlightMissions(viewData.students, props.currentBankId, props.mission, props.spawnDate)}>
+      Approve and launch for all</button>)
+    }
+
+    spawnDate = (
+      <SingleDatePicker date={props.spawnDate}
+                        onDateChange={(date) => props.updateSpawnDate({date: date})}
+                        focused={props.spawnDateFocused}
+                        onFocusChange={props.updateSpawnDate} />
+      )
 
   }
 
@@ -105,6 +123,7 @@ export const ConfirmViewWeb = (props) => {
     <div style={styles.container}>
       {spawnStatus}
       {studentCollection}
+      {spawnDate}
       {spawnButton}
       {loadingBox}
 

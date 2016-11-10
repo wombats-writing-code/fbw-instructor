@@ -12,7 +12,8 @@ import {
   afterMidnight,
   beforeMidnight,
   LO_SCAFFOLD_MISSION_GENUS_TYPE,
-  TEST_FLIGHT_MISSION
+  TEST_FLIGHT_MISSION,
+  PHASE_II_MISSION_RECORD_TYPE
 } from '../common'
 
 // ------------------------------------
@@ -34,22 +35,25 @@ export function createTestFlightMissionsOptimistic(missions, originalMission) {
 }
 
 // this is the actual async createTestFlightMissions function that calls qbank
-export function createTestFlightMissions(data, bankId, originalMission) {
-  // TODO: for demo purposes, we'll seat the TestFlight deadlines
+// This creates Phase II missions and then sets the originating
+// Phase I mission as already spawned
+export function createTestFlightMissions(data, bankId, originalMission, spawnDate) {
+  // TODO: for demo purposes, we'll set the TestFlight deadlines
   // to now(), but need to change that somehow
   let testFlightParameters = []
   _.each(data, function (student) {
-    let now = moment.utc(),
-      studentParams = {
+    let studentParams = {
       username: student.name + '@acc.edu', // TODO this is bad -- how do we clean this up??
       name: student.nextMission.name,
       genusTypeId: TEST_FLIGHT_MISSION,
+      recordTypeIds: [PHASE_II_MISSION_RECORD_TYPE],
+      sourceAssessmentTakenId: student.takenId,
       sections: _.map(student.nextMission.directives, function (directive) {
         directive.type = LO_SCAFFOLD_MISSION_GENUS_TYPE
         return directive
       }),
-      startTime: afterMidnight(momentToQBank(now)),
-      deadline: beforeMidnight(momentToQBank(now))
+      startTime: afterMidnight(momentToQBank(spawnDate)),
+      deadline: beforeMidnight(momentToQBank(spawnDate))
     }
     testFlightParameters.push(studentParams)
   })
@@ -61,6 +65,7 @@ export function createTestFlightMissions(data, bankId, originalMission) {
       method: 'POST'
     };
   return function(dispatch) {
+    let phaseIIMissions = []
     // here starts the code that actually gets executed when the
     // createMission action creator is dispatched
     // take the data in the "newMission" form in state, and send that to the server
@@ -78,8 +83,29 @@ export function createTestFlightMissions(data, bankId, originalMission) {
       return res.json();
     })
     .then((missions) => {
-      console.log('created test flight missions', missions);
-      dispatch(receiveCreateTestFlightMissions(missions, originalMission));
+      phaseIIMissions = missions
+      // now let's mark the original Phase I as already spawned
+      let updateUrl = getDomain(location.host) + `/middleman/banks/${bankId}/missions/${originalMission.id}`,
+        updateParams = {
+          method: 'PUT',
+          body: JSON.stringify({
+            hasSpawnedFollowOnPhase: true,
+            assessmentOfferedId: originalMission.assessmentOfferedId  // not actually used, but need it to not break the middleman
+          }),
+          headers: {
+            'content-type': 'application/json'
+          }
+        }
+
+      return fetch(updateUrl, updateParams)
+    })
+    .then((res) => {
+      return res.json()
+    })
+    .then((results) => {
+      console.log('created test flight missions', phaseIIMissions);
+      originalMission.hasSpawnedFollowOnPhase = true;
+      dispatch(receiveCreateTestFlightMissions(phaseIIMissions, originalMission));
     })
     .catch((error) => {
       console.log('error creating test flight missions', error);
