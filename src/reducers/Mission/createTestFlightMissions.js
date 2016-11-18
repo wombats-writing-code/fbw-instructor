@@ -38,12 +38,10 @@ export function createTestFlightMissionsOptimistic(missions, originalMission) {
 // This creates Phase II missions and then sets the originating
 // Phase I mission as already spawned
 export function createTestFlightMissions(data, bankId, originalMission, spawnDate) {
-  // TODO: for demo purposes, we'll set the TestFlight deadlines
-  // to now(), but need to change that somehow
   let testFlightParameters = []
   _.each(data, function (student) {
     let studentParams = {
-      username: student.name + '@acc.edu', // TODO this is bad -- how do we clean this up??
+      username: student.agentId,
       name: student.nextMission.name,
       genusTypeId: TEST_FLIGHT_MISSION,
       recordTypeIds: [PHASE_II_MISSION_RECORD_TYPE],
@@ -57,6 +55,7 @@ export function createTestFlightMissions(data, bankId, originalMission, spawnDat
     }
     testFlightParameters.push(studentParams)
   })
+  console.log(testFlightParameters)
   let params = {
       body: JSON.stringify(testFlightParameters),
       headers: {

@@ -12,6 +12,13 @@ const parseAgentId = (agentId) => {
   return agentId.split('%3A')[1].split('%25')[0];
 }
 
+const parseAgentIdIdentifier = (agentId) => {
+  if (!agentId) return '';
+
+  // need to call this twice to convert %25 => %, then %40 => @
+  return decodeURIComponent(decodeURIComponent(agentId.split('%3A')[1].split('%40')[0]));
+}
+
 export const spawnViewSelector = createSelector([getResults, getMapping], (results, mapping) => {
 
   if (!results || !mapping) return null;
@@ -45,6 +52,7 @@ export const spawnViewSelector = createSelector([getResults, getMapping], (resul
 
     return {
       name: parseAgentId(taken.takingAgentId),
+      agentId: parseAgentIdIdentifier(taken.takingAgentId),
       takenId: taken.id,
       nextMission: {
         name: `${parseAgentId(taken.takingAgentId)}'s Phase II for ${taken.displayName.text}`,
