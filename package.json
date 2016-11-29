@@ -20,12 +20,19 @@
     "deploy:dev": "better-npm-run deploy:dev",
     "deploy:prod": "better-npm-run deploy:prod",
     "codecov": "cat coverage/*/lcov.info | codecov",
-    "s3": "better-npm-run compile && s3_website push"
+    "s3": "better-npm-run compile:s3 && s3_website push"
   },
   "betterScripts": {
     "compile": {
       "command": "node bin/compile",
       "env": {
+        "DEBUG": "app:*"
+      }
+    },
+    "compile:s3": {
+      "command": "node bin/compile",
+      "env": {
+        "NODE_ENV": "production",
         "DEBUG": "app:*"
       }
     },
