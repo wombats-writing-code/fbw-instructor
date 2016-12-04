@@ -19,3 +19,39 @@ body {
 *:after {
   box-sizing: inherit;
 }
+
+button {
+  padding-top: .5em;
+  padding-bottom: .5em;
+  padding-left: 1em;
+  padding-right: 1em;
+}
+
+button:focus {
+  outline: none;
+}
+
+
+.flex-container {
+  display: flex;
+}
+
+.flex-container.align-center {
+  align-items: center;
+}
+
+.flex-container.align-top {
+  align-items: flex-start;;
+}
+
+.flex-container.justify-center {
+  justify-content: center;
+}
+
+.flex-container.space-between {
+  justify-content: space-between;
+}
+
+.bold {
+  font-weight: 600;
+}
