@@ -44,8 +44,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     onClickMission: (mission) => {
       dispatch(getResults(mission));
       dispatch(selectMission(mission));
-      // dispatch(changeView({name: 'dashboard.outcomesView', mission: mission}))      // for development only
-      dispatch(changeView({name: 'dashboard.preflightView', mission: mission}))      // true default
+      dispatch(changeView({name: 'dashboard.resultsView', mission: mission}))      // true default
     },
     onClickAddMission: () =>
     {

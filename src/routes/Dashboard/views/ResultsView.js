@@ -5,6 +5,8 @@ import BASE_STYLES from '../../../styles/baseStyles'
 import EmptyState from '../../../components/EmptyState'
 import QuestionResult from '../../../components/QuestionResult'
 
+import './ResultsView.scss'
+
 let styles = {
   container: {
   },
@@ -46,69 +48,14 @@ let styles = {
     fontSize: '.875rem',
     maxWidth: 60
   },
-  directiveSection: {
-    minWidth: '25%',
-    flex: 1,
-    flexGrow: 0
-  },
-  label: {
-    textAlign: 'left',
-    fontSize: '.775rem',
-    fontWeight: "700",
-    color: '#555'
-  },
-  directiveCollection: {
-    marginLeft: 0,
-    borderLeftWidth: 1,
-    borderLeftColor: '#ddd',
-    borderLeftStyle: 'solid',
-    borderRightWidth: 1,
-    borderRightColor: '#ddd',
-    borderRightStyle: 'solid',
-  },
-  questionSection: {
-    paddingLeft: '1em',
-    flex: 3
-  },
-  questionCollection: {
-    marginLeft: 0,
-  },
-  directiveItem: {
-    paddingTop: '.725rem',
-    paddingLeft: '1em',
-    paddingRight: '1em',
-    paddingBottom: '.9rem',
-    borderBottomWidth: 1,
-    borderBottomColor: '#ddd',
-    borderBottomStyle: 'solid',
-    cursor: 'pointer',
-    ':hover': {
-      backgroundColor: '#f8f8f8'
-    }
-  },
-  directiveItemSelected: {
-    backgroundColor: '#f8f8f8',
-    cursor: 'default'
-  },
-  directiveItemLast: {
-    borderBottomColor: 'transparent',
-  },
-  directiveText: {
-    color: '#333',
-    fontSize: '.875rem',
-    lineHeight: 1.25,
-    marginBottom: 0,
-    textAlign: 'left'
-  }
 }
 
-export const TestflightViewWeb = (props) => {
-
-  let view = props.view;
+export default function ResultsView(props) {
   let viewData = props.viewData;
+  let view = props.view;
 
   // if the view is not loading AND there are no results, show empty state
-  if (!props.isGetResultsInProgress && (!view || !viewData)) {
+  if (!props.isGetResultsInProgress && !viewData) {
     return (
       <div className="columns">
         {EmptyState('There are no results yet. Try refreshing or waiting for a student to try a question.')}
@@ -116,7 +63,7 @@ export const TestflightViewWeb = (props) => {
     )
 
   // if the view is loading or there is no results, show nothing
-  } else if (props.isGetResultsInProgress || !view || !viewData) {
+  } else if (props.isGetResultsInProgress || !viewData) {
     return null;
   }
 
@@ -127,7 +74,7 @@ export const TestflightViewWeb = (props) => {
     // console.log('currentDirectiveId', currentDirectiveId, 'resultsByDirective', viewData.resultsByDirective, 'resultsByDirective', collection);
 
     questionCollection = (
-      <ul style={styles.questionCollection}>
+      <ul className="">
         {_.map(collection.questions, (result, idx) => QuestionResult(result, idx))}
       </ul>
     )
@@ -143,30 +90,29 @@ export const TestflightViewWeb = (props) => {
         </div>
       </div>
 
-      <div style={styles.detailedSection}>
-        <div style={styles.directiveSection}>
-          <p style={styles.label}>DIRECTIVES</p>
-          <ul style={styles.directiveCollection} className="clearfix">
+      <div className="flex-container align-top">
+
+        <div className="directive-section">
+          <p className="section__label">DIRECTIVES</p>
+          <ul className="clickable-list">
             {_.map(viewData.directives, (outcome, idx) => {
-                let lastItemStyle = idx === viewData.directives.length-1 ? styles.directiveItemLast : null;
-                return (
-                  <div key={`outcome_${idx}`}
-                      style={[styles.directiveItem, view.currentDirective === outcome ? styles.directiveItemSelected : null, lastItemStyle]}
-                      onClick={(e) => props.onClickDirective(outcome, 'dashboard.questionsView')}>
-                    <p style={styles.directiveText}>{outcome.displayName.text}</p>
-                  </div>
-                )
+              return (
+                <li key={`outcome_${idx}`}
+                    className={outcome === view.currentDirective ? "clickable-row__item is-selected" : "clickable-row__item"}
+                    onClick={(e) => props.onClickDirective(outcome, view.name)}>
+                  <p className="outcome-text">{outcome.displayName.text}</p>
+                </li>
+              )
             })}
           </ul>
         </div>
 
-        <div style={styles.questionSection}>
-          <p style={styles.label}>STUDENTS WHO DID NOT ACHIEVE QUESTION</p>
+        <div className="questions-section">
           {questionCollection}
         </div>
+
       </div>
     </div>
-
   )
 
 }

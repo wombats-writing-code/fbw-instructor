@@ -66,14 +66,14 @@ export function getResultsAll(mission, bankId) {
     dispatch(getResultsOptimistic(null));
 
     if (!mission) return;
-    console.log('will getResultsAll of', mission);
+    // console.log('will getResultsAll of', mission);
 
     let url = getDomain(location.host) + `/middleman/banks/${bankId}/offereds/${mission.assessmentOfferedId}/p2results`;
 
     return fetch(url)
     .then((res) => {return res.json()})
     .then( (results) => {
-      console.log('got results all', results);
+      // console.log('got results all', results);
 
       dispatch(receiveResultsAll(results));
     })

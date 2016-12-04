@@ -5,7 +5,7 @@ import 'moment-timezone'
 
 import {getResults, getMapping, isTarget, notAchievedOnAttempt} from './common'
 
-export const questionsViewSelector = createSelector([getResults, getMapping], (results, mapping) => {
+export const resultsSelector = createSelector([getResults, getMapping], (results, mapping) => {
   if (!results || !mapping) return null;
 
   // console.log('questionsViewSelector results', results, ' questions', allQuestions, 'mapping', mapping);

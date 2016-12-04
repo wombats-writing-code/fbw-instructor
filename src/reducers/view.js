@@ -45,7 +45,7 @@ export function changeClick(entity, viewName) {
 // Reducer
 // ------------------------------------
 const initialState = {
-  name: 'dashboard.preflightView'
+  name: 'dashboard.resultsView'
 }
 export default function viewReducer (state = initialState, action) {
   switch (action.type) {

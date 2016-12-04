@@ -1,0 +1,59 @@
+
+
+
+.outcome-text {
+  margin-bottom: 0;
+  font-size: .875rem;
+  text-align: left;
+}
+
+.directive-section {
+  width: 35%;
+}
+
+.questions-section {
+  width: 65%;
+  padding-left: 1rem;
+}
+
+.section__label {
+  font-weight: 600;
+  font-size: .75rem;
+  text-align: left;
+  color: #777;
+}
+
+// ===== common to all =====
+
+.clickable-list {
+  margin-left: 0;
+  list-style: none;
+}
+
+
+.clickable-row__item {
+  cursor: pointer;
+  padding: .75rem 1em;
+  border-bottom: 1px solid #ddd;
+}
+
+.clickable-row__item:hover {
+  background: #f8f8f8;
+}
+
+.clickable-row__item.is-selected {
+  cursor: default;
+  background: #f8f8f8;
+}
+
+.clickable-row__item:last-of-type {
+  border-bottom: 0;
+}
+
+.row-title {
+  font-weight: 600;
+}
+
+.row-subtitle {
+  color: #555;
+}
