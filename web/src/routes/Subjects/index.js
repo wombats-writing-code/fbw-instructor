@@ -1,4 +1,4 @@
-import { injectReducer } from '../../store/reducers'
+// import { injectReducer } from '../../store/reducers'
 import SubjectsComponent from './Subjects'
 
 export default (store) => ({

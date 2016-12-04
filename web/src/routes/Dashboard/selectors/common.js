@@ -1,7 +1,7 @@
 
 let moment = require('moment')
 
-export const getResults = (state) => state.mission ? state.mission.results : null
+export const getResults = (state, ownProps) => state.mission ? state.mission.results : null
 export const getMapping = (state) => state.mapping
 
 export const isTarget = (question) => {

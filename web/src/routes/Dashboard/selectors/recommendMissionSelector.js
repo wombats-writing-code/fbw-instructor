@@ -19,7 +19,7 @@ const parseAgentIdIdentifier = (agentId) => {
   return decodeURIComponent(decodeURIComponent(agentId.split('%3A')[1].split('%40')[0]));
 }
 
-export const spawnViewSelector = createSelector([getResults, getMapping], (results, mapping) => {
+export const recommendMissionSelector = createSelector([getResults, getMapping], (results, mapping) => {
 
   if (!results || !mapping) return null;
 

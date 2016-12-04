@@ -13,8 +13,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    viewData: resultsSelector(state),
     view: state.view,
+    viewData: resultsSelector(state, ownProps),
   }
 }
 

@@ -1,4 +1,3 @@
-import { injectReducer } from '../../store/reducers'
 import MissionsComponent from './Missions'
 
 export default (store) => ({

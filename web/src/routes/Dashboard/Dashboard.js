@@ -1,15 +1,13 @@
 'use strict';
 
 import React, {Component} from 'react'
-import Radium from 'radium'
 
 import ResultsView from './containers/ResultsViewContainer'
-import {ConfirmViewWeb} from './views/ConfirmView.web'
+import RecommendMission from './containers/RecommendMissionContainer'
 
 import LoadingBox from '../../components/LoadingBox'
 import './Dashboard.scss'
 
-@Radium
 class Dashboard extends Component {
 
   componentDidMount() {
@@ -18,14 +16,25 @@ class Dashboard extends Component {
   render() {
     let props = this.props;
 
-    let view, dashboardNav;
+    let phaseIView, phaseIIView, recommendMission;
     if (props.mission) {
-      view = <ResultsView isGetResultsInProgress={this.props.isGetResultsInProgress} results={this.props.results}/>
+      phaseIView = <ResultsView mission={this.props.mission}
+                                missionType="Phase I"
+                                isGetResultsInProgress={this.props.isGetResultsInProgress}
+                          />
 
-      let className = "button dashboard-nav__button";
-      let isActiveClassName = className + ' is-active';
+      phaseIIView = (
+        <ResultsView  mission={this.props.mission}
+                      missions={this.props.spawnedMissions}
+                      missionType="Phase II"
+                      isGetResultsInProgress={this.props.isGetSpawnResultsInProgress}
+                />
+      )
+
+      if (!props.mission.hasSpawnedFollowOnPhase) {
+        recommendMission = <RecommendMission recommendation={this.props.recommendation}/>
+      }
     }
-
 
     let loadingBox;
     if (props.isGetResultsInProgress) {
@@ -36,8 +45,10 @@ class Dashboard extends Component {
 
     return (
       <div className="row">
-        {dashboardNav}
-        {view}
+        {phaseIView}
+        {phaseIIView}
+
+        {recommendMission}
 
         {loadingBox}
       </div>

@@ -1,6 +1,9 @@
 
 @import '../../../styles/base';
 
+.results-view {
+  margin-bottom: 1.5rem;
+}
 
 .outcome-text {
   margin-bottom: 0;
@@ -15,7 +18,17 @@
 }
 
 .summary__mission-name {
+  margin-bottom: 0;
+  text-align: left;
+  font-weight: 600;
+  color: #444;
+  letter-spacing: -.5px;
+  margin-right: 2rem;
+}
 
+.summary__mission-name-type {
+  font-weight: 300;
+  margin-left: 5px;
 }
 
 .summary-blurb {
@@ -50,37 +63,16 @@
   margin-top: 1.5rem;
 }
 
-// ===== common to all =====
-
-.clickable-list {
-  margin-left: 0;
-  list-style: none;
+.expand-collapse-button {
+  width: 5rem;
+  font-size: .875rem;
+  margin-right: 1rem;
+  margin-left: auto;
+  margin-bottom: 0;
+  border: 1px solid #444;
+  border-radius: 3px;
 }
 
-
-.clickable-row__item {
-  cursor: pointer;
-  padding: .75rem 1em;
-  border-bottom: 1px solid #ddd;
-}
-
-.clickable-row__item:hover {
-  background: #f8f8f8;
-}
-
-.clickable-row__item.is-selected {
-  cursor: default;
-  background: #f8f8f8;
-}
-
-.clickable-row__item:last-of-type {
-  border-bottom: 0;
-}
-
-.row-title {
-  font-weight: 600;
-}
-
-.row-subtitle {
-  color: #555;
+.expand-collapse-button:hover {
+  opacity: .8;
 }

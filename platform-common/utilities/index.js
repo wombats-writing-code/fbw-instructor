@@ -5,15 +5,7 @@ import Q from 'q'
 let moment = require('moment')
 let config = require('../configuration')
 
-let Lockr
-let store
-let isBrowser = false
-if (process.env.BROWSER) {
-  isBrowser = true
-  Lockr = require('lockr')
-} else {
-  store = require('react-native-simple-store')
-}
+let Lockr = require('lockr');
 
 import { isTarget, targetKey } from '../selectors'
 
@@ -201,12 +193,7 @@ export function updateAssessmentSectionsWithResponse (sections, response) {
 }
 
 export function get (key) {
-  if (isBrowser) {
-    return Q.when(Lockr.get(key))
-  } else {
-    return store.get(key)
-  }
-
+  return Q.when(Lockr.get(key))
 }
 
 export function save (key, value) {

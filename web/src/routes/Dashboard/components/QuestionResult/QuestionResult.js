@@ -1,7 +1,5 @@
 import React from 'react'
-import BASE_STYLES from '../../styles/baseStyles'
 
-import '../../styles/animations.scss'
 import './QuestionResult.scss'
 
 const createMarkup = (htmlString) => {

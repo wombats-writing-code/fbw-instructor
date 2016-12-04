@@ -26,12 +26,12 @@ export const resultsSelector = createSelector([getResults, getMapping], (results
 
   // build up a dictionary of results for our view by directive
   let resultsByDirective = _.reduce( uniqueQuestionsByOutcome, (result, arrayQuestions, outcomeId) => {
-
     result[outcomeId] = result[outcomeId] || [];
     result[outcomeId] = _.concat(result[outcomeId], _.map(arrayQuestions, (question) => {
       let {notAchieved, total} = notAchievedOnAttempt(question.itemId, results, 1);
 
       return {
+        studentsNotAchieved: notAchieved,
         numStudentsNotAchieved: notAchieved.length,
         numStudentsAttempted: total.length,
         questionId: question.itemId,
@@ -55,11 +55,15 @@ export const resultsSelector = createSelector([getResults, getMapping], (results
 
   // TODO: compute unique students who actually had a response
   let totalResponded = 0;
+  // TODO: compute the number of students who "really struggled"
+  let studentsReallyStruggled = _.slice(results, 0, _.random(3, results.length-2))
 
-  console.log('resultsByDirective', resultsByDirective);
+  // console.log('resultsByDirective', resultsByDirective);
   // console.log('sorted', sorted);
 
   return {
+    results,
+    studentsReallyStruggled,
     totalResponded,
     resultsByDirective,
     questions: allQuestions,

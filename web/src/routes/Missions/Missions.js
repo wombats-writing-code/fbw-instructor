@@ -1,12 +1,9 @@
 'use strict'
 import moment from 'moment'
 import React, { Component } from 'react'
-import { browserHistory } from 'react-router'
 import slug from 'slug'
 
-import Spinner from 'react-spinner'
-
-import '../../styles/react-spinner.css'
+import LoadingBox from '../../components/LoadingBox'
 import './Missions.scss'
 
 import { localDateTime, checkMissionStatus } from 'platform-common/selectors/'
@@ -95,7 +92,7 @@ class Missions extends Component {
 
   render() {
     if (this.props.isGetMissionsInProgress || !this.props.missions) {
-      return  <Spinner className="missions-spinner"/>
+      return  <LoadingBox/>
     }
 
     let currentMissions = this.props.missions.length > 0 ?

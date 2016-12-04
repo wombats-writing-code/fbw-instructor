@@ -134,6 +134,7 @@
     "rhumbl-dao": "^0.5.8",
     "rimraf": "^2.5.4",
     "sass-loader": "^4.0.0",
+    "slug": "^0.9.1",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.6",
     "webpack": "^1.12.14",

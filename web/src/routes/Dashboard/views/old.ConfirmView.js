@@ -51,7 +51,7 @@ const createMarkup = (htmlString) => {
   return {__html: htmlString};
 }
 
-export const ConfirmViewWeb = (props) => {
+export default function(props) {
 
   let view = props.view;
   let viewData = props.viewData;

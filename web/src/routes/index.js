@@ -1,8 +1,10 @@
 // We only need to import the modules necessary for initial render
 import CoreLayout from '../layouts/CoreLayout/CoreLayout'
+import CounterRoute from './Counter'            // boilerplate for reference only
 
 import HomeContainer from './Home/index'
-import CounterRoute from './Counter'            // boilerplate for reference only
+import SubjectsRoute from './Subjects/'
+import MissionsRoute from './Missions/'
 
 /*  Note: Instead of using JSX, we recommend using react-router
     PlainRoute objects to build route definitions.   */
@@ -13,8 +15,8 @@ export const createRoutes = (store) => ({
   indexRoute  : HomeContainer,
   childRoutes : [
     CounterRoute(store),
-    // SubjectsRoute(store),
-    // MissionsRoute(store),
+    SubjectsRoute(store),
+    MissionsRoute(store),
   ]
 })
 

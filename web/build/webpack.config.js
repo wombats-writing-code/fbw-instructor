@@ -4,11 +4,16 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const config = require('../config')
 const debug = require('debug')('app:webpack:config')
+const path = require('path')
 
 const paths = config.utils_paths
 const __DEV__ = config.globals.__DEV__
 const __PROD__ = config.globals.__PROD__
 const __TEST__ = config.globals.__TEST__
+
+
+const platformCommonPath = path.resolve(__dirname, '../../');
+console.log('\n', 'fbw-instructor platform-common path at: ', platformCommonPath, '\n');
 
 debug('Creating configuration.')
 const webpackConfig = {
@@ -16,7 +21,7 @@ const webpackConfig = {
   target  : 'web',
   devtool : config.compiler_devtool,
   resolve : {
-    root       : paths.client(),
+    root       : [paths.client(), platformCommonPath],
     extensions : ['', '.js', '.jsx', '.json']
   },
   module : {}

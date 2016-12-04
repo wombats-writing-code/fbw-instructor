@@ -1,9 +1,6 @@
 import React, {Component} from 'react'
 import { browserHistory } from 'react-router'
-import Spinner from 'react-spinner'
-
-import '../../styles/react-spinner.css'
-
+import LoadingBox from '../../components/LoadingBox'
 import './Subjects.scss'
 
 class Subjects extends Component {
@@ -26,7 +23,7 @@ class Subjects extends Component {
 
   render() {
     if (this.props.isGetSubjectsInProgress || !this.props.subjects || !this.props.username) {
-      return <Spinner />
+      return <LoadingBox />
     }
 
     let currentSubjects = this.props.subjects ?
