@@ -16,11 +16,10 @@ const renderMath = (element) => {
 export const QuestionResult = (datum, idx) => {
 
   return (
-    <div key={`questionResult_${idx}`} className="">
+    <div key={`questionResult_${idx}`} className="flex-container align-top">
       <div className="question-statistics">
-        <span className="warning-color">{datum.numStudentsNotAchieved} wrong </span>
-        <span className="mute">of </span>
-        <span className="">{datum.numStudentsAttempted} students</span>
+        <p className="">{datum.numStudentsAttempted} <span className="mute light">students tried</span></p>
+        <p className="warning-color">{datum.numStudentsNotAchieved} <span className="mute light">got wrong </span></p>
       </div>
       <div className="question__body" dangerouslySetInnerHTML={createMarkup(datum.questionText)}
             ref={(el) => renderMath(el)}

@@ -4,49 +4,18 @@ import 'lodash'
 import BASE_STYLES from '../../../styles/baseStyles'
 import EmptyState from '../../../components/EmptyState'
 import QuestionResult from '../../../components/QuestionResult'
+import DirectiveCarousel from '../../../components/carousel/DirectiveCarousel'
 
 import './ResultsView.scss'
 
 let styles = {
-  container: {
-  },
+
   summarySection: {
     paddingLeft: '1em',
     paddingTop: '.25rem',
     paddingBottom: '.25rem',
     marginBottom: '1.5rem',
     backgroundColor: '#f8f8f8'
-  },
-  detailedSection: {
-    display: 'flex'
-  },
-  summaryBlurb: {
-    maxWidth: 100,
-    textAlign: 'left',
-    marginLeft: 0,
-    marginRight: 'auto',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    // borderColor: BASE_STYLES.primaryColor,
-    // borderStyle: 'solid',
-    // borderWidth: 2,
-    // borderRadius: '50%'
-  },
-  summaryNumber: {
-    fontSize: "2.5em",
-    fontWeight: "500",
-    marginRight: ".2em",
-    marginBottom: 0,
-    color: BASE_STYLES.primaryColor
-  },
-  summaryText: {
-    marginBottom: 0,
-    textAlign: 'left',
-    color: '#666',
-    lineHeight: .9,
-    fontSize: '.875rem',
-    maxWidth: 60
   },
 }
 
@@ -74,7 +43,7 @@ export default function ResultsView(props) {
     // console.log('currentDirectiveId', currentDirectiveId, 'resultsByDirective', viewData.resultsByDirective, 'resultsByDirective', collection);
 
     questionCollection = (
-      <ul className="">
+      <ul className="questions-section">
         {_.map(collection.questions, (result, idx) => QuestionResult(result, idx))}
       </ul>
     )
@@ -83,35 +52,27 @@ export default function ResultsView(props) {
   return (
     <div style={styles.container}>
 
-      <div className="clearfix" style={styles.summarySection}>
-        <div style={styles.summaryBlurb}>
-          <p style={styles.summaryNumber}>{props.results.length}</p>
-          <p style={styles.summaryText}>opened up the mission</p>
+      <div className="flex-container align-center summary-bar">
+        <p className="summary__mission-name">{props.mission ? props.mission.displayName.text : ''}</p>
+
+        <div className="summary-blurb flex-container align-center">
+          <p className="summary__number">{props.results.length}</p>
+          <p className="summary__text">tried the mission</p>
+        </div>
+
+        <div className="summary-blurb flex-container align-center">
+          <p className="summary__number warning-color">{props.viewData.questions.length}</p>
+          <p className="summary__text">questions are really problematic</p>
         </div>
       </div>
 
-      <div className="flex-container align-top">
+      <DirectiveCarousel targets={[]}
+                        directives={viewData.directives}
+                        currentDirective={view.currentDirective}
+                        onSelectDirective={_.partialRight(props.onClickDirective, view.name)}/>
 
-        <div className="directive-section">
-          <p className="section__label">DIRECTIVES</p>
-          <ul className="clickable-list">
-            {_.map(viewData.directives, (outcome, idx) => {
-              return (
-                <li key={`outcome_${idx}`}
-                    className={outcome === view.currentDirective ? "clickable-row__item is-selected" : "clickable-row__item"}
-                    onClick={(e) => props.onClickDirective(outcome, view.name)}>
-                  <p className="outcome-text">{outcome.displayName.text}</p>
-                </li>
-              )
-            })}
-          </ul>
-        </div>
+      {questionCollection}
 
-        <div className="questions-section">
-          {questionCollection}
-        </div>
-
-      </div>
     </div>
   )
 

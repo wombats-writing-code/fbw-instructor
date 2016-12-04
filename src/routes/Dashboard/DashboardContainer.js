@@ -4,8 +4,8 @@ import Dashboard from './Dashboard'
 import {changeView, changeMouseOver, changeClick} from '../../reducers/view'
 import {createTestFlightMissions} from '../../reducers/Mission/createTestFlightMissions'
 import {getResultsAll, getResults} from '../../reducers/Mission/getResults'
-import {updateSpawnDate} from '../../reducers/Mission/updateSpawnDate'
 
+import {updateSpawnDate} from '../../reducers/Mission/updateSpawnDate'
 import {spawnViewSelector} from './selectors/spawnViewSelector'
 
 
@@ -28,7 +28,7 @@ const mapStateToProps = (state, ownProps) => {
 
   return {
     view: state.view,
-    // viewData: state.view.name === 'dashboard.confirmView' ? spawnViewSelector(state) : questionsViewSelector(state),
+    viewData: spawnViewSelector(state),
     mission: state.mission ? state.mission.currentMission : null,
     results: state.mission ? state.mission.results : [],
 

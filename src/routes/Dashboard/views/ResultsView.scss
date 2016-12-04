@@ -1,4 +1,5 @@
 
+@import '../../../styles/base';
 
 
 .outcome-text {
@@ -7,20 +8,46 @@
   text-align: left;
 }
 
-.directive-section {
-  width: 35%;
+.summary-bar {
+  background: #f8f8f8;
+  padding-left: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.summary__mission-name {
+
+}
+
+.summary-blurb {
+  text-align: left;
+  margin-left: 0;
+  margin-bottom: 0;
+  margin-right: 2rem;
+}
+
+.summary__number {
+  font-size: 2rem;
+  font-weight: 500;
+  margin-right: .2em;
+  margin-bottom: 0;
+  color: $app-blue-dark;
+}
+
+.summary__number.warning-color {
+  color: $app-red;
+}
+
+.summary__text {
+  text-align: left;
+  margin-bottom: 0rem;
+  color: #666;
+  line-height: .9;
+  font-size: .875rem;
+  max-width: 4rem;
 }
 
 .questions-section {
-  width: 65%;
-  padding-left: 1rem;
-}
-
-.section__label {
-  font-weight: 600;
-  font-size: .75rem;
-  text-align: left;
-  color: #777;
+  margin-top: 1.5rem;
 }
 
 // ===== common to all =====
