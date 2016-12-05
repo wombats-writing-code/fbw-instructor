@@ -2,6 +2,8 @@ import React, { Component, PropTypes } from 'react'
 import { browserHistory, Router } from 'react-router'
 import { Provider } from 'react-redux'
 
+import {retrieveUser} from '../reducers/User/retrieveUser'
+
 require('../styles/foundation.min.css');
 
 
@@ -12,11 +14,18 @@ class AppContainer extends Component {
   }
 
   componentDidMount() {
-    console.log('this.props of AppContainer', this.props)
-    const state = this.props.store.getState();      // because AppContainer is the top-level parent
-    if (!state.user.user) {
-      browserHistory.push('/login')
-    }
+    const store = this.props.store;
+    store.dispatch(retrieveUser())
+    .then( () => {
+      const state = store.getState();      // because AppContainer is the top-level parent
+
+      console.log('state in AppContainer', state)
+
+      if (!state.user.user) {
+        browserHistory.push('/login')
+      }
+    })
+
   }
 
   shouldComponentUpdate () {
