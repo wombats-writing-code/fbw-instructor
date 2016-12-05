@@ -4,7 +4,7 @@ import 'lodash'
 // Reducer
 // ------------------------------------
 const initialState = {
-  user: null,
+  user: null,           
   bankId: null,
   isLoginInProgress: false
 }
