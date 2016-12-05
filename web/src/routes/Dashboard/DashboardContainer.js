@@ -2,14 +2,15 @@ import { connect } from 'react-redux'
 import Dashboard from './Dashboard'
 
 import {changeView, changeMouseOver, changeClick} from '../../reducers/view'
-import {getResultsAll, getResults} from '../../reducers/Mission/getResults'
+import {getPhaseIIResults} from '../../reducers/Mission/getPhaseIIResults'
+import {getPhaseIResults} from '../../reducers/Mission/getPhaseIResults'
 
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     onChangeView: (viewName) => dispatch(changeView({name: viewName})),
-    getResultsAll: (mission, bankId) => dispatch(getResultsAll(mission, bankId)),
-    getResults: (mission) => dispatch(getResults(mission)),
+    getPhaseIIResults: (mission, bankId) => dispatch(getPhaseIIResults(mission, bankId)),
+    getPhaseIResults: (mission) => dispatch(getPhaseIResults(mission)),
   }
 }
 
@@ -20,7 +21,8 @@ const mapStateToProps = (state, ownProps) => {
     view: state.view,
     currentBankId: state.bank.currentBank ? state.bank.currentBank.id : null,
     mission: state.mission ? state.mission.currentMission : null,
-    isGetResultsInProgress: state.mission ? state.mission.isGetResultsInProgress : false,
+    isGetPhaseIResultsInProgress: state.mission ? state.mission.isGetPhaseIResultsInProgress : false,
+    isGetPhaseIIResultsInProgress: state.mission ? state.mission.isGetPhaseIIResultsInProgress : false,
     isGetSpawnResultsInProgress: false,     // TODO
   }
 }

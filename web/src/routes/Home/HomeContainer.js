@@ -13,7 +13,8 @@ import {selectMission} from '../../reducers/Mission/selectMission'
 import {clearSelectedMission} from '../../reducers/Mission/clearSelectedMission'
 import {changeView} from '../../reducers/view'
 
-import {getResults} from '../../reducers/Mission/getResults'
+import {getPhaseIResults} from '../../reducers/Mission/getPhaseIResults'
+import {getPhaseIIResults} from '../../reducers/Mission/getPhaseIIResults'
 
 import {deleteMission} from '../../reducers/Mission/deleteMission'
 
@@ -42,7 +43,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(getItems(BANK_TO_LIBRARY[bank.id]));  // these two mappings need to be modified after we switch to D2L / LMS
     },
     onClickMission: (mission) => {
-      dispatch(getResults(mission));
+      dispatch(getPhaseIResults(mission));
       dispatch(selectMission(mission));
       dispatch(changeView({name: 'dashboard.resultsView', mission: mission}))      // true default
     },
@@ -51,11 +52,11 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(clearSelectedMission())
       dispatch(changeView({name: 'add-mission'}))
     },
-      onClickEditMission: (mission) => {
+    onClickEditMission: (mission) => {
       dispatch(selectMission(mission));
       dispatch(changeView({name: 'edit-mission', mission: mission}));
     },
-      onClickDeleteMission: (mission) => {
+    onClickDeleteMission: (mission) => {
       dispatch(deleteMission(mission))
     }
   }

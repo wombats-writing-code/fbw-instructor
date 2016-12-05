@@ -17,10 +17,8 @@ import {UPDATE_EDIT_MISSION_FORM} from './updateEditMissionForm'
 import {UPDATE_SPAWN_DATE} from './updateSpawnDate'
 import {RECEIVE_DELETE_MISSION} from './deleteMission'
 
-import {GET_RESULTS_OPTIMISTIC, RECEIVE_RESULTS} from './getResults'
-
-// this probably shouldn't belong here...
-import {qbankToMoment} from '../common'
+import {GET_PHASE_I_RESULTS_OPTIMISTIC, RECEIVE_PHASE_I_RESULTS} from './getPhaseIResults'
+import {GET_PHASE_II_RESULTS_OPTIMISTIC, RECEIVE_PHASE_II_RESULTS} from './getPhaseIIResults'
 
 // import {createMissionPart, createMissionPartOptimistic} from './createMissionPart'
 // import {updateMissionPart, updateMissionPartOptimistic} from './updateMissionPart'
@@ -58,8 +56,8 @@ export default function missionReducer (state = initialState, action) {
           genusTypeId: action.mission.genusTypeId,
           focusedInput: null,
           formError: false,
-          startTime: qbankToMoment(action.mission.startTime),
-          deadline: qbankToMoment(action.mission.deadline)
+          startTime: action.mission.startTime,
+          deadline: action.mission.deadline
         } : null
       })
 
@@ -68,15 +66,26 @@ export default function missionReducer (state = initialState, action) {
         currentMission: null
       })
 
-    case GET_RESULTS_OPTIMISTIC:
+    case GET_PHASE_I_RESULTS_OPTIMISTIC:
       return _.assign({}, state, {
-        isGetResultsInProgress: true
+        isGetPhaseIResultsInProgress: true
       });
 
-    case RECEIVE_RESULTS:
+    case RECEIVE_PHASE_I_RESULTS:
       return _.assign({}, state, {
-        results: action.results,
-        isGetResultsInProgress: false
+        phaseIResults: action.results,
+        isGetPhaseIResultsInProgress: false
+      });
+
+    case GET_PHASE_II_RESULTS_OPTIMISTIC:
+      return _.assign({}, state, {
+        isGetPhaseIIResultsInProgress: true
+      });
+
+    case RECEIVE_PHASE_II_RESULTS:
+      return _.assign({}, state, {
+        phaseIIResults: action.results,
+        isGetPhaseIIResultsInProgress: false
       });
 
     case CREATE_MISSION_OPTIMISTIC:

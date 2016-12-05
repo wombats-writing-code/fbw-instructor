@@ -20,14 +20,14 @@ class Dashboard extends Component {
     if (props.mission) {
       phaseIView = <ResultsView mission={this.props.mission}
                                 missionType="Phase I"
-                                isGetResultsInProgress={this.props.isGetResultsInProgress}
+                                isGetResultsInProgress={this.props.isGetPhaseIResultsInProgress}
                           />
 
       phaseIIView = (
         <ResultsView  mission={this.props.mission}
                       missions={this.props.spawnedMissions}
                       missionType="Phase II"
-                      isGetResultsInProgress={this.props.isGetSpawnResultsInProgress}
+                      isGetResultsInProgress={this.props.isGetPhaseIISpawnResultsInProgress}
                 />
       )
 
@@ -37,7 +37,7 @@ class Dashboard extends Component {
     }
 
     let loadingBox;
-    if (props.isGetResultsInProgress) {
+    if (props.isGetPhaseIResultsInProgress || props.isGetPhaseIIResultsInProgress) {
       loadingBox = LoadingBox('enter-active');
     } else {
       loadingBox = LoadingBox('enter');

@@ -18,7 +18,7 @@ import {getResults, getMapping, isTarget} from './common'
 */
 export const outcomesViewSelector = createSelector([getResults, getMapping], (results, mapping) => {
   return null;
-  
+
   if (!results || !mapping) return null;
 
   let graph = {
