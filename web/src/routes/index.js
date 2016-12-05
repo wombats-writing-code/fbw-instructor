@@ -5,6 +5,7 @@ import CounterRoute from './Counter'            // boilerplate for reference onl
 import HomeContainer from './Home/index'
 import SubjectsRoute from './Subjects/'
 import MissionsRoute from './Missions/'
+import LoginRoute from './Login'
 
 import MissionForm from '../components/MissionForm'
 
@@ -17,8 +18,9 @@ export const createRoutes = (store) => ({
   indexRoute  : HomeContainer,
   childRoutes : [
     CounterRoute(store),
-    SubjectsRoute(store),
-    MissionsRoute(store),
+    // SubjectsRoute(store),          // @Cole: ignore these for now
+    // MissionsRoute(store),
+    LoginRoute(store),
     {
       path: '/missions/new',
       component: MissionForm
