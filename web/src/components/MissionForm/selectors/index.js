@@ -3,7 +3,7 @@ import 'lodash'
 
 
 const getModules = (state) => state.mapping ? state.mapping.modules : null
-const getOutcomes = (state) => state.mapping ? state.mapping.outcomes : null
+export const getOutcomes = (state) => state.mapping ? state.mapping.outcomes : null
 const getRelationships = (state) => state.mapping ? state.mapping.relationships : null
 const getItems = (state) => state.bank ? state.bank.items : null
 const getSelectedDirectives = (state) => state.mission && state.mission.newMission ? state.mission.newMission.selectedDirectives : null

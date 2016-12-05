@@ -6,6 +6,8 @@ import HomeContainer from './Home/index'
 import SubjectsRoute from './Subjects/'
 import MissionsRoute from './Missions/'
 
+import MissionForm from '../components/MissionForm'
+
 /*  Note: Instead of using JSX, we recommend using react-router
     PlainRoute objects to build route definitions.   */
 
@@ -17,6 +19,10 @@ export const createRoutes = (store) => ({
     CounterRoute(store),
     SubjectsRoute(store),
     MissionsRoute(store),
+    {
+      path: '/missions/new',
+      component: MissionForm
+    }
   ]
 })
 

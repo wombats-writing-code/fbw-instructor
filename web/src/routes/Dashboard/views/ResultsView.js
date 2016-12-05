@@ -4,7 +4,7 @@ import 'lodash'
 import BASE_STYLES from '../../../styles/baseStyles'
 import EmptyState from '../../../components/EmptyState'
 import QuestionResult from '../components/QuestionResult'
-import DirectiveCarousel from '../../../components/carousel/DirectiveCarousel'
+import DirectiveCarousel from '../components/carousel/DirectiveCarousel'
 
 
 import './ResultsView.scss'
