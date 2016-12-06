@@ -1,0 +1,70 @@
+
+@import '../../../styles/base';
+
+.select-directives {
+
+}
+
+.form-subsection {
+  margin-bottom: 1.5rem;
+}
+
+.select-modules-section {
+  padding: .75rem 1rem;
+  background: $app-blue-2;
+  color: #fefefe;
+}
+
+.select-directives__section-title {
+  font-size: .875rem;
+  text-align: left;
+  font-weight: 600;
+}
+
+.modules-list, .directives-list {
+  list-style: none;
+  margin-left: 0;
+}
+
+.modules-list__item {
+  float:left;
+  padding: .225rem 1em .225rem 1em;
+  cursor: pointer;
+  border: 1px solid #eee;
+  border-radius: 3px;
+  margin-right: 1rem;
+  margin-bottom: .5rem;
+  font-size: .875rem;
+}
+
+.modules-list__item.is-selected {
+  background-color: #fff;
+  color: $app-blue-2;
+  font-weight: 600;
+}
+
+.modules-list__item.is-selected:hover {
+  opacity: 1;
+}
+
+.modules-list__item:hover {
+  opacity: .8;
+}
+
+.select-directive-icon {
+  font-family: sans-serif;
+  margin-right: .5em;
+}
+
+// =========
+.directives-list {
+  text-align: left;
+}
+
+.directives-list__item {
+  cursor: pointer;
+}
+
+.directives-list__item:hover {
+  opacity: .8;
+}

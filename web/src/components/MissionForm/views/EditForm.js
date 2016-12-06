@@ -13,10 +13,7 @@ let styles = {
 
 };
 
-export const EditMissionWeb = (props) => {
-
-  // @Cole: need help
-  // use https://github.com/airbnb/react-dates for date picking
+export default function(props) {
 
   let alert = <div />,
     save = <div />;

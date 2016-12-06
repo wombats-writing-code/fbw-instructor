@@ -4,7 +4,7 @@ import BASE_STYLES from '../../../styles/baseStyles'
 
 import EmptyState from '../../../components/EmptyState'
 import LoadingBox from '../../../components/LoadingBox'
-
+import SelectDirectives from './SelectDirectives';
 
 import {
   DateRangePicker
@@ -126,7 +126,8 @@ let styles = {
   }
 };
 
-export const AddMissionWeb = (props) => {
+export default function(props) {
+
   if (!props.newMission) return;
 
   let alert = <div />;
@@ -146,45 +147,6 @@ export const AddMissionWeb = (props) => {
     loadingBox = LoadingBox('enter-active');
   } else {
     loadingBox = LoadingBox('enter');
-  }
-
-  let selectDirectives;
-  if (props.newMission.selectedModule && props.newMission.selectedDirectives) {
-    selectDirectives = (<ul style={[styles.selectList, styles.outcomesList]}>
-      {_.map(props.newMission.selectedModule.children, (outcome, idx) => {
-        let isSelected = _.find(props.newMission.selectedDirectives, (item) => item.outcome === outcome);
-        let selectDirectiveIcon = isSelected ?
-                                  (<span key={`icon_${idx}`} style={styles.selectDirectiveIcon}>&#x02296;</span>) :
-                                  (<span key={`icon_${idx}`} style={styles.selectDirectiveIcon}>&oplus;</span>);
-
-        return (
-          <li key={`selectOutcome_${idx}`} style={[styles.listItem, isSelected ? styles.listItemSelected : null]}
-              onClick={(e) => props.updateMissionForm({toggledDirective: {outcome, numberItems: props.numberItemsForDirectives[outcome.id]}})}>
-
-            {selectDirectiveIcon}
-            {outcome.displayName.text}
-          </li>
-        )
-      })}
-    </ul>)
-  }
-
-  let selectedDirectives;
-  if (props.newMission.selectedDirectives) {
-    selectedDirectives = (<ol style={styles.selectedDirectives}>
-      {_.map(props.newMission.selectedDirectives, (item, idx) => {
-        let outcome = item.outcome;
-        return (
-          <li key={`selectedDirective_${idx}`} style={styles.selectedDirective}>
-            <span>{outcome.displayName.text} </span>&nbsp;
-            (<span style={styles.selectedDirectiveItemCount}>{props.numberItemsForDirectives[outcome.id] || 0}</span>)
-          </li>
-        )
-      })}
-    </ol>)
-  } else {
-
-    selectedDirectives = EmptyState("You haven't selected a directive. Click on a module below to find a directive.")
   }
 
   let form;
@@ -212,33 +174,7 @@ export const AddMissionWeb = (props) => {
 
 
         <div style={styles.formSection}>
-
-          <div className="clearfix" >
-            <label style={styles.formLabel}>Directives</label>
-
-            <p style={styles.formSubLabel}>Selected directives (# questions available)</p>
-            {selectedDirectives}
-          </div>
-
-          <div className="clearfix" >
-            <p style={styles.formSubLabel}>Select a module to find directives</p>
-            <div className="" style={styles.selectFromLists}>
-              <ol style={[styles.selectList, styles.modulesList]}>
-                {_.map(props.moduleTree.children, (m, idx) => {
-                  let selectedStyle = props.newMission.selectedModule === m ? styles.listItemSelected : null;
-                  let unselectedStyle = props.newMission.selectedModule !== m ? styles.filterListItemUnselected : null;
-
-                  return (
-                    <li key={`selectModule_${idx}`} style={[styles.listItem, selectedStyle, unselectedStyle]}
-                        onClick={(e) => props.updateMissionForm({selectedModule: m})}>{m.displayName}
-                    </li>
-                  )
-                })}
-              </ol>
-
-              {selectDirectives}
-            </div>
-          </div>
+          <SelectDirectives {...props} />
         </div>
 
         <div className="">

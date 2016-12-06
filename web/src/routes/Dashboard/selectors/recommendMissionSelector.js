@@ -4,7 +4,7 @@ import 'moment'
 import 'moment-timezone'
 
 import {getResults, getMapping, isTarget, notAchievedOnAttempt} from './common'
-import {itemsForDirectivesSelector} from '../../MissionControl/selectors/'
+import {itemsForDirectivesSelector} from '../../../components/MissionForm/selectors/'
 
 const parseAgentId = (agentId) => {
   if (!agentId) return '';

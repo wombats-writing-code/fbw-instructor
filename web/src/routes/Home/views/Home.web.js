@@ -4,7 +4,7 @@ let moment = require('moment')
 
 import LoadingBox from '../../../components/LoadingBox'
 import DashboardContainer from '../../Dashboard/'
-import MissionControlContainer from '../../MissionControl/'
+import MissionForm from '../../../components/MissionForm/'
 
 import {PRE_FLIGHT_MISSION} from '../../../reducers/common'
 
@@ -109,7 +109,6 @@ let styles = {
 }
 
 export const HomeViewWeb = (props) => {
-
   let view;
   if (props.view.name.startsWith('dashboard')) {
     view = (
@@ -120,14 +119,15 @@ export const HomeViewWeb = (props) => {
   } else if (props.view.name === 'add-mission' || props.view.name === 'edit-mission') {
     view = (
       <div>
-        <MissionControlContainer.component></MissionControlContainer.component>
+        <MissionForm />
       </div>
     )
   }
 
   let createMissionButton = <div />
   if (props.currentBank) {
-    createMissionButton = <button className="button" style={styles.addMissionButton} onClick={() => props.onClickAddMission()}>Add a mission</button>
+    createMissionButton = <button className="button" style={styles.addMissionButton}
+                                  onClick={() => props.onClickAddMission()}>Add a mission</button>
   }
 
   let missionCollection;
