@@ -7,6 +7,7 @@ import viewReducer from './view'
 import missionReducer from './Mission/Mission'
 import mappingReducer from './Mapping/Mapping'
 import bankReducer from './Bank/Bank'
+import userReducer from './User/User'
 
 export const makeRootReducer = (asyncReducers) => {
   return combineReducers({
@@ -16,6 +17,7 @@ export const makeRootReducer = (asyncReducers) => {
     mission: missionReducer,
     mapping: mappingReducer,
     bank: bankReducer,
+    user: userReducer,
     ...asyncReducers
   })
 }

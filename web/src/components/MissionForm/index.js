@@ -8,7 +8,7 @@
 //     require.ensure([], (require) => {
 //       /*  Webpack - use require callback to define
 //           dependencies for bundling   */
-//       const MissionControl = require('./MissionControlContainer').default
+//       const MissionControl = require('./MissionFormContainer').default
 //
 //       /*  Return getComponent   */
 //       cb(null, MissionControl)
@@ -18,9 +18,6 @@
 //   }
 // })
 
-import MissionControlContainer from './MissionControlContainer'
+import MissionFormContainer from './MissionFormContainer'
 
-// Sync route definition
-export default {
-  component : MissionControlContainer
-}
+export default MissionFormContainer

@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import MissionControl from './MissionControl'
+import MissionForm from './MissionForm'
 
 import {createMission} from '../../reducers/Mission/createMission'
 import {updateMission} from '../../reducers/Mission/updateMission'
@@ -8,8 +8,7 @@ import {updateEditMissionForm} from '../../reducers/Mission/updateEditMissionFor
 
 import {changeView} from '../../reducers/view'
 
-import {moduleTreeSelector} from './selectors/'
-import {itemsForDirectivesSelector} from './selectors/'
+import {moduleTreeSelector, getOutcomes, itemsForDirectivesSelector} from './selectors/'
 
 
 const mapDispatchToProps = (dispatch, ownProps) => {
@@ -17,7 +16,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     onAddMission: (newMission, bankId, directivesItemsMap, itemBankId) => {
       dispatch(createMission(newMission, bankId, directivesItemsMap, itemBankId));
       setTimeout( () => {       // this time out really should not be here but too lazy to do it right now before demo and dashboard will need to change anyways
-        dispatch(changeView({name: 'dashboard.preflightView', mission: newMission}))
+        dispatch(changeView({name: 'dashboard.resultsView', mission: newMission}))
       }, 2000);
     },
     // onSelectModule: (module) => dispatch(selectModule(module)),
@@ -28,6 +27,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 }
 
 const mapStateToProps = (state, ownProps) => {
+  // console.log('missionform state', state);
   // haven't decided if this should be passed down as props or from state yet
   return {
     view: state.view,
@@ -37,9 +37,10 @@ const mapStateToProps = (state, ownProps) => {
     itemBankId: state.bank.items ? state.bank.items[0].bankId : null, // need this to create the directives correctly on server-side
     editMission: state.mission.editMission,
     moduleTree: moduleTreeSelector(state),
+    outcomes: getOutcomes(state),
     numberItemsForDirectives: itemsForDirectivesSelector(state),
     isCreateMissionInProgress: state.mission.isCreateMissionInProgress
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MissionControl)
+export default connect(mapStateToProps, mapDispatchToProps)(MissionForm)
