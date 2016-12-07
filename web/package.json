@@ -20,7 +20,8 @@
     "deploy:dev": "better-npm-run deploy:dev",
     "deploy:prod": "better-npm-run deploy:prod",
     "codecov": "cat coverage/*/lcov.info | codecov",
-    "s3": "better-npm-run compile:s3 && s3_website push"
+    "s3": "rm -rf dist/ && better-npm-run compile:s3 && cp -f s3_website_configs/s3_website_prod.yml ./s3_website.yml && s3_website push",
+    "s3:dev": "rm -rf dist/ && better-npm-run compile:s3 && cp -f s3_website_configs/s3_website_dev.yml ./s3_website.yml && s3_website push"
   },
   "betterScripts": {
     "compile": {
@@ -129,6 +130,7 @@
     "react-redux": "^4.4.5",
     "react-router": "^2.8.0",
     "redux": "^3.6.0",
+    "redux-localstorage": "^0.4.1",
     "redux-thunk": "^2.0.0",
     "request": "^2.76.0",
     "request-promise": "^4.1.1",
