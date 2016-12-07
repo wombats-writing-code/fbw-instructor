@@ -141,7 +141,7 @@
     "slug": "^0.9.1",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.6",
-    "valence": "^1.0.3",
+    "valence": "github:wombats-writing-code/valence-sdk-javascript",
     "webpack": "^1.12.14",
     "xoces": "^1.2.0",
     "yargs": "^5.0.0"
