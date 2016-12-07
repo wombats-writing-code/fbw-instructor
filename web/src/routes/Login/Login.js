@@ -128,7 +128,7 @@ class Login extends Component {
   }
 
   componentDidUpdate () {
-    if (this.props.isVisitor) {
+    if (this.props.isVisitor && this.textInput) {
       this.textInput.focus()
     }
   }
@@ -211,7 +211,7 @@ class Login extends Component {
   }
 
   _loginUserSimple = (e) => {
-    console.log(this.props.username)
+    //console.log(this.props.username)
     e.preventDefault()
     if (this.props.username !== '') {
       this.props.login('fbw-visitor', this.props.username)
@@ -222,13 +222,13 @@ class Login extends Component {
   _goToSubjects = (bankIds) => {
     // leave bankIds null for default banks
     this.props.onSetEnrolledSubjects(bankIds)
-    browserHistory.push('/subjects')
-  }
-
-  _onLogin(username, school) {
-    this.props.login(username, school);
     browserHistory.push('/')
   }
+
+  // _onLogin(username, school) {
+  //   this.props.login(username, school);
+  //   browserHistory.push('/')
+  // }
 
 }
 

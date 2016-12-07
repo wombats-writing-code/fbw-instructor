@@ -18,7 +18,7 @@ export const createRoutes = (store) => ({
   indexRoute  : HomeContainer,
   childRoutes : [
     CounterRoute(store),
-    // SubjectsRoute(store),          // @Cole: ignore these for now
+    SubjectsRoute(store),          // @Cole: ignore these for now
     // MissionsRoute(store),
     LoginRoute(store),
     {

@@ -3,7 +3,7 @@ import axios from 'axios'
 import Q from 'q'
 import D2L from 'valence'
 
-import { getDomain } from '../../../reducers/utilities'
+import { getDomain } from '../reducers/utilities'
 
 export function getAuthenticationUrl (credentials) {
   let AppContext = new D2L.ApplicationContext(credentials.appID, credentials.appKey);
@@ -133,6 +133,14 @@ export function enrollments (credentials, url) {
 
 export function stringifyUsername (whoami) {
   return `${whoami.FirstName}-${whoami.LastName}-${whoami.Identifier}`
+}
+
+export function extractDisplayName (username) {
+  if (username.indexOf('-') >= 0) {
+    return `${username.split('-')[0]} ${username.split('-')[1]}`
+  } else {
+    return username
+  }
 }
 
 export function bankAliasId (courseId) {
