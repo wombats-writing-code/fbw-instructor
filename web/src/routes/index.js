@@ -3,6 +3,7 @@ import CoreLayout from '../layouts/CoreLayout/CoreLayout'
 import CounterRoute from './Counter'            // boilerplate for reference only
 
 import HomeContainer from './Home/index'
+import D2LCallbackRoute from './D2LCallback/'
 import SubjectsRoute from './Subjects/'
 import MissionsRoute from './Missions/'
 import LoginRoute from './Login'
@@ -18,9 +19,10 @@ export const createRoutes = (store) => ({
   indexRoute  : HomeContainer,
   childRoutes : [
     CounterRoute(store),
-    SubjectsRoute(store),          // @Cole: ignore these for now
+    // SubjectsRoute(store),          // @Cole: ignore these for now
     // MissionsRoute(store),
     LoginRoute(store),
+    D2LCallbackRoute(store),
     {
       path: '/missions/new',
       component: MissionForm

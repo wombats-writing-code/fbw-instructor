@@ -25,7 +25,7 @@ export function setD2LAuthenticatedUrl (url) {
     //   which includes the params that the valence library
     //   needs to make other calls like whoami and enrollments
     console.log('d2l url', url)
-    save('d2lUrl', url)
+    // save('d2lUrl', url)
     dispatch(receiveSetD2LAuthenticatedUrl(url))
   }
 }

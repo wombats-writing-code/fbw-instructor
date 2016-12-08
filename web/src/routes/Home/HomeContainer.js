@@ -72,7 +72,8 @@ const mapStateToProps = (state, ownProps) => {
     missions: state.mission ? state.mission.missions : [],
     currentMission: state.mission ? state.mission.currentMission : null,
     isGetMissionsInProgress: state.mission ? state.mission.isGetMissionsInProgress : null,
-    view: state.view
+    view: state.view,
+    d2lToken: state.user.d2l.authenticatedUrl ? state.user.d2l.authenticatedUrl : null
   }
 
 }
