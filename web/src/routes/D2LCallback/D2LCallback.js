@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import { browserHistory } from 'react-router'
 
-import { instructorCourses } from '../../d2lutils'
+import { instructorCourses, whoami, stringifyUsername } from '../../d2lutils'
 import credentials from '../Login/d2lcredentials'
 
 const styles = {
@@ -114,15 +114,20 @@ const styles = {
 class D2LCallback extends Component {
 
   componentDidMount () {
-    console.log(this.props)
+    // console.log(this.props)
     let url = `${this.props.location.pathname}${this.props.location.search}`
-    console.log('mounted d2l callback!', url)
+    // console.log('mounted d2l callback!', url)
     this.props.onSetD2LAuthenticatedUrl(url)
     // now get the user enrollments and set them in the global state
     instructorCourses(credentials, url)
     .then((instructorBankIds) => {
-      console.log("got bank ids", instructorBankIds)
-      this.props.onSetEnrolledSubjects(instructorBankIds)
+      // console.log("got bank ids", instructorBankIds)
+      this.props.onSetBanks(instructorBankIds)
+      return whoami(credentials, url)
+    })
+    .then((response) => {
+      // console.log('logging in', response)
+      this.props.login('acc', stringifyUsername(response))
       browserHistory.push('/')
     })
   }

@@ -33,7 +33,7 @@ import {BANK_TO_DOMAIN, BANK_TO_LIBRARY} from '../../reducers/common'
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     getMissions: (bankId) => dispatch(getMissions(bankId)),    // this gets called when the Home component mounts
-    getBanks: () => dispatch(getBanks()),     // this gets called when the Home component mounts
+    getBanks: (bankIds) => dispatch(getBanks(bankIds)),     // this gets called when the Home component mounts
 
     onClickBank: (bank) => {
       dispatch(selectBank(bank));
@@ -67,6 +67,7 @@ const mapStateToProps = (state, ownProps) => {
   // console.log('offeredId:', state.mission && state.mission.currentMission ? state.mission.currentMission.assessmentOfferedId : null)
 
   return {
+    enrolledBankIds: state.bank ? state.bank.enrolledBankIds : null,
     banks: state.bank ? state.bank.banks : [],
     currentBank: state.bank.currentBank ? state.bank.currentBank : null,
     missions: state.mission ? state.mission.missions : [],

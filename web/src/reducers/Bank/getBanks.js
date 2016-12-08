@@ -40,8 +40,11 @@ export function getBanks(bankIds) {
     let promises = [];
     console.log('getting banks', bankIds)
     _.each(bankIds, (bankId) => {
-      let url = getDomain(location.host) + `/middleman/banks/${bankId}`;
-      promises.push(axios(url))
+      let options = {
+        url: `${getDomain(location.host)}/middleman/banks/${bankId}`
+      }
+      console.log(options)
+      promises.push(axios(options))
     })
 
     return axios.all(promises)

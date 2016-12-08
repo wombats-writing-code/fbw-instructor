@@ -73,8 +73,8 @@ export default function userReducer (state = initialState, action) {
     case RECEIVE_SET_VISITOR_LOGIN:
       return _.assign({}, state, {
         user: {
-          username: state.user.username,
-          displayName: state.user.displayName,
+          username: action.username,
+          displayName: action.username.split('@')[0],
           isVisitor: true
         }
       })
