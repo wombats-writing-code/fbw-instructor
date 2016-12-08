@@ -21,7 +21,6 @@ export function receiveMapping(mapping) {
 export function getMapping(departmentName) {
 
   return function(dispatch) {
-    console.log('department for mapping', departmentName)
     let modulesUrl = `${getDomain()}/middleman/departments/${departmentName}/modules`;
     let outcomesUrl = `${getDomain()}/middleman/departments/${departmentName}/outcomes`;
     let relationshipsUrl = `${getDomain()}/middleman/departments/${departmentName}/relationships`;

@@ -24,9 +24,9 @@ export function getPhaseIResults(mission) {
   return function(dispatch) {
     dispatch(getPhaseIResultsOptimistic());
 
-    let url = `${getDomain(location.host)}/middleman/banks/${mission.assignedBankIds[0]}/offereds/${mission.assessmentOfferedId}/results`;
+    let url = `${getDomain()}/middleman/banks/${mission.assignedBankIds[0]}/offereds/${mission.assessmentOfferedId}/results`;
 
-    axios(url)
+    axios.get(url)
     .then((results) => {
       console.log('received phase I results', results.data)
       dispatch(receivePhaseIResults(results.data));
