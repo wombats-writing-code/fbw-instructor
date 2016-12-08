@@ -27,7 +27,7 @@ export function getItems(bankId) {
   return function(dispatch) {
     dispatch(getItemsOptimistic([]));
 
-    let url = getDomain(location.host) + `/middleman/banks/${bankId}/items`;
+    let url = `${getDomain()}/middleman/banks/${bankId}/items`;
 
     return axios(url)
     .then((response) => {

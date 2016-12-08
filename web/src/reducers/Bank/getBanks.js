@@ -41,7 +41,7 @@ export function getBanks(bankIds) {
     console.log('getting banks', bankIds)
     _.each(bankIds, (bankId) => {
       let options = {
-        url: `${getDomain(location.host)}/middleman/banks/${bankId}`
+        url: `${getDomain()}/middleman/banks/${bankId}`
       }
       console.log(options)
       promises.push(axios(options))

@@ -9,14 +9,14 @@ export const RECEIVE_SET_BANKS = 'RECEIVE_SET_BANKS'
 // Actions
 // ------------------------------------
 
-export function receiveSetBanks (bankIds) {
-  return { type: RECEIVE_SET_BANKS, bankIds }
+export function receiveSetBanks (banks) {
+  return { type: RECEIVE_SET_BANKS, banks }
 }
 
-// sets the enrolled (d2l) bankIds in the global state / local storage
-export function setBanks (bankIds) {
+// sets the enrolled (d2l) banks in the global state / local storage
+export function setBanks (banks) {
   return function (dispatch) {
-    // save('enrolledBankIds', bankIds)
-    dispatch(receiveSetBanks(bankIds))
+    // save('enrolledBanks', banks)
+    dispatch(receiveSetBanks(banks))
   }
 }
