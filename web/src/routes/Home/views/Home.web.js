@@ -131,48 +131,60 @@ export const HomeViewWeb = (props) => {
   }
 
   let missionCollection;
-  if (!props.isGetMissionsInProgress) {
-    missionCollection = (
-      <ul key="missionCollection" style={styles.missionCollection}>
-      {_.map(_.filter(props.missions, {genusTypeId: PRE_FLIGHT_MISSION}), (mission, idx) => {
-          let key = `mission_${idx}`;
-          let selectedStyle = (props.currentMission && mission.id === props.currentMission.id) ? styles.selectedMissionItem : null;
+  if (!props.isGetMissionsInProgress && props.missions) {
+    if (props.missions.length === 0) {
+      missionCollection = (
+        <ul key="missionCollection" style={styles.missionCollection}>
+          <li key={0} style={[styles.rowItem, styles.missionCollectionItem]}>
+            <div style={styles.rowItemInfo}>
+              <p style={styles.rowItemTitle}>No missions yet</p>
+            </div>
+          </li>
+        </ul>
+      )
+    } else {
+      missionCollection = (
+        <ul key="missionCollection" style={styles.missionCollection}>
+          {_.map(_.filter(props.missions, {genusTypeId: PRE_FLIGHT_MISSION}), (mission, idx) => {
+            let key = `mission_${idx}`;
+            let selectedStyle = (props.currentMission && mission.id === props.currentMission.id) ? styles.selectedMissionItem : null;
 
-          // @Cole can you take a look at this?
-          // let editMissionButton;
-          // // console.log(moment(mission.deadline).isBefore(moment()));
-          // if (moment(mission.deadline).isBefore(moment()) ) {
-          //   editMissionButton =  (<button className="button small" style={styles.rowItemButton}
-          //             onClick={(e) => {props.onClickEditMission(mission); e.stopPropagation()}}>Edit</button>)
-          // }
+            // @Cole can you take a look at this?
+            // let editMissionButton;
+            // // console.log(moment(mission.deadline).isBefore(moment()));
+            // if (moment(mission.deadline).isBefore(moment()) ) {
+            //   editMissionButton =  (<button className="button small" style={styles.rowItemButton}
+            //             onClick={(e) => {props.onClickEditMission(mission); e.stopPropagation()}}>Edit</button>)
+            // }
 
-          let deleteMissionButton;
-          // console.log(moment(mission.deadline).isBefore(moment()));
-         deleteMissionButton =  (<button className="button small" style={styles.rowItemButton}
-                   onClick={(e) => {props.onClickDeleteMission(mission); e.stopPropagation()}}>Delete</button>)
+            let deleteMissionButton;
+            // console.log(moment(mission.deadline).isBefore(moment()));
+           deleteMissionButton =  (<button className="button small" style={styles.rowItemButton}
+                     onClick={(e) => {props.onClickDeleteMission(mission); e.stopPropagation()}}>Delete</button>)
 
-          return (
-            <li key={key} style={[styles.rowItem, styles.missionCollectionItem, selectedStyle]} onClick={() => props.onClickMission(mission)}>
-              <div style={styles.rowItemInfo}>
-                <p style={styles.rowItemTitle}>{mission.displayName.text}</p>
-                <p style={styles.rowItemSubtitle}>
-                  <span style={styles.dateText}>From </span>
-                  <span style={styles.date}>{moment(mission.startTime).format('dddd MMM D')} </span>
-                  <span style={styles.dateText}>to </span>
-                  <span style={styles.date}>{moment(mission.deadline).format('dddd MMM D')}</span>
-                  </p>
-              </div>
-              <div style={styles.rowItemButtons}>
-                {deleteMissionButton}
-              </div>
-              {/* <div style={styles.rowItemButtons}>
-                {editMissionButton}
-              </div> */}
-            </li>
-          )
-        })}
-      </ul>
-    )
+            return (
+              <li key={key} style={[styles.rowItem, styles.missionCollectionItem, selectedStyle]} onClick={() => props.onClickMission(mission)}>
+                <div style={styles.rowItemInfo}>
+                  <p style={styles.rowItemTitle}>{mission.displayName.text}</p>
+                  <p style={styles.rowItemSubtitle}>
+                    <span style={styles.dateText}>From </span>
+                    <span style={styles.date}>{moment(mission.startTime).format('dddd MMM D')} </span>
+                    <span style={styles.dateText}>to </span>
+                    <span style={styles.date}>{moment(mission.deadline).format('dddd MMM D')}</span>
+                    </p>
+                </div>
+                <div style={styles.rowItemButtons}>
+                  {deleteMissionButton}
+                </div>
+                {/* <div style={styles.rowItemButtons}>
+                  {editMissionButton}
+                </div> */}
+              </li>
+            )
+          })}
+        </ul>
+      )
+    }
   }
 
   // if there are no missions, and we aren't loading, display an empty box
@@ -201,7 +213,7 @@ export const HomeViewWeb = (props) => {
 
               return (
                 <li key={key} style={[styles.rowItem, styles.bankCollectionItem, selectedStyle]}
-                              onClick={() => props.onClickBank(bank)}>
+                              onClick={() => props.onClickBank(bank, props.enrolledBanks)}>
                   <div style={styles.rowItemInfo}>
                     <p style={styles.rowItemTitle}>{bank.displayName.text}</p>
                     <p style={styles.rowItemSubtitle}>{bank.description.text}</p>

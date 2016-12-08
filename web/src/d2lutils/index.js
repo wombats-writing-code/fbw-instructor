@@ -3,7 +3,7 @@ import axios from 'axios'
 import Q from 'q'
 import D2L from 'valence'
 
-import { getDomain, SCHOOL_TO_BANK } from '../reducers/utilities'
+import { getDomain, SCHOOL_TO_BANK } from '../reducers/common'
 
 export function getAuthenticationUrl (credentials) {
   let AppContext = new D2L.ApplicationContext(credentials.appID, credentials.appKey);
@@ -41,6 +41,8 @@ export function instructorCourses (credentials, url) {
     url)
   let enrollmentsUrl = '/d2l/api/lp/1.14/enrollments/myenrollments/'
   // 3 = Course Offering, I think
+  // Do we need some sort of startDateTime / endDateTime filter???
+  //   http://docs.valence.desire2learn.com/res/enroll.html
   let urlWithFilters = `${enrollmentsUrl}?isActive=true&canAccess=true&orgUnitTypeId=3`
   let options = {
     url: userContext.createAuthenticatedUrl(urlWithFilters, 'GET')
@@ -113,17 +115,16 @@ export function instructorCourses (credentials, url) {
         createBankPromises.push(Q.when(response))
       }
     })
-    console.log('promises', createBankPromises)
     return axios.all(createBankPromises)
   })
   .then((newBanks) => {
     // replace the bankIds
-    console.log('newBanks', newBanks)
+    // console.log('newBanks', newBanks)
     _.each(newBanks, (bank, index) => {
-      console.log('bank', bank)
+      // console.log('bank', bank)
       instructorCourseBanks[index].id = bank.data.id
     })
-    return Q.when(_.map(instructorCourseBanks, 'id'))
+    return Q.when(instructorCourseBanks)
   })
   .catch((error) => {
     console.log('error getting d2l enrollments', error)
