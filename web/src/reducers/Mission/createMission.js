@@ -1,8 +1,6 @@
 
 import 'lodash'
-
-require('es6-promise').polyfill();
-require('isomorphic-fetch');
+import axios from 'axios'
 
 import {
   getDomain,
@@ -39,49 +37,43 @@ export function createMissionOptimistic(mission) {
 // Note that this requires the Term BankID, NOT the sharedBankId (that
 //   is calculated by the web middleman)
 export function createMission(data, bankId, directivesItemsMap, itemBankId) {
-  let missionParams = {
-        displayName: data.displayName,
-        genusTypeId: data.genusTypeId,
-        startTime: afterMidnight(momentToQBank(data.startTime)),
-        deadline: beforeMidnight(momentToQBank(data.deadline)),
-        recordTypeIds: [PHASE_I_MISSION_RECORD_TYPE],
-        sections: _.map(data.selectedDirectives, (directive) => {
-          let outcomeId = directive.outcome.id,
-            numItems = directivesItemsMap[outcomeId];
-
-          return {
-            type: LO_SCAFFOLD_MISSION_GENUS_TYPE,
-            learningObjectiveId: outcomeId,
-            quota: Math.floor(numItems / 2) || 1,
-            waypointQuota: 1,
-            itemBankId: itemBankId,
-            minimumProficiency: (Math.floor(numItems / 4) || 1).toString()
-          }
-        })
-      },
-    fetchParams = {
-      body: JSON.stringify(missionParams),
-      headers: {
-        'content-type': 'application/json'
-      },
-      method: 'POST'
-    };
-    console.log(missionParams)
-
   return function(dispatch) {
     // here starts the code that actually gets executed when the
     // createMission action creator is dispatched
     // take the data in the "newMission" form in state, and send that to the server
     dispatch(createMissionOptimistic(missionParams));
+    let missionParams = {
+      displayName: data.displayName,
+      genusTypeId: data.genusTypeId,
+      startTime: afterMidnight(momentToQBank(data.startTime)),
+      deadline: beforeMidnight(momentToQBank(data.deadline)),
+      recordTypeIds: [PHASE_I_MISSION_RECORD_TYPE],
+      sections: _.map(data.selectedDirectives, (directive) => {
+        let outcomeId = directive.outcome.id,
+          numItems = directivesItemsMap[outcomeId];
 
-    let url = getDomain(location.host) + `/middleman/banks/${bankId}/missions`;
+        return {
+          type: LO_SCAFFOLD_MISSION_GENUS_TYPE,
+          learningObjectiveId: outcomeId,
+          quota: Math.floor(numItems / 2) || 1,
+          waypointQuota: 1,
+          itemBankId: itemBankId,
+          minimumProficiency: (Math.floor(numItems / 4) || 1).toString()
+        }
+      })
+    },
+    options = {
+      data: missionParams,
+      method: 'POST',
+      url: `${getDomain(location.host)}/middleman/banks/${bankId}/missions`
+    }
+    console.log(missionParams)
 
-    return fetch(url, fetchParams)
-    .then((res) => res.json())
-    .then((mission) => {
-      console.log('created mission', mission);
+    return axios(options)
+    .then((response) => {
+      console.log('created mission', response.data);
 
-      dispatch(receiveCreateMission(mission));
+      dispatch(receiveCreateMission(response.data));
     })
     .catch((error) => {
       console.log('error creating mission', error);

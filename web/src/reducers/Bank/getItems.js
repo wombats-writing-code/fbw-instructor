@@ -1,9 +1,6 @@
 
 import 'lodash'
-let Q = require('q')
-
-require('es6-promise').polyfill();
-require('isomorphic-fetch');
+import axios from 'axios'
 
 import {getDomain} from '../common'
 
@@ -32,13 +29,10 @@ export function getItems(bankId) {
 
     let url = getDomain(location.host) + `/middleman/banks/${bankId}/items`;
 
-    return fetch(url)
-    .then((res) => {
-      return res.json()
-    })
-    .then((items) => {
+    return axios(url)
+    .then((response) => {
       // console.log('items', items);
-      dispatch(receiveItems(items))
+      dispatch(receiveItems(response.data))
     })
     .catch((error) => {
       console.log('error getting items data', error);
