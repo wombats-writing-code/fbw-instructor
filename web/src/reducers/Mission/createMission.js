@@ -5,6 +5,7 @@ import axios from 'axios'
 import {
   getDomain,
   momentToQBank,
+  convertPythonDateToJS,
   afterMidnight,
   beforeMidnight,
   LO_SCAFFOLD_MISSION_GENUS_TYPE,
@@ -41,7 +42,6 @@ export function createMission(data, bankId, directivesItemsMap, itemBankId) {
     // here starts the code that actually gets executed when the
     // createMission action creator is dispatched
     // take the data in the "newMission" form in state, and send that to the server
-    dispatch(createMissionOptimistic(missionParams));
     let missionParams = {
       displayName: data.displayName,
       genusTypeId: data.genusTypeId,
@@ -68,6 +68,10 @@ export function createMission(data, bankId, directivesItemsMap, itemBankId) {
       url: `${getDomain()}/middleman/banks/${bankId}/missions`
     }
     console.log(missionParams)
+    let optimisticParams = _.assign({}, missionParams)
+    optimisticParams.startTime = convertPythonDateToJS(missionParams.startTime)
+    optimisticParams.deadline = convertPythonDateToJS(missionParams.deadline)
+    dispatch(createMissionOptimistic(optimisticParams));
 
     return axios(options)
     .then((response) => {
