@@ -32,9 +32,9 @@ export default function userReducer (state = initialState, action) {
     case LOGGED_IN:
       return _.assign({}, state, {
         user: {
-          username: action.data.username,
-          displayName: extractDisplayName(action.data.username),
-          isVisitor: state.user.isVisitor
+          username: action.username,
+          displayName: extractDisplayName(action.username),
+          isVisitor: false
         },
         isLoginInProgress: false
       })
@@ -75,7 +75,7 @@ export default function userReducer (state = initialState, action) {
         user: {
           username: state.user.username,
           displayName: state.user.displayName,
-          isVisitor: action.visitor
+          isVisitor: true
         }
       })
 
