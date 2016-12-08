@@ -1,5 +1,5 @@
 // import { injectReducer } from '../../store/reducers'
-import D2LCallbackComponent from './D2LCallback'
+import D2LCallback from './D2LCallbackContainer'
 
 export default (store) => ({
   path : 'd2l-callback',
@@ -10,10 +10,8 @@ export default (store) => ({
     require.ensure([], (require) => {
       /*  Webpack - use require callback to define
           dependencies for bundling   */
-      const D2LCallbackFactory = require('platform-common/containers/D2LCallbackContainer').default
-
       /*  Return getComponent   */
-      cb(null, D2LCallbackFactory(D2LCallbackComponent))
+      cb(null, D2LCallback)
 
     /* Webpack named bundle   */
   }, 'd2l-callback')

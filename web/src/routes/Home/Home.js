@@ -19,7 +19,7 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    this.props.getBanks();
+    this.props.getBanks(this.props.d2lToken);
   }
 
   render() {

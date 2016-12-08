@@ -35,7 +35,7 @@ export function getBanksOptimistic(data) {
 
 let banks = ['assessment.Bank%3A57d70ed471e482a74879349a%40bazzim.MIT.EDU', 'assessment.Bank%3A576d6d3271e4828c441d721a%40bazzim.MIT.EDU']
 
-export function getBanks() {
+export function getBanks(bankIds) {
 
   // console.log('getBanks');
 
@@ -43,10 +43,18 @@ export function getBanks() {
     dispatch(getBanksOptimistic([]));
 
     let promises = [];
-    _.each(banks, (bank) => {
-      let url = getDomain(location.host) + `/middleman/banks/${bank}`;
-      promises.push(fetch(url))
-    })
+
+    if (bankIds) {
+      _.each(bankIds, (bank) => {
+        let url = getDomain(location.host) + `/middleman/banks/${bank}`;
+        promises.push(fetch(url))
+      })
+    } else {
+      _.each(banks, (bank) => {
+        let url = getDomain(location.host) + `/middleman/banks/${bank}`;
+        promises.push(fetch(url))
+      })
+    }
 
     return Q.all(promises)
     .then((responses) => {

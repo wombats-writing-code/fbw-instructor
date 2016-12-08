@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import { browserHistory } from 'react-router'
 
-import { getAuthenticationUrl } from './d2lutils'
+import { getAuthenticationUrl } from '../../d2lutils'
 import credentials from './d2lcredentials'
 
 const styles = {
@@ -201,6 +201,7 @@ class Login extends Component {
 
   _handleACCLogin = () => {
     let authenticationUrl = getAuthenticationUrl(credentials)
+    console.log('authentication url', authenticationUrl)
     window.open(authenticationUrl, '_self')
   }
 

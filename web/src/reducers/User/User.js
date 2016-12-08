@@ -18,7 +18,8 @@ const initialState = {
   isLoginInProgress: false,
   form: {
     username: ''
-  }
+  },
+  d2l: {}
 }
 
 export default function userReducer (state = initialState, action) {

@@ -36,6 +36,8 @@ export function createMissionOptimistic(mission) {
 
 // this is the actual async createMission function that calls qbank
 // Note that this creates a Phase I mission -- NOT the Phase II missions
+// Note that this requires the Term BankID, NOT the sharedBankId (that
+//   is calculated by the web middleman)
 export function createMission(data, bankId, directivesItemsMap, itemBankId) {
   let missionParams = {
         displayName: data.displayName,
