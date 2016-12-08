@@ -161,7 +161,7 @@ export const HomeViewWeb = (props) => {
             // console.log(moment(mission.deadline).isBefore(moment()));
            deleteMissionButton =  (<button className="button small" style={styles.rowItemButton}
                      onClick={(e) => {props.onClickDeleteMission(mission); e.stopPropagation()}}>Delete</button>)
-            console.log('startTime', mission.startTime, 'deadline', mission.deadline)
+            console.log(mission, 'startTime', mission.startTime, 'deadline', mission.deadline)
             return (
               <li key={key} style={[styles.rowItem, styles.missionCollectionItem, selectedStyle]} onClick={() => props.onClickMission(mission)}>
                 <div style={styles.rowItemInfo}>

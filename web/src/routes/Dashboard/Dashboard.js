@@ -35,13 +35,6 @@ class Dashboard extends Component {
       }
     }
 
-    let loadingBox;
-    if (props.isGetPhaseIResultsInProgress || props.isGetPhaseIIResultsInProgress) {
-      loadingBox = LoadingBox('enter-active');
-
-    } else {
-      loadingBox = LoadingBox('enter');
-    }
 
     return (
       <div className="row">
@@ -50,7 +43,6 @@ class Dashboard extends Component {
 
         {recommendMission}
 
-        {loadingBox}
       </div>
 
     )
