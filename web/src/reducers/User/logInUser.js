@@ -9,8 +9,8 @@ export const LOGGED_IN = 'LOGGED_IN'
 // Actions
 // ------------------------------------
 
-export function loggedIn (data) {
-  return { type: LOGGED_IN, data }
+export function loggedIn (username) {
+  return { type: LOGGED_IN, username }
 }
 
 export function loggedInOptimistic () {
@@ -24,14 +24,14 @@ function createBaseQBankInstructorAuthorizations (username) {
 // So basically all calls will be made as the default proxy.
 }
 
-// inject username and authentication token into state tree
-export function logInUser (school, username) { // , token? Will we need this for D2L?) {
+// inject username into state tree
+export function logInUser (school, username) {
   return function (dispatch) {
     dispatch(loggedInOptimistic())
 
     // here we need to check that qbank account exists, with Authorization
     // if not, create them
     username = `${username}@${school}.edu`
-    return dispatch(loggedIn({ username: username}))
+    return dispatch(loggedIn(username))
   }
 }
