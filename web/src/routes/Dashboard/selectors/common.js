@@ -1,7 +1,13 @@
 
 let moment = require('moment')
 
-export const getResults = (state, ownProps) => ownProps.missionType === 'Phase I' ? state.mission.phaseIResults : state.mission.phaseIIResults
+export const getResults = (state, ownProps) => {
+  if (ownProps) {
+    return ownProps.missionType === 'Phase I' ? state.mission.phaseIResults : state.mission.phaseIIResults
+  } else {
+    return []
+  }
+}
 export const getMapping = (state) => state.mapping
 
 export const isTarget = (question) => {

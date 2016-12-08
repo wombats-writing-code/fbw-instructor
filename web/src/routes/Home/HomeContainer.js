@@ -19,7 +19,8 @@ import {getPhaseIIResults} from '../../reducers/Mission/getPhaseIIResults'
 import {deleteMission} from '../../reducers/Mission/deleteMission'
 
 // this should ONLY be used for simpleLogin / non-LMS installs. This is NOT scalable.
-import {BANK_TO_DOMAIN, BANK_TO_LIBRARY} from '../../reducers/common'
+// import {BANK_TO_DOMAIN, BANK_TO_LIBRARY} from '../../reducers/common'
+import {findBankLibrary, findBankDomain} from '../../reducers/selectors'
 
 /*  This is a container component. Notice it does not contain any JSX,
     nor does it import React. This component is **only** responsible for
@@ -33,14 +34,14 @@ import {BANK_TO_DOMAIN, BANK_TO_LIBRARY} from '../../reducers/common'
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     getMissions: (bankId) => dispatch(getMissions(bankId)),    // this gets called when the Home component mounts
-    getBanks: () => dispatch(getBanks()),     // this gets called when the Home component mounts
+    getBanks: (bankIds) => dispatch(getBanks(bankIds)),     // this gets called when the Home component mounts
 
-    onClickBank: (bank) => {
+    onClickBank: (bank, enrolledBanks) => {
       dispatch(selectBank(bank));
       dispatch(getMissions(bank.id));
       dispatch(selectMission(null));
-      dispatch(getMapping(bank.id, [BANK_TO_DOMAIN[bank.id]]))     // @Cole: how do I find out the department name from the bank name?
-      dispatch(getItems(BANK_TO_LIBRARY[bank.id]));  // these two mappings need to be modified after we switch to D2L / LMS
+      dispatch(getMapping(findBankDomain(bank.id, enrolledBanks)))     // @Cole: how do I find out the department name from the bank name?
+      dispatch(getItems(findBankLibrary(bank.id, enrolledBanks)));  // these two mappings need to be modified after we switch to D2L / LMS
     },
     onClickMission: (mission) => {
       dispatch(getPhaseIResults(mission));
@@ -67,12 +68,14 @@ const mapStateToProps = (state, ownProps) => {
   // console.log('offeredId:', state.mission && state.mission.currentMission ? state.mission.currentMission.assessmentOfferedId : null)
 
   return {
+    enrolledBanks: state.bank ? state.bank.enrolledBanks : null,
     banks: state.bank ? state.bank.banks : [],
     currentBank: state.bank.currentBank ? state.bank.currentBank : null,
     missions: state.mission ? state.mission.missions : [],
     currentMission: state.mission ? state.mission.currentMission : null,
     isGetMissionsInProgress: state.mission ? state.mission.isGetMissionsInProgress : null,
-    view: state.view
+    view: state.view,
+    d2lToken: state.user.d2l.authenticatedUrl ? state.user.d2l.authenticatedUrl : null
   }
 
 }

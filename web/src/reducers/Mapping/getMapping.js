@@ -1,6 +1,6 @@
 
 import 'lodash'
-import Q from 'q'
+import axios from 'axios'
 
 import {getDomain} from '../common'
 
@@ -17,29 +17,20 @@ export function receiveMapping(mapping) {
   return {type: RECEIVE_MAPPING, mapping};
 }
 
-// returns a list of Mission offereds
-export function getMapping(bankId, departmentNames) {
+// returns all the data from Handcar
+export function getMapping(departmentName) {
 
   return function(dispatch) {
-    let getContentLibraryIds = _.map(departmentNames, (name) => fetch(getDomain(location.host) + `/middleman/departments/${name}/library`));
+    let modulesUrl = `${getDomain()}/middleman/departments/${departmentName}/modules`;
+    let outcomesUrl = `${getDomain()}/middleman/departments/${departmentName}/outcomes`;
+    let relationshipsUrl = `${getDomain()}/middleman/departments/${departmentName}/relationships`;
 
-    return Q.all(getContentLibraryIds)
-    .then( (res) => Q.all(_.map(res, (r) => r.text())) )
-    .then( (res) => {
-      // console.log('get contentlib', res);
+    return axios.all([axios.get(modulesUrl), axios.get(outcomesUrl), axios.get(relationshipsUrl)])
+    .then(axios.spread((modules, outcomes, relationships) => {
+      // console.log('received getting mapping', modules, outcomes, relationships);
 
-      let modulesUrl = getDomain(location.host) + `/middleman/objectivebanks/${res[0]}/modules`;
-      let outcomesUrl = getDomain(location.host) + `/middleman/objectivebanks/${res[0]}/outcomes`;
-      let relationshipsUrl = getDomain(location.host) + `/middleman/objectivebanks/${res[0]}/relationships`;
-
-      return Q.all([fetch(modulesUrl), fetch(outcomesUrl), fetch(relationshipsUrl)])
-    })
-    .then((res) => Q.all([res[0].json(), res[1].json(), res[2].json()]))
-    .then((res) => {
-      // console.log('received getting mapping', res);
-
-      dispatch(receiveMapping({modules: res[0], outcomes: res[1], relationships: res[2]}));
-    })
+      dispatch(receiveMapping({modules: modules.data, outcomes: outcomes.data, relationships: relationships.data}));
+    }))
     .catch((error) => {
       console.log('error getting mapping', error);
     });

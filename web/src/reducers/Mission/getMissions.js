@@ -1,8 +1,6 @@
 
 import 'lodash'
-
-require('es6-promise').polyfill();
-require('isomorphic-fetch');
+import axios from 'axios'
 
 import {getDomain, convertPythonDateToJS} from '../common'
 
@@ -36,12 +34,11 @@ export function getMissions(bankId) {
   return function(dispatch) {
     dispatch(getMissionsOptimistic());
 
-    let url = getDomain(location.host) + `/middleman/banks/${bankId}/missions`;
+    let url = `${getDomain()}/middleman/banks/${bankId}/missions`;
 
     let missions;
-    return fetch(url)
-    .then((res) => res.json())
-    .then((missions) => {
+    return axios(url)
+    .then(({data: missions}) => {
       console.log('received getting missions', missions);
       // JavaScript months run from 1-12, Python months run from 0-11. We need to adjust the dates here.
       missions = _.map(missions, (mission) => {

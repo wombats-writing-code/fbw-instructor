@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import { browserHistory } from 'react-router'
 
-import { getAuthenticationUrl } from './d2lutils'
+import { getAuthenticationUrl } from '../../d2lutils'
 import credentials from './d2lcredentials'
 
 const styles = {
@@ -128,7 +128,7 @@ class Login extends Component {
   }
 
   componentDidUpdate () {
-    if (this.props.isVisitor) {
+    if (this.props.isVisitor && this.textInput) {
       this.textInput.focus()
     }
   }
@@ -201,6 +201,7 @@ class Login extends Component {
 
   _handleACCLogin = () => {
     let authenticationUrl = getAuthenticationUrl(credentials)
+    console.log('authentication url', authenticationUrl)
     window.open(authenticationUrl, '_self')
   }
 
@@ -211,24 +212,18 @@ class Login extends Component {
   }
 
   _loginUserSimple = (e) => {
-    console.log(this.props.username)
+    //console.log(this.props.username)
     e.preventDefault()
     if (this.props.username !== '') {
       this.props.login('fbw-visitor', this.props.username)
-      this._goToSubjects(null)  // for default banks
+      browserHistory.push('/')
     }
   }
 
-  _goToSubjects = (bankIds) => {
-    // leave bankIds null for default banks
-    this.props.onSetEnrolledSubjects(bankIds)
-    browserHistory.push('/subjects')
-  }
-
-  _onLogin(username, school) {
-    this.props.login(username, school);
-    browserHistory.push('/')
-  }
+  // _onLogin(username, school) {
+  //   this.props.login(username, school);
+  //   browserHistory.push('/')
+  // }
 
 }
 

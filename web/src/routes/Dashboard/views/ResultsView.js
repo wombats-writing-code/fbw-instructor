@@ -24,21 +24,7 @@ class ResultsView extends Component {
     let viewData = props.viewData;
     let view = props.view;
 
-    // if the view is not loading AND there are no results, show empty state
-    if (!props.isGetResultsInProgress && !viewData) {
-      return (
-        <div className="columns">
-          {EmptyState('There are no results yet. Try refreshing or waiting for a student to try a question.')}
-        </div>
-      )
-
-    // if the view is loading or there is no results, show nothing
-    } else if (props.isGetResultsInProgress || !viewData) {
-      return null;
-    }
-
     let currentDirectiveId = view.currentDirective ? view.currentDirective.id : null;
-
     let questionCollection;
     if (this.state.isExpanded && currentDirectiveId) {
       questionCollection = (
@@ -61,7 +47,7 @@ class ResultsView extends Component {
     let expandCollapseButtonText = this.state.isExpanded ? 'Hide' : 'Show';
 
     return (
-      <div className="results-view">
+      <div className="results-view columns">
 
         <div className="flex-container align-center summary-bar">
           <p className="summary__mission-name">
@@ -70,12 +56,12 @@ class ResultsView extends Component {
           </p>
 
           <div className="summary-blurb flex-container align-center">
-            <p className="summary__number">{props.viewData.results.length}</p>
+            <p className="summary__number">{props.viewData ? props.viewData.results.length : 0}</p>
             <p className="summary__text">tried the mission</p>
           </div>
 
           <div className="summary-blurb flex-container align-center">
-            <p className="summary__number warning-color">{props.viewData.studentsReallyStruggled.length}</p>
+            <p className="summary__number warning-color">{props.viewData ? props.viewData.studentsReallyStruggled.length : 0}</p>
             <p className="summary__text">students really struggled</p>
           </div>
 

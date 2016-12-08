@@ -3,6 +3,7 @@
 
 node_modules
 src/credentials/_*
+web/src/routes/Login/d2lcredentials/_*
 
 dist
 coverage
