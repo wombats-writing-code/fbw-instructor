@@ -19,7 +19,11 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    this.props.getBanks(this.props.d2lToken);
+    console.log('my props', this.props)
+    console.log('getting banks', this.props.enrolledBankIds)
+    if (this.props.enrolledBankIds) {
+      this.props.getBanks(this.props.enrolledBankIds);
+    }
   }
 
   render() {

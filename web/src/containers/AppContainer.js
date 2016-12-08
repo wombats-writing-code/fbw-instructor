@@ -15,16 +15,16 @@ class AppContainer extends Component {
 
   componentDidMount() {
     const store = this.props.store;
-    store.dispatch(retrieveUser())
-    .then( () => {
-      const state = store.getState();      // because AppContainer is the top-level parent
+    // store.dispatch(retrieveUser())
+    // .then( () => {
+    const state = store.getState();      // because AppContainer is the top-level parent
 
-      console.log('state in AppContainer', state)
+    console.log('state in AppContainer', state)
 
-      if (!state.user.user) {
-        browserHistory.push('/login')
-      }
-    })
+    if (!state.user.user && state.location.pathname !== "/d2l-callback") {
+      browserHistory.push('/login')
+    }
+    // })
 
   }
 
