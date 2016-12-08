@@ -1,6 +1,8 @@
 import React, {Component} from 'react'
 import Radium from 'radium'
 
+import _ from 'lodash'
+
 import './views/Home.web.scss'
 
 import {HomeViewWeb} from './views/Home.web.js'
@@ -19,11 +21,7 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    console.log('my props', this.props)
-    console.log('getting banks', this.props.enrolledBankIds)
-    if (this.props.enrolledBankIds) {
-      this.props.getBanks(this.props.enrolledBankIds);
-    }
+    this.props.getBanks(_.map(this.props.enrolledBanks, 'id'));
   }
 
   render() {

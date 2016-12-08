@@ -120,9 +120,9 @@ class D2LCallback extends Component {
     this.props.onSetD2LAuthenticatedUrl(url)
     // now get the user enrollments and set them in the global state
     instructorCourses(credentials, url)
-    .then((instructorBankIds) => {
+    .then((instructorBanks) => {
       // console.log("got bank ids", instructorBankIds)
-      this.props.onSetBanks(instructorBankIds)
+      this.props.onSetBanks(instructorBanks)
       return whoami(credentials, url)
     })
     .then((response) => {
