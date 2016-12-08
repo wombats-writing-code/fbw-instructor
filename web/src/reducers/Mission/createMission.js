@@ -39,6 +39,8 @@ export function createMissionOptimistic(mission) {
 //   is calculated by the web middleman)
 export function createMission(data, bankId, directivesItemsMap, itemBankId) {
   return function(dispatch) {
+    dispatch(createMissionOptimistic());
+
     // here starts the code that actually gets executed when the
     // createMission action creator is dispatched
     // take the data in the "newMission" form in state, and send that to the server
@@ -67,17 +69,15 @@ export function createMission(data, bankId, directivesItemsMap, itemBankId) {
       method: 'POST',
       url: `${getDomain()}/middleman/banks/${bankId}/missions`
     }
-    console.log(missionParams)
-    let optimisticParams = _.assign({}, missionParams)
-    optimisticParams.startTime = convertPythonDateToJS(missionParams.startTime)
-    optimisticParams.deadline = convertPythonDateToJS(missionParams.deadline)
-    dispatch(createMissionOptimistic(optimisticParams));
+    // console.log(missionParams)
 
     return axios(options)
     .then((response) => {
-      console.log('created mission', response.data);
-
-      dispatch(receiveCreateMission(response.data));
+      // console.log('created mission', response.data);
+      let mission = _.assign({}, response.data)
+      mission.startTime = convertPythonDateToJS(mission.startTime)
+      mission.deadline = convertPythonDateToJS(mission.deadline)
+      dispatch(receiveCreateMission(mission));
     })
     .catch((error) => {
       console.log('error creating mission', error);
