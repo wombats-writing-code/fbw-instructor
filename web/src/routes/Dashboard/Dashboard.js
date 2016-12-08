@@ -25,7 +25,6 @@ class Dashboard extends Component {
 
       phaseIIView = (
         <ResultsView  mission={this.props.mission}
-                      missions={this.props.spawnedMissions}
                       missionType="Phase II"
                       isGetResultsInProgress={this.props.isGetPhaseIISpawnResultsInProgress}
                 />
