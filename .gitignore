@@ -9,3 +9,4 @@ coverage
 
 .idea/
 s3_website.yml
+s3_website_configs/
