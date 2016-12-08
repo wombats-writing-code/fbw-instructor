@@ -1,9 +1,7 @@
 
 import thunk from 'redux-thunk';
 import 'lodash'
-
-require('es6-promise').polyfill();
-require('isomorphic-fetch');
+import axios from 'axios'
 
 import {getDomain, momentToQBank} from '../common'
 
@@ -27,22 +25,17 @@ export function updateMission(data, bankId) {
       startTime: momentToQBank(data.startTime),
       deadline: momentToQBank(data.deadline)
     },
-  fetchParams = {
-    body: JSON.stringify(missionParams),
-    headers: {
-      'content-type': 'application/json'
-    },
-    method: 'PUT'
+  options = {
+    data: missionParams,
+    method: 'PUT',
+    url: `${getDomain()}/middleman/banks/${bankId}/missions/${data.id}`
   };
 
   return function(dispatch) {
     dispatch(updateMissionOptimistic(missionParams));
 
-    let url = getDomain(location.host) + `/middleman/banks/${bankId}/missions/${data.id}`;
-
-    return fetch(url, fetchParams)
-    .then((res) => res.json())
-    .then((mission) => {
+    return axios(options)
+    .then(({data: mission}) => {
       console.log('updated mission', mission);
 
       dispatch(receiveUpdateMission(mission));

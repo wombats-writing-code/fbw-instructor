@@ -34,7 +34,7 @@ export function getMissions(bankId) {
   return function(dispatch) {
     dispatch(getMissionsOptimistic());
 
-    let url = getDomain(location.host) + `/middleman/banks/${bankId}/missions`;
+    let url = `${getDomain()}/middleman/banks/${bankId}/missions`;
 
     let missions;
     return axios(url)

@@ -65,7 +65,7 @@ export function createMission(data, bankId, directivesItemsMap, itemBankId) {
     options = {
       data: missionParams,
       method: 'POST',
-      url: `${getDomain(location.host)}/middleman/banks/${bankId}/missions`
+      url: `${getDomain()}/middleman/banks/${bankId}/missions`
     }
     console.log(missionParams)
 

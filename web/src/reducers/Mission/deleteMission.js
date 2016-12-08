@@ -1,10 +1,6 @@
 import thunk from 'redux-thunk';
 import 'lodash'
-
-require('es6-promise').polyfill();
-require('isomorphic-fetch');
-
-var Q = require('q');
+import axios from 'axios'
 
 import {
   getDomain
@@ -23,22 +19,18 @@ export function deleteMissionOptimistic(data) {
 }
 
 export function deleteMission(mission) {
-  let fetchParams = {
-    body: JSON.stringify({
+  let options = {
+    data: {
       assessmentOfferedId: mission.assessmentOfferedId
-    }),
-    headers: {
-      'content-type': 'application/json'
     },
-    method: 'DELETE'
+    method: 'DELETE',
+    url: `${getDomain()}/middleman/banks/${mission.bankId}/missions/${mission.id}`
   }
 
   return function(dispatch) {
     //dispatch(deleteMissionOptimistic(data));
 
-    let url = getDomain(location.host) + `/middleman/banks/${mission.bankId}/missions/${mission.id}`;
-
-    return fetch(url, fetchParams)
+    return axios(options)
     .then((results) => {
       console.log('deleted mission', mission);
 
