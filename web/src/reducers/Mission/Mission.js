@@ -28,7 +28,7 @@ import {GET_PHASE_II_RESULTS_OPTIMISTIC, RECEIVE_PHASE_II_RESULTS} from './getPh
 // ------------------------------------
 // Reducer
 // ------------------------------------
-const initialState = {}
+const initialState = {newMission: stampNewMission()}
 export default function missionReducer (state = initialState, action) {
   switch (action.type) {
     case GET_MISSIONS_OPTIMISTIC:
@@ -63,7 +63,8 @@ export default function missionReducer (state = initialState, action) {
 
     case CLEAR_SELECTED_MISSION:
       return _.assign({}, state, {
-        currentMission: null
+        currentMission: null,
+        newMission: stampNewMission()
       })
 
     case GET_PHASE_I_RESULTS_OPTIMISTIC:
@@ -247,13 +248,16 @@ export default function missionReducer (state = initialState, action) {
 }
 
 
-const stampNewMission = () => {
+function stampNewMission() {
   return {
     startTime: null,
     deadline: null,
     displayName: '',
     genusTypeId: 'assessment-genus%3Afbw-homework-mission%40ODL.MIT.EDU',
     focusedInput: null,
-    formError: true
+    formError: false,
+    selectedModule: null,
+    selectedDirectives: [],
+    directiveSearchQuery: ''
   }
 }

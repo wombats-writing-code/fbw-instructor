@@ -52,33 +52,31 @@ class SelectDirectives extends Component {
 
     return (
       <div className="select-directives">
-        <div className="clearfix" >
-          <p className="select-directives__section-title">Selected directives (# questions available)</p>
-          <DirectivesList directives={selectedDirectives} selectedDirectives={selectedDirectives}
-                        moduleTree={props.moduleTree} numberItemsForDirectives={props.numberItemsForDirectives}
-                        onClickDirective={props.updateMissionForm} />
+        <p className="select-directives__section-title">Selected directives (# questions available)</p>
+        <DirectivesList directives={selectedDirectives} selectedDirectives={selectedDirectives}
+                      moduleTree={props.moduleTree} numberItemsForDirectives={props.numberItemsForDirectives}
+                      onClickDirective={props.updateMissionForm} />
+
+          <div className="form-subsection">
+            <p className="select-directives__section-title">Select directives</p>
+
+            <div className="directive-search">
+              <input className="directive-search-input"
+                      placeholder="Search by directive name"
+                      value={props.newMission.directiveSearchQuery}
+                      onChange={(e) => props.updateMissionForm({directiveSearchQuery: e.target.value})}/>
+            </div>
+
+            <p className="select-directives__section-title filter-by-module-text" onClick={() => this.setState({isExpanded: !this.state.isExpanded})}>
+              {filterByModuleText}
+            </p>
+
+            {filterByModule}
+
+            <DirectivesList directives={props.displayedDirectives} selectedDirectives={selectedDirectives}
+                            moduleTree={props.moduleTree} numberItemsForDirectives={props.numberItemsForDirectives}
+                            onClickDirective={props.updateMissionForm} />
         </div>
-
-        <div className="form-subsection">
-          <p className="select-directives__section-title">Select directives</p>
-
-          <div className="directive-search">
-            <input className="directive-search-input"
-                    placeholder="Search by directive name"
-                    value={props.newMission.directiveSearchQuery}
-                    onChange={(e) => props.updateMissionForm({directiveSearchQuery: e.target.value})}/>
-          </div>
-
-          <p className="select-directives__section-title filter-by-module-text" onClick={() => this.setState({isExpanded: !this.state.isExpanded})}>
-            {filterByModuleText}
-          </p>
-
-          {filterByModule}
-
-          <DirectivesList directives={props.displayedDirectives} selectedDirectives={selectedDirectives}
-                          moduleTree={props.moduleTree} numberItemsForDirectives={props.numberItemsForDirectives}
-                          onClickDirective={props.updateMissionForm} />
-      </div>
 
       </div>
     )

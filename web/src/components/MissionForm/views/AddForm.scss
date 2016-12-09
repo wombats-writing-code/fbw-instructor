@@ -1,0 +1,54 @@
+@import '../../../styles/base';
+
+
+.form-section {
+  margin-bottom: 1.5rem;
+}
+
+.form-label {
+  // background-color: $app-blue-dark;
+  display: block;
+  font-weight: 600;
+  color: $app-blue-2;
+  text-align: left;
+  margin-bottom: 1.5rem;
+}
+
+.mission-name-input {
+  width: 100%;
+  margin-bottom: 1.5rem;
+  background-color: #f0f0f0;
+  border: 1px solid #eee;
+  height: 3rem;
+  padding: .75rem .75rem .75rem 1rem;
+  border-radius: 3px;
+  box-shadow: none;
+}
+
+.mission-name-input:focus {
+  border: 1px solid #eee;
+  outline: none;
+  box-shadow: none;
+  background-color: #fafafa;
+}
+
+.create-mission-button {
+  width: 100%;
+  background-color: $app-blue-dark;
+  color: #fff;
+  border-radius: 4px;
+}
+
+.create-mission-button:hover {
+  background-color: lighten($app-blue-dark, .1);
+}
+
+.DateRangePicker {
+  float:left;
+  margin-left: 0;
+  margin-right: auto;
+}
+
+.CalendarMonthGrid {
+  // transform: translateX(-150px);
+}
