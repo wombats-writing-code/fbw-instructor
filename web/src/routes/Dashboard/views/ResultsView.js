@@ -44,7 +44,12 @@ class ResultsView extends Component {
       )
     }
 
-    let expandCollapseButtonText = this.state.isExpanded ? 'Hide' : 'Show';
+    let expandCollapseButtonText;
+    if (viewData && viewData.directives) {
+      expandCollapseButtonText = this.state.isExpanded ? 'Hide' : 'Show';
+    } else {
+      expandCollapseButtonText = 'No results yet';
+    }
 
     return (
       <div className="results-view columns">
@@ -65,7 +70,9 @@ class ResultsView extends Component {
             <p className="summary__text">students really struggled</p>
           </div>
 
-          <button className=" expand-collapse-button" onClick={() => this.setState({isExpanded: !this.state.isExpanded})}>
+          <button className=" expand-collapse-button"
+                  disabled={!viewData || !viewData.directives}
+                  onClick={() => this.setState({isExpanded: !this.state.isExpanded})}>
             {expandCollapseButtonText}
           </button>
         </div>

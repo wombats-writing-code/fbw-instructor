@@ -40,7 +40,7 @@ class DirectiveCarousel extends Component {
     return (
       <div className="carousel-container directive-carousel flex-container align-center">
         <div className="carousel-label">Directives</div>
-        <div className="carousel clearfix">
+        <div className="carousel flex-container clearfix">
           {_.map(this.props.directives, this._renderThumb)}
         </div>
       </div>
