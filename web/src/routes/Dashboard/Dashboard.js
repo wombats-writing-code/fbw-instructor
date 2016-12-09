@@ -17,22 +17,28 @@ class Dashboard extends Component {
     let props = this.props;
 
     let phaseIView, phaseIIView, recommendMission;
-    if (props.mission) {
-      phaseIView = <ResultsView mission={this.props.mission}
+    if (props.mission && (!this.props.isGetPhaseIResultsInProgress && !this.props.isGetPhaseIIResultsInProgress)) {
+      phaseIView = (<ResultsView mission={this.props.mission}
                                 missionType="Phase I"
                                 isGetResultsInProgress={this.props.isGetPhaseIResultsInProgress}
-                          />
+                    />)
 
-      phaseIIView = (
-        <ResultsView  mission={this.props.mission}
-                      missionType="Phase II"
-                      isGetResultsInProgress={this.props.isGetPhaseIIResultsInProgress}
-                />
-      )
+      phaseIIView =  (
+                    <ResultsView  mission={this.props.mission}
+                                  missionType="Phase II"
+                                  isGetResultsInProgress={this.props.isGetPhaseIIResultsInProgress}
+                    />)
 
       if (!props.mission.hasSpawnedFollowOnPhase) {
         recommendMission = <RecommendMission recommendation={this.props.recommendation}/>
       }
+    }
+
+    let loadingBox;
+    if (this.props.isGetPhaseIResultsInProgress || this.props.isGetPhaseIIResultsInProgress) {
+      loadingBox = LoadingBox('enter-active')
+    } else {
+      loadingBox = LoadingBox('enter')
     }
 
 
@@ -42,6 +48,9 @@ class Dashboard extends Component {
         {phaseIIView}
 
         {recommendMission}
+        <div className="clearfix">
+          {loadingBox}
+        </div>
 
       </div>
 

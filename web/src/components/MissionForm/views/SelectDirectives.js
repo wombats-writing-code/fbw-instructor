@@ -19,10 +19,9 @@ class SelectDirectives extends Component {
     let selectedModule = props.newMission.selectedModule;
     let selectedDirectives = props.newMission.selectedDirectives;
 
-    // console.log('displayedDirectives', props.displayedDirectives)
-    // console.log('selectedDirectives',selectedDirectives)\
-    // console.log('selectedModule', selectedModule)
-    // console.log('moduletree', props.moduleTree, 'selectedModule', selectedModule)
+    let selectedDirectivesLabel = selectedDirectives ?
+                                  (<p className="select-directives__section-title">Selected directives (# questions available)</p>)
+                                  : null;
 
     let filterByModule, filterByModuleText;
     if (this.state.isExpanded) {
@@ -52,7 +51,7 @@ class SelectDirectives extends Component {
 
     return (
       <div className="select-directives">
-        <p className="select-directives__section-title">Selected directives (# questions available)</p>
+        {selectedDirectivesLabel}
         <DirectivesList directives={selectedDirectives} selectedDirectives={selectedDirectives}
                       moduleTree={props.moduleTree} numberItemsForDirectives={props.numberItemsForDirectives}
                       onClickDirective={props.updateMissionForm} />
