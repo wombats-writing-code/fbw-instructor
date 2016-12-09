@@ -9,7 +9,7 @@ export default (store) => ({
     require.ensure([], (require) => {
       /*  Webpack - use require callback to define
           dependencies for bundling   */
-      const MissionsFactory = require('platform-common/containers/MissionsContainer').default
+      const MissionsFactory = require('fbw-platform-common/containers/MissionsContainer').default
 
       /*  Return getComponent   */
       cb(null, MissionsFactory(MissionsComponent))

@@ -21,7 +21,8 @@ const webpackConfig = {
   target  : 'web',
   devtool : config.compiler_devtool,
   resolve : {
-    root       : [paths.client(), platformCommonPath],
+    // root       : [paths.client(), platformCommonPath],
+    root: paths.client(),
     extensions : ['', '.js', '.jsx', '.json']
   },
   module : {}
@@ -100,7 +101,8 @@ if (!__TEST__) {
 // JavaScript / JSON
 webpackConfig.module.loaders = [{
   test    : /\.(js|jsx)$/,
-  exclude : /node_modules\/(?!(rhumbl-dao)\/).*/,       // TODO: luwen to get rid of this when she fixes rhumbl-dao
+  // exclude : /node_modules\/(?!(rhumbl-dao)\/).*/,       // TODO: luwen to get rid of this when she fixes rhumbl-dao
+  include: [/fbw-platform-common/, paths.client()],
   loader  : 'babel',
   query   : config.compiler_babel
 }, {
