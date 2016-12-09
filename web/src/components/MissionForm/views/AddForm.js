@@ -174,6 +174,7 @@ export default function(props) {
 
 
         <div style={styles.formSection}>
+          <label className="form-label">Directives</label>
           <SelectDirectives {...props} />
         </div>
 

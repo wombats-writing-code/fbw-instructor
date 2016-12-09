@@ -145,13 +145,13 @@ export default function missionReducer (state = initialState, action) {
 
       let selectedDirectives = _.clone(state.newMission.selectedDirectives) || [];
       if (action.data.toggledDirective) {
-        let isAlreadySelected = _.find(state.newMission.selectedDirectives, (item) => item.outcome.id === action.data.toggledDirective.outcome.id);
+        let isAlreadySelected = _.find(state.newMission.selectedDirectives, (outcome) => outcome.id === action.data.toggledDirective.id);
 
         if (!state.newMission.selectedDirectives) {
           selectedDirectives = [action.data.toggledDirective];
 
         } else if (isAlreadySelected) {
-          selectedDirectives = _.reject(state.newMission.selectedDirectives, (item) => item.outcome.id === isAlreadySelected.outcome.id);
+          selectedDirectives = _.reject(state.newMission.selectedDirectives, outcome => outcome.id === isAlreadySelected.id);
 
         } else {
           selectedDirectives = [...selectedDirectives, action.data.toggledDirective];
@@ -169,7 +169,8 @@ export default function missionReducer (state = initialState, action) {
           focusedInput: nextFocusedInput,
           formError: formError,
           selectedModule: action.data.selectedModule || state.newMission.selectedModule,
-          selectedDirectives: selectedDirectives
+          selectedDirectives: selectedDirectives,
+          directiveSearchQuery: action.data.directiveSearchQuery || _.clone(state.newMission.directiveSearchQuery)
         }
       })
 

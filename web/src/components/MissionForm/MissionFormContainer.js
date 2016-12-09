@@ -8,7 +8,7 @@ import {updateEditMissionForm} from '../../reducers/Mission/updateEditMissionFor
 
 import {changeView} from '../../reducers/view'
 
-import {moduleTreeSelector, getOutcomes, itemsForDirectivesSelector} from './selectors/'
+import {moduleTreeSelector, getOutcomes, itemsForDirectivesSelector, displayedDirectivesSelector} from './selectors/'
 
 
 const mapDispatchToProps = (dispatch, ownProps) => {
@@ -38,6 +38,7 @@ const mapStateToProps = (state, ownProps) => {
     editMission: state.mission.editMission,
     moduleTree: moduleTreeSelector(state),
     outcomes: getOutcomes(state),
+    displayedDirectives: displayedDirectivesSelector(state, ownProps),
     numberItemsForDirectives: itemsForDirectivesSelector(state),
     isCreateMissionInProgress: state.mission.isCreateMissionInProgress
   }

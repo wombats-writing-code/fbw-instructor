@@ -1,8 +1,9 @@
 
+import _ from 'lodash'
 
 export const matches = (needle, haystack) => {
 
-  return _.lower(haystack).indexOf(_.lower(needle)) === 0;
+  return _.lowerCase(haystack).indexOf(_.lowerCase(needle)) === 0;
 }
 
 

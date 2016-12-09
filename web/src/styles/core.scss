@@ -101,3 +101,9 @@ button:focus {
 .row-subtitle {
   color: #555;
 }
+
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

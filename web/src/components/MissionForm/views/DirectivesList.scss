@@ -1,0 +1,65 @@
+
+@import '../../../styles/base';
+
+.directives-list {
+  text-align: left;
+}
+
+.directives-list__item {
+  cursor: pointer;
+  margin-bottom: 1rem;
+}
+
+.directives-list__item:hover {
+  opacity: .8;
+}
+
+.select-directive-icon {
+  font-size: 1.25em;
+  font-family: sans-serif;
+  margin-right: .5em;
+}
+
+.select-directive-icon.select {
+  color: #324D5C;
+}
+
+.select-directive-icon.unselect {
+  color: #E37B40;
+}
+
+.directives-list__item__module-label {
+  font-size: .8rem;
+  font-weight: 600;
+  display: inline-block;
+  padding: .05em .25em;
+  border-radius: 2px;
+  background: $app-blue-dark;
+  color: #eee;
+  width: 10rem;
+}
+
+.outcome-text {
+  flex: 1;
+  text-align: left;
+}
+
+.number-items-for-directives {
+  margin-left: 1em;
+  font-size: .875rem;
+  color: #666;
+}
+
+.add-remove-directive-button {
+  margin-left: 1em;
+  font-size: .875rem;
+  text-decoration: underline;
+}
+
+.add-remove-directive-button.remove {
+  color: $app-orange;
+}
+
+.add-remove-directive-button.add {
+  color: $app-blue-dark;
+}

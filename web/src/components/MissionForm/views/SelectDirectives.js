@@ -2,7 +2,8 @@
 import React, {Component} from 'react'
 import EmptyState from '../../EmptyState'
 import './SelectDirectives.scss'
-import {matches} from '../../../reducers/utilities'
+
+import DirectivesList from './DirectivesList'
 
 class SelectDirectives extends Component {
 
@@ -17,36 +18,17 @@ class SelectDirectives extends Component {
     let props = this.props;
     let selectedModule = props.newMission.selectedModule;
     let selectedDirectives = props.newMission.selectedDirectives;
-    let displayedDirectives = selectedModule ? selectedModule.children : props.outcomes;
-    if (this.state.isExpanded) {
-      displayedDirectives = _.filter(displayedDirectives, o => matches(o.displayName.text) );
-    }
 
-    console.log('moduletree', props.moduleTree, 'selectedModule', selectedModule)
+    console.log('displayedDirectives', props.displayedDirectives)
+    console.log('selectedDirectives',selectedDirectives)
 
-    let selectedDirectivesList;
-    if (props.newMission.selectedDirectives) {
-      selectedDirectivesList = (<ol className="">
-        {_.map(props.newMission.selectedDirectives, (item, idx) => {
-          let outcome = item.outcome;
-          return (
-            <li key={`selectedDirective_${idx}`} className="">
-              <span>{outcome.displayName.text} </span>&nbsp;
-              (<span className="">{props.numberItemsForDirectives[outcome.id] || 0}</span>)
-            </li>
-          )
-        })}
-      </ol>)
-    } else {
+    // console.log('selectedModule', selectedModule)
+    // console.log('moduletree', props.moduleTree, 'selectedModule', selectedModule)
 
-      selectedDirectivesList = EmptyState("No directives in this mission yet.")
-    }
-
-    let filterByModule;
+    let filterByModule, filterByModuleText;
     if (this.state.isExpanded) {
       filterByModule = (
         <div className="clearfix select-modules-section" >
-          <p className="select-directives__section-title">Filter by module</p>
           <ol className="modules-list clearfix">
             {_.map(props.moduleTree.children, (m, idx) => {
               let isSelected = props.newMission.selectedModule === m;
@@ -56,50 +38,47 @@ class SelectDirectives extends Component {
                 <li key={`selectModule_${idx}`} className={isSelected ? "modules-list__item is-selected" : "modules-list__item"}
                     onClick={(e) => props.updateMissionForm({selectedModule: m})}>
                     {m.displayName}
+
                 </li>
               )
             })}
           </ol>
         </div>
       )
+
+      filterByModuleText = <span className="app-blue-dark">Hide modules</span>;
+    } else {
+      filterByModuleText = <span className="app-blue-dark">Filter by modules (Show)</span>;
     }
 
     return (
       <div className="select-directives">
         <div className="clearfix" >
-          <label className="form-label">Directives</label>
-          <p className="">Selected directives (# questions available)</p>
-          {selectedDirectivesList}
+          <p className="select-directives__section-title">Selected directives (# questions available)</p>
+          <DirectivesList directives={selectedDirectives} selectedDirectives={selectedDirectives}
+                        moduleTree={props.moduleTree} numberItemsForDirectives={props.numberItemsForDirectives}
+                        onClickDirective={props.updateMissionForm} />
         </div>
 
-        {filterByModule}
-
         <div className="form-subsection">
-          <p className="select-directives__section-title">Directives
-            <span>{selectedModule ? 'in ' + selectedModule.displayName : null}</span>
-          </p>
+          <p className="select-directives__section-title">Select directives</p>
 
           <div className="directive-search">
-            <input value={this.state.searchQuery} onChange={(e) => this.setState({searchQuery: e.target.value})}/>
+            <input className="directive-search-input"
+                    placeholder="Search by directive name"
+                    value={props.newMission.directiveSearchQuery}
+                    onChange={(e) => (e) => props.updateMissionForm({directiveSearchQuery: e.target.value})}/>
           </div>
 
-          <ul className="directives-list">
-            {_.map(displayedDirectives, (outcome, idx) => {
-              let isSelected = _.find(selectedDirectives, (item) => item.outcome === outcome);
-              let selectDirectiveIcon = isSelected ?
-                                        (<span key={`icon_${idx}`} className="select-directive-icon">&#x02296;</span>) :
-                                        (<span key={`icon_${idx}`} className="select-directive-icon">&oplus;</span>);
+          <p className="select-directives__section-title filter-by-module-text" onClick={() => this.setState({isExpanded: !this.state.isExpanded})}>
+            {filterByModuleText}
+          </p>
 
-              return (
-                <li key={`selectOutcome_${idx}`} className="directives-list__item"
-                    onClick={(e) => props.updateMissionForm({toggledDirective: {outcome, numberItems: props.numberItemsForDirectives[outcome.id]}})}>
+          {filterByModule}
 
-                  {selectDirectiveIcon}
-                  {outcome.displayName.text}
-                </li>
-              )
-            })}
-          </ul>
+          <DirectivesList directives={props.displayedDirectives} selectedDirectives={selectedDirectives}
+                          moduleTree={props.moduleTree} numberItemsForDirectives={props.numberItemsForDirectives}
+                          onClickDirective={props.updateMissionForm} />
       </div>
 
       </div>

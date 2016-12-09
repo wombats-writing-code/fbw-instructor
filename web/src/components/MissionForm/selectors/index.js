@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect'
-import 'lodash'
+import _ from 'lodash'
+import {matches} from '../../../reducers/utilities'
 
 
 const getModules = (state) => state.mapping ? state.mapping.modules : null
@@ -7,7 +8,7 @@ export const getOutcomes = (state) => state.mapping ? state.mapping.outcomes : n
 const getRelationships = (state) => state.mapping ? state.mapping.relationships : null
 const getItems = (state) => state.bank ? state.bank.items : null
 const getSelectedDirectives = (state) => state.mission && state.mission.newMission ? state.mission.newMission.selectedDirectives : null
-
+const getAddMissionForm = state => state.mission.newMission
 
 export const moduleTreeSelector = createSelector([getModules, getOutcomes, getRelationships], (modules, outcomes, relationships) => {
   let tree = {
@@ -43,20 +44,40 @@ export const moduleTreeSelector = createSelector([getModules, getOutcomes, getRe
   return tree;
 });
 
-export const itemsForDirectivesSelector = createSelector([getSelectedDirectives, getItems], (selectedDirectives, allItems) => {
 
+export const itemsForDirectivesSelector = createSelector([getOutcomes, getItems], (outcomes, allItems) => {
   //console.log('allItems', allItems, 'selectedDirectives', selectedDirectives);
-
-  let selectedDirectiveIds = _.map(selectedDirectives, 'outcome.id');
+  let outcomeIds = _.map(outcomes, 'id');
 
   let numberItemsForDirectives = _.reduce(allItems, (result, item) => {
-    if (selectedDirectiveIds.indexOf(item.learningObjectiveIds[0]) > -1) {
       result[item.learningObjectiveIds[0]] = (result[item.learningObjectiveIds[0]] || 0) + 1;
-    }
 
     return result;
   }, {});
 
   // currently this is the full count of all items for a given LO
   return numberItemsForDirectives;
+})
+
+
+export const displayedDirectivesSelector = createSelector([getAddMissionForm, getOutcomes],
+  (addMissionForm, outcomes) => {
+    if (!addMissionForm) return null;
+
+    let selectedModule = addMissionForm.selectedModule;
+    let displayedDirectives;
+    if (selectedModule) {
+      displayedDirectives = addMissionForm.selectedModule.children;
+    } else {
+      displayedDirectives = outcomes;
+    }
+
+    if (addMissionForm.directiveSearchQuery) {
+      console.log('search by directiveSearchQuery', directiveSearchQuery)
+      displayedDirectives = _.filter(displayedDirectives, o => matches(o.displayName.text));
+    }
+
+    console.log('calculated displayedDirectives', displayedDirectives)
+
+    return displayedDirectives;
 })
