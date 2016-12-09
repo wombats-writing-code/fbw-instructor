@@ -51,7 +51,7 @@ export function createMission(data, bankId, directivesItemsMap, itemBankId) {
       deadline: beforeMidnight(momentToQBank(data.deadline)),
       recordTypeIds: [PHASE_I_MISSION_RECORD_TYPE],
       sections: _.map(data.selectedDirectives, (directive) => {
-        let outcomeId = directive.outcome.id,
+        let outcomeId = directive.id,
           numItems = directivesItemsMap[outcomeId];
 
         return {
