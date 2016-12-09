@@ -31,7 +31,10 @@ export default (initialState = {}) => {
         bank: state.bank,
         location: state.location,
         mapping: state.mapping,
-        mission: _.omit(state.mission, ['phaseIResults', 'phaseIIResults', 'newMission']),
+        mission: _.omit(state.mission, [
+          'phaseIResults', 'phaseIIResults', 'newMission',
+          'isCreateMissionInProgress', 'isGetMissionsInProgress', 'isGetPhaseIResultsInProgress', 'isSpawnInProgress',
+        ]),
         user: state.user,
         view: state.view
       };
