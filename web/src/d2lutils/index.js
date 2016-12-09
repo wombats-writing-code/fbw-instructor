@@ -52,6 +52,7 @@ export function instructorCourses (credentials, url) {
   // console.log(options)
   return axios(options)
   .then((response) => {
+    console.log('instructor enrollments', response)
     let enrollments = response.data.Items
     enrollments = _.filter(enrollments, function (enrollment) {
       return enrollment.OrgUnit.Type.Code == 'Course Offering' &&
@@ -77,6 +78,7 @@ export function instructorCourses (credentials, url) {
   .then((offerings) => {
     // we also need to replace the D2L ID here with the QBank ID
     // And create the QBank banks / aliases?
+    console.log('offerings', offerings)
     let bankTestPromises = []
     _.each(offerings, (offering, index) => {
       instructorCourseBanks[index].term = offering.data.Semester.Name.trim()
