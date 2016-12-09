@@ -2,10 +2,21 @@
 import _ from 'lodash'
 
 export const matches = (needle, haystack) => {
+  let parts = needle.split(' ');
+  let partQ = '';
+  for (let i=0; i<parts.length; i++) {
+    if (i==0) {
+      partQ = '(?=.*\\b' + parts[i] + ')';
+    } else {
+      partQ = partQ + '(?=.*\\b' +  parts[i] + ')';
+    }
+  }
 
-  return _.lowerCase(haystack).indexOf(_.lowerCase(needle)) === 0;
+  let re = new RegExp(partQ, 'gi')
+  let matching = re.test(haystack);
+
+  return matching;
 }
-
 
 
 export const getDomain = () => location.host.indexOf('localhost') > 1 ? 'http://localhost:8888' : 'https://fbw-web-backend.herokuapp.com'

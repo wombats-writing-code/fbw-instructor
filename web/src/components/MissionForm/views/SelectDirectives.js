@@ -19,9 +19,8 @@ class SelectDirectives extends Component {
     let selectedModule = props.newMission.selectedModule;
     let selectedDirectives = props.newMission.selectedDirectives;
 
-    console.log('displayedDirectives', props.displayedDirectives)
-    console.log('selectedDirectives',selectedDirectives)
-
+    // console.log('displayedDirectives', props.displayedDirectives)
+    // console.log('selectedDirectives',selectedDirectives)\
     // console.log('selectedModule', selectedModule)
     // console.log('moduletree', props.moduleTree, 'selectedModule', selectedModule)
 
@@ -67,7 +66,7 @@ class SelectDirectives extends Component {
             <input className="directive-search-input"
                     placeholder="Search by directive name"
                     value={props.newMission.directiveSearchQuery}
-                    onChange={(e) => (e) => props.updateMissionForm({directiveSearchQuery: e.target.value})}/>
+                    onChange={(e) => props.updateMissionForm({directiveSearchQuery: e.target.value})}/>
           </div>
 
           <p className="select-directives__section-title filter-by-module-text" onClick={() => this.setState({isExpanded: !this.state.isExpanded})}>

@@ -17,7 +17,8 @@ export default (props) => {
                             (<span className="add-remove-directive-button remove">Remove</span>) :
                             (<span className="add-remove-directive-button add">Add</span>);
 
-        let module = _.find(props.moduleTree.children, m => m.children.indexOf(outcome) > -1);
+        let module = _.find(props.moduleTree.children, m => _.map(m.children, 'id').indexOf(outcome.id) > -1);
+
 
         return (
           <li key={`selectOutcome_${idx}`} className="flex-container align-center space-between directives-list__item"

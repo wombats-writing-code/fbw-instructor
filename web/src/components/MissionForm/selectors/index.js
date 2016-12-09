@@ -73,11 +73,8 @@ export const displayedDirectivesSelector = createSelector([getAddMissionForm, ge
     }
 
     if (addMissionForm.directiveSearchQuery) {
-      console.log('search by directiveSearchQuery', directiveSearchQuery)
-      displayedDirectives = _.filter(displayedDirectives, o => matches(o.displayName.text));
+      displayedDirectives = _.filter(displayedDirectives, o => matches(addMissionForm.directiveSearchQuery, o.displayName.text));
     }
-
-    console.log('calculated displayedDirectives', displayedDirectives)
 
     return displayedDirectives;
 })

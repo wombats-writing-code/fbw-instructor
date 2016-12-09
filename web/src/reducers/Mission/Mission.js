@@ -158,7 +158,9 @@ export default function missionReducer (state = initialState, action) {
         }
       }
 
-      // console.log('selectedDirectives', selectedDirectives)
+      let directiveSearchQuery = typeof action.data.directiveSearchQuery === 'undefined' ?
+                                  _.clone(state.newMission.directiveSearchQuery) :
+                                  action.data.directiveSearchQuery;
 
       return _.assign({}, state, {
         newMission: {
@@ -170,7 +172,7 @@ export default function missionReducer (state = initialState, action) {
           formError: formError,
           selectedModule: action.data.selectedModule || state.newMission.selectedModule,
           selectedDirectives: selectedDirectives,
-          directiveSearchQuery: action.data.directiveSearchQuery || _.clone(state.newMission.directiveSearchQuery)
+          directiveSearchQuery: directiveSearchQuery
         }
       })
 

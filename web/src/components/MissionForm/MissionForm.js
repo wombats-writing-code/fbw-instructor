@@ -10,7 +10,7 @@ class MissionForm extends Component {
 
   render() {
     let props = this.props;
-    console.log('props of missionform', props)
+    // console.log('props of missionform', props)
 
     let view;
     if (props.view && props.view.name === 'edit-mission') {
