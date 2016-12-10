@@ -2,10 +2,13 @@
 let moment = require('moment')
 
 export const getResults = (state, ownProps) => {
+
+  // TODO: i don't like this. need to clean this up.
   if (ownProps) {
     return ownProps.missionType === 'Phase I' ? state.mission.phaseIResults : state.mission.phaseIIResults
+
   } else {
-    return []
+    return state.mission.phaseIResults;
   }
 }
 export const getMapping = (state) => state.mapping

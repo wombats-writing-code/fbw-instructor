@@ -12,7 +12,7 @@ import {
 import 'react-dates/css/variables.scss'
 import 'react-dates/css/styles.scss'
 
-require('./datepicker.css')
+// require('./datepicker.css')
 import './RecommendMission.scss'
 
 const _getPlurality = (number) => {
@@ -22,7 +22,7 @@ const _getPlurality = (number) => {
 }
 
 export default function(props) {
-  // console.log('props of recommend mission', props);
+  console.log('props of recommend mission', props);
 
   if (!props.recommendation) {
     return null;

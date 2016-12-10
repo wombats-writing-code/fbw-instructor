@@ -1,6 +1,8 @@
 import { connect } from 'react-redux'
 import Home from './Home'
 
+import {browserHistory} from 'react-router'
+
 import {getMapping} from '../../reducers/Mapping/getMapping'
 import {getMissions} from '../../reducers/Mission/getMissions'
 
@@ -52,6 +54,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     {
       dispatch(clearSelectedMission())
       dispatch(changeView({name: 'add-mission'}))
+      // browserHistory.push('/missions/new')
     },
     onClickEditMission: (mission) => {
       dispatch(selectMission(mission));

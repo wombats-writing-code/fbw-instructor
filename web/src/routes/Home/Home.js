@@ -28,7 +28,7 @@ class Home extends Component {
 
   render() {
     let props = this.props;
-    
+
     let view;
     if (props.view.name.startsWith('dashboard')) {
       view = (
@@ -36,7 +36,7 @@ class Home extends Component {
           <DashboardContainer.component></DashboardContainer.component>
         </div>
       )
-    } else if (props.view.name === 'add-mission' || props.view.name === 'edit-mission') {
+    }  else if (props.view.name === 'add-mission' || props.view.name === 'edit-mission') {
       view = (
         <div>
           <MissionForm />

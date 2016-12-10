@@ -1,38 +1,18 @@
 
 @import '../../styles/base';
 
-.dashboard-nav {
-  list-style: none;
-  width: 100%;
+
+.spawn-button {
+  display: block;
+  margin-right: 1rem;
   margin-left: 0;
-}
-
-
-.dashboard-nav__button {
-  flex: 1;
+  background-color: $app-blue-2;
   color: #fff;
   font-weight: 600;
-  border-radius: 0;
-  width: 100%;
-  border-right: 1px solid #eee;
+  margin-bottom: 0;
 }
 
-.dashboard-nav__button.is-active {
-  background: $app-blue-2;
-}
-
-.dashboard-nav__button:first-child {
-  border-top-left-radius: 3px;
-  border-bottom-left-radius: 3px;
-}
-
-.dashboard-nav__button:last-child {
-  border-top-right-radius: 3px;
-  border-bottom-right-radius: 3px;
-  border-right: 0;
-}
-
-.button-text__ordinal {
-  color: #efefef;
-  margin-right: 1em;
+.spawn-button:hover {
+  background-color: $app-blue-2;
+  opacity: .8;
 }

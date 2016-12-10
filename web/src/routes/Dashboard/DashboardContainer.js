@@ -4,13 +4,16 @@ import Dashboard from './Dashboard'
 import {changeView, changeMouseOver, changeClick} from '../../reducers/view'
 import {getPhaseIIResults} from '../../reducers/Mission/getPhaseIIResults'
 import {getPhaseIResults} from '../../reducers/Mission/getPhaseIResults'
-
+import {createTestFlightMissions} from '../../reducers/Mission/createTestFlightMissions'
+import {recommendMissionSelector} from './selectors/recommendMissionSelector'
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     onChangeView: (viewName) => dispatch(changeView({name: viewName})),
-    getPhaseIIResults: (mission, bankId) => dispatch(getPhaseIIResults(mission, bankId)),
-    getPhaseIResults: (mission) => dispatch(getPhaseIResults(mission)),
+    onSpawnPhaseIIMissions: data => dispatch(createTestFlightMissions())    // TODO: Cole help? not sure what data args it's expecting
+
+    // getPhaseIIResults: (mission, bankId) => dispatch(getPhaseIIResults(mission, bankId)),
+    // getPhaseIResults: (mission) => dispatch(getPhaseIResults(mission)),
   }
 }
 
@@ -24,6 +27,8 @@ const mapStateToProps = (state, ownProps) => {
     isGetPhaseIResultsInProgress: state.mission ? state.mission.isGetPhaseIResultsInProgress : false,
     isGetPhaseIIResultsInProgress: state.mission ? state.mission.isGetPhaseIIResultsInProgress : false,
     isGetSpawnResultsInProgress: false,     // TODO
+    isSpawnInProgress: state.mission && state.mission.isSpawnInProgress,
+    recommendation: recommendMissionSelector(state, ownProps)
   }
 }
 
