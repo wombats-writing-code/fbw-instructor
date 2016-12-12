@@ -2,6 +2,7 @@
 
 import React, {Component} from 'react'
 
+import moment from 'moment'
 import ResultsView from './containers/ResultsViewContainer'
 import RecommendMission from './containers/RecommendMissionContainer'
 
@@ -51,6 +52,7 @@ class Dashboard extends Component {
 
     let recommendationBar;
     if (props.mission && (!this.props.isGetPhaseIResultsInProgress && !this.props.isGetPhaseIIResultsInProgress)) {
+      let now = moment.utc()
       recommendationBar = (
         <div className="summary-bar flex-container align-center">
           <p className="summary__mission-name">
@@ -65,7 +67,10 @@ class Dashboard extends Component {
 
           <button className="button spawn-button small"
                   disabled={props.isSpawnInProgress}
-                  onClick={() => this.props.onSpawnPhaseIIMissions()}>
+                  onClick={() => this.props.onSpawnPhaseIIMissions(this.props.recommendation.students,
+                    this.props.currentBankId,
+                    this.props.mission,
+                    this.props.spawnDate || now)}>
             {spawnButtonText}
           </button>
 

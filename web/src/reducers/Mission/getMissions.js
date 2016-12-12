@@ -2,7 +2,7 @@
 import 'lodash'
 import axios from 'axios'
 
-import {getDomain, convertPythonDateToJS} from '../common'
+import {getDomain, convertPythonDateToJS} from 'fbw-platform-common/utilities'
 
 // ----
 // Action types
