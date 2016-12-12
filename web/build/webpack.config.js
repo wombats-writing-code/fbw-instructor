@@ -12,8 +12,8 @@ const __PROD__ = config.globals.__PROD__
 const __TEST__ = config.globals.__TEST__
 
 
-const platformCommonPath = path.resolve(__dirname, '../../');
-console.log('\n', 'fbw-instructor platform-common path at: ', platformCommonPath, '\n');
+// const platformCommonPath = path.resolve(__dirname, '../../');
+// console.log('\n', 'fbw-instructor platform-common path at: ', platformCommonPath, '\n');
 
 debug('Creating configuration.')
 const webpackConfig = {
