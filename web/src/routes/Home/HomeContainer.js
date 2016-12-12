@@ -22,7 +22,7 @@ import {deleteMission} from '../../reducers/Mission/deleteMission'
 
 // this should ONLY be used for simpleLogin / non-LMS installs. This is NOT scalable.
 // import {BANK_TO_DOMAIN, BANK_TO_LIBRARY} from '../../reducers/common'
-import {findBankLibrary, findBankDomain} from '../../reducers/selectors'
+import {findBankLibrary, findBankDomain} from 'fbw-platform-common/selectors'
 
 /*  This is a container component. Notice it does not contain any JSX,
     nor does it import React. This component is **only** responsible for
@@ -42,6 +42,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(selectBank(bank));
       dispatch(getMissions(bank.id));
       dispatch(selectMission(null));
+      console.log('domain: ', findBankDomain(bank.id, enrolledBanks))
       dispatch(getMapping(findBankDomain(bank.id, enrolledBanks)))     // @Cole: how do I find out the department name from the bank name?
       dispatch(getItems(findBankLibrary(bank.id, enrolledBanks)));  // these two mappings need to be modified after we switch to D2L / LMS
     },
