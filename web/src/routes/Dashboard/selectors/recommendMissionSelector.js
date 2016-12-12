@@ -23,12 +23,16 @@ export const recommendMissionSelector = createSelector([getResults, getMapping],
 
   if (!results || !mapping) return null;
 
+  console.log('results', results);
+
+
   let studentsWithRecommendations = _.map(results, (taken) => {
     // let's say that they have to re-take a directive if
     // they did not meet the minimumProficiency for target questions
     // TODO: if the taken has no sections, need to just copy the
     // original mission -- the student didn't get the questions or try them
     let newDirectives = [];
+
 
     _.each(taken.sections, function (section) {
       let targetQuestions = _.filter(section.questions, isTarget),
@@ -48,7 +52,7 @@ export const recommendMissionSelector = createSelector([getResults, getMapping],
           minimumProficiency: section.minimumProficiency
         })
       }
-    })
+    });
 
     return {
       name: parseAgentId(taken.takingAgentId),
