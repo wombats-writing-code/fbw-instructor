@@ -5,10 +5,7 @@ import {Link} from 'react-router'
 import BASE_STYLES from '../../../styles/baseStyles'
 import EmptyState from '../../../components/EmptyState'
 import LoadingBox from '../../../components/LoadingBox'
-
-import {
-  SingleDatePicker
-} from 'react-dates'
+import { DateRangePicker } from 'react-dates'
 import 'react-dates/css/variables.scss'
 import 'react-dates/css/styles.scss'
 
@@ -22,8 +19,7 @@ const _getPlurality = (number) => {
 }
 
 export default function(props) {
-  console.log('props of recommend mission', props);
-
+  // console.log('props of recommend mission', props);
   if (!props.recommendation) {
     return null;
   }
@@ -65,6 +61,15 @@ export default function(props) {
 
   return (
     <div className="">
+      <div className="form-section clearfix">
+         <label className="form-label">Dates</label>
+         {/* <DateRangePicker className=""
+                         onDateChange={(date) => props.updateSpawnDate({date: date})}
+                          onFocusChange={props.updateSpawnDate}
+                          focusedInput={props.spawnMission.spawnDate}
+                          startDate={props.spawnMission.startTime}
+                          endDate={props.spawnMission.deadline} /> */}
+       </div>
 
       {studentCollection}
 
