@@ -1,6 +1,6 @@
 import 'lodash'
 
-import { extractDisplayName } from '../../d2lutils'
+import { extractDisplayName } from 'fbw-platform-common/d2lutils'
 
 import { LOGGED_IN_OPTIMISTIC, LOGGED_IN } from './logInUser'
 import { UPDATE_USERNAME } from './updateUsername'

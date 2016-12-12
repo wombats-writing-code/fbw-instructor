@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import { browserHistory } from 'react-router'
 
-import { instructorCourses, whoami, stringifyUsername } from '../../d2lutils'
+import { instructorCourses, whoami, stringifyUsername } from 'fbw-platform-common/d2lutils'
 import credentials from '../Login/d2lcredentials'
 
 const styles = {
