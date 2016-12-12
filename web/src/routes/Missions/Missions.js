@@ -6,7 +6,7 @@ import slug from 'slug'
 import LoadingBox from '../../components/LoadingBox'
 import './Missions.scss'
 
-import { localDateTime, checkMissionStatus } from 'platform-common/selectors/'
+import { localDateTime, checkMissionStatus } from 'fbw-platform-common/selectors/'
 
 class Missions extends Component {
 
@@ -61,10 +61,10 @@ class Missions extends Component {
 
     let missionTypeIconSource
     if (rowData.genusTypeId === 'assessment-genus%3Afbw-homework-mission%40ODL.MIT.EDU') {
-      missionTypeIconSource = require('platform-common/assets/phase-1-icon@2x.png')
+      missionTypeIconSource = require('fbw-platform-common/assets/phase-1-icon@2x.png')
 
     } else if (rowData.genusTypeId === 'assessment-genus%3Afbw-in-class-mission%40ODL.MIT.EDU') {
-      missionTypeIconSource = require('platform-common/assets/phase-2-icon@2x.png');
+      missionTypeIconSource = require('fbw-platform-common/assets/phase-2-icon@2x.png');
 
     } else {
       console.error('uh oh. could not recognize genusTypeId in Missions.js');
