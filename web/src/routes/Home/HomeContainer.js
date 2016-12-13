@@ -21,6 +21,8 @@ import {getPhaseIIResults} from '../../reducers/Mission/getPhaseIIResults'
 import {deleteMission} from '../../reducers/Mission/deleteMission'
 
 import {logOutUser} from '../../reducers/User/logOutUser'
+import {resetMissionState} from '../../reducers/Mission/resetMissionState'
+import {resetBankState} from '../../reducers/Bank/resetBankState'
 
 // this should ONLY be used for simpleLogin / non-LMS installs. This is NOT scalable.
 // import {BANK_TO_DOMAIN, BANK_TO_LIBRARY} from '../../reducers/common'
@@ -69,6 +71,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     logout: () => {
       localStorage.clear();
       dispatch(logOutUser())
+      dispatch(resetMissionState())
+      dispatch(resetBankState())
     }
   }
 }
