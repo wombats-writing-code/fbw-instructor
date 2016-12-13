@@ -34,7 +34,7 @@ class Dashboard extends Component {
                     />) : null;
 
       if (!props.mission.hasSpawnedFollowOnPhase && this.state.isExpanded) {
-        recommendationBody = <RecommendMission recommendation={this.props.recommendation}/>
+        recommendationBody = <RecommendMission />
       }
     }
 
@@ -47,7 +47,12 @@ class Dashboard extends Component {
       spawnButtonText = 'Launch Phase II Missions!';
     }
 
-    let expandCollapseButtonText = this.state.isExpanded ? 'Hide' : 'Show';
+    let expandCollapseButtonText;
+    if (props.mission.hasSpawnedFollowOnPhase) {
+      expandCollapseButtonText = this.state.isExpanded ? 'Hide' : 'Show';
+    } else {
+      expandCollapseButtonText = 'No results yet';
+    }
 
     let recommendationBar;
     if (props.mission && (!this.props.isGetPhaseIResultsInProgress && !this.props.isGetPhaseIIResultsInProgress)) {
@@ -69,7 +74,7 @@ class Dashboard extends Component {
             {spawnButtonText}
           </button>
 
-          <button className="expand-collapse-button"
+          <button className="expand-collapse-button" disabled={!props.mission.hasSpawnedFollowOnPhase}
                   onClick={() => this.setState({isExpanded: !this.state.isExpanded})}>
             {expandCollapseButtonText}
           </button>
