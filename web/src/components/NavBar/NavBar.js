@@ -10,6 +10,14 @@ export default (props) => {
         <span className="fbw-name">Fly-by-Wire</span>
         <span className="app-name">Instructor App</span>
       </h1>
+      <button className="logout-button" tabIndex="1" onClick={this._logout}>
+        Logout
+      </button>
     </div>
   )
+
+  _logout = () => {
+    browserHistory.push('/login')
+    this.props.logout();
+  }
 }

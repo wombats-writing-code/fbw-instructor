@@ -9,6 +9,8 @@ import {RECEIVE_SET_BANKS} from './setBanks'
 
 import {RECEIVE_ITEMS} from './getItems'
 
+import {RECEIVE_RESET_BANK_STATE} from './resetBankState'
+
 // ------------------------------------
 // Reducer
 // ------------------------------------
@@ -20,6 +22,9 @@ const initialState = {
 }
 export default function bankReducer (state = initialState, action) {
   switch (action.type) {
+    case RECEIVE_RESET_BANK_STATE:
+      return {}
+      
     case RECEIVE_BANKS:
       return _.assign({}, state, {
         banks: action.banks

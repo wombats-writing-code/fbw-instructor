@@ -20,6 +20,8 @@ import {getPhaseIIResults} from '../../reducers/Mission/getPhaseIIResults'
 
 import {deleteMission} from '../../reducers/Mission/deleteMission'
 
+import {logOutUser} from '../../reducers/User/logOutUser'
+
 // this should ONLY be used for simpleLogin / non-LMS installs. This is NOT scalable.
 // import {BANK_TO_DOMAIN, BANK_TO_LIBRARY} from '../../reducers/common'
 import {findBankLibrary, findBankDomain} from 'fbw-platform-common/selectors'
@@ -63,6 +65,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     onClickDeleteMission: (mission) => {
       dispatch(deleteMission(mission))
+    },
+    logout: () => {
+      localStorage.clear();
+      dispatch(logOutUser())
     }
   }
 }

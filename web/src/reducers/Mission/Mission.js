@@ -17,6 +17,8 @@ import {UPDATE_EDIT_MISSION_FORM} from './updateEditMissionForm'
 import {UPDATE_SPAWN_DATE} from './updateSpawnDate'
 import {RECEIVE_DELETE_MISSION} from './deleteMission'
 
+import { RECEIVE_RESET_MISSION_STATE } from './resetMissionState'
+
 import {GET_PHASE_I_RESULTS_OPTIMISTIC, RECEIVE_PHASE_I_RESULTS} from './getPhaseIResults'
 import {GET_PHASE_II_RESULTS_OPTIMISTIC, RECEIVE_PHASE_II_RESULTS} from './getPhaseIIResults'
 
@@ -31,6 +33,9 @@ import {GET_PHASE_II_RESULTS_OPTIMISTIC, RECEIVE_PHASE_II_RESULTS} from './getPh
 const initialState = {newMission: stampNewMission()}
 export default function missionReducer (state = initialState, action) {
   switch (action.type) {
+    case RECEIVE_RESET_MISSION_STATE:
+      return {}
+
     case GET_MISSIONS_OPTIMISTIC:
       return _.assign({}, state, {
         isGetMissionsInProgress: true
