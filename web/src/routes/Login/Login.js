@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import { browserHistory } from 'react-router'
 
-import { getAuthenticationUrl } from '../../d2lutils'
+import { getAuthenticationUrl } from 'fbw-platform-common/d2lutils'
 import credentials from './d2lcredentials'
 
 const styles = {

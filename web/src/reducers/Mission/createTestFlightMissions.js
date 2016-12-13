@@ -1,10 +1,7 @@
 
 import 'lodash'
-let Q = require('q')
+import axios from 'axios'
 let moment = require('moment')
-
-require('es6-promise').polyfill();
-require('isomorphic-fetch');
 
 import {
   getDomain,
@@ -55,12 +52,10 @@ export function createTestFlightMissions(data, bankId, originalMission, spawnDat
     }
     testFlightParameters.push(studentParams)
   })
-  console.log(testFlightParameters)
+  console.log('testFlight params', testFlightParameters)
   let params = {
-      body: JSON.stringify(testFlightParameters),
-      headers: {
-        'content-type': 'application/json'
-      },
+      data: testFlightParameters,
+      url: `${getDomain()}/middleman/banks/${bankId}/personalmissions`,
       method: 'POST'
     };
   return function(dispatch) {
@@ -76,30 +71,20 @@ export function createTestFlightMissions(data, bankId, originalMission, spawnDat
     //   dispatch(receiveCreateTestFlightMissions(missions, originalMission));
     // }, 7000);
 
-    let url = getDomain(location.host) + `/middleman/banks/${bankId}/personalmissions`;
-    return fetch(url, params)
-    .then((res) => {
-      return res.json();
-    })
+    axios(params)
     .then((missions) => {
-      phaseIIMissions = missions
+      phaseIIMissions = missions.data
       // now let's mark the original Phase I as already spawned
-      let updateUrl = getDomain(location.host) + `/middleman/banks/${bankId}/missions/${originalMission.id}`,
-        updateParams = {
+      let updateParams = {
           method: 'PUT',
-          body: JSON.stringify({
+          data: {
             hasSpawnedFollowOnPhase: true,
             assessmentOfferedId: originalMission.assessmentOfferedId  // not actually used, but need it to not break the middleman
-          }),
-          headers: {
-            'content-type': 'application/json'
-          }
+          },
+          url: `${getDomain()}/middleman/banks/${bankId}/missions/${originalMission.id}`
         }
 
-      return fetch(updateUrl, updateParams)
-    })
-    .then((res) => {
-      return res.json()
+      return axios(updateParams)
     })
     .then((results) => {
       console.log('created test flight missions', phaseIIMissions);

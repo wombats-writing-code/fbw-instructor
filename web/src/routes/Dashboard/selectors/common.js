@@ -4,9 +4,8 @@ let moment = require('moment')
 export const getResults = (state, ownProps) => {
 
   // TODO: i don't like this. need to clean this up.
-  if (ownProps) {
+  if (ownProps && ownProps.missionType) {
     return ownProps.missionType === 'Phase I' ? state.mission.phaseIResults : state.mission.phaseIIResults
-
   } else {
     return state.mission.phaseIResults;
   }
