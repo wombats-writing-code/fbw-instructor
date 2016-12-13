@@ -36,7 +36,7 @@ export function getPhaseIIResults(mission, bankId) {
 
     return axios(url)
     .then( (results) => {
-      // console.log('got phase 2 results', results.data);
+      console.log('got phase 2 results', results.data);
 
       dispatch(receivePhaseIIResults(results.data));
     })

@@ -2,7 +2,7 @@
 let moment = require('moment')
 
 export const getResults = (state, ownProps) => {
-
+  console.log('getting results from state', ownProps, state)
   // TODO: i don't like this. need to clean this up.
   if (ownProps && ownProps.missionType) {
     return ownProps.missionType === 'Phase I' ? state.mission.phaseIResults : state.mission.phaseIIResults
