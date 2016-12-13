@@ -9,6 +9,8 @@ import { DateRangePicker } from 'react-dates'
 import 'react-dates/css/variables.scss'
 import 'react-dates/css/styles.scss'
 
+import {extractDisplayName} from 'fbw-platform-common/d2lutils'
+
 // require('./datepicker.css')
 import './RecommendMission.scss'
 
@@ -41,13 +43,14 @@ export default function(props) {
   }
 
   let studentCollection;
+
   studentCollection = (
     <ul className="student-recommendation-list">
       {_.map(props.recommendation.students, (student, idx) => {
         return (
           <li key={`student_${idx}`}>
             <p>
-              <Link key={`studentName__${idx}`} className="link">{student.name}</Link>
+              <Link key={`studentName__${idx}`} className="link">{extractDisplayName(student.name)}</Link>
               <span> {spawnVerb} </span>
               <span>{student.nextMission.directives.length} </span>
               <span>directive{_getPlurality(student.nextMission.directives.length)} with a total of </span>
