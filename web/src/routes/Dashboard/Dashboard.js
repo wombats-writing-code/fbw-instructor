@@ -49,15 +49,14 @@ class Dashboard extends Component {
     }
 
     let expandCollapseButtonText;
-    if (props.mission.hasSpawnedFollowOnPhase) {
+    if (props.mission && props.mission.hasSpawnedFollowOnPhase) {
       expandCollapseButtonText = this.state.isExpanded ? 'Hide' : 'Show';
     } else {
       expandCollapseButtonText = 'No results yet';
     }
 
     let recommendationBar;
-    if (props.mission &&
-        !props.mission.hasSpawnedFollowOnPhase) {
+    if (phaseIView && !props.mission.hasSpawnedFollowOnPhase) {
       let now = moment.utc()
       recommendationBar = (
         <div className="summary-bar flex-container align-center">
