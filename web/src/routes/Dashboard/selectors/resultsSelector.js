@@ -7,6 +7,7 @@ import {getResults, getMapping, isTarget, notAchievedOnAttempt} from './common'
 
 export const makeResultsSelector = () => {
   return createSelector([getResults, getMapping], (results, mapping) => {
+    console.log('creating selector for results', results, mapping)
     if (!results || !mapping) return null;
 
     // console.log('questionsViewSelector results', results, ' questions', allQuestions, 'mapping', mapping);
@@ -16,6 +17,7 @@ export const makeResultsSelector = () => {
     let targetOutcomes = _.compact(_.map(_.uniq(_.flatMap(targetQuestions, 'learningObjectiveIds')), (id) => _.find(mapping.outcomes, {id: id})));
 
     // console.log('allQuestions', allQuestions)
+    console.log('targetOutcomes', targetOutcomes)
 
     if (targetOutcomes.length === 0) return null;
 

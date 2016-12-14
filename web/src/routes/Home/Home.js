@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import Radium from 'radium'
+import { browserHistory } from 'react-router'
 
 import LoadingBox from '../../components/LoadingBox'
 import DashboardContainer from '../Dashboard/'
@@ -8,6 +9,7 @@ import SideBar from '../../components/SideBar'
 import NavBar from '../../components/NavBar'
 import _ from 'lodash'
 
+import './Home.styles.css'
 
 @Radium
 class Home extends Component {
@@ -46,7 +48,7 @@ class Home extends Component {
 
     return (
       <div>
-        <NavBar />
+        <NavBar logout={this._logout}/>
 
         <div className="medium-4 large-3 columns">
           <SideBar {...props}/>
@@ -57,6 +59,11 @@ class Home extends Component {
         </div>
       </div>
     )
+  }
+
+  _logout = () => {
+    this.props.logout();
+    browserHistory.push('/login')
   }
 }
 

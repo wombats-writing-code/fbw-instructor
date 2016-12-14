@@ -51,6 +51,8 @@ class ResultsView extends Component {
       expandCollapseButtonText = 'No results yet';
     }
 
+    console.log('results view data', viewData)
+
     return (
       <div className="results-view columns">
 
@@ -65,10 +67,10 @@ class ResultsView extends Component {
             <p className="summary__text">tried the mission</p>
           </div>
 
-          <div className="summary-blurb flex-container align-center">
+          {/* <div className="summary-blurb flex-container align-center">
             <p className="summary__number warning-color">{props.viewData ? props.viewData.studentsReallyStruggled.length : 0}</p>
             <p className="summary__text">students really struggled</p>
-          </div>
+          </div> */}
 
           <button className=" expand-collapse-button"
                   disabled={!viewData || !viewData.directives}

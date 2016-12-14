@@ -49,7 +49,7 @@ export default (props) => {
             // console.log(mission, 'startTime', mission.startTime, 'deadline', mission.deadline)
             return (
               <li key={key} className={isSelected ? "clickable-row__item is-selected" : "clickable-row__item"}
-                            onClick={() => props.onClickMission(mission)}>
+                            onClick={() => props.onClickMission(mission, props.currentBank.id)}>
                 <p className="row-title">{mission.displayName.text}</p>
                 <p className="row-subtitle">
                   <span className="">From </span>
