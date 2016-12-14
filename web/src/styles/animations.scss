@@ -18,6 +18,11 @@ $green: #96CEB4;
   50% { opacity: 1 }
 }
 
+@-moz-keyframes fade {
+  0%,100% { opacity: 0 }
+  50% { opacity: 1 }
+}
+
 // ==== draw border around box animation
 .draw-enter {
   color: $green;
@@ -86,6 +91,7 @@ $green: #96CEB4;
 .fade-in-out {
   opacity: 1;
   animation: fade 1.75s infinite ease;
+  -moz-animation: fade 1.75s infinite ease;
 }
 
 // Basic styles
