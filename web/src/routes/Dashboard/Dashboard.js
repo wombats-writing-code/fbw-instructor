@@ -49,7 +49,7 @@ class Dashboard extends Component {
     }
 
     let expandCollapseButtonText;
-    if (props.mission && props.mission.hasSpawnedFollowOnPhase) {
+    if (props.mission) {
       expandCollapseButtonText = this.state.isExpanded ? 'Hide' : 'Show';
     } else {
       expandCollapseButtonText = 'No results yet';
@@ -67,7 +67,7 @@ class Dashboard extends Component {
 
           <div className="summary-blurb flex-container align-center">
             <p className="summary__number">{props.recommendation ? props.recommendation.students.length : 0}</p>
-            <p className="summary__text">students to get Phase II</p>
+            <p className="summary__text">to get Phase II</p>
           </div>
 
           <button className="button spawn-button small"
@@ -79,7 +79,7 @@ class Dashboard extends Component {
             {spawnButtonText}
           </button>
 
-          <button className="expand-collapse-button" disabled={!props.mission.hasSpawnedFollowOnPhase}
+          <button className="expand-collapse-button" disabled={!props.mission}
                   onClick={() => this.setState({isExpanded: !this.state.isExpanded})}>
             {expandCollapseButtonText}
           </button>

@@ -17,24 +17,22 @@ export const makeResultsSelector = () => {
     let targetOutcomes = _.compact(_.map(_.uniq(_.flatMap(targetQuestions, 'learningObjectiveIds')), (id) => _.find(mapping.outcomes, {id: id})));
 
     // console.log('allQuestions', allQuestions)
-    console.log('targetOutcomes', targetOutcomes)
+    // console.log('targetOutcomes', targetOutcomes)
 
     if (targetOutcomes.length === 0) return null;
-
-    // !temporary until i ask Cole
-    // targetOutcomes = [targetOutcomes[0], targetOutcomes[1]];
 
     let allUniqueQuestions = _.uniqBy(allQuestions, 'itemId');
     let uniqueQuestionsByOutcome = _.groupBy(allUniqueQuestions, (q) => q.learningObjectiveIds[0]);
 
+    // =====
     // build up a dictionary of results for our view by directive
+    // =====
     let resultsByDirective = _.reduce( uniqueQuestionsByOutcome, (result, arrayQuestions, outcomeId) => {
       result[outcomeId] = result[outcomeId] || [];
       result[outcomeId] = _.concat(result[outcomeId], _.map(arrayQuestions, (question) => {
         let {notAchieved, total} = notAchievedOnAttempt(question.itemId, results, 1);
 
         return {
-          studentsNotAchieved: notAchieved,
           numStudentsNotAchieved: notAchieved.length,
           numStudentsAttempted: total.length,
           questionId: question.itemId,
@@ -43,6 +41,21 @@ export const makeResultsSelector = () => {
       }));
 
       return result;
+    }, {});
+
+    // console.log('resultsByDirective', resultsByDirective)
+
+    let resultsByQuestion = _.reduce(allUniqueQuestions, (result, question) => {
+      // console.log('each unique question', question)
+      let {notAchieved, total} = notAchievedOnAttempt(question.itemId, results, 1);
+
+      result[question.itemId] = result[question.itemId] || {
+        studentsNotAchieved: notAchieved,
+        studentsAchieved: _.difference(total, notAchieved),
+      };
+
+      return result;
+
     }, {});
 
     // sort the inner questions and attach flag
@@ -58,17 +71,15 @@ export const makeResultsSelector = () => {
 
     // TODO: compute unique students who actually had a response
     let totalResponded = 0;
-    // TODO: compute the number of students who "really struggled"
-    let studentsReallyStruggled = _.slice(results, 0, _.random(3, results.length-2))
 
     // console.log('resultsByDirective', resultsByDirective);
     // console.log('sorted', sorted);
 
     return {
       results,
-      studentsReallyStruggled,
       totalResponded,
       resultsByDirective,
+      resultsByQuestion,
       questions: allQuestions,
       directives: targetOutcomes
     };
