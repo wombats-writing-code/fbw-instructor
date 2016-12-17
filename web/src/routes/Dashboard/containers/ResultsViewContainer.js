@@ -17,9 +17,9 @@ const makeMapStateToProps = () => {
   const getResultsSelector = makeResultsSelector()
   const mapStateToProps = (state, ownProps) => {
     // console.log('results view state change', ownProps)
-    console.log('results view state', state)
-    console.log('props', ownProps)
-    console.log('results')
+    // console.log('results view state', state)
+    // console.log('props', ownProps)
+    // console.log('results')
     return {
       view: state.view,
       viewData: getResultsSelector(state, ownProps)

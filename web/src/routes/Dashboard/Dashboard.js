@@ -4,6 +4,7 @@ import React, {Component} from 'react'
 
 import moment from 'moment'
 import ResultsView from './containers/ResultsViewContainer'
+import GradesView from './containers/GradesViewContainer'
 import RecommendMission from './containers/RecommendMissionContainer'
 
 import LoadingBox from '../../components/LoadingBox'
@@ -21,7 +22,7 @@ class Dashboard extends Component {
   render() {
     let props = this.props;
 
-    let phaseIView, phaseIIView, recommendationBody;
+    let phaseIView, phaseIIView, recommendationBody, gradesView;
     if (props.mission && (!this.props.isGetPhaseIResultsInProgress && !this.props.isGetPhaseIIResultsInProgress)) {
       phaseIView = (<ResultsView mission={this.props.mission}
                                 missionType="Phase I"
@@ -36,6 +37,11 @@ class Dashboard extends Component {
 
       if (!props.mission.hasSpawnedFollowOnPhase && this.state.isExpanded) {
         recommendationBody = <RecommendMission />
+      }
+
+      // points are available in real-time as soon as Phase II is spawned
+      if (props.mission.hasSpawnedFollowOnPhase) {
+        gradesView = <GradesView />
       }
     }
 
@@ -106,6 +112,10 @@ class Dashboard extends Component {
           {recommendationBar}
 
           {recommendationBody}
+        </div>
+
+        <div className="clearfix columns">
+          {gradesView}
         </div>
 
         <div className="clearfix">
