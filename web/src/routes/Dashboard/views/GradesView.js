@@ -12,7 +12,7 @@ class GradesView extends Component {
     super();
 
     this.state = {
-      isExpanded: false,
+      isExpanded: true,
     }
   }
 
@@ -22,6 +22,17 @@ class GradesView extends Component {
     let expandCollapseButtonText = this.state.isExpanded ? 'Hide' : 'Show';
 
     // console.log('points view data', viewData)
+    let pointsTable = !this.state.isExpanded ? null :
+        ( <ol className="grades-list medium-8 large-7 columns end">
+          {_.map(props.grades, (grade, idx) => {
+            return (
+              <li key={`grade_${idx}`} className="flex-container align-center space-between">
+                <p>{grade.takingAgentId}</p>
+                <p>{_.round(grade.points,2)}%</p>
+              </li>
+            )
+          })}
+        </ol>);
 
     return (
       <div className="points-view">
@@ -41,16 +52,7 @@ class GradesView extends Component {
           </button>
         </div>
 
-        <ol className="grades-list medium-8 large-7 columns end">
-          {_.map(props.grades, (grade, idx) => {
-            return (
-              <li key={`grade_${idx}`} className="flex-container align-center space-between">
-                <p>{grade.takingAgentId}</p>
-                <p>{grade.points}%</p>
-              </li>
-            )
-          })}
-        </ol>
+        {pointsTable}
 
       </div>
     )
