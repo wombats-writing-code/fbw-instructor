@@ -13,8 +13,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 }
 
 // https://github.com/reactjs/reselect#accessing-react-props-in-selectors
-const makeMapStateToProps = () => {
-  const getResultsSelector = makeResultsSelector()
+const makeMapStateToProps = (state, ownProps) => {
+  const getResultsSelector = makeResultsSelector();
+
   const mapStateToProps = (state, ownProps) => {
     // console.log('results view state change', ownProps)
     // console.log('results view state', state)

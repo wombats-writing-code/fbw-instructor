@@ -3,11 +3,17 @@ import 'lodash'
 import 'moment'
 import 'moment-timezone'
 
-import {getResults, getMapping, isTarget, notAchievedOnAttempt} from './common'
+import {getMapping, isTarget, notAchievedOnAttempt} from './common'
 
 export const makeResultsSelector = () => {
-  return createSelector([getResults, getMapping], (results, mapping) => {
-    console.log('creating selector for results', results, mapping)
+  return createSelector(
+    [
+      (state, ownProps) => ownProps.missionType === 'Phase I' ? state.mission.phaseIResults : state.mission.phaseIIResults,
+      getMapping
+    ],
+    (results, mapping) => {
+
+    console.log('resultsSelector', results)
     if (!results || !mapping) return null;
 
     // console.log('questionsViewSelector results', results, ' questions', allQuestions, 'mapping', mapping);

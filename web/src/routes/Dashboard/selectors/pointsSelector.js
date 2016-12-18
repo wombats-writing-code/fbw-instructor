@@ -1,16 +1,19 @@
 import { createSelector } from 'reselect'
 
-import {getResults, getMapping, isTarget, notAchievedOnAttempt} from './common'
+import {getMapping, isTarget, notAchievedOnAttempt} from './common'
 
 
 
-export const pointsSelector = createSelector([getResults], (results) => {
-  if (!results) return null;
+export const pointsSelector = createSelector([
+  state =>  [state.mission.phaseIResults, state.mission.phaseIIResults]
+], (results) => {
+
+  if (_.every(results, _.isUndefined)) return null;
 
   let grades = _.reduce(results, (result, taken) => {
     console.log('taken', taken);
     let respondedTargetQuestions = _.filter(_.flatMap(taken.sections, 'questions'), isTarget);
-    console.log('respondedTargetQuestions', respondedTargetQuestions);
+    // console.log('respondedTargetQuestions', respondedTargetQuestions);
 
     let percentCorrectPhaseI = 0;
 
