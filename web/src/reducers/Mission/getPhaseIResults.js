@@ -32,7 +32,7 @@ export function getPhaseIResults(mission) {
       dispatch(receivePhaseIResults(results.data));
     })
     .catch((error) => {
-      console.log('error getting phase I mission results');
+      console.log('error getting phase I mission results', error);
     })
   }
 }

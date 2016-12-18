@@ -46,7 +46,7 @@ class GradesView extends Component {
             return (
               <li key={`grade_${idx}`} className="flex-container align-center space-between">
                 <p>{grade.takingAgentId}</p>
-                <p>{grade.points}</p>
+                <p>{grade.points}%</p>
               </li>
             )
           })}

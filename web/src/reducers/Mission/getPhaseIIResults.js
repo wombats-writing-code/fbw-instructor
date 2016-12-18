@@ -41,7 +41,7 @@ export function getPhaseIIResults(mission, bankId) {
       dispatch(receivePhaseIIResults(results.data));
     })
     .catch((error) => {
-      console.log('error getting all phase 2 mission results');
+      console.log('error getting all phase 2 mission results', error);
     })
   }
 
