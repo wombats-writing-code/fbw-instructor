@@ -8,6 +8,7 @@ import {END_DATE} from 'react-dates/constants'
 import {GET_MISSIONS_OPTIMISTIC, RECEIVE_MISSIONS} from './getMissions'
 import {SELECT_MISSION} from './selectMission'
 import {CLEAR_SELECTED_MISSION} from './clearSelectedMission'
+import {CLEAR_BANK_MISSIONS} from './clearBankMissions'
 
 import {CREATE_TEST_FLIGHT_MISSIONS_OPTIMISTIC, RECEIVE_CREATE_TEST_FLIGHT_MISSIONS} from './createTestFlightMissions'
 import {CREATE_MISSION_OPTIMISTIC, RECEIVE_CREATE_MISSION} from './createMission'
@@ -36,9 +37,15 @@ export default function missionReducer (state = initialState, action) {
     case RECEIVE_RESET_MISSION_STATE:
       return {}
 
+    case CLEAR_BANK_MISSIONS:
+      return _.assign({}, state, {
+        missions: null
+      })
+
     case GET_MISSIONS_OPTIMISTIC:
       return _.assign({}, state, {
-        isGetMissionsInProgress: true
+        isGetMissionsInProgress: true,
+        missions: []
       });
 
     case RECEIVE_MISSIONS:

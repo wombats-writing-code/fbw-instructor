@@ -71,11 +71,15 @@ export default (props) => {
   }
 
   // === missionsLoadingBox: if there are no missions, and we aren't loading, display an empty box
+  // Also display the loading box while setting up the instructor's private bank (first time)
   let missionsLoadingBox;
-  if (!props.isGetMissionsInProgress) {
+  if (!props.isGetMissionsInProgress &&
+      !props.isGetPrivateBankIdInProgress) {
     missionsLoadingBox = LoadingBox('enter')
 
-  } else if (props.isGetMissionsInProgress && !props.mission) {
+  } else if ((props.isGetMissionsInProgress ||
+              props.isGetPrivateBankIdInProgress) &&
+            !props.mission) {
     missionsLoadingBox = LoadingBox('enter-active')
   }
 
@@ -89,7 +93,7 @@ export default (props) => {
 
         return (
           <li key={key} className={isSelected ? "clickable-row__item is-selected" : "clickable-row__item"}
-                        onClick={() => props.onClickBank(bank, props.enrolledBanks)}>
+                        onClick={() => props.onClickBank(bank)}>
 
             <div >
               <p className="row-title">{bank.displayName.text}</p>

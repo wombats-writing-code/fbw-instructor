@@ -4,7 +4,7 @@ import thunk from 'redux-thunk';
 import 'lodash'
 
 import {RECEIVE_BANKS} from './getBanks'
-import {SELECT_BANK} from './selectBank'
+import {RECEIVE_SELECT_BANK, SELECT_BANK_OPTIMISTIC} from './selectBank'
 import {RECEIVE_SET_BANKS} from './setBanks'
 
 import {RECEIVE_ITEMS} from './getItems'
@@ -24,7 +24,7 @@ export default function bankReducer (state = initialState, action) {
   switch (action.type) {
     case RECEIVE_RESET_BANK_STATE:
       return {}
-      
+
     case RECEIVE_BANKS:
       return _.assign({}, state, {
         banks: action.banks
@@ -35,10 +35,18 @@ export default function bankReducer (state = initialState, action) {
         enrolledBanks: action.banks ? action.banks : VISITOR_BANKS
       })
 
-    case SELECT_BANK:
+    case SELECT_BANK_OPTIMISTIC:
       return _.assign({}, state, {
-        currentBank: action.bank
+        currentBank: action.bank,
+        getPrivateBankIdInProgress: true,
+        privateBankId: null
       });
+
+    case RECEIVE_SELECT_BANK:
+      return _.assign({}, state, {
+        privateBankId: action.privateBankId,
+        getPrivateBankIdInProgress: false
+      })
 
     case RECEIVE_ITEMS:
       return _.assign({}, state, {

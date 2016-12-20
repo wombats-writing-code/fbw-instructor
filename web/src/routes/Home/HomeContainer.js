@@ -13,6 +13,7 @@ import {getItems} from '../../reducers/Bank/getItems'
 
 import {selectMission} from '../../reducers/Mission/selectMission'
 import {clearSelectedMission} from '../../reducers/Mission/clearSelectedMission'
+import {clearBankMissions} from '../../reducers/Mission/clearBankMissions'
 import {changeView} from '../../reducers/view'
 
 import {getPhaseIResults} from '../../reducers/Mission/getPhaseIResults'
@@ -42,8 +43,11 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     getMissions: (bankId) => dispatch(getMissions(bankId)),    // this gets called when the Home component mounts
     getBanks: (bankIds) => dispatch(getBanks(bankIds)),     // this gets called when the Home component mounts
 
-    onClickBank: (bank, enrolledBanks) => {
-      dispatch(selectBank(bank));
+    onClickBank: (bank, username) => {
+      dispatch(clearBankMissions());
+      dispatch(selectBank(bank, username));
+    },
+    onLoadMissions: (bank, enrolledBanks) => {
       dispatch(getMissions(bank.id));
       dispatch(selectMission(null));
       dispatch(getMapping(findBankDomain(bank.id, enrolledBanks)))     // @Cole: how do I find out the department name from the bank name?
@@ -89,6 +93,8 @@ const mapStateToProps = (state, ownProps) => {
     currentMission: state.mission ? state.mission.currentMission : null,
     isGetMissionsInProgress: state.mission ? state.mission.isGetMissionsInProgress : null,
     view: state.view,
+    privateBankId: state.bank.privateBankId ? state.bank.privateBankId : null,
+    isGetPrivateBankIdInProgress: state.bank.getPrivateBankIdInProgress ? state.bank.getPrivateBankIdInProgress : false,
     d2lToken: state.user.d2l.authenticatedUrl ? state.user.d2l.authenticatedUrl : null
   }
 

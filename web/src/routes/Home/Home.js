@@ -28,6 +28,16 @@ class Home extends Component {
     this.props.getBanks(_.map(this.props.enrolledBanks, 'id'));
   }
 
+  componentDidUpdate() {
+    if (this.props.privateBankId &&
+        this.props.currentBank &&
+        !this.props.isGetMissionsInProgress &&
+        !this.props.missions) {
+      this.props.onLoadMissions(this.props.currentBank,
+        this.props.enrolledBanks)
+    }
+  }
+
   render() {
     let props = this.props;
 
