@@ -53,8 +53,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(getMapping(findBankDomain(bank.id, enrolledBanks)))     // @Cole: how do I find out the department name from the bank name?
       dispatch(getItems(findBankLibrary(bank.id, enrolledBanks)));  // these two mappings need to be modified after we switch to D2L / LMS
     },
-    onClickMission: (mission, bankId, privateBankId) => {
-      dispatch(getPhaseIResults(mission, privateBankId));
+    onClickMission: (mission, bankId) => {
+      dispatch(getPhaseIResults(mission, bankId));
       dispatch(getPhaseIIResults(mission, bankId));
       dispatch(selectMission(mission));
       dispatch(changeView({name: 'dashboard.resultsView', mission: mission}))      // true default
