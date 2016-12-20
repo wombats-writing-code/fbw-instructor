@@ -50,7 +50,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(getItems(findBankLibrary(bank.id, enrolledBanks)));  // these two mappings need to be modified after we switch to D2L / LMS
     },
     onClickMission: (mission, bankId) => {
-      dispatch(getPhaseIResults(mission));
+      dispatch(getPhaseIResults(mission, bankId));
       dispatch(getPhaseIIResults(mission, bankId));
       dispatch(selectMission(mission));
       dispatch(changeView({name: 'dashboard.resultsView', mission: mission}))      // true default

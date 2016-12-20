@@ -19,12 +19,15 @@ export function getPhaseIResultsOptimistic(results) {
 }
 
 // this is the actual async create function that calls qbank
-export function getPhaseIResults(mission) {
+export function getPhaseIResults(mission, bankId) {
+  // use the subjectBankId here instead of the mission.assignedBankIds[0]
+  //   for performance reasons. The sharedBankId is slow, because it has
+  //   lots of parent banks to check for authz
 
   return function(dispatch) {
     dispatch(getPhaseIResultsOptimistic());
 
-    let url = `${getDomain()}/middleman/banks/${mission.assignedBankIds[0]}/offereds/${mission.assessmentOfferedId}/results`;
+    let url = `${getDomain()}/middleman/banks/${bankId}/offereds/${mission.assessmentOfferedId}/results`;
 
     axios.get(url)
     .then((results) => {
