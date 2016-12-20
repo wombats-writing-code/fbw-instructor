@@ -29,7 +29,11 @@ class ResultsView extends Component {
     if (this.state.isExpanded && currentDirectiveId) {
       questionCollection = (
         <ul className="questions-section">
-          {_.map(viewData.resultsByDirective[currentDirectiveId].questions, (result, idx) => QuestionResult(result, idx))}
+          {_.map(viewData.resultsByDirective[currentDirectiveId].questions, (result, idx) => {
+            return <QuestionResult result={result} idx={idx}
+                                  studentsAchieved={viewData.resultsByQuestion[result.questionId].studentsAchieved}
+                                  studentsNotAchieved={viewData.resultsByQuestion[result.questionId].studentsNotAchieved}/>
+          })}
         </ul>
       )
     }
@@ -66,11 +70,6 @@ class ResultsView extends Component {
             <p className="summary__number">{props.viewData ? props.viewData.results.length : 0}</p>
             <p className="summary__text">tried the mission</p>
           </div>
-
-          {/* <div className="summary-blurb flex-container align-center">
-            <p className="summary__number warning-color">{props.viewData ? props.viewData.studentsReallyStruggled.length : 0}</p>
-            <p className="summary__text">students really struggled</p>
-          </div> */}
 
           <button className=" expand-collapse-button"
                   disabled={!viewData || !viewData.directives}

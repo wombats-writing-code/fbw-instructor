@@ -1,15 +1,16 @@
 
 let moment = require('moment')
 
-export const getResults = (state, ownProps) => {
-  console.log('getting results from state', ownProps, state)
-  // TODO: i don't like this. need to clean this up.
-  if (ownProps && ownProps.missionType) {
-    return ownProps.missionType === 'Phase I' ? state.mission.phaseIResults : state.mission.phaseIIResults
-  } else {
-    return state.mission.phaseIResults;
-  }
-}
+// export const getResults = (state, ownProps) => {
+//   // console.log('getResults selector, ownProps, state)
+//   // TODO: i don't like this. need to clean this up.
+//   if (ownProps && ownProps.missionType) {
+//     return ownProps.missionType === 'Phase I' ? state.mission.phaseIResults : state.mission.phaseIIResults
+//   } else {
+//     return state.mission.phaseIResults;
+//   }
+// }
+
 export const getMapping = (state) => state.mapping
 
 export const isTarget = (question) => {
@@ -35,7 +36,7 @@ export const notAchievedOnAttempt = (questionId, takenResults, maxAttempts) => {
     let numAttempts = 0;
     let takenQuestions = _.flatMap(taken.sections, 'questions');
     let responses = grabAndSortResponses(takenQuestions, questionId);    // gets all responses for this questionId
-    if (responses.length > 0) total.push(responses);
+    if (responses.length > 0) total.push(taken);
 
     for (let i=0; i<responses.length; i++) {
       let response = responses[i];

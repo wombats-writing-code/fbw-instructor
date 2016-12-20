@@ -19,7 +19,19 @@
   margin-bottom: 0;
 }
 
+.question-statistics .students-list {
+  margin-left: 0;
+}
+
 .question__body {
   text-align: left;
   font-size: .875rem;
+}
+
+.expand-collapse-button.small {
+  min-width: auto;
+  width: auto;
+  font-size: .875em;
+  padding-left: 1em;
+  padding-right: 1em;
 }

@@ -3,7 +3,7 @@ import 'lodash'
 import 'moment'
 import 'moment-timezone'
 
-import {getResults, getMapping, isTarget, notAchievedOnAttempt} from './common'
+import {getMapping, isTarget, notAchievedOnAttempt} from './common'
 import {itemsForDirectivesSelector} from '../../../components/MissionForm/selectors/'
 
 const parseAgentId = (agentId) => {
@@ -19,7 +19,13 @@ const parseAgentIdIdentifier = (agentId) => {
   return decodeURIComponent(decodeURIComponent(agentId.split('%3A')[1].split('%40')[0]));
 }
 
-export const recommendMissionSelector = createSelector([getResults, getMapping], (results, mapping) => {
+export const recommendMissionSelector = createSelector(
+  [
+    state => state.mission.phaseIResults,
+    getMapping
+  ]
+  , (results, mapping) => {
+
   if (!results || !mapping) return null;
 
   let studentsWithRecommendations = _.map(results, (taken) => {

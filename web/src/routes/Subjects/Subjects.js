@@ -42,6 +42,8 @@ class Subjects extends Component {
   }
 
   _onSelectSubject(subjectId) {
+    console.log('selected subject', subjectId);
+    
     if (!this.props.isSelectSubjectInProgress) {
       this.props.onSelectSubject({
         bankId: subjectId,
