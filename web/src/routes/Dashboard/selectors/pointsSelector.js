@@ -2,7 +2,8 @@ import { createSelector } from 'reselect'
 
 import {getMapping, isTarget, notAchievedOnAttempt} from './common'
 
-
+import {parseAgentIdIdentifier} from './recommendMissionSelector'
+import {extractDisplayName} from 'fbw-platform-common/d2lutils'
 
 export const pointsSelector = createSelector([
   state =>  [state.mission.phaseIResults, state.mission.phaseIIResults]
@@ -43,7 +44,7 @@ export const pointsSelector = createSelector([
 
     result.push(
       {
-        takingAgentId: takenId,
+        takingAgentId: extractDisplayName(parseAgentIdIdentifier(takenId)),
         points: phaseIPercent + (phaseIIPercent * maxEarnable)
       }
     );

@@ -12,7 +12,7 @@ const parseAgentId = (agentId) => {
   return agentId.split('%3A')[1].split('%25')[0];
 }
 
-const parseAgentIdIdentifier = (agentId) => {
+export const parseAgentIdIdentifier = (agentId) => {
   if (!agentId) return '';
 
   // need to call this twice to convert %25 => %, then %40 => @
