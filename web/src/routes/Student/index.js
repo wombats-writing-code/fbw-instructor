@@ -1,8 +1,7 @@
-// import { injectReducer } from '../../store/reducers'
-import SubjectsComponent from './Subjects'
+import Student from './StudentContainer'
 
 export default (store) => ({
-  path : 'subjects',
+  path : 'students/:studentId',
   /*  Async getComponent is only invoked when route matches   */
   getComponent (nextState, cb) {
     /*  Webpack - use 'require.ensure' to create a split point
@@ -10,12 +9,11 @@ export default (store) => ({
     require.ensure([], (require) => {
       /*  Webpack - use require callback to define
           dependencies for bundling   */
-      const SubjectsFactory = require('fbw-platform-common/containers/SubjectsContainer').default
 
       /*  Return getComponent   */
-      cb(null, SubjectsFactory(SubjectsComponent))
+      cb(null, Student)
 
     /* Webpack named bundle   */
-  }, 'subjects')
+  }, 'student')
   }
 })
