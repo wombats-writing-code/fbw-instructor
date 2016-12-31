@@ -64,8 +64,7 @@ function _resultsByStudent(takens) {
 
     // iterate through the Targets to see how many each student got correct
     let numberCorrect = _.reduce(targetQuestions, (sum, question) => {
-      let response = question.responses[0];
-      if (response && response.isCorrect) {
+      if (question.response && question.response.isCorrect) {
         sum++;
       }
 

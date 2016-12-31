@@ -39,10 +39,8 @@ export const recommendMissionSelector = createSelector(
     _.each(taken.sections, function (section) {
       let targetQuestions = _.filter(section.questions, isTarget),
         numberRight = _.compact(_.map(targetQuestions, function (question) {
-          if (question.responses && question.responses[0]) {
-            if (question.responses[0].isCorrect) {
+          if (question.response && question.response.isCorrect) {
               return question
-            }
           }
         })).length;
       if (numberRight < parseInt(section.minimumProficiency)) {

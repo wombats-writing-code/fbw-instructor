@@ -65,7 +65,7 @@ export const notAchievedOnAttempt = (questionId, takenResults, maxAttempts) => {
 /* standardize how to extract and sort the responses, based on
 submissionTime. Given a taken and itemId*/
 export const grabAndSortResponses = (questionsList, itemId) => {
- let responses = _.compact(_.flatMap(_.filter(questionsList, {'itemId': itemId}), 'responses'));
+ let responses = _.compact(_.flatMap(_.filter(questionsList, {'itemId': itemId}), 'response'));
  responses = _.orderBy(responses, sortBySubmissionTime);
  return responses;
 }
