@@ -1,9 +1,9 @@
 import { connect } from 'react-redux'
 import D2LCallback from './D2LCallback'
 
-import { setD2LAuthenticatedUrl } from '../../reducers/User/setD2LAuthenticatedUrl'
-import { setBanks } from '../../reducers/Bank/setBanks'
-import { logInUser } from '../../reducers/User/logInUser'
+import { setD2LAuthenticatedUrl } from 'fbw-platform-common/reducers/Login/setD2LAuthenticatedUrl'
+import { receiveBanks } from 'fbw-platform-common/reducers/Bank/getBanks'
+import { logInUser } from 'fbw-platform-common/reducers/Login/logInUser'
 
 const mapStateToProps = (state, ownProps) => {
   return {
@@ -13,7 +13,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     onSetD2LAuthenticatedUrl: url => dispatch(setD2LAuthenticatedUrl(url)),
-    onSetBanks: data => dispatch(setBanks(data)),
+    onReceiveBanks: banks => dispatch(receiveBanks(banks)),
     login: (school, username) => dispatch(logInUser(school, username))
   }
 }

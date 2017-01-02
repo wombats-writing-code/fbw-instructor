@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import { browserHistory } from 'react-router'
 
 import { instructorCourses, whoami, stringifyUsername } from 'fbw-platform-common/d2lutils'
-import credentials from '../Login/d2lcredentials'
+import credentials from '../../d2lcredentials'
 
 const styles = {
   container: {
@@ -118,11 +118,13 @@ class D2LCallback extends Component {
     let url = `${this.props.location.pathname}${this.props.location.search}`
     // console.log('mounted d2l callback!', url)
     this.props.onSetD2LAuthenticatedUrl(url)
+
     // now get the user enrollments and set them in the global state
     instructorCourses(credentials, url)
     .then((instructorBanks) => {
-      // console.log("got bank ids", instructorBankIds)
-      this.props.onSetBanks(instructorBanks)
+      console.log("got banks", instructorBanks)
+
+      this.props.onReceiveBanks(instructorBanks)
       return whoami(credentials, url)
     })
     .then((response) => {

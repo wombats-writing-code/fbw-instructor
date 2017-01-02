@@ -82,7 +82,6 @@
     "type": "git",
     "url": "git+https://github.com/davezuko/react-redux-starter-kit.git"
   },
-  "author": "David Zukowski <david@zuko.me> (http://zuko.me)",
   "license": "MIT",
   "dependencies": {
     "axios": "^0.15.3",
@@ -104,7 +103,7 @@
     "eslint-plugin-promise": "^2.0.1",
     "express": "^4.14.0",
     "extract-text-webpack-plugin": "^1.0.0",
-    "fbw-platform-common": "^0.12.0",
+    "fbw-platform-common": "^1.2.1",
     "fbw-utils": "^0.2.0",
     "file-loader": "^0.9.0",
     "fs-extra": "^0.30.0",

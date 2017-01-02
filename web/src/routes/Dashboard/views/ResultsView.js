@@ -55,7 +55,7 @@ class ResultsView extends Component {
       expandCollapseButtonText = 'No results yet';
     }
 
-    console.log('results view data', viewData)
+    // console.log('results view data', viewData)
 
     return (
       <div className="results-view columns">

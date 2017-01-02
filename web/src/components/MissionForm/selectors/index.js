@@ -1,16 +1,18 @@
 import { createSelector } from 'reselect'
 import _ from 'lodash'
-import {matches} from '../../../reducers/utilities'
+import {matches} from 'fbw-platform-common/utilities'
 
 
 const getModules = (state) => state.mapping ? state.mapping.modules : null
 export const getOutcomes = (state) => state.mapping ? state.mapping.outcomes : null
 const getRelationships = (state) => state.mapping ? state.mapping.relationships : null
 const getItems = (state) => state.bank ? state.bank.items : null
-const getSelectedDirectives = (state) => state.mission && state.mission.newMission ? state.mission.newMission.selectedDirectives : null
-const getAddMissionForm = state => state.mission.newMission
+const getSelectedDirectives = (state) => state.editMission && state.editMission.newMission ? state.editMission.newMission.selectedDirectives : null
+const getAddMissionForm = state => state.editMission.newMission
 
-export const moduleTreeSelector = createSelector([getModules, getOutcomes, getRelationships], (modules, outcomes, relationships) => {
+export const moduleTreeSelector = createSelector(
+  [getModules, getOutcomes, getRelationships],
+  (modules, outcomes, relationships) => {
   let tree = {
     isRoot: true,
     children: []

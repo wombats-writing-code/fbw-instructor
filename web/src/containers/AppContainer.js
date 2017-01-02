@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { browserHistory, Router } from 'react-router'
 import { Provider } from 'react-redux'
 
-import {retrieveUser} from '../reducers/User/retrieveUser'
+import {getUser} from 'fbw-platform-common/selectors'
 
 require('../styles/foundation.min.css');
 
@@ -15,16 +15,13 @@ class AppContainer extends Component {
 
   componentDidMount() {
     const store = this.props.store;
-    // store.dispatch(retrieveUser())
-    // .then( () => {
     const state = store.getState();      // because AppContainer is the top-level parent
 
     console.log('state in AppContainer', state)
 
-    if (!state.user.user && state.location.pathname !== "/d2l-callback") {
+    if (!getUser(state) && state.location.pathname !== "/d2l-callback") {
       browserHistory.push('/login')
     }
-    // })
 
   }
 

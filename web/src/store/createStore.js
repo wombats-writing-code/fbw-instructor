@@ -4,7 +4,7 @@ import { browserHistory } from 'react-router'
 import persistState from 'redux-localstorage'
 import _ from 'lodash'
 
-import makeRootReducer from '../reducers/reducers'
+import makeRootReducer from '../reducers/'
 import { updateLocation } from '../reducers/location'
 
 export default (initialState = {}) => {
@@ -29,15 +29,17 @@ export default (initialState = {}) => {
     slicer: paths => state => {
       let subset = {
         bank: state.bank,
-        location: state.location,
+        subject: state.subject,
+        result: {},
+        editMission: {},
         mapping: state.mapping,
-        mission: _.omit(state.mission, [
-          'phaseIResults', 'phaseIIResults', 'newMission',
-          'isCreateMissionInProgress', 'isGetMissionsInProgress', 'isGetPhaseIResultsInProgress', 'isSpawnInProgress',
-        ]),
-        user: state.user,
+        mission: state.mission,
+        login: state.login,
+        location: state.location,
         view: state.view
       };
+
+      // console.log('storing state:', subset)
 
       return subset;
     }
@@ -60,8 +62,8 @@ export default (initialState = {}) => {
   store.unsubscribeHistory = browserHistory.listen(updateLocation(store))
 
   if (module.hot) {
-    module.hot.accept('../reducers/reducers', () => {
-      const reducers = require('../reducers/reducers').default
+    module.hot.accept('../reducers/', () => {
+      const reducers = require('../reducers/').default
       store.replaceReducer(reducers(store.asyncReducers))
     })
   }

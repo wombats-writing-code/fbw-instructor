@@ -1,6 +1,5 @@
 
 import React from 'react'
-import BASE_STYLES from '../../../styles/baseStyles'
 
 import EmptyState from '../../../components/EmptyState'
 import LoadingBox from '../../../components/LoadingBox'

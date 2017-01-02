@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 const moment = require('moment')
 import LoadingBox from '../LoadingBox'
-import {PRE_FLIGHT_MISSION} from '../../reducers/common'
+import {PRE_FLIGHT_MISSION} from 'fbw-platform-common/utilities'
 
 import './SideBar.scss'
 
@@ -80,7 +80,7 @@ export default (props) => {
   } else if ((props.isGetMissionsInProgress ||
               props.isGetPrivateBankIdInProgress) &&
             !props.mission) {
-    missionsLoadingBox = LoadingBox('enter-active')
+    missionsLoadingBox = LoadingBox('enter-active');
   }
 
 
@@ -93,7 +93,7 @@ export default (props) => {
 
         return (
           <li key={key} className={isSelected ? "clickable-row__item is-selected" : "clickable-row__item"}
-                        onClick={() => props.onClickBank(bank)}>
+                        onClick={() => props.onClickBank(bank, props.username, props.enrolledBanks)}>
 
             <div >
               <p className="row-title">{bank.displayName.text}</p>
@@ -109,7 +109,6 @@ export default (props) => {
     {missionCollection}
     {missionsLoadingBox}
     </div>
-
   )
 
 }

@@ -1,25 +1,5 @@
-
 let moment = require('moment')
 
-// export const getResults = (state, ownProps) => {
-//   // console.log('getResults selector, ownProps, state)
-//   // TODO: i don't like this. need to clean this up.
-//   if (ownProps && ownProps.missionType) {
-//     return ownProps.missionType === 'Phase I' ? state.mission.phaseIResults : state.mission.phaseIIResults
-//   } else {
-//     return state.mission.phaseIResults;
-//   }
-// }
-
-export const getMapping = (state) => state.mapping
-
-export const isTarget = (question) => {
-  if (question && question.displayName) {
-    return question.displayName.text.indexOf('.') < 0;
-  }
-
-  return undefined;
-}
 
 /**
   notCorrectWithinAttempts:

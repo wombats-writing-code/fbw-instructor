@@ -1,20 +1,18 @@
 import React, {Component} from 'react'
-import Radium from 'radium'
 import { browserHistory } from 'react-router'
 
 import LoadingBox from '../../components/LoadingBox'
-import DashboardContainer from '../Dashboard/'
 import MissionForm from '../../components/MissionForm/'
 import SideBar from '../../components/SideBar'
 import NavBar from '../../components/NavBar'
 import _ from 'lodash'
+import DashboardContainer from '../Dashboard/'
 
 import './Home.styles.css'
 
-@Radium
 class Home extends Component {
   static propTypes = {
-    getMissions: React.PropTypes.func.isRequired,
+    onClickBank: React.PropTypes.func.isRequired,
     onClickMission: React.PropTypes.func.isRequired,
     onClickAddMission: React.PropTypes.func.isRequired,
     onClickEditMission: React.PropTypes.func.isRequired,
@@ -28,15 +26,7 @@ class Home extends Component {
     this.props.getBanks(_.map(this.props.enrolledBanks, 'id'));
   }
 
-  componentDidUpdate() {
-    if (this.props.privateBankId &&
-        this.props.currentBank &&
-        !this.props.isGetMissionsInProgress &&
-        !this.props.missions) {
-      this.props.onLoadMissions(this.props.currentBank,
-        this.props.enrolledBanks)
-    }
-  }
+      // this.props.onLoadMissions(this.props.currentBank, this.props.enrolledBanks)
 
   render() {
     let props = this.props;
