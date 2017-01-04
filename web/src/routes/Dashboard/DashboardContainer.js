@@ -26,7 +26,6 @@ const mapStateToProps = (state, ownProps) => {
     isGetPhaseIResultsInProgress: state.result ? state.result.isGetPhaseIResultsInProgress : false,
     isGetPhaseIIResultsInProgress: state.result ? state.result.isGetPhaseIIResultsInProgress : false,
     isGetSpawnResultsInProgress: false,     // TODO
-    didSpawnPhaseII: state.editMission && state.editMission.hasSpawnedFollowOnPhase,
     isSpawnInProgress: state.editMission && state.editMission.isSpawnInProgress,
     recommendation: recommendMissionSelector(state, ownProps)
   }

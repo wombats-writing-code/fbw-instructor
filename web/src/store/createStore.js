@@ -33,7 +33,9 @@ export default (initialState = {}) => {
         result: {},
         editMission: {},
         mapping: state.mapping,
-        mission: state.mission,
+        mission: _.assign({}, state.mission, {
+          isGetMissionsInProgress: false
+        }),
         login: state.login,
         location: state.location,
         view: state.view

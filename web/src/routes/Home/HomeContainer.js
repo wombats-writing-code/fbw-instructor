@@ -5,7 +5,6 @@ import {browserHistory} from 'react-router'
 
 import {getMapping} from 'fbw-platform-common/reducers/Mapping/getMapping'
 
-import {getBanks} from 'fbw-platform-common/reducers/Bank/getBanks'
 import {selectBank} from 'fbw-platform-common/reducers/Bank/selectBank'
 import {getItems} from 'fbw-platform-common/reducers/Bank/getItems'
 
@@ -32,8 +31,6 @@ import {findBankLibrary, findBankDomain} from 'fbw-platform-common/utilities'
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    getBanks: (bankIds) => dispatch(getBanks(bankIds)),     // this gets called when the Home component mounts
-
     onClickBank: (bank, username, enrolledBanks) => {
       console.log('clicked bank', bank, username, enrolledBanks);
 
@@ -73,7 +70,6 @@ const mapStateToProps = (state, ownProps) => {
   // console.log('offeredId:', state.mission && state.mission.currentMission ? state.mission.currentMission.assessmentOfferedId : null)
 
   return {
-    enrolledBanks: state.bank ? state.bank.enrolledBanks : null,
     banks: state.bank ? state.bank.banks : [],
     currentBank: state.bank.currentBank ? state.bank.currentBank : null,
     missions: state.mission ? state.mission.missions : [],

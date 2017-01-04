@@ -23,7 +23,6 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    this.props.getBanks(_.map(this.props.enrolledBanks, 'id'));
   }
 
       // this.props.onLoadMissions(this.props.currentBank, this.props.enrolledBanks)
