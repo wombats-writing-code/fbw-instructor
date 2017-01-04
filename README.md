@@ -31,4 +31,6 @@ cd web
 npm start
 ```
 
+To mock a D2L flow, go to `localhost:3000/d2l-callback...`. The callback component will kick off the D2L chain with the middleman and return a hardcoded D2L user. 
+
 ## Testing
