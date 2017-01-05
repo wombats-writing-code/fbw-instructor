@@ -39,8 +39,11 @@ export const recommendMissionSelector = createSelector(
     _.each(taken.sections, function (section) {
       let targetQuestions = _.filter(section.questions, isTarget),
         numberRight = _.compact(_.map(targetQuestions, function (question) {
-          if (question.responses[0]) {
-            if (question.responses[0].isCorrect) {
+          // change this to use response instead of responses[0], due
+          //   to a server-side API change, to make this more consistent with
+          //   student-side question format.
+          if (question.response) {
+            if (question.response.isCorrect) {
               return question
             }
           }
