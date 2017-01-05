@@ -1,14 +1,14 @@
 import { connect } from 'react-redux'
 import MissionForm from './MissionForm'
 
-import {createMission} from '../../reducers/Mission/createMission'
-import {updateMission} from '../../reducers/Mission/updateMission'
-import {updateMissionForm} from '../../reducers/Mission/updateMissionForm'
-import {updateEditMissionForm} from '../../reducers/Mission/updateEditMissionForm'
+import {createMission} from 'fbw-platform-common/reducers/edit-mission/createMission'
+import {updateMission} from 'fbw-platform-common/reducers/edit-mission/updateMission'
+import {updateMissionForm} from 'fbw-platform-common/reducers/edit-mission/updateMissionForm'
+import {updateEditMissionForm} from 'fbw-platform-common/reducers/edit-mission/updateEditMissionForm'
 
 import {changeView} from '../../reducers/view'
 
-import {moduleTreeSelector, getOutcomes, itemsForDirectivesSelector, displayedDirectivesSelector} from './selectors/'
+import {moduleTreeSelector, itemsForDirectivesSelector, displayedDirectivesSelector} from './selectors/'
 
 
 const mapDispatchToProps = (dispatch, ownProps) => {
@@ -32,15 +32,14 @@ const mapStateToProps = (state, ownProps) => {
   return {
     view: state.view,
     mission: state.mission.currentMission,
-    newMission: state.mission.newMission,
+    newMission: state.editMission.newMission,
+    editMission: state.editMission.editMission,
+    isCreateMissionInProgress: state.editMission.isCreateMissionInProgress,
     currentBank: state.bank.currentBank,
     itemBankId: state.bank.items ? state.bank.items[0].bankId : null, // need this to create the directives correctly on server-side
-    editMission: state.mission.editMission,
     moduleTree: moduleTreeSelector(state),
-    outcomes: getOutcomes(state),
     displayedDirectives: displayedDirectivesSelector(state, ownProps),
     numberItemsForDirectives: itemsForDirectivesSelector(state),
-    isCreateMissionInProgress: state.mission.isCreateMissionInProgress
   }
 }
 

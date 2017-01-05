@@ -62,7 +62,7 @@ class Dashboard extends Component {
     }
 
     let recommendationBar;
-    if (phaseIView && !props.mission.hasSpawnedFollowOnPhase) {
+    if (phaseIView && props.mission && !props.mission.hasSpawnedFollowOnPhase) {
       let now = moment.utc()
       recommendationBar = (
         <div className="summary-bar flex-container align-center">

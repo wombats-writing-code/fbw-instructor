@@ -1,27 +1,29 @@
 import { createSelector } from 'reselect'
 
-import {getMapping, isTarget, notAchievedOnAttempt} from './common'
-
-import {parseAgentIdIdentifier} from './recommendMissionSelector'
+import {getMapping, getPhaseIResults, getPhaseIIResults} from 'fbw-platform-common/selectors'
+import {agentIdFromTakingAgentId} from 'fbw-platform-common/selectors/login'
+import {isTarget} from 'fbw-platform-common/selectors/mission'
 import {extractDisplayName} from 'fbw-platform-common/d2lutils'
+import {notAchievedOnAttempt} from './common'
+
 
 export const pointsSelector = createSelector([
-  state =>  [state.mission.phaseIResults, state.mission.phaseIIResults]
-], (results) => {
+  getPhaseIResults, getPhaseIIResults
+], (phaseIResults, phaseIIResults) => {
 
-  if (_.every(results, _.isUndefined)) return null;
+  if (_.every(_.concat(phaseIResults, phaseIIResults), _.isUndefined)) return null;
 
   let _resultsbyStudent = _.noop;
 
   // =====
   // calculate points for Phase I
   // =====
-  let phaseIGradesByStudent = _resultsByStudent(results[0] || []) || {};
+  let phaseIGradesByStudent = _resultsByStudent(phaseIResults || []) || {};
 
   // ====
   // calculate points for Phase II
   // ====
-  let phaseIIGradesByStudent = _resultsbyStudent(results[1] || []) || {};
+  let phaseIIGradesByStudent = _resultsbyStudent(phaseIIResults || []) || {};
 
   // get all students. a student can appear in Phase I but not Phase II, and vice versa, or both.
   let allStudents = _.uniq(_.concat(_.keys(phaseIGradesByStudent), _.keys(phaseIIGradesByStudent)));
@@ -44,7 +46,7 @@ export const pointsSelector = createSelector([
 
     result.push(
       {
-        takingAgentId: extractDisplayName(parseAgentIdIdentifier(takenId)),
+        takingAgentId: extractDisplayName(agentIdFromTakingAgentId(takenId)),
         points: phaseIPercent + (phaseIIPercent * maxEarnable)
       }
     );
@@ -64,8 +66,7 @@ function _resultsByStudent(takens) {
 
     // iterate through the Targets to see how many each student got correct
     let numberCorrect = _.reduce(targetQuestions, (sum, question) => {
-      let response = question.responses[0];
-      if (response && response.isCorrect) {
+      if (question.response && question.response.isCorrect) {
         sum++;
       }
 

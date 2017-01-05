@@ -1,17 +1,10 @@
 
 import React from 'react'
 
-import BASE_STYLES from '../../../styles/baseStyles'
-
-import {
-  DateRangePicker
-} from 'react-dates'
+import { DateRangePicker } from 'react-dates'
 import 'react-dates/css/variables.scss'
 import 'react-dates/css/styles.scss'
 
-let styles = {
-
-};
 
 export default function(props) {
 

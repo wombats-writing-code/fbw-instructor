@@ -3,21 +3,10 @@ import 'lodash'
 import 'moment'
 import 'moment-timezone'
 
-import {getMapping, isTarget, notAchievedOnAttempt} from './common'
-import {itemsForDirectivesSelector} from '../../../components/MissionForm/selectors/'
-
-const parseAgentId = (agentId) => {
-  if (!agentId) return '';
-
-  return agentId.split('%3A')[1].split('%25')[0];
-}
-
-export const parseAgentIdIdentifier = (agentId) => {
-  if (!agentId) return '';
-
-  // need to call this twice to convert %25 => %, then %40 => @
-  return decodeURIComponent(decodeURIComponent(agentId.split('%3A')[1].split('%40')[0]));
-}
+import {getMapping} from 'fbw-platform-common/selectors'
+import {isTarget} from 'fbw-platform-common/selectors/mission'
+import {agentDisplayName, agentIdFromTakingAgentId} from 'fbw-platform-common/selectors/login'
+import {notAchievedOnAttempt} from './common'
 
 export const recommendMissionSelector = createSelector(
   [
@@ -39,13 +28,8 @@ export const recommendMissionSelector = createSelector(
     _.each(taken.sections, function (section) {
       let targetQuestions = _.filter(section.questions, isTarget),
         numberRight = _.compact(_.map(targetQuestions, function (question) {
-          // change this to use response instead of responses[0], due
-          //   to a server-side API change, to make this more consistent with
-          //   student-side question format.
-          if (question.response) {
-            if (question.response.isCorrect) {
+          if (question.response && question.response.isCorrect) {
               return question
-            }
           }
         })).length;
       if (numberRight < parseInt(section.minimumProficiency)) {
@@ -60,11 +44,11 @@ export const recommendMissionSelector = createSelector(
     });
 
     return {
-      name: parseAgentId(taken.takingAgentId),
-      agentId: parseAgentIdIdentifier(taken.takingAgentId),
+      displayName: agentDisplayName(taken.takingAgentId),
+      agentId: agentIdFromTakingAgentId(taken.takingAgentId),
       takenId: taken.id,
       nextMission: {
-        name: `${parseAgentId(taken.takingAgentId)}'s Phase II for ${taken.displayName.text}`,
+        name: `${agentDisplayName(taken.takingAgentId)}'s Phase II for ${taken.displayName.text}`,
         directives: newDirectives,
         numberItemsForDirectives: _.sumBy(newDirectives, 'quota')
       }

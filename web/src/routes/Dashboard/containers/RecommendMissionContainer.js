@@ -3,9 +3,10 @@
 import { connect } from 'react-redux'
 
 import RecommendMission from '../views/RecommendMission'
+
 import {recommendMissionSelector} from '../selectors/recommendMissionSelector'
-import {createTestFlightMissions} from '../../../reducers/Mission/createTestFlightMissions'
-import {updateSpawnDate} from '../../../reducers/Mission/updateSpawnDate'
+import {createTestFlightMissions} from 'fbw-platform-common/reducers/edit-mission/createTestFlightMissions'
+import {updateSpawnDate} from 'fbw-platform-common/reducers/edit-mission/updateSpawnDate'
 
 
 const mapDispatchToProps = (dispatch, ownProps) => {

@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import {Link} from 'react-router'
 
 // TODO: Cole
 // import {qbankAgentToDisplayName} from 'fbw-platform-common/...blah blah'
@@ -29,10 +30,12 @@ class QuestionResult extends Component {
           (
             <ul className="students-list">
               {_.map(props.studentsAchieved, student => {
-                return (<p key={student.takingAgentId}>{student.takingAgentId}</p>)
+                return (<Link key={student.takingAgentId} className="students-list__item"
+                          to={`/students/JANEWAY?mission=Internal-test-mission`} target="_blank">{student.takingAgentId}</Link>)
               })}
               {_.map(props.studentsNotAchieved, student => {
-                return (<p key={student.takingAgentId} className="warning-color">{student.takingAgentId}</p>)
+                return (<Link key={student.takingAgentId} className="students-list__item warning-color"
+                            to={`/students/JANEWAY?mission=Internal-test-mission`} target="_blank">{student.takingAgentId}</Link>)
               })}
             </ul>
           )

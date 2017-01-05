@@ -1,12 +1,11 @@
 // We only need to import the modules necessary for initial render
 import CoreLayout from '../layouts/CoreLayout/CoreLayout'
-import CounterRoute from './Counter'            // boilerplate for reference only
+// import CounterRoute from './Counter'            // boilerplate for reference only
 
 import HomeContainer from './Home/index'
 import D2LCallbackRoute from './D2LCallback/'
-import SubjectsRoute from './Subjects/'
-import MissionsRoute from './Missions/'
 import LoginRoute from './Login'
+import StudentRoute from './Student'
 
 import MissionForm from '../components/MissionForm'
 
@@ -18,11 +17,10 @@ export const createRoutes = (store) => ({
   component   : CoreLayout,
   indexRoute  : HomeContainer,
   childRoutes : [
-    CounterRoute(store),
-    // SubjectsRoute(store),          // @Cole: ignore these for now
-    // MissionsRoute(store),
+    // CounterRoute(store),
     LoginRoute(store),
     D2LCallbackRoute(store),
+    StudentRoute(store),
     {
       path: '/missions/new',
       component: MissionForm

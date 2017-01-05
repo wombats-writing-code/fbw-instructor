@@ -3,17 +3,19 @@ import 'lodash'
 import 'moment'
 import 'moment-timezone'
 
-import {getMapping, isTarget, notAchievedOnAttempt} from './common'
+import {getMapping, getPhaseIResults, getPhaseIIResults} from 'fbw-platform-common/selectors'
+import {isTarget} from 'fbw-platform-common/selectors/mission'
+import {notAchievedOnAttempt} from './common'
 
 export const makeResultsSelector = () => {
   return createSelector(
     [
-      (state, ownProps) => ownProps.missionType === 'Phase I' ? state.mission.phaseIResults : state.mission.phaseIIResults,
+      (state, ownProps) => ownProps.missionType === 'Phase I' ? getPhaseIResults(state) : getPhaseIIResults(state),
       getMapping
     ],
     (results, mapping) => {
 
-    console.log('resultsSelector', results)
+    console.log('resultsSelector', results);
     if (!results || !mapping) return null;
 
     // console.log('questionsViewSelector results', results, ' questions', allQuestions, 'mapping', mapping);

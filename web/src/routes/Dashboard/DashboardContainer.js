@@ -2,9 +2,9 @@ import { connect } from 'react-redux'
 import Dashboard from './Dashboard'
 
 import {changeView, changeMouseOver, changeClick} from '../../reducers/view'
-import {getPhaseIIResults} from '../../reducers/Mission/getPhaseIIResults'
-import {getPhaseIResults} from '../../reducers/Mission/getPhaseIResults'
-import {createTestFlightMissions} from '../../reducers/Mission/createTestFlightMissions'
+import {getPhaseIIResults} from 'fbw-platform-common/reducers/Result/getPhaseIIResults'
+import {getPhaseIResults} from 'fbw-platform-common/reducers/Result/getPhaseIResults'
+import {createTestFlightMissions} from 'fbw-platform-common/reducers/edit-mission/createTestFlightMissions'
 import {recommendMissionSelector} from './selectors/recommendMissionSelector'
 
 const mapDispatchToProps = (dispatch, ownProps) => {
@@ -23,10 +23,10 @@ const mapStateToProps = (state, ownProps) => {
     view: state.view,
     currentBankId: state.bank.currentBank ? state.bank.currentBank.id : null,
     mission: state.mission ? state.mission.currentMission : null,
-    isGetPhaseIResultsInProgress: state.mission ? state.mission.isGetPhaseIResultsInProgress : false,
-    isGetPhaseIIResultsInProgress: state.mission ? state.mission.isGetPhaseIIResultsInProgress : false,
+    isGetPhaseIResultsInProgress: state.result ? state.result.isGetPhaseIResultsInProgress : false,
+    isGetPhaseIIResultsInProgress: state.result ? state.result.isGetPhaseIIResultsInProgress : false,
     isGetSpawnResultsInProgress: false,     // TODO
-    isSpawnInProgress: state.mission && state.mission.isSpawnInProgress,
+    isSpawnInProgress: state.editMission && state.editMission.isSpawnInProgress,
     recommendation: recommendMissionSelector(state, ownProps)
   }
 }

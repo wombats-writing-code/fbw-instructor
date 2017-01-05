@@ -2,8 +2,6 @@
 // Constants
 // ------------------------------------
 export const CHANGE_VIEW = 'CHANGE_VIEW'
-export const CHANGE_MOUSEOVER = 'CHANGE_MOUSEOVER'
-export const CHANGE_CLICK = 'CHANGE_CLICK'
 export const SELECT_DIRECTIVE = 'SELECT_DIRECTIVE'
 
 // ------------------------------------
@@ -23,23 +21,6 @@ export function selectDirective(directive, viewName) {
     viewName
   }
 }
-
-export function changeMouseOver(entity, viewName) {
-  return {
-    type    : CHANGE_MOUSEOVER,
-    entity,
-    viewName
-  }
-}
-
-export function changeClick(entity, viewName) {
-  return {
-    type    : CHANGE_CLICK,
-    entity,
-    viewName
-  }
-}
-
 
 // ------------------------------------
 // Reducer
