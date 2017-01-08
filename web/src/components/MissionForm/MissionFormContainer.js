@@ -31,7 +31,7 @@ const mapStateToProps = (state, ownProps) => {
   // haven't decided if this should be passed down as props or from state yet
   return {
     view: state.view,
-    mission: state.mission.currentMission,
+    // mission: state.mission.currentMission,
     newMission: state.editMission.newMission,
     editMission: state.editMission.editMission,
     isCreateMissionInProgress: state.editMission.isCreateMissionInProgress,
