@@ -22,7 +22,6 @@ class MissionForm extends Component {
 
     return (
       <div className="mission-form">
-        <p>{props.mission ? props.mission.displayName.text : null}</p>
         {view}
       </div>
     )
