@@ -56,8 +56,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(selectMission(mission));
       dispatch(changeView({name: 'edit-mission', mission: mission}));
     },
-    onClickDeleteMission: (mission) => {
-      dispatch(deleteMission(mission))
+    onClickDeleteMission: (mission, bankId) => {
+      dispatch(deleteMission(mission, bankId))
     },
     logout: () => {
       dispatch(logOutUser())

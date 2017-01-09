@@ -45,7 +45,7 @@ export default (props) => {
            let deleteMissionButton;
             // console.log(moment(mission.deadline).isBefore(moment()));
            deleteMissionButton =  (<button className="button small warning"
-                     onClick={(e) => {props.onClickDeleteMission(mission); e.stopPropagation()}}>Delete</button>)
+                     onClick={(e) => {props.onClickDeleteMission(mission, props.currentBank.id); e.stopPropagation()}}>Delete</button>)
             // console.log(mission, 'startTime', mission.startTime, 'deadline', mission.deadline)
             return (
               <li key={key} className={isSelected ? "clickable-row__item is-selected" : "clickable-row__item"}
