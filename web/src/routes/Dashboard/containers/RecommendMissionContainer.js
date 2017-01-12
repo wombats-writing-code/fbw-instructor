@@ -17,6 +17,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 }
 
 const mapStateToProps = (state, ownProps) => {
+  console.log('state in recommend missions container', state)
   return {
     view: state.view,
     mission: state.mission ? state.mission.currentMission : null,

@@ -5,12 +5,12 @@ import 'moment-timezone'
 
 import {getMapping} from 'fbw-platform-common/selectors'
 import {isTarget} from 'fbw-platform-common/selectors/mission'
-import {agentDisplayName, agentIdFromTakingAgentId} from 'fbw-platform-common/selectors/login'
+import {osidToDisplayName, agentIdFromTakingAgentId} from 'fbw-platform-common/selectors/login'
 import {notAchievedOnAttempt} from './common'
 
 export const recommendMissionSelector = createSelector(
   [
-    state => state.mission.phaseIResults,
+    state => state.result.phaseIResults,
     getMapping
   ]
   , (results, mapping) => {
@@ -44,11 +44,11 @@ export const recommendMissionSelector = createSelector(
     });
 
     return {
-      displayName: agentDisplayName(taken.takingAgentId),
+      displayName: osidToDisplayName(taken.takingAgentId),
       agentId: agentIdFromTakingAgentId(taken.takingAgentId),
       takenId: taken.id,
       nextMission: {
-        name: `${agentDisplayName(taken.takingAgentId)}'s Phase II for ${taken.displayName.text}`,
+        name: `${osidToDisplayName(taken.takingAgentId)}'s Phase II for ${taken.displayName.text}`,
         directives: newDirectives,
         numberItemsForDirectives: _.sumBy(newDirectives, 'quota')
       }

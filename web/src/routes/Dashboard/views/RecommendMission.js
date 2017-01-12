@@ -9,7 +9,7 @@ import { DateRangePicker } from 'react-dates'
 import 'react-dates/css/variables.scss'
 import 'react-dates/css/styles.scss'
 
-import {extractDisplayName} from 'fbw-platform-common/d2lutils'
+// import {osidToDisplayName} from 'fbw-platform-common/selectors/login'
 
 // require('./datepicker.css')
 import './RecommendMission.scss'
@@ -21,7 +21,7 @@ const _getPlurality = (number) => {
 }
 
 export default function(props) {
-  // console.log('props of recommend mission', props);
+  console.log('props of recommend mission', props);
   if (!props.recommendation) {
     return null;
   }
@@ -50,7 +50,7 @@ export default function(props) {
         return (
           <li key={`student_${idx}`}>
             <p>
-              <Link key={`studentName__${idx}`} className="link">{extractDisplayName(student.name)}</Link>
+              <Link key={`studentName__${idx}`} className="link">{student.displayName}</Link>
               <span> {spawnVerb} </span>
               <span>{student.nextMission.directives.length} </span>
               <span>directive{_getPlurality(student.nextMission.directives.length)} with a total of </span>
