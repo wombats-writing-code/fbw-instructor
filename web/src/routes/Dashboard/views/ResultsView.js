@@ -31,9 +31,14 @@ class ResultsView extends Component {
       questionCollection = (
         <ul className="questions-section">
           {_.map(viewData.resultsByDirective[currentDirectiveId].questions, (result, idx) => {
-            return <QuestionResult result={result} idx={idx}
-                                  studentsAchieved={viewData.resultsByQuestion[result.questionId].studentsAchieved}
-                                  studentsNotAchieved={viewData.resultsByQuestion[result.questionId].studentsNotAchieved}/>
+            let questionResult = viewData.resultsByQuestion[result.questionId];
+
+            return <QuestionResult key={`question-result-${idx}`} idx={idx}
+                                  result={result}
+                                  question={questionResult.question}
+                                  outcome={questionResult.outcome}
+                                  studentsAchieved={questionResult.studentsAchieved}
+                                  studentsNotAchieved={questionResult.studentsNotAchieved}/>
           })}
         </ul>
       )

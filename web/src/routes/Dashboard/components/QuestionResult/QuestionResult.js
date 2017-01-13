@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {Link} from 'react-router'
 
 import {osidToDisplayName} from 'fbw-platform-common/selectors/login'
-
+import QuestionCard from 'fbw-platform-common/components/question-card/web/QuestionCard'
 
 import './QuestionResult.scss'
 
@@ -40,6 +40,8 @@ class QuestionResult extends Component {
             </ul>
           )
 
+    // console.log('outcome:', props.outcome);
+
     return (
       <div key={`questionResult_${props.idx}`} className="question-result ">
         <div className="question-statistics">
@@ -55,9 +57,8 @@ class QuestionResult extends Component {
           {expandedStudents}
         </div>
 
-        <div className="question__body" dangerouslySetInnerHTML={createMarkup(props.result.questionText)}
-              ref={(el) => renderMath(el)}
-        ></div>
+        <QuestionCard question={props.question} outcome={props.outcome} isExpanded={false} />
+
       </div>
     )
   }

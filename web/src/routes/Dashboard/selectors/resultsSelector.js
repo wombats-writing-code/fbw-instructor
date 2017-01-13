@@ -54,10 +54,16 @@ export const makeResultsSelector = () => {
     // console.log('resultsByDirective', resultsByDirective)
 
     let resultsByQuestion = _.reduce(allUniqueQuestions, (result, question) => {
-      // console.log('each unique question', question)
       let {notAchieved, total} = notAchievedOnAttempt(question.itemId, results, 1);
+      let outcome = _.find(mapping.outcomes, o => o.id === question.learningObjectiveIds[0]);
+      if (!outcome) {
+        console.log('each unique question', question)
+        console.log('its outcome', outcome)
+      }
 
       result[question.itemId] = result[question.itemId] || {
+        question,
+        outcome,
         studentsNotAchieved: notAchieved,
         studentsAchieved: _.difference(total, notAchieved),
       };
@@ -89,7 +95,7 @@ export const makeResultsSelector = () => {
       resultsByDirective,
       resultsByQuestion,
       questions: allQuestions,
-      directives: targetOutcomes
+      directives: targetOutcomes,
     };
   });
 }
