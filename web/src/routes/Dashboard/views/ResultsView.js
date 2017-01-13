@@ -7,6 +7,7 @@ import QuestionResult from '../components/QuestionResult'
 import DirectiveCarousel from '../components/carousel/DirectiveCarousel'
 
 
+
 import './ResultsView.scss'
 
 class ResultsView extends Component {
