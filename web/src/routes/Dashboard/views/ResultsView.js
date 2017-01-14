@@ -4,8 +4,8 @@ import 'lodash'
 import BASE_STYLES from '../../../styles/baseStyles'
 import EmptyState from '../../../components/EmptyState'
 import QuestionResult from '../components/QuestionResult'
-import DirectiveCarousel from '../components/carousel/DirectiveCarousel'
 
+import DirectiveCarousel from 'fbw-platform-common/components/mission/web/DirectiveCarousel'
 
 
 import './ResultsView.scss'
@@ -24,6 +24,9 @@ class ResultsView extends Component {
     let props = this.props;
     let viewData = props.viewData;
     let view = props.view;
+
+    if (!props.viewData || !view.directives) return null;
+
 
     let currentDirectiveId = view.currentDirective ? view.currentDirective.id : null;
     let questionCollection;
@@ -47,10 +50,11 @@ class ResultsView extends Component {
     let directiveCarousel;
     if (this.state.isExpanded) {
       directiveCarousel = (
-        <DirectiveCarousel targets={[]}
-                          directives={viewData.directives}
-                          currentDirective={view.currentDirective}
-                          onSelectDirective={_.partialRight(props.onClickDirective, view.name)}/>
+        <DirectiveCarousel directives={viewData.directives}
+                          directiveIndicators={viewData.directiveIndicators}
+                          currentDirectiveIndex={view.directives.indexOf(view.currentDirective)}
+                          onSelectDirective={(idx) => props.onClickDirective(viewData.directives[idx],view.name)}
+        />
       )
     }
 
@@ -60,6 +64,7 @@ class ResultsView extends Component {
     } else {
       expandCollapseButtonText = 'No results yet';
     }
+
 
     // console.log('results view data', viewData)
 

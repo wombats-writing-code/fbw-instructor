@@ -60,7 +60,7 @@ export const makeResultsSelector = () => {
         console.log('each unique question', question)
         console.log('its outcome', outcome)
       }
-
+      
       result[question.itemId] = result[question.itemId] || {
         question,
         outcome,
@@ -83,6 +83,10 @@ export const makeResultsSelector = () => {
       };
     });
 
+    // let directiveIndicators = _.map(_.keys(resultsByDirective), directiveId => {
+    //
+    // })
+
     // TODO: compute unique students who actually had a response
     let totalResponded = 0;
 
@@ -96,6 +100,7 @@ export const makeResultsSelector = () => {
       resultsByQuestion,
       questions: allQuestions,
       directives: targetOutcomes,
+      // directiveIndicators
     };
   });
 }

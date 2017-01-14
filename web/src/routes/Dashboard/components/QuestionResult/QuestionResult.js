@@ -41,6 +41,8 @@ class QuestionResult extends Component {
           )
 
     // console.log('outcome:', props.outcome);
+    // console.log('result', props.result);
+    // console.log('question', props.question);
 
     return (
       <div key={`questionResult_${props.idx}`} className="question-result ">
@@ -57,7 +59,14 @@ class QuestionResult extends Component {
           {expandedStudents}
         </div>
 
-        <QuestionCard question={props.question} outcome={props.outcome} isExpanded={false} />
+        <div className="row">
+          {/* <div className="medium-3 columns">
+          </div> */}
+          <div className="medium-12 columns">
+            <QuestionCard question={props.question} outcome={props.outcome} isExpanded={false} />
+          </div>
+        </div>
+
 
       </div>
     )
