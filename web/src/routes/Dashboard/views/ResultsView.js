@@ -25,7 +25,7 @@ class ResultsView extends Component {
     let viewData = props.viewData;
     let view = props.view;
 
-    if (!props.viewData || !view.directives) return null;
+    if (!props.viewData || !viewData.directives) return null;
 
 
     let currentDirectiveId = view.currentDirective ? view.currentDirective.id : null;
@@ -52,7 +52,7 @@ class ResultsView extends Component {
       directiveCarousel = (
         <DirectiveCarousel directives={viewData.directives}
                           directiveIndicators={viewData.directiveIndicators}
-                          currentDirectiveIndex={view.directives.indexOf(view.currentDirective)}
+                          currentDirectiveIndex={viewData.directives.indexOf(view.currentDirective)}
                           onSelectDirective={(idx) => props.onClickDirective(viewData.directives[idx],view.name)}
         />
       )

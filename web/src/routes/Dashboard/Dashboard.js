@@ -12,17 +12,10 @@ import './Dashboard.scss'
 
 class Dashboard extends Component {
 
-  constructor() {
-    super();
-    this.state = {
-      isExpanded: false
-    };
-  }
-
   render() {
     let props = this.props;
 
-    let phaseIView, phaseIIView, recommendationBody, gradesView;
+    let phaseIView, phaseIIView, recommendationView, gradesView;
     if (props.mission && (!this.props.isGetPhaseIResultsInProgress && !this.props.isGetPhaseIIResultsInProgress)) {
       phaseIView = (<ResultsView mission={this.props.mission}
                                 missionType="Phase I"
@@ -35,8 +28,8 @@ class Dashboard extends Component {
                                   isGetResultsInProgress={this.props.isGetPhaseIIResultsInProgress}
                     />) : null;
 
-      if (!props.mission.hasSpawnedFollowOnPhase && this.state.isExpanded) {
-        recommendationBody = <RecommendMission />
+      if (!props.mission.hasSpawnedFollowOnPhase) {
+        recommendationView = <RecommendMission />
       }
 
       // points are available in real-time as soon as Phase II is spawned
@@ -44,56 +37,6 @@ class Dashboard extends Component {
         gradesView = <GradesView />
       }
     }
-
-    let spawnButtonText;
-    if (this.props.isSpawnInProgress) {
-      spawnButtonText = 'Working...';
-    } else if (this.props.hasSpawnedFollowOnPhase) {
-      spawnButtonText = 'Missions launched';
-    } else {
-      spawnButtonText = 'Launch Phase II Missions!';
-    }
-
-    let expandCollapseButtonText;
-    if (props.mission) {
-      expandCollapseButtonText = this.state.isExpanded ? 'Hide' : 'Show';
-    } else {
-      expandCollapseButtonText = 'No results yet';
-    }
-
-    let recommendationBar;
-    if (phaseIView && props.mission && !props.mission.hasSpawnedFollowOnPhase) {
-      let now = moment.utc()
-      recommendationBar = (
-        <div className="summary-bar flex-container align-center">
-          <p className="summary__mission-name">
-            Recommendation
-            <span className="summary__mission-name-type">Launch Phase II mission</span>
-          </p>
-
-          <div className="summary-blurb flex-container align-center">
-            <p className="summary__number">{props.recommendation ? props.recommendation.students.length : 0}</p>
-            <p className="summary__text">to get Phase II</p>
-          </div>
-
-          <button className="button spawn-button small"
-                  disabled={props.isSpawnInProgress}
-                  onClick={() => this.props.onSpawnPhaseIIMissions(this.props.recommendation.students,
-                    this.props.currentBankId,
-                    this.props.mission,
-                    this.props.spawnDate || now)}>
-            {spawnButtonText}
-          </button>
-
-          <button className="expand-collapse-button" disabled={!props.mission}
-                  onClick={() => this.setState({isExpanded: !this.state.isExpanded})}>
-            {expandCollapseButtonText}
-          </button>
-
-        </div>
-      )
-    }
-
 
     let loadingBox;
     if (this.props.isGetPhaseIResultsInProgress || this.props.isGetPhaseIIResultsInProgress) {
@@ -109,9 +52,7 @@ class Dashboard extends Component {
         {phaseIIView}
 
         <div className="clearfix columns">
-          {recommendationBar}
-
-          {recommendationBody}
+          {recommendationView}
         </div>
 
         <div className="clearfix columns">
