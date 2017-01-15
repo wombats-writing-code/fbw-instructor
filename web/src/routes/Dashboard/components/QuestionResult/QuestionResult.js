@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {Link} from 'react-router'
-
+import slug from 'slug'
 import {osidToDisplayName} from 'fbw-platform-common/selectors/login'
 import QuestionCard from 'fbw-platform-common/components/question-card/web/QuestionCard'
 
@@ -29,13 +29,14 @@ class QuestionResult extends Component {
     let expandedStudents = !this.state.isExpanded ? null :
           (
             <ul className="students-list">
-              {_.map(props.studentsAchieved, student => {
-                return (<Link key={student.takingAgentId} className="students-list__item"
-                          to={`/students/JANEWAY?mission=Internal-test-mission`} target="_blank">{osidToDisplayName(student.takingAgentId)}</Link>)
-              })}
-              {_.map(props.studentsNotAchieved, student => {
-                return (<Link key={student.takingAgentId} className="students-list__item warning-color"
-                            to={`/students/JANEWAY?mission=Internal-test-mission`} target="_blank">{osidToDisplayName(student.takingAgentId)}</Link>)
+              {_.map(_.concat(props.studentsAchieved, props.studentsNotAchieved), studentResult => {
+                let studentDisplayName = slug(osidToDisplayName(studentResult.takingAgentId));
+                console.log('studentResult', studentResult);
+
+                return (<Link key={studentResult.takingAgentId} className="students-list__item"
+                          onClick={() => this.props.onSelectMissionResult(studentResult)}
+                          to={`/students/${studentDisplayName}/missions/${slug(studentResult.displayName.text)}`}
+                          target="_blank">{studentDisplayName}</Link>)
               })}
             </ul>
           )
@@ -71,6 +72,7 @@ class QuestionResult extends Component {
       </div>
     )
   }
+
 
 }
 

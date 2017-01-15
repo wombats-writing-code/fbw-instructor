@@ -17,11 +17,13 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  let currentMission = state.mission ? state.mission.currentMission : null;
+  console.log('state in StudentContainer', state);
+
   return {
+    mission: state.mission ? state.mission.currentMission : null,
+    result: state.result.currentResult
     // view: state.view,
     // currentBankId: state.bank.currentBank ? state.bank.currentBank.id : null,
-    // mission: state.mission ? state.mission.currentMission : null,
     // isGetPhaseIResultsInProgress: state.mission ? state.mission.isGetPhaseIResultsInProgress : false,
     // isGetPhaseIIResultsInProgress: state.mission ? state.mission.isGetPhaseIIResultsInProgress : false,
     // isGetSpawnResultsInProgress: false,     // TODO

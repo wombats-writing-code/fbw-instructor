@@ -41,7 +41,10 @@ class ResultsView extends Component {
                                   question={questionResult.question}
                                   outcome={questionResult.outcome}
                                   studentsAchieved={questionResult.studentsAchieved}
-                                  studentsNotAchieved={questionResult.studentsNotAchieved}/>
+                                  studentsNotAchieved={questionResult.studentsNotAchieved}
+                                  onSelectMissionResult={(studentResult) =>
+                                      this.props.onSelectMissionResult(studentResult, viewData.directives.indexOf(view.currentDirective), questionResult.question)
+                                  }/>
           })}
         </ul>
       )

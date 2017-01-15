@@ -4,11 +4,13 @@ import { connect } from 'react-redux'
 import ResultsView from '../views/ResultsView'
 import {makeResultsSelector} from '../selectors/resultsSelector'
 import {selectDirective} from '../../../reducers/view'
+import {selectMissionResult} from 'fbw-platform-common/reducers/Mission/selectMissionResult'
 
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    onClickDirective: (directive, viewName) => dispatch(selectDirective(directive, viewName))
+    onClickDirective: (directive, viewName) => dispatch(selectDirective(directive, viewName)),
+    onSelectMissionResult: (missionResult, currentDirectiveIndex, question) => dispatch(selectMissionResult(missionResult, currentDirectiveIndex, question)),
   }
 }
 
