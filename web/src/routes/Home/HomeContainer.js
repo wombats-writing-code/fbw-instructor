@@ -7,6 +7,7 @@ import {getMapping} from 'fbw-platform-common/reducers/Mapping/getMapping'
 
 import {selectBank} from 'fbw-platform-common/reducers/Bank/selectBank'
 import {getItems} from 'fbw-platform-common/reducers/Bank/getItems'
+import {getD2LClassRoster} from 'fbw-platform-common/reducers/Bank/getD2LClassRoster'
 
 import {getMissions} from 'fbw-platform-common/reducers/Mission/getMissions'
 import {selectMission} from 'fbw-platform-common/reducers/Mission/selectMission'
@@ -31,11 +32,18 @@ import {findBankLibrary, findBankDomain} from 'fbw-platform-common/utilities'
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    onClickBank: (bank, username, enrolledBanks) => {
+    onClickBank: (bank, username, enrolledBanks,
+      credentials, d2lToken, orgUnitId) => {
       console.log('clicked bank', bank, username, enrolledBanks);
+      console.log('clicked bank2', credentials, d2lToken, orgUnitId);
 
       dispatch(selectBank(bank));
       dispatch(getMissions({subjectBankId: bank.id, username}));
+
+      // use d2lToken as proxy for if need to get class roster
+      if (d2lToken) {
+        dispatch(getD2LClassRoster({url: d2lToken, orgUnitId, credentials}))
+      }
 
       dispatch(getMapping(findBankDomain(bank.id, enrolledBanks)))
       dispatch(getItems(findBankLibrary(bank.id, enrolledBanks)));  // these two mappings need to be modified after we switch to D2L / LMS

@@ -50,7 +50,7 @@ class Home extends Component {
         <NavBar logout={this._logout}/>
 
         <div className="medium-4 large-3 columns">
-          <SideBar {...props}/>
+          <SideBar {...props} _onClickBank={this._onClickBank}/>
         </div>
 
         <div className="medium-8 large-9 columns">

@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 const moment = require('moment')
 import LoadingBox from '../LoadingBox'
 import {PRE_FLIGHT_MISSION} from 'fbw-platform-common/utilities'
+import credentials from '../../d2lcredentials'
 
 import './SideBar.scss'
 
@@ -95,7 +96,8 @@ export default (props) => {
 
         return (
           <li key={key} className={isSelected ? "clickable-row__item is-selected" : "clickable-row__item"}
-                        onClick={() => props.onClickBank(bank, null, props.banks)}>
+                        onClick={() => props.onClickBank(bank, null, props.banks,
+                          credentials, props.d2lToken, bank.orgUnitId)}>
 
             <div >
               <p className="row-title">{bank.displayName}</p>
@@ -112,5 +114,4 @@ export default (props) => {
     {missionsLoadingBox}
     </div>
   )
-
 }
