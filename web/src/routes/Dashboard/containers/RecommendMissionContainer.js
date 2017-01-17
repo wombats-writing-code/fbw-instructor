@@ -18,7 +18,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  // console.log('state in recommend missions container', state)
+  console.log('state in recommend missions container', state)
 
   return {
     currentBank: getEnrolledSubject(state),

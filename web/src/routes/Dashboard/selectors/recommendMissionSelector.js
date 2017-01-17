@@ -32,7 +32,8 @@ export const recommendMissionSelector = createSelector(
               return question
           }
         })).length;
-      if (numberRight < parseInt(section.minimumProficiency)) {
+      console.log('num right', numberRight, 'total', targetQuestions.length)
+      if (numberRight < targetQuestions.length) {
         newDirectives.push({
           learningObjectiveId: section.learningObjectiveId,
           quota: targetQuestions.length,
