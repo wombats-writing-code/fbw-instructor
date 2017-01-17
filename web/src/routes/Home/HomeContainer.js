@@ -61,8 +61,11 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       // browserHistory.push('/missions/new')
     },
     onClickEditMission: (mission) => {
-      dispatch(selectMission(mission));
+      // need to change the view before calling selectMission,
+      //   otherwise React gets into a funky state and cannot mount
+      //   the node?
       dispatch(changeView({name: 'edit-mission', mission: mission}));
+      dispatch(selectMission(mission));
     },
     onClickDeleteMission: (mission, bankId) => {
       dispatch(deleteMission(mission, bankId))
