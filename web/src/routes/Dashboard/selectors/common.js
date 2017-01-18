@@ -1,10 +1,14 @@
 let moment = require('moment')
 
 
-/**
-  notCorrectWithinAttempts:
-  returns {# of students who did not get this question right within N attempts, # of total students who attempted}
-*/
+export const notTaken = (takens, roster) => {
+  let takingAgentIds = _.map(takens, 'takingAgentId');
+  let notTaken = _.uniq(_.filter(roster, student => {
+    return !_.find(takingAgentIds, id => id.indexOf(student.ProfileIdentifier) > -1);
+  }));
+
+  return notTaken;
+}
 
 // cjshaw
 // TODO: Make sure this calculation matches the method name

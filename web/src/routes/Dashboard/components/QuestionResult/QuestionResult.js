@@ -64,7 +64,8 @@ class QuestionResult extends Component {
           {/* <div className="medium-3 columns">
           </div> */}
           <div className="medium-12 columns">
-            <QuestionCard question={props.question} outcome={props.outcome} isExpanded={false} />
+            <QuestionCard question={props.question} outcome={props.outcome} isExpanded={false} isExpandable={true}
+                          isSubmitEnabled={false}/>
           </div>
         </div>
 

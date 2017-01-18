@@ -1,12 +1,11 @@
 import React, {Component} from 'react';
 import 'lodash'
 
-import BASE_STYLES from '../../../styles/baseStyles'
 import EmptyState from '../../../components/EmptyState'
 import QuestionResult from '../components/QuestionResult'
-
 import DirectiveCarousel from 'fbw-platform-common/components/mission/web/DirectiveCarousel'
 
+import {osidToDisplayName, d2LDisplayNameToDisplayName} from 'fbw-platform-common/selectors/login'
 
 import './ResultsView.scss'
 
@@ -68,6 +67,29 @@ class ResultsView extends Component {
       expandCollapseButtonText = 'No results yet';
     }
 
+    let studentSummary;
+    if (this.state.isExpanded) {
+      studentSummary = (
+        <div className="student-summary flex-container">
+          <div className="student-summary__collection">
+            <p className="bold">Opened up the mission</p>
+            {_.map(props.viewData.results, student => {
+              return (<p key={`opened-${student.takingAgentId}`} className="student-summary__collection__item">
+                {osidToDisplayName(student.takingAgentId)}
+              </p>)
+            })}
+          </div>
+          <div className="student-summary__collection">
+            <p className="bold">Not opened the mission</p>
+            {_.map(props.viewData.studentsNotTaken, rosterStudent => {
+              return (<p key={`not-opened-${rosterStudent.ProfileIdentifier}`} className="student-summary__collection__item">
+                {d2LDisplayNameToDisplayName(rosterStudent.DisplayName)}
+              </p>)
+            })}
+          </div>
+        </div>
+      )
+    }
 
     // console.log('results view data', viewData)
 
@@ -82,7 +104,12 @@ class ResultsView extends Component {
 
           <div className="summary-blurb flex-container align-center">
             <p className="summary__number">{props.viewData ? props.viewData.results.length : 0}</p>
-            <p className="summary__text">tried the mission</p>
+            <p className="summary__text">opened the mission</p>
+          </div>
+
+          <div className="summary-blurb flex-container align-center">
+            <p className="summary__number">{props.viewData ? props.viewData.studentsNotTaken.length : 0}</p>
+            <p className="summary__text">have not opened the mission</p>
           </div>
 
           <button className=" expand-collapse-button"
@@ -92,6 +119,7 @@ class ResultsView extends Component {
           </button>
         </div>
 
+        {studentSummary}
         {directiveCarousel}
         {questionCollection}
 

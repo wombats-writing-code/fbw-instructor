@@ -5,15 +5,22 @@ import 'moment-timezone'
 
 import {getMapping, getPhaseIResults, getPhaseIIResults} from 'fbw-platform-common/selectors'
 import {isTarget} from 'fbw-platform-common/selectors/mission'
-import {notAchievedOnAttempt} from './common'
+import {getRoster} from 'fbw-platform-common/selectors/bank'
+import {notAchievedOnAttempt, notTaken} from './common'
+
+/**
+  this selector analyzes Phase I or PhaseII results for a mission
+
+*/
 
 export const makeResultsSelector = () => {
   return createSelector(
     [
       (state, ownProps) => ownProps.missionType === 'Phase I' ? getPhaseIResults(state) : getPhaseIIResults(state),
-      getMapping
+      getMapping,
+      getRoster
     ],
-    (results, mapping) => {
+    (results, mapping, roster) => {
 
     console.log('resultsSelector', results);
     if (!results || !mapping) return null;
@@ -51,27 +58,6 @@ export const makeResultsSelector = () => {
       return result;
     }, {});
 
-    // console.log('resultsByDirective', resultsByDirective)
-
-    let resultsByQuestion = _.reduce(allUniqueQuestions, (result, question) => {
-      let {notAchieved, total} = notAchievedOnAttempt(question.itemId, results, 1);
-      let outcome = _.find(mapping.outcomes, o => o.id === question.learningObjectiveIds[0]);
-      if (!outcome) {
-        console.log('each unique question', question)
-        console.log('its outcome', outcome)
-      }
-      
-      result[question.itemId] = result[question.itemId] || {
-        question,
-        outcome,
-        studentsNotAchieved: notAchieved,
-        studentsAchieved: _.difference(total, notAchieved),
-      };
-
-      return result;
-
-    }, {});
-
     // sort the inner questions and attach flag
     _.forOwn(resultsByDirective, (results, directiveId) => {
       let totalNotAchieved = _.sum(_.map(results, (r) => _.parseInt(r.numStudentsNotAchieved)));
@@ -83,19 +69,39 @@ export const makeResultsSelector = () => {
       };
     });
 
-    // let directiveIndicators = _.map(_.keys(resultsByDirective), directiveId => {
-    //
-    // })
+    // console.log('resultsByDirective', resultsByDirective)
 
-    // TODO: compute unique students who actually had a response
-    let totalResponded = 0;
+    let resultsByQuestion = _.reduce(allUniqueQuestions, (result, question) => {
+      let {notAchieved, total} = notAchievedOnAttempt(question.itemId, results, 1);
+      let outcome = _.find(mapping.outcomes, o => o.id === question.learningObjectiveIds[0]);
+      if (!outcome) {
+        console.log('each unique question', question)
+        console.log('its outcome', outcome)
+      }
+
+      result[question.itemId] = result[question.itemId] || {
+        question,
+        outcome,
+        studentsNotAchieved: notAchieved,
+        studentsAchieved: _.difference(total, notAchieved),
+      };
+
+      return result;
+    }, {});
+
+    // =====
+    // computes who did not open up the mission
+    let studentsNotTaken = notTaken(results, roster);
+
+    // console.log('notTaken', notTaken)
+    // ======
 
     // console.log('resultsByDirective', resultsByDirective);
     // console.log('sorted', sorted);
 
     return {
       results,
-      totalResponded,
+      studentsNotTaken,
       resultsByDirective,
       resultsByQuestion,
       questions: allQuestions,

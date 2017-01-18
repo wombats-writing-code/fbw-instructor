@@ -80,3 +80,17 @@
 .expand-collapse-button:hover {
   opacity: .8;
 }
+
+.student-summary {
+  font-size: .875rem;
+  text-align: left;
+}
+
+.student-summary__collection {
+  margin-right: 1em;
+  margin-bottom: 1.5rem;
+}
+
+.student-summary__collection__item {
+  margin-bottom: .125rem;
+}
