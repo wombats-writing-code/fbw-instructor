@@ -16,6 +16,7 @@ class Home extends Component {
     onClickMission: React.PropTypes.func.isRequired,
     onClickAddMission: React.PropTypes.func.isRequired,
     onClickEditMission: React.PropTypes.func.isRequired,
+    onGetMissions: React.PropTypes.func.isRequired,
     banks: React.PropTypes.array,
     missions: React.PropTypes.array,
     currentMission: React.PropTypes.object,
@@ -25,6 +26,13 @@ class Home extends Component {
   componentDidMount() {
   }
 
+  componentDidUpdate() {
+    if (this.props.privateBankId &&
+        !this.props.missions &&
+        !this.props.isGetMissionsInProgress) {
+      this.props.onGetMissions(this.props.currentBank.id)
+    }
+  }
       // this.props.onLoadMissions(this.props.currentBank, this.props.enrolledBanks)
 
   render() {

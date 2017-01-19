@@ -38,7 +38,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       console.log('clicked bank2', credentials, d2lToken, orgUnitId);
 
       dispatch(selectBank(bank));
-      dispatch(getMissions({subjectBankId: bank.id, username}));
+      // for a newly created class, you cannot call getMissions
+      // immediately after selectBank -- needs to happen afterwards,
+      // because selectBank sets up the privateBankId (even for instructors)
+      // so move this to happen on componentDidUpdate if privateBankId set and
+      // no missions yet
+      //dispatch(getMissions({subjectBankId: bank.id, username}));
 
       // use d2lToken as proxy for if need to get class roster
       if (d2lToken) {
@@ -48,6 +53,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(getMapping(findBankDomain(bank.id, enrolledBanks)))
       dispatch(getItems(findBankLibrary(bank.id, enrolledBanks)));  // these two mappings need to be modified after we switch to D2L / LMS
     },
+    onGetMissions: (bankId) => dispatch(getMissions({subjectBankId: bankId, username: null})),
     onClickMission: (mission, bankId) => {
       dispatch(getPhaseIResults(mission, bankId));
       dispatch(getPhaseIIResults(mission, bankId));
@@ -88,6 +94,7 @@ const mapStateToProps = (state, ownProps) => {
     isGetMissionsInProgress: state.mission ? state.mission.isGetMissionsInProgress : null,
     view: state.view,
     isGetPrivateBankIdInProgress: state.bank.getPrivateBankIdInProgress ? state.bank.getPrivateBankIdInProgress : false,
+    privateBankId: state.bank.privateBankId ? state.bank.privateBankId : null,
     username: getUser(state) ? getUser(state).username : null,
     d2lToken: getD2LToken(state)
   }
