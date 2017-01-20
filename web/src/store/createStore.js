@@ -31,7 +31,11 @@ export default (initialState = {}) => {
         bank: state.bank,
         subject: state.subject,
         result: _.omit(state.result, ['phaseIResults', 'phaseIIResults']),
-        editMission: _.omit(state.editMission, ['newMission']),
+        editMission: _.assign({}, state.editMission, {
+          newMission: null,
+          // i hate that this is here, but let's experiment to see if this fixes things
+          spawnDate: {}
+        }),
         mapping: state.mapping,
         mission: _.assign({}, state.mission, {
           isGetMissionsInProgress: false
