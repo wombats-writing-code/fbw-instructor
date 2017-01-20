@@ -3,8 +3,10 @@ let moment = require('moment')
 
 export const notTaken = (takens, roster) => {
   let takingAgentIds = _.map(takens, 'takingAgentId');
+  console.log('takingAgentIds', takingAgentIds)
   let notTaken = _.uniq(_.filter(roster, student => {
-    return !_.find(takingAgentIds, id => id.indexOf(student.ProfileIdentifier) > -1);
+    console.log('can find ProfileIdentifier:', student)
+    return !_.find(takingAgentIds, id => id.indexOf(student.Identifier) > -1);
   }));
 
   return notTaken;
