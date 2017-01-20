@@ -60,7 +60,8 @@ class RecommendMissionView extends Component {
             return (
               <li key={`student_${idx}`}>
                 <p>
-                  <Link key={`studentName__${idx}`} className="link">{student.displayName}</Link>
+                  {/* <Link key={`studentName__${idx}`} className="link">{student.displayName}</Link> */}
+                  <span>{student.displayName}</span>
                   <span> {spawnVerb} </span>
                   <span>{student.nextMission.directives.length} </span>
                   <span>directive{_getPlurality(student.nextMission.directives.length)} with a total of </span>
@@ -78,8 +79,8 @@ class RecommendMissionView extends Component {
                           focusedInput={this.state.focused}
                           onFocusChange={(focused) => this.setState({focused})}
                           onDatesChange={(dateData) => props.onSpawnDateChange(dateData)}
-                          startDate={props.spawnDate.startTime}
-                          endDate={props.spawnDate.deadline} />
+                          startDate={props.spawnDate.startTime ? moment(props.spawnDate.startTime) : moment() }
+                          endDate={props.spawnDate.deadline ? moment(props.spawnDate.deadline) : moment().add(7, 'd')} />
        </div>)
     }
 

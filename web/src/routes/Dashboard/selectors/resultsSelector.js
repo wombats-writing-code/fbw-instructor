@@ -74,10 +74,10 @@ export const makeResultsSelector = () => {
     let resultsByQuestion = _.reduce(allUniqueQuestions, (result, question) => {
       let {notAchieved, total} = notAchievedOnAttempt(question.itemId, results, 1);
       let outcome = _.find(mapping.outcomes, o => o.id === question.learningObjectiveIds[0]);
-      if (!outcome) {
-        console.log('each unique question', question)
-        console.log('its outcome', outcome)
-      }
+      // if (!outcome) {
+      //   console.log('each unique question', question)
+      //   console.log('its outcome', outcome)
+      // }
 
       result[question.itemId] = result[question.itemId] || {
         question,
