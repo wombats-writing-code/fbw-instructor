@@ -100,8 +100,8 @@ export default (props) => {
                           credentials, props.d2lToken, bank.orgUnitId)}>
 
             <div >
-              <p className="row-title">{bank.displayName}</p>
-              <p className="row-subtitle">{bank.description}</p>
+              <p className="row-title">{bank.displayName && bank.displayName.text ? bank.displayName.text : bank.displayName}</p>
+              <p className="row-subtitle">{bank.description && bank.description.text ? bank.description.text : bank.description}</p>
             </div>
           </li>
         )

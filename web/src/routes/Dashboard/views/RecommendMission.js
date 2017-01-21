@@ -79,8 +79,8 @@ class RecommendMissionView extends Component {
                           focusedInput={this.state.focused}
                           onFocusChange={(focused) => this.setState({focused})}
                           onDatesChange={(dateData) => props.onSpawnDateChange(dateData)}
-                          startDate={props.spawnDate.startTime ? moment(props.spawnDate.startTime) : moment() }
-                          endDate={props.spawnDate.deadline ? moment(props.spawnDate.deadline) : moment().add(7, 'd')} />
+                          startDate={props.spawnDate.startTime}
+                          endDate={props.spawnDate.deadline} />
        </div>)
     }
 

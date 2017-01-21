@@ -4,6 +4,8 @@ import { browserHistory } from 'react-router'
 import persistState from 'redux-localstorage'
 import _ from 'lodash'
 
+import moment from 'moment'
+
 import makeRootReducer from '../reducers/'
 import { updateLocation } from '../reducers/location'
 
@@ -33,8 +35,6 @@ export default (initialState = {}) => {
         result: _.omit(state.result, ['phaseIResults', 'phaseIIResults']),
         editMission: _.assign({}, state.editMission, {
           newMission: null,
-          // i hate that this is here, but let's experiment to see if this fixes things
-          spawnDate: {}
         }),
         mapping: state.mapping,
         mission: _.assign({}, state.mission, {
@@ -48,6 +48,16 @@ export default (initialState = {}) => {
       // console.log('storing state:', subset)
 
       return subset;
+    },
+    deserialize: serialized => {
+      let state = JSON.parse(serialized);
+      state.editMission.spawnDate = {
+        startTime: moment(),
+        deadline: moment().add(7, 'd')
+      }
+      console.log('deserialized', state);
+
+      return state;
     }
   }))
 
