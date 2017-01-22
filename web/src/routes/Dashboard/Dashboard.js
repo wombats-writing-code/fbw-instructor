@@ -47,19 +47,23 @@ class Dashboard extends Component {
 
 
     return (
-      <div className="row">
-        {phaseIView}
-        {phaseIIView}
+      <div className="columns">
+        <div className="row">
+          {phaseIView}
+        </div>
+        <div className="row">
+          {phaseIIView}
+        </div>
 
-        <div className="clearfix columns">
+        <div className="row">
           {recommendationView}
         </div>
 
-        <div className="clearfix columns">
+        <div className="row">
           {gradesView}
         </div>
 
-        <div className="clearfix">
+        <div className="row">
           {loadingBox}
         </div>
 

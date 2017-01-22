@@ -25,8 +25,11 @@ class ResultsView extends Component {
     let view = props.view;
 
     if (!props.viewData || !viewData.directives) {
-      return (<div>
-        <p className="empty-results-text">No students have taken the mission yet, so no results available. Check back later.</p>
+      return (<div className="summary-bar empty-results clearfix">
+        <p className="empty-results-text">
+          No students have taken {props.missionType} yet, so no results available.
+          Check back later.
+        </p>
       </div>);
     }
 
@@ -98,7 +101,7 @@ class ResultsView extends Component {
     // console.log('results view data', viewData)
 
     return (
-      <div className="results-view columns">
+      <div className="results-view ">
 
         <div className="flex-container align-center summary-bar">
           <p className="summary__mission-name">
