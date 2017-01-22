@@ -24,7 +24,11 @@ class ResultsView extends Component {
     let viewData = props.viewData;
     let view = props.view;
 
-    if (!props.viewData || !viewData.directives) return null;
+    if (!props.viewData || !viewData.directives) {
+      return (<div>
+        <p className="empty-results-text">No students have taken the mission yet, so no results available. Check back later.</p>
+      </div>);
+    }
 
 
     let currentDirectiveId = view.currentDirective ? view.currentDirective.id : null;
@@ -109,7 +113,7 @@ class ResultsView extends Component {
 
           <div className="summary-blurb flex-container align-center">
             <p className="summary__number">{props.viewData ? props.viewData.studentsNotTaken.length : 0}</p>
-            <p className="summary__text">have not opened the mission</p>
+            <p className="summary__text">not opened</p>
           </div>
 
           <button className=" expand-collapse-button"

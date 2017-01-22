@@ -36,6 +36,10 @@ class RecommendMissionView extends Component {
       return null;
     }
 
+    if (props.recommendation.students.length === 0) {
+      return null;
+    }
+
     let spawnStatus, spawnVerb;
     if (props.mission.hasSpawnedFollowOnPhase || props.spawnedMissions) {
       spawnStatus = (

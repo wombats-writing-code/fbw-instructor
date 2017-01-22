@@ -16,21 +16,16 @@ export const recommendMissionSelector = createSelector(
   [
     state => state.result.phaseIResults,
     state => state.mission.currentMission,
+    state => state.mission.currentMissionSections,
     getMapping,
     getRoster
   ]
-  , (results, mission, mapping, roster) => {
+  , (results, mission, missionSections, mapping, roster) => {
 
   if (!results || !mapping) return null;
 
-  // just use one taken to get the sections of the mission because every taken is guaranteed to have all the sections
-  let taken = results[0];
-  let missionSectionsWithNoResponse = _.map(taken.sections, section => {
-    return _.assign({}, section, {
-      questions: _.map(section.questions, q => _.omit(q, ['response']))
-    })
-  });
-  // console.log('missionSectionsWithNoResponse', missionSectionsWithNoResponse)
+  // console.log('mission in recommendMissionSelector', mission);
+  // console.log('missionSections in recommendMissionSelector', missionSections);
 
   // ====
   // case 1: the taken has sections
@@ -56,12 +51,12 @@ export const recommendMissionSelector = createSelector(
   // the student gets all the directives that were in the original mission
   // =====
   let studentsNotTaken = notTaken(results, roster);
-  // console.log('studentsNotTaken', studentsNotTaken);
+  console.log('studentsNotTaken', studentsNotTaken);
   // console.log('currentMission', mission);
 
   let studentsNotTakenRecommendations = _.map(studentsNotTaken, rosterStudent => {
     let rosterStudentDisplayName = d2LDisplayNameToDisplayName(rosterStudent.DisplayName);
-    let directives = composeDirectives(missionSectionsWithNoResponse);
+    let directives = composeDirectives(missionSections);
 
     return {
       displayName: rosterStudentDisplayName,

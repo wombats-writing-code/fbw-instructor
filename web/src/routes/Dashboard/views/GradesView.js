@@ -43,7 +43,7 @@ class GradesView extends Component {
 
           <div className="summary-blurb flex-container align-center">
             <p className="summary__number">{props.grades ? props.grades.length : 0}</p>
-            <p className="summary__text">grades recorded</p>
+            <p className="summary__text">grades in progress</p>
           </div>
 
           <button className="expand-collapse-button"
