@@ -27,7 +27,7 @@ class Guide extends Component {
         <div className="content medium-9 columns">
           <section className="making-mission" id="making-phase1">
             <div className="row">
-              <h3 className="columns">Making a mission</h3>
+              <h3 className="columns">Making a Phase I mission</h3>
             </div>
             <div className="row">
               <ol className="instruction-list">
