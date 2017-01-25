@@ -50,8 +50,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
         dispatch(getD2LClassRoster({url: d2lToken, orgUnitId, credentials}))
       }
 
-      dispatch(getMapping(findBankDomain(bank.id, enrolledBanks)))
+      dispatch(getMapping(findBankDomain(bank.id, enrolledBanks)));
       dispatch(getItems(findBankLibrary(bank.id, enrolledBanks)));  // these two mappings need to be modified after we switch to D2L / LMS
+
       dispatch(changeView({name: 'dashboard.resultsView', mission: null}))      // true default
     },
     onGetMissions: (bankId) => dispatch(getMissions({subjectBankId: bankId, username: null})),

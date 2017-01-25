@@ -20,7 +20,7 @@ class SelectDirectives extends Component {
     let selectedDirectives = props.newMission.selectedDirectives;
 
     let selectedDirectivesLabel = selectedDirectives ?
-                                  (<p className="select-directives__section-title">Selected directives (# questions available)</p>)
+                                  (<p className="select-directives__section-title">Selected goals (# questions available)</p>)
                                   : null;
 
     let filterByModule, filterByModuleText;
@@ -57,7 +57,7 @@ class SelectDirectives extends Component {
                       onClickDirective={props.updateMissionForm} />
 
           <div className="form-subsection">
-            <p className="select-directives__section-title">Select directives</p>
+            <p className="select-directives__section-title">Select goals</p>
 
             <div className="directive-search">
               <input className="directive-search-input"

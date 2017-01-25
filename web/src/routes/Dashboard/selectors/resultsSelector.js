@@ -22,7 +22,7 @@ export const makeResultsSelector = () => {
     ],
     (results, mapping, roster) => {
 
-    console.log('resultsSelector', results);
+    console.log('resultsSelector', results, 'mapping', mapping);
     if (!results || !mapping) return null;
 
     // console.log('questionsViewSelector results', results, ' questions', allQuestions, 'mapping', mapping);

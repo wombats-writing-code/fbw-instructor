@@ -1,0 +1,67 @@
+@import '../../styles/base';
+
+.toc {
+  font-size: .875rem;
+  padding: 1.5em 1em;
+  position: fixed;
+  left: 1em;
+  top: 12em;
+  background: rgba(#fff, .8);
+}
+
+.toc__item {
+  margin-bottom: .125rem;
+}
+
+.content {
+  margin-top: 12em;
+}
+
+.guide {
+  text-align: left;
+}
+
+.button-ref {
+  padding: .1em;
+  display: inline-block;
+  background: #fafafa;
+}
+
+a.coming-soon {
+  color: #666;
+  cursor: default;
+}
+
+.instruction-list {
+	margin-bottom: 3em;
+}
+
+.instruction {
+	position: relative;
+	margin-bottom: 1.5em;
+	padding: 1.5em 3em;
+}
+
+.instruction:nth-child(even) {
+	background: #f8f8f8;
+}
+
+.instruction-list {
+	list-style: none;
+	counter-reset: custom-counter;
+}
+
+.instruction:before {
+	content: counter(custom-counter, decimal);
+	counter-increment: custom-counter;
+	font-size: 2em;
+	font-weight: 600;
+	position: absolute;
+	left: .5em;
+	top: .4em;
+}
+
+
+.instruction img {
+	margin-bottom: 1.5em;
+}

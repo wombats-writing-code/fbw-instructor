@@ -29,35 +29,46 @@ export default (initialState = {}) => {
   // copy state to local storage
   enhancers.push(persistState(null, {
     slicer: paths => state => {
-      let subset = {
-        bank: state.bank,
-        subject: state.subject,
-        result: _.omit(state.result, ['phaseIResults', 'phaseIIResults']),
-        editMission: _.assign({}, state.editMission, {
-          newMission: null,
-        }),
-        mapping: state.mapping,
-        mission: _.assign({}, state.mission, {
-          isGetMissionsInProgress: false
-        }),
-        login: state.login,
-        location: state.location,
-        view: state.view
-      };
+      if (state) {
+        let subset = {
+          bank: state.bank,
+          subject: state.subject,
+          result: _.omit(state.result, [
+            'phaseIResults', 'phaseIIResults',
+            'isGetPhaseIResultsInProgress', 'isGetPhaseIIResultsInProgress'
+          ]),
+          editMission: _.assign({}, state.editMission, {
+            newMission: null,
+          }),
+          mapping: state.mapping,
+          mission: _.assign({}, state.mission, {
+            isGetMissionsInProgress: false
+          }),
+          login: state.login,
+          location: state.location,
+          view: state.view
+        };
+
+        return subset;
+      }
 
       // console.log('storing state:', subset)
 
-      return subset;
+      return {};
     },
     deserialize: serialized => {
       let state = JSON.parse(serialized);
-      state.editMission.spawnDate = {
-        startTime: moment(),
-        deadline: moment().add(7, 'd')
-      }
-      console.log('deserialized', state);
+      if (state) {
+        state.editMission.spawnDate = {
+          startTime: moment(),
+          deadline: moment().add(7, 'd')
+        }
+        console.log('deserialized', state);
 
-      return state;
+        return state;
+      }
+
+      return {}
     }
   }))
 

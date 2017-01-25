@@ -6,7 +6,7 @@ import HomeContainer from './Home/index'
 import D2LCallbackRoute from './D2LCallback/'
 import LoginRoute from './Login'
 import StudentRoute from './Student'
-
+import GuideRoute from './Guide'
 import MissionForm from '../components/MissionForm'
 
 /*  Note: Instead of using JSX, we recommend using react-router
@@ -21,6 +21,7 @@ export const createRoutes = (store) => ({
     LoginRoute(store),
     D2LCallbackRoute(store),
     StudentRoute(store),
+    GuideRoute(store),
     {
       path: '/missions/new',
       component: MissionForm

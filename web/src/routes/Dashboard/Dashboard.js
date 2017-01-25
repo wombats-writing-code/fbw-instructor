@@ -49,6 +49,9 @@ class Dashboard extends Component {
     return (
       <div className="columns">
         <div className="row">
+          <p className="mission-name">{this.props.mission ? this.props.mission.displayName.text : ''}</p>
+        </div>
+        <div className="row">
           {phaseIView}
         </div>
         <div className="row">

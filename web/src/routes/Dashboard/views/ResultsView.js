@@ -24,6 +24,8 @@ class ResultsView extends Component {
     let viewData = props.viewData;
     let view = props.view;
 
+    // console.log('viewData in ResultsView.js', viewData)
+
     if (!props.viewData || !viewData.directives) {
       return (<div className="summary-bar empty-results clearfix">
         <p className="empty-results-text">

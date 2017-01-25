@@ -61,7 +61,7 @@ export default function(props) {
 
 
         <div className="form-section">
-          <label className="form-label">Directives</label>
+          <label className="form-label">Goals</label>
           <SelectDirectives {...props} />
         </div>
 

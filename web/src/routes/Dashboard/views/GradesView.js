@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import 'lodash'
 
-import BASE_STYLES from '../../../styles/baseStyles'
 import EmptyState from '../../../components/EmptyState'
 
 import './GradesView.scss'

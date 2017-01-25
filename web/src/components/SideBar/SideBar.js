@@ -74,14 +74,12 @@ export default (props) => {
   // === missionsLoadingBox: if there are no missions, and we aren't loading, display an empty box
   // Also display the loading box while setting up the instructor's private bank (first time)
   let missionsLoadingBox;
-  if (!props.isGetMissionsInProgress &&
-      !props.isGetPrivateBankIdInProgress) {
+  if ((props.isGetMissionsInProgress || props.isGetPrivateBankIdInProgress)) {
+    missionsLoadingBox = LoadingBox('enter-active');
+
+  } else if (!props.isGetMissionsInProgress && !props.isGetPrivateBankIdInProgress) {
     missionsLoadingBox = LoadingBox('enter')
 
-  } else if ((props.isGetMissionsInProgress ||
-              props.isGetPrivateBankIdInProgress) &&
-            !props.mission) {
-    missionsLoadingBox = LoadingBox('enter-active');
   }
 
 
