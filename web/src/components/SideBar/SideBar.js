@@ -38,7 +38,7 @@ export default (props) => {
             let editMissionButton;
             // if (moment(mission.startTime).isAfter(moment()) ) {
             editMissionButton =  (<button className="button small"
-                onClick={(e) => {props.onClickEditMission(mission); e.stopPropagation()}}>Edit</button>)
+                onClick={(e) => {props.onClickEditMission(mission, props.directives); e.stopPropagation()}}>Edit</button>)
             // }
 
            let deleteMissionButton;

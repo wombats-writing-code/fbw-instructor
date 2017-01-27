@@ -69,12 +69,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(addMission());
       // browserHistory.push('/missions/new')
     },
-    onClickEditMission: (mission) => {
+    onClickEditMission: (mission, directives) => {
       // need to change the view before calling selectMission,
       //   otherwise React gets into a funky state and cannot mount
       //   the node?
       dispatch(changeView({name: 'edit-mission', mission: mission}));
-      dispatch(editMission(mission));
+      dispatch(editMission(mission, directives));
     },
     onClickDeleteMission: (mission, bankId) => {
       dispatch(deleteMission(mission, bankId))
@@ -93,6 +93,7 @@ const mapStateToProps = (state, ownProps) => {
     banks: state.bank ? state.bank.banks : [],
     currentBank: state.bank.currentBank ? state.bank.currentBank : null,
     missions: state.mission ? state.mission.missions : [],
+    directives: state.mapping.outcomes ? state.mapping.outcomes : [],
     currentMission: state.mission ? state.mission.currentMission : null,
     isGetMissionsInProgress: state.mission ? state.mission.isGetMissionsInProgress : null,
     view: state.view,
