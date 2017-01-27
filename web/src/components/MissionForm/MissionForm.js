@@ -1,6 +1,5 @@
 import React, {Component} from 'react'
 
-import EditForm from './views/EditForm'
 import AddForm from './views/AddForm'
 
 class MissionForm extends Component {

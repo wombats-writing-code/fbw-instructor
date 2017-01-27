@@ -37,9 +37,10 @@ export default function(props) {
   }
 
   let form;
+  let buttonText = props.view.name === 'edit-mission' ? "Save mission" : "Create mission";
   if (!props.isCreateMissionInProgress) {
     form = (
-      <form onSubmit={(e) => {e.preventDefault(); props.onAddMission(props.newMission, props.currentBank.id, props.numberItemsForDirectives, props.itemBankId); e.preventDefault();}}>
+      <form onSubmit={(e) => {e.preventDefault(); props.view.name === 'edit-mission' ? props.onUpdateMission(props.newMission, props.currentBank.id, props.numberItemsForDirectives, props.itemBankId) : props.onAddMission(props.newMission, props.currentBank.id, props.numberItemsForDirectives, props.itemBankId); e.preventDefault();}}>
         <div className="form-section">
           <label className="form-label" htmlFor="displayName">Mission Name</label>
 
@@ -67,7 +68,7 @@ export default function(props) {
 
         <div className="">
           {alert}
-          <button className="button create-mission-button" type="submit">Create mission</button>
+          <button className="button create-mission-button" type="submit">{buttonText}</button>
         </div>
 
       </form>

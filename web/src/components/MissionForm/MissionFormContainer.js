@@ -4,7 +4,7 @@ import MissionForm from './MissionForm'
 import {createMission} from 'fbw-platform-common/reducers/edit-mission/createMission'
 import {updateMission} from 'fbw-platform-common/reducers/edit-mission/updateMission'
 import {updateMissionForm} from 'fbw-platform-common/reducers/edit-mission/updateMissionForm'
-import {updateEditMissionForm} from 'fbw-platform-common/reducers/edit-mission/updateEditMissionForm'
+// import {updateEditMissionForm} from 'fbw-platform-common/reducers/edit-mission/updateEditMissionForm'
 
 import {changeView} from '../../reducers/view'
 
@@ -20,9 +20,14 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       }, 2000);
     },
     // onSelectModule: (module) => dispatch(selectModule(module)),
-    onUpdateMission: (newMission, bankId) => { dispatch(updateMission(newMission, bankId)) },
+    onUpdateMission: (newMission, bankId, directiveItemsMap, itemBankId) => {
+      dispatch(updateMission(newMission, bankId, directiveItemsMap, itemBankId));
+      setTimeout( () => {       // this time out really should not be here but too lazy to do it right now before demo and dashboard will need to change anyways
+        dispatch(changeView({name: 'dashboard.resultsView', mission: newMission}))
+      }, 2000);
+    },
     updateMissionForm: (missionFormData) => { dispatch(updateMissionForm(missionFormData)) },
-    updateEditMissionForm: (missionFormData) => { dispatch(updateEditMissionForm(missionFormData)) }
+    //updateEditMissionForm: (missionFormData) => { dispatch(updateEditMissionForm(missionFormData)) }
   }
 }
 
