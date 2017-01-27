@@ -44,7 +44,7 @@ export default function(props) {
           <label className="form-label" htmlFor="displayName">Mission Name</label>
 
           <input type="text" className="mission-name-input"
-                 value={props.newMission.displayName}
+                 value={props.newMission.displayName.text || props.newMission.displayName}
                  placeholder="My new mission name"
                  id="displayName"
                  onChange={(e) => props.updateMissionForm({displayName: e.target.value})} />

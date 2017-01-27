@@ -14,6 +14,7 @@ import {selectMission} from 'fbw-platform-common/reducers/Mission/selectMission'
 
 import {deleteMission} from 'fbw-platform-common/reducers/edit-mission/deleteMission'
 import {addMission} from 'fbw-platform-common/reducers/edit-mission/addMission'
+import {editMission} from 'fbw-platform-common/reducers/edit-mission/editMission'
 
 import {getPhaseIResults} from 'fbw-platform-common/reducers/Result/getPhaseIResults'
 import {getPhaseIIResults} from 'fbw-platform-common/reducers/Result/getPhaseIIResults'
@@ -73,7 +74,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       //   otherwise React gets into a funky state and cannot mount
       //   the node?
       dispatch(changeView({name: 'edit-mission', mission: mission}));
-      dispatch(selectMission(mission));
+      dispatch(editMission(mission));
     },
     onClickDeleteMission: (mission, bankId) => {
       dispatch(deleteMission(mission, bankId))

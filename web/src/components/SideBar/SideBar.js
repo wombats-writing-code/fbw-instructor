@@ -35,19 +35,19 @@ export default (props) => {
             let key = `mission_${idx}`;
             let isSelected = (props.currentMission && mission.id === props.currentMission.id);
 
-            // @Cole can you take a look at this?
             let editMissionButton;
-            // console.log(moment(mission.deadline).isBefore(moment()));
-            if (moment(mission.startTime).isBefore(moment()) ) {
-              editMissionButton =  (<button className="button small"
-                        onClick={(e) => {props.onClickEditMission(mission); e.stopPropagation()}}>Edit</button>)
-            }
+            // if (moment(mission.startTime).isAfter(moment()) ) {
+            editMissionButton =  (<button className="button small"
+                onClick={(e) => {props.onClickEditMission(mission); e.stopPropagation()}}>Edit</button>)
+            // }
 
            let deleteMissionButton;
             // console.log(moment(mission.deadline).isBefore(moment()));
            deleteMissionButton =  (<button className="button small warning"
                      onClick={(e) => {props.onClickDeleteMission(mission, props.currentBank.id); e.stopPropagation()}}>Delete</button>)
             // console.log(mission, 'startTime', mission.startTime, 'deadline', mission.deadline)
+
+
             return (
               <li key={key} className={isSelected ? "clickable-row__item is-selected" : "clickable-row__item"}
                             onClick={() => props.onClickMission(mission, props.currentBank.id)}>

@@ -14,7 +14,7 @@ class MissionForm extends Component {
 
     let view;
     if (props.view && props.view.name === 'edit-mission') {
-      view = <EditForm {...props}/>
+      view = <AddForm {...props}/>
 
     } else if (props.view && props.view.name === 'add-mission') {
       view = <AddForm {...props}/>
