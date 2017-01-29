@@ -38,7 +38,7 @@ export default (props) => {
             let editMissionButton;
             // if (moment(mission.startTime).isAfter(moment()) ) {
             editMissionButton =  (<button className="button small"
-                onClick={(e) => {props.onClickEditMission(mission, props.directives); e.stopPropagation()}}>Edit</button>)
+                onClick={(e) => {props.onClickEditMission(mission, props.outcomes); e.stopPropagation()}}>Edit</button>)
             // }
 
            let deleteMissionButton;
@@ -89,8 +89,6 @@ export default (props) => {
       {_.map(props.banks, (bank, idx) => {
         let key = `bank_${idx}`;
         let isSelected = (props.currentBank && bank.id === props.currentBank.id);
-
-        console.log(bank);
 
         return (
           <li key={key} className={isSelected ? "clickable-row__item is-selected" : "clickable-row__item"}

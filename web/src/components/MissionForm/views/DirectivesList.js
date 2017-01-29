@@ -8,7 +8,7 @@ export default (props) => {
   return (
     <ul className="directives-list">
       {_.map(props.directives, (outcome, idx) => {
-        let isSelected = _.find(props.selectedDirectives || [], (item) => item === outcome);
+        let isSelected = _.find(props.selectedDirectives || [], (item) => item.id === outcome.id);
         let selectDirectiveIcon = isSelected ?
                                   (<span key={`icon_${idx}`} className="select-directive-icon unselect">&#x02717;</span>) :
                                   (<span key={`icon_${idx}`} className="select-directive-icon select">&#x02713;</span>)
