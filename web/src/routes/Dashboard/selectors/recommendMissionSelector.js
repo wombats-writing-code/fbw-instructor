@@ -9,6 +9,7 @@ import {getRoster} from 'fbw-platform-common/selectors/bank'
 import {osidToDisplayName, agentIdFromTakingAgentId, d2LDisplayNameToDisplayName,
   agentIdFromD2LRoster
 } from 'fbw-platform-common/selectors/login'
+import {findBankLibrary} from 'fbw-platform-common/utilities'
 import {notAchievedOnAttempt, notTaken} from './common'
 
 
@@ -16,11 +17,12 @@ export const recommendMissionSelector = createSelector(
   [
     state => state.result.phaseIResults,
     state => state.mission.currentMission,
-    state => state.mission.currentMissionSections,
+    // state => state.mission.currentMissionSections,
+    state => state.bank.currentBank, // used for finding the itemBankID for case 2
     getMapping,
     getRoster
   ]
-  , (results, mission, missionSections, mapping, roster) => {
+  , (results, mission, currentBank, mapping, roster) => {
 
   if (!results || !mapping) return null;
 
@@ -32,7 +34,7 @@ export const recommendMissionSelector = createSelector(
   // student gets a directive again if they didn't answer every Target correctly
   // ====
   let studentsTakenRecommendations = _.map(results, (taken) => {
-    let directives = composeDirectives(taken.sections);
+    let directives = composeDirectives(taken.sections, currentBank);
 
     return {
       displayName: osidToDisplayName(taken.takingAgentId),
@@ -56,7 +58,7 @@ export const recommendMissionSelector = createSelector(
 
   let studentsNotTakenRecommendations = _.map(studentsNotTaken, rosterStudent => {
     let rosterStudentDisplayName = d2LDisplayNameToDisplayName(rosterStudent.DisplayName);
-    let directives = composeDirectives(missionSections);
+    let directives = composeDirectives(mission.sections, currentBank);
 
     return {
       displayName: rosterStudentDisplayName,
@@ -77,21 +79,21 @@ export const recommendMissionSelector = createSelector(
   };
 });
 
-function composeDirectives(sections) {
+function composeDirectives(sections, bank) {
   let directives = _.reduce(sections, function (directivesResult, section) {
-    let targetQuestions = _.filter(section.questions, isTarget);
+    let targetQuestions = section.questions ? _.filter(section.questions, isTarget) : section.childIds;
     let numberRight = _.reduce(targetQuestions, function(result, question) {
       if (question.response && question.response.isCorrect) result++;
       return result;
     }, 0);
 
-    // console.log('num right', numberRight, 'total', targetQuestions.length)
+    console.log('num right', numberRight, 'total', targetQuestions.length)
     if (numberRight < targetQuestions.length) {
       directivesResult.push({
         learningObjectiveId: section.learningObjectiveId,
         quota: targetQuestions.length,
         waypointQuota: 1,
-        itemBankId: section.questions[0].bankId,
+        itemBankId: section.questions ? section.questions[0].bankId : findBankLibrary(bank.id, [bank]),
         minimumProficiency: section.minimumProficiency
       })
     }
