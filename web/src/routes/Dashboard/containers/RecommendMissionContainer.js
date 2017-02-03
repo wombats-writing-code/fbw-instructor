@@ -28,7 +28,7 @@ const mapStateToProps = (state, ownProps) => {
     isSpawnInProgress: state.editMission.isSpawnInProgress ? state.editMission.isSpawnInProgress : false,
     spawnDate: state.editMission.spawnDate,
     spawnDateFocused: state.editMission.spawnDateFocused,
-    spawnedMissions: state.editMission.spawnedMissionsByMission && currentMission ? state.editMission.spawnedMissionsByMission[currentMission.id] : null
+    spawnedMissions: state.editMission.spawnedMissionsByMission && state.mission.currentMission ? state.editMission.spawnedMissionsByMission[currentMission.id] : null
   }
 }
 

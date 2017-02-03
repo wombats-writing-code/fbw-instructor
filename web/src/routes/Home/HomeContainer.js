@@ -70,7 +70,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       // browserHistory.push('/missions/new')
     },
     onClickEditMission: (mission, directives) => {
-      console.log('clicked edit mission', mission);
+      console.log('clicked edit mission', mission, directives);
       dispatch(changeView({name: 'edit-mission', mission: mission}));
       dispatch(editMission(mission, directives));
     },

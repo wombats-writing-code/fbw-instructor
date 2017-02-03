@@ -32,7 +32,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  // console.log('missionform state', state);
+  // console.log('state in MissionFormContainer', state);
+
   // haven't decided if this should be passed down as props or from state yet
   return {
     view: state.view,

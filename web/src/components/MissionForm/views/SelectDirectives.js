@@ -18,6 +18,7 @@ class SelectDirectives extends Component {
     let props = this.props;
     let selectedModule = props.newMission.selectedModule;
     let selectedDirectives = props.newMission.selectedDirectives;
+    // console.log('props of SelectDirectives', props);
 
     let selectedDirectivesLabel = selectedDirectives ?
                                   (<p className="select-directives__section-title">Selected goals (# questions available)</p>)

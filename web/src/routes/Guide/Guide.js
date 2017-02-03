@@ -16,7 +16,7 @@ class Guide extends Component {
               <a href="/guide#making-phase1">Making a Phase I mission</a>
             </li>
             <li className="toc__item">
-              <a href="/guide#intepreting-results" className="coming-soon">Intepreting results (coming soon)</a>
+              <a href="/guide#intepreting-results">Intepreting results</a>
             </li>
             <li className="toc__item">
               <a href="#making-phase2" className="coming-soon">Making a Phase II mission (coming soon)</a>
@@ -79,6 +79,68 @@ class Guide extends Component {
               </ol>
             </div>
           </section>
+
+          <section className="intepreting-results" id="intepreting-results">
+            <ol className="instruction-list">
+              <li className="instruction">
+                <p>Now that your Mission has been opened to students, click the Mission to view its results.
+                  It may take several seconds to load.</p>
+              </li>
+              <li className="instruction">
+                <p>The top bar shows you the summary for Phase I.
+                  In this example, 2 students have opened up the mission on the app.
+                  5 students have not even opened up the Mission.
+                  Click on <span className="button-ref">Show</span> to see more detail.
+                </p>
+
+                <img src={require("./assets/phase1-results-summary.png")} />
+
+                <p>
+                  You see the directives of the mission. Click on one of them:
+                </p>
+                <p>
+                  You see a list of Target questions corresponding to the directive.
+                  Clicking on the arrow will expand the question so you can see its choices.
+                </p>
+                <img src={require("./assets/phase1-results.png")} />
+                <p>
+                  Keep in mind these results are shown in <b>real time</b>.
+                </p>
+              </li>
+              <li className="instruction">
+                <p>After the Phase I mission closes, you will launch Phase II.
+                  First, click on Show.
+                </p>
+                <img src={require("./assets/recommend-bar-summary.png")} />
+                <p>You see the list of students who will get Phase II.</p>
+                <p>Check to see that the dates for Phase II are correct. If not, change them.</p>
+                <div className="row">
+                  <img className="medium-7 columns" src={require("./assets/phase2-edit.png")} />
+                </div>
+              </li>
+              <li className="instruction">
+                <p>When you are ready, click on <span className="button-ref">Launch Phase II Missions!</span>
+                </p>
+                <p>This will take a while, around 5 minutes. How about a coffee break?</p>
+                <div className="row">
+                  <img className="medium-4 columns" src={require("./assets/phase2-working.png")} />
+                </div>
+                <p>
+                  When Phase II missions have been launched, remember to manually send out an email to students to remind them to do Phase II.
+                  We don't yet have that feature :( but we will soon!
+                </p>
+                <p>
+                  When Phase II missions are freshly launched, you will see there are no results yet.
+                  However, you will see an ongoing grade report that tracks how many percentage points the student has earned <b>so far</b>.
+                  This is in <b>real time</b>!
+                </p>
+                <div className="row">
+                  <img className="medium-9 columns" src={require("./assets/phase2-results.png")} />
+                </div>
+              </li>
+            </ol>
+          </section>
+
         </div>
 
       </div>
