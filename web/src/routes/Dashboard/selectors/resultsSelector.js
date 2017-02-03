@@ -34,8 +34,6 @@ export const makeResultsSelector = () => {
     // console.log('allQuestions', allQuestions)
     // console.log('targetOutcomes', targetOutcomes)
 
-    if (targetOutcomes.length === 0) return null;
-
     let allUniqueQuestions = _.uniqBy(allQuestions, 'itemId');
     let uniqueQuestionsByOutcome = _.groupBy(allUniqueQuestions, (q) => q.learningObjectiveIds[0]);
 

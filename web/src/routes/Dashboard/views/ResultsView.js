@@ -26,13 +26,19 @@ class ResultsView extends Component {
 
     // console.log('viewData in ResultsView.js', viewData)
 
-    if (!props.viewData || !viewData.directives) {
+    if (!props.viewData) {
       return (<div className="summary-bar empty-results clearfix">
         <p className="empty-results-text">
-          No students have taken {props.missionType} yet, so no results available.
-          Check back later.
+          Please click the Mission again to reload results.
         </p>
       </div>);
+    }
+
+    if (props.viewData.results.length === 0) {
+      <p className="empty-results-text">
+        No students have taken {props.missionType} yet, so no results available.
+        Check back later.
+      </p>
     }
 
 
