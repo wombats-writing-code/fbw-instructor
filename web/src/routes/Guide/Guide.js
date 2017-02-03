@@ -19,7 +19,7 @@ class Guide extends Component {
               <a href="/guide#intepreting-results">Intepreting results</a>
             </li>
             <li className="toc__item">
-              <a href="#making-phase2" className="coming-soon">Making a Phase II mission (coming soon)</a>
+              <a href="/guide#making-phase2">Making a Phase II mission</a>
             </li>
           </ol>
         </section>
@@ -123,6 +123,11 @@ class Guide extends Component {
                   <img className="medium-7 columns" src={require("./assets/phase2-edit.png")} />
                 </div>
               </li>
+            </ol>
+          </section>
+
+          <section className="launching-phase-2" id="making-phase2">
+            <ol className="instruction-list">
               <li className="instruction">
                 <p>When you are ready, click on <span className="button-ref">Launch Phase II Missions!</span>
                 </p>
