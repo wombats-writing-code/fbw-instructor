@@ -15,6 +15,8 @@ class Dashboard extends Component {
   render() {
     let props = this.props;
 
+    if (!props.mission) return null;
+
     let phaseIView, phaseIIView, recommendationView, gradesView;
     if (props.mission && (!this.props.isGetPhaseIResultsInProgress && !this.props.isGetPhaseIIResultsInProgress)) {
       phaseIView = (<ResultsView mission={this.props.mission}
@@ -49,7 +51,10 @@ class Dashboard extends Component {
     return (
       <div className="columns">
         <div className="row">
-          <p className="mission-name">{this.props.mission ? this.props.mission.displayName.text : ''}</p>
+          <p className="mission-name">
+            {this.props.mission ? this.props.mission.displayName.text : ''} &nbsp;
+            <span className="light">{moment(props.mission.startTime).format('ddd, MMM D [at] hA')} &mdash; {moment(props.mission.deadline).format('ddd, MMM D [at] hA')}</span>
+          </p>
         </div>
         <div className="row">
           {phaseIView}
