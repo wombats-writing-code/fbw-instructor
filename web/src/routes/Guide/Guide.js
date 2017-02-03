@@ -106,6 +106,11 @@ class Guide extends Component {
                 <p>
                   Keep in mind these results are shown in <b>real time</b>.
                 </p>
+                <p>
+                  You can also click on a student's name to see what they did on their Mission.
+                  This will show you their Mission exactly as they saw it.
+                </p>
+                <img src={require("./assets/look-at-student.png")} />
               </li>
               <li className="instruction">
                 <p>After the Phase I mission closes, you will launch Phase II.
