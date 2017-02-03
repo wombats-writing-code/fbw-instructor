@@ -112,22 +112,22 @@ class Guide extends Component {
                 </p>
                 <img src={require("./assets/look-at-student.png")} />
               </li>
+            </ol>
+          </section>
+
+          <section className="launching-phase-2" id="making-phase2">
+            <ol className="instruction-list">
               <li className="instruction">
                 <p>After the Phase I mission closes, you will launch Phase II.
                   First, click on Show.
                 </p>
-                <img src={require("./assets/recommend-bar-summary.png")} />
+                <img src={require("./assets/recommendation-bar.png")} />
                 <p>You see the list of students who will get Phase II.</p>
                 <p>Check to see that the dates for Phase II are correct. If not, change them.</p>
                 <div className="row">
                   <img className="medium-7 columns" src={require("./assets/phase2-edit.png")} />
                 </div>
               </li>
-            </ol>
-          </section>
-
-          <section className="launching-phase-2" id="making-phase2">
-            <ol className="instruction-list">
               <li className="instruction">
                 <p>When you are ready, click on <span className="button-ref">Launch Phase II Missions!</span>
                 </p>
