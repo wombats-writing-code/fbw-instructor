@@ -9,31 +9,22 @@
 .question-statistics {
   text-align: left;
   font-size: .875rem;
-  margin-bottom: .125rem;
-  margin-right: 1rem;
+  margin-top: 1.125rem;
 }
 
-.question-statistics p {
-  margin-bottom: 1.125rem;
-}
-
-.question-statistics .students-list {
-  margin-bottom: 1.125rem;
+.question-statistics__students-list {
   font-size: .875em;
+  margin-bottom: .125rem;
+}
+
+.students-list__item:not(:last-child)::after {
+  content: ', '
 }
 
 .question-result__question-card {
   font-size: .875rem;
 }
 
-.students-list__item {
-  display: block;
-}
-
-.expand-collapse-button.small {
-  min-width: auto;
-  width: auto;
-  font-size: .875em;
-  padding-left: 1em;
-  padding-right: 1em;
+.spacing {
+  margin-left: 0.35em;
 }

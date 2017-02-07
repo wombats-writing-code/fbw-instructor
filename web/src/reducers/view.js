@@ -13,14 +13,14 @@ export function changeView (view) {
     view: view
   }
 }
-
-export function selectDirective(directive, viewName) {
-  return {
-    type    : SELECT_DIRECTIVE,
-    directive,
-    viewName
-  }
-}
+//
+// export function selectDirective(directive, viewName) {
+//   return {
+//     type    : SELECT_DIRECTIVE,
+//     directive,
+//     viewName
+//   }
+// }
 
 // ------------------------------------
 // Reducer
@@ -32,11 +32,11 @@ export default function viewReducer (state = initialState, action) {
   switch (action.type) {
     case CHANGE_VIEW:
       return action.view
-
-    case SELECT_DIRECTIVE:
-      return _.assign({}, state, {
-        currentDirective: action.directive
-      });
+    // 
+    // case SELECT_DIRECTIVE:
+    //   return _.assign({}, state, {
+    //     currentDirective: action.directive
+    //   });
 
     default:
       return state

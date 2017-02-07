@@ -3,13 +3,15 @@ import { connect } from 'react-redux'
 
 import ResultsView from '../views/ResultsView'
 import {makeResultsSelector} from '../selectors/resultsSelector'
-import {selectDirective} from '../../../reducers/view'
+import {selectDirective} from 'fbw-platform-common/reducers/Mission/selectDirective'
+import {selectTarget} from 'fbw-platform-common/reducers/Mission/selectTarget'
 import {selectMissionResult} from 'fbw-platform-common/reducers/Mission/selectMissionResult'
-
+import {getMapping} from 'fbw-platform-common/selectors'
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    onClickDirective: (directive, viewName) => dispatch(selectDirective(directive, viewName)),
+    onClickDirective: (directiveIndex) => dispatch(selectDirective(directiveIndex)),
+    onClickTarget: (target) => dispatch(selectTarget(target)),
     onSelectMissionResult: (missionResult, currentDirectiveIndex, question) => dispatch(selectMissionResult(missionResult, currentDirectiveIndex, question)),
   }
 }
@@ -24,6 +26,10 @@ const makeMapStateToProps = (state, ownProps) => {
     // console.log('props', ownProps)
     // console.log('results')
     return {
+      currentDirectiveIndex: state.mission.currentDirectiveIndex,
+      currentTarget: state.mission.currentTarget,
+      currentMission: state.mission.currentMission,
+      outcomes: getMapping(state).outcomes,
       view: state.view,
       viewData: getResultsSelector(state, ownProps)
     }

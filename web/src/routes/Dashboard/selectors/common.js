@@ -16,7 +16,6 @@ export const notAchievedOnAttempt = (questionId, takenResults, maxAttempts) => {
 
   let total = [];
   let notAchieved = _.compact(_.map(takenResults, (taken) => {
-
     let numAttempts = 0;
     let takenQuestions = _.flatMap(taken.sections, 'questions');
     let responses = grabAndSortResponses(takenQuestions, questionId);    // gets all responses for this questionId
@@ -35,7 +34,6 @@ export const notAchievedOnAttempt = (questionId, takenResults, maxAttempts) => {
       // TODO: clean this up somehow? This could still be Wrong / Right / Wrong pattern
 //      if (!response.isCorrect && numAttempts >= maxAttempts) {
       if (!response.isCorrect) {
-        //console.log(_.filter(taken.questions, {'itemId': questionId}));
         return taken;
       }
     }
@@ -43,7 +41,9 @@ export const notAchievedOnAttempt = (questionId, takenResults, maxAttempts) => {
     return null;
   }));
 
-  return {notAchieved, total}
+  let achieved = _.difference(total, notAchieved);
+
+  return {notAchieved, achieved, total}
 }
 
 /* standardize how to extract and sort the responses, based on

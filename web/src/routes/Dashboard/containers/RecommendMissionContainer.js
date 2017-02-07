@@ -6,6 +6,7 @@ import {recommendMissionSelector} from '../selectors/recommendMissionSelector'
 import {createTestFlightMissions} from 'fbw-platform-common/reducers/edit-mission/createTestFlightMissions'
 import {updateSpawnDate} from 'fbw-platform-common/reducers/edit-mission/updateSpawnDate'
 import {getEnrolledSubject} from 'fbw-platform-common/selectors/bank'
+import { isTarget } from 'fbw-platform-common/selectors/mission'
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
@@ -18,17 +19,18 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  console.log('state in recommend missions container', state)
+  console.log('state in recommend missions container', state);
+  let currentMission = state.mission.currentMission;
 
   return {
     currentBank: getEnrolledSubject(state),
     view: state.view,
-    mission: state.mission ? state.mission.currentMission : null,
+    mission: currentMission,
     recommendation: recommendMissionSelector(state),
     isSpawnInProgress: state.editMission.isSpawnInProgress ? state.editMission.isSpawnInProgress : false,
     spawnDate: state.editMission.spawnDate,
     spawnDateFocused: state.editMission.spawnDateFocused,
-    spawnedMissions: state.editMission.spawnedMissionsByMission && state.mission.currentMission ? state.editMission.spawnedMissionsByMission[currentMission.id] : null
+    spawnedMissions: state.editMission.spawnedMissionsByMission && currentMission ? state.editMission.spawnedMissionsByMission[currentMission.id] : null
   }
 }
 

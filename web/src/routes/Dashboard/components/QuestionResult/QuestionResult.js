@@ -1,19 +1,8 @@
 import React, {Component} from 'react'
-import {Link} from 'react-router'
-import slug from 'slug'
-import {osidToDisplayName} from 'fbw-platform-common/selectors/login'
 import QuestionCard from 'fbw-platform-common/components/question-card/web/QuestionCard'
+import StudentLink from '../StudentLink'
 
 import './QuestionResult.scss'
-
-const createMarkup = (htmlString) => {
-  return {__html: htmlString};
-}
-
-const renderMath = (element) => {
-  MathJax.Hub.Typeset();
-  // katex.render(texString, element);
-}
 
 class QuestionResult extends Component {
 
@@ -29,42 +18,48 @@ class QuestionResult extends Component {
     let expandedStudents = !this.state.isExpanded ? null :
           (
             <ul className="students-list">
-              {_.map(_.concat(props.studentsAchieved, props.studentsNotAchieved), studentResult => {
-                let studentDisplayName = slug(osidToDisplayName(studentResult.takingAgentId));
-                console.log('studentResult', studentResult);
 
-                return (<Link key={studentResult.takingAgentId} className="students-list__item"
-                          onClick={() => this.props.onSelectMissionResult(studentResult)}
-                          to={`/students/${studentDisplayName}/missions/${slug(studentResult.displayName.text)}`}
-                          target="_blank">{studentDisplayName}</Link>)
-              })}
             </ul>
           )
 
-    // console.log('outcome:', props.outcome);
-    // console.log('result', props.result);
+    console.log('outcome:', props.outcome);
+    console.log('result', props.result);
     // console.log('question', props.question);
 
     return (
       <div key={`questionResult_${props.idx}`} className="question-result ">
-        <div className="question-statistics">
-          <div className="flex-container align-center space-between">
-            <div className="flex-container">
-              <p className="bold">{props.result.numStudentsAttempted} <span className="mute "> tried| </span></p>
-              <p className="warning-color">{ props.result.numStudentsNotAchieved} <span className="mute "> wrong </span></p>
-            </div>
-            <button className="expand-collapse-button small"
-                    onClick={() => this.setState({isExpanded: !this.state.isExpanded})}>{expandCollapseButtonText}</button>
-          </div>
-
-          {expandedStudents}
-        </div>
-
         <div className="row">
-          {/* <div className="medium-3 columns">
-          </div> */}
-          <div className="medium-12 columns">
-            <QuestionCard question={props.question} outcome={props.outcome} isExpanded={false} isExpandable={true}
+          <div className="medium-12 medium-centered columns">
+            <div className="question-statistics">
+              <p className="question-statistics__students-list">
+                <span className="bold">Everyone: </span>
+                {_.map(props.result.total, studentResult => {
+                  console.log('studentResult', studentResult);
+
+                  return (<StudentLink key={studentResult.takingAgentId} className="students-list__item"
+                                      studentResult={studentResult}
+                                      onSelectResult={this.props.onSelectMissionResult}/>)
+                })}
+              </p>
+              <p className="question-statistics__students-list">
+                <span className="bold">Incorrect: </span>
+                {_.map(props.result.notAchieved, studentResult => {
+                  return (<StudentLink key={studentResult.takingAgentId} className="students-list__item"
+                                      studentResult={studentResult}
+                                      onSelectResult={this.props.onSelectMissionResult}/>)                })}
+              </p>
+
+              <p className="question-statistics__students-list">
+                <span className="bold">Correct: </span>
+                {_.map(props.result.achieved, studentResult => {
+                  return (<StudentLink key={studentResult.takingAgentId} className="students-list__item"
+                                      studentResult={studentResult}
+                                      onSelectResult={this.props.onSelectMissionResult}/>)                })}
+              </p>
+            </div>
+
+
+            <QuestionCard question={props.result} outcome={props.outcome} isExpanded={false} isExpandable={true}
                           isSubmitEnabled={false}/>
           </div>
         </div>

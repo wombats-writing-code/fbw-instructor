@@ -1,11 +1,20 @@
 import React, {Component} from 'react';
-import 'lodash'
+import _ from 'lodash'
 
 import EmptyState from '../../../components/EmptyState'
 import QuestionResult from '../components/QuestionResult'
 import DirectiveCarousel from 'fbw-platform-common/components/mission/web/DirectiveCarousel'
-
 import {osidToDisplayName, d2LDisplayNameToDisplayName} from 'fbw-platform-common/selectors/login'
+import StudentLink from '../components/StudentLink'
+// import TargetCarouselComponent from 'fbw-platform-common/components/mission/web/TargetCarousel'
+// import TargetCarouselContainer from 'fbw-platform-common/components/mission/TargetCarouselContainer'
+// const TargetCarousel = TargetCarouselContainer(TargetCarouselComponent)
+
+// we make a local copy of TargetCarousel here and change it
+// because our needs are slightly different from the one in common
+// after Unit 1, we'll refactor
+import TargetCarousel from './TargetCarousel'
+
 
 import './ResultsView.scss'
 
@@ -42,37 +51,37 @@ class ResultsView extends Component {
     }
 
 
-    let currentDirectiveId = view.currentDirective ? view.currentDirective.id : null;
-    let questionCollection;
-    if (this.state.isExpanded && currentDirectiveId) {
-      questionCollection = (
-        <ul className="questions-section">
-          {_.map(viewData.resultsByDirective[currentDirectiveId].questions, (result, idx) => {
-            let questionResult = viewData.resultsByQuestion[result.questionId];
-
-            return <QuestionResult key={`question-result-${idx}`} idx={idx}
-                                  result={result}
-                                  question={questionResult.question}
-                                  outcome={questionResult.outcome}
-                                  studentsAchieved={questionResult.studentsAchieved}
-                                  studentsNotAchieved={questionResult.studentsNotAchieved}
-                                  onSelectMissionResult={(studentResult) =>
-                                      this.props.onSelectMissionResult(studentResult, viewData.directives.indexOf(view.currentDirective), questionResult.question)
-                                  }/>
-          })}
-        </ul>
-      )
-    }
-
     let directiveCarousel;
     if (this.state.isExpanded) {
       directiveCarousel = (
         <DirectiveCarousel directives={viewData.directives}
                           directiveIndicators={viewData.directiveIndicators}
-                          currentDirectiveIndex={viewData.directives.indexOf(view.currentDirective)}
-                          onSelectDirective={(idx) => props.onClickDirective(viewData.directives[idx],view.name)}
+                          currentDirectiveIndex={props.currentDirectiveIndex}
+                          onSelectDirective={(idx) => props.onClickDirective(idx)}
         />
       )
+    }
+
+    let targetCarousel, questionResult;
+    if (this.state.isExpanded && props.currentMission && props.currentMission.sections) {
+      targetCarousel = (<TargetCarousel currentDirectiveIndex={props.currentDirectiveIndex}
+                      currentTarget={props.currentTarget}
+                      currentMissionSections={props.currentMission.sections}
+                      targets={props.viewData.targetResultsByDirectiveIndex[props.currentDirectiveIndex]}
+                      outcomes={props.outcomes}
+                      onSelectTarget={props.onClickTarget}
+                    />)
+
+      if (props.currentTarget) {
+        questionResult = <QuestionResult
+                            result={props.currentTarget}
+                            outcome={viewData.directives[props.currentDirectiveIndex]}
+                            studentsAchieved={props.currentTarget.total - props.currentTarget.notAchieved}
+                            studentsNotAchieved={props.currentTarget.notAchieved}
+                            onSelectMissionResult={(studentResult) =>
+                                this.props.onSelectMissionResult(studentResult, props.currentDirectiveIndex, props.currentTarget)}
+                        />
+      }
     }
 
     let expandCollapseButtonText;
@@ -85,23 +94,23 @@ class ResultsView extends Component {
     let studentSummary;
     if (this.state.isExpanded) {
       studentSummary = (
-        <div className="student-summary flex-container">
-          <div className="student-summary__collection">
-            <p className="bold">Opened up the mission</p>
-            {_.map(props.viewData.results, student => {
-              return (<p key={`opened-${student.takingAgentId}`} className="student-summary__collection__item">
-                {osidToDisplayName(student.takingAgentId)}
-              </p>)
+        <div className="student-summary">
+          <p className="student-summary__list">
+            <span className="bold">Opened up the mission: </span>
+            {_.map(props.viewData.results, studentResult => {
+              return (<StudentLink key={studentResult.takingAgentId} className="students-list__item"
+                                  studentResult={studentResult}
+                                  onSelectResult={this.props.onSelectMissionResult}/>)
             })}
-          </div>
-          <div className="student-summary__collection">
-            <p className="bold">Not opened the mission</p>
+          </p>
+          <p className="student-summary__list">
+            <span className="bold">Not opened the mission: </span>
             {_.map(props.viewData.studentsNotTaken, rosterStudent => {
-              return (<p key={`not-opened-${rosterStudent.ProfileIdentifier}`} className="student-summary__collection__item">
+              return (<span key={`not-opened-${rosterStudent.ProfileIdentifier}`} className="students-list__item">
                 {d2LDisplayNameToDisplayName(rosterStudent.DisplayName)}
-              </p>)
+              </span>)
             })}
-          </div>
+          </p>
         </div>
       )
     }
@@ -135,8 +144,12 @@ class ResultsView extends Component {
         </div>
 
         {studentSummary}
+
         {directiveCarousel}
-        {questionCollection}
+        {targetCarousel}
+        {questionResult}
+
+        {/* {questionCollection} */}
 
       </div>
     )
