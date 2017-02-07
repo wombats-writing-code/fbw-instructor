@@ -93,7 +93,7 @@ function composeDirectives(sections, bank) {
         learningObjectiveId: section.learningObjectiveId,
         quota: targetQuestions.length,
         waypointQuota: 1,
-        itemBankId: section.questions ? section.questions[0].bankId : findBankLibrary(bank.id, [bank]),
+        itemBankId: section.questions ? section.questions[0].assignedBankIds[0] : findBankLibrary(bank.id, [bank]),
         minimumProficiency: section.minimumProficiency
       })
     }
