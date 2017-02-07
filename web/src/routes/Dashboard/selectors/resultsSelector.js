@@ -50,13 +50,21 @@ export const makeResultsSelector = () => {
       result[idx] = _.map(targetsForDirective, (target) => {
         return _.assign({},
           target,
+          notAchievedOnAttempt(target.itemId, results, 1),
+          // this block below is temporary.
+          // what we ideally want is 'responded = true' and the solution to show
           {
             responded: true,
-            response: target.response || {},
+            response: target.response || {
+              feedback: {
+                text: ''
+              },
+              choiceIds: []
+            },
             isCorrect: null
           },
-          notAchievedOnAttempt(target.itemId, results, 1));
-      })
+        );
+      });
 
       // console.log('directive index idx:', result[idx]);
 
