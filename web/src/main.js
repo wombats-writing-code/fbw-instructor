@@ -9,6 +9,9 @@ import AppContainer from './containers/AppContainer'
 const initialState = window.___INITIAL_STATE__
 const store = createStore(initialState)
 
+// === import babel polyfill ===
+import 'babel-polyfill'
+
 // ========================================================
 // Render Setup
 // ========================================================
