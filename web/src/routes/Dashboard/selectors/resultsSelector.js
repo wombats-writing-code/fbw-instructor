@@ -57,7 +57,7 @@ export const makeResultsSelector = () => {
             responded: false,
             response: target.response || {
               feedback: {
-                text: ''
+                text: target.response && target.response.feedback ? target.response.feedback : '',
               },
               choiceIds: []
             },
