@@ -87,7 +87,7 @@ function composeDirectives(sections, bank) {
       return result;
     }, 0);
 
-    console.log('num right', numberRight, 'total', targetQuestions.length)
+    // console.log('num right', numberRight, 'total', targetQuestions.length)
     if (numberRight < targetQuestions.length) {
       directivesResult.push({
         learningObjectiveId: section.learningObjectiveId,
