@@ -54,7 +54,7 @@ export const makeResultsSelector = () => {
           // this block below is temporary.
           // what we ideally want is 'responded = true' and the solution to show
           {
-            responded: true,
+            responded: false,
             response: target.response || {
               feedback: {
                 text: ''
