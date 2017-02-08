@@ -100,7 +100,9 @@ class ResultsView extends Component {
             {_.map(props.viewData.results, studentResult => {
               return (<StudentLink key={studentResult.takingAgentId} className="students-list__item"
                                   studentResult={studentResult}
-                                  onSelectResult={this.props.onSelectMissionResult}/>)
+                                  onSelectResult={(studentResult) =>
+                                    this.props.onSelectMissionResult(studentResult, 0, null)}
+                      />)
             })}
           </p>
           <p className="student-summary__list">
