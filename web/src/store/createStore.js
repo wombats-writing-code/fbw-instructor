@@ -31,7 +31,7 @@ export default (initialState = {}) => {
     slicer: paths => state => {
       if (state) {
         let subset = {
-          bank: state.bank,
+          bank: _.omit(state.bank, ['items']),
           subject: state.subject,
           result: _.omit(state.result, [
             'phaseIResults', 'phaseIIResults',
@@ -40,10 +40,10 @@ export default (initialState = {}) => {
           editMission: _.assign({}, state.editMission, {
             newMission: null,
           }),
-          mapping: state.mapping,
+          mapping: _.omit(state.mapping, ['relationships']),
           mission: _.assign({}, state.mission, {
             currentTarget: null,
-            currentMission: null,
+            // currentMission: null,
             isGetMissionsInProgress: false
           }),
           login: state.login,
