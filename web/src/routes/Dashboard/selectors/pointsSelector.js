@@ -42,11 +42,11 @@ export const pointsSelector = createSelector([
     let phaseIIPercent = phaseIIResult ? phaseIIResult.percentCorrect : 0;
 
     let maxEarnable = (100 - phaseIPercent) * .8;      // the max a student can earn in Phase II is 80% of what they lost in Phase I
-    console.log('takenId', takenId, 'phaseIPercent', phaseIPercent, 'phaseIIPercent', phaseIIPercent, 'max', maxEarnable)
+    // console.log('takenId', takenId, 'phaseIPercent', phaseIPercent, 'phaseIIPercent', phaseIIPercent, 'max', maxEarnable)
     result.push(
       {
         takingAgentId: osidToDisplayName(takenId),
-        points: phaseIPercent + (phaseIIPercent * maxEarnable)
+        points: phaseIPercent + (phaseIIPercent / 100 * maxEarnable)
       }
     );
 
