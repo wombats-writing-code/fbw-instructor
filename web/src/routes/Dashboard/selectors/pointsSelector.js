@@ -12,7 +12,7 @@ export const pointsSelector = createSelector([
 
   if (_.every(_.concat(phaseIResults, phaseIIResults), _.isUndefined)) return null;
 
-  let _resultsbyStudent = _.noop;
+  // let _resultsbyStudent = _.noop;
 
   // =====
   // calculate points for Phase I
@@ -22,7 +22,7 @@ export const pointsSelector = createSelector([
   // ====
   // calculate points for Phase II
   // ====
-  let phaseIIGradesByStudent = _resultsbyStudent(phaseIIResults || []) || {};
+  let phaseIIGradesByStudent = _resultsByStudent(phaseIIResults || []) || {};
 
   // get all students. a student can appear in Phase I but not Phase II, and vice versa, or both.
   let allStudents = _.uniq(_.concat(_.keys(phaseIGradesByStudent), _.keys(phaseIIGradesByStudent)));
@@ -42,7 +42,7 @@ export const pointsSelector = createSelector([
     let phaseIIPercent = phaseIIResult ? phaseIIResult.percentCorrect : 0;
 
     let maxEarnable = (100 - phaseIPercent) * .8;      // the max a student can earn in Phase II is 80% of what they lost in Phase I
-
+    console.log('takenId', takenId, 'phaseIPercent', phaseIPercent, 'phaseIIPercent', phaseIIPercent, 'max', maxEarnable)
     result.push(
       {
         takingAgentId: osidToDisplayName(takenId),

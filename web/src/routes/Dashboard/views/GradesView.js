@@ -21,6 +21,7 @@ class GradesView extends Component {
     let expandCollapseButtonText = this.state.isExpanded ? 'Hide' : 'Show';
 
     // console.log('points view data', viewData)
+    console.log('grades', props.grades)
     let pointsTable = !this.state.isExpanded ? null :
         ( <ol className="grades-list medium-8 large-7 columns end">
           {_.map(props.grades, (grade, idx) => {
