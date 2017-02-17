@@ -63,7 +63,7 @@ export const recommendMissionSelector = createSelector(
     return {
       displayName: rosterStudentDisplayName,
       agentId: agentIdFromD2LRoster(rosterStudent),
-      takenId: mission.assessmentOfferedId,            // per Cole and Luwen's discussion, use the original mission's offered Id
+      takenId: mission.id,            // per Cole and Luwen's discussion, use the original mission's Id
       nextMission: {
         name: `${rosterStudentDisplayName}'s Phase II for ${mission.displayName.text}`,
         directives: directives,
