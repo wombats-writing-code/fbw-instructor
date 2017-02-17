@@ -61,7 +61,7 @@ function _resultsByStudent(takens) {
   let resultsbyStudent = _.reduce(takens, (result, taken) => {
     let targetQuestions = _.filter(_.flatMap(taken.sections, 'questions'), isTarget);
     // console.log('targetQuestions', targetQuestions);
-    // console.log('taken', taken)
+    // if (taken.takingAgentId.indexOf('Maelynn') > -1) console.log('taken', taken)
 
     // iterate through the Targets to see how many each student got correct
     let numberCorrect = _.reduce(targetQuestions, (sum, question) => {
@@ -73,6 +73,8 @@ function _resultsByStudent(takens) {
     }, 0);
 
     let percentCorrect = (numberCorrect / targetQuestions.length) * 100;
+
+    if (_.isNan(percentCorrect)) percentCorrect = 0;
 
     result[taken.takingAgentId] = {
       takingAgentId: taken.takingAgentId,
