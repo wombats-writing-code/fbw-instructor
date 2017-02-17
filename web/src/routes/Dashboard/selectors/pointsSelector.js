@@ -57,7 +57,7 @@ export const pointsSelector = createSelector([
 });
 
 // _resultsByStudent: given an array of takens, return dictionary of points by student
-function _resultsByStudent(takens) {
+export function _resultsByStudent(takens) {
   let resultsbyStudent = _.reduce(takens, (result, taken) => {
     let targetQuestions = _.filter(_.flatMap(taken.sections, 'questions'), isTarget);
     // console.log('targetQuestions', targetQuestions);
@@ -74,7 +74,7 @@ function _resultsByStudent(takens) {
 
     let percentCorrect = (numberCorrect / targetQuestions.length) * 100;
 
-    if (_.isNan(percentCorrect)) percentCorrect = 0;
+    if (_.isNaN(percentCorrect)) percentCorrect = 0;
 
     result[taken.takingAgentId] = {
       takingAgentId: taken.takingAgentId,
