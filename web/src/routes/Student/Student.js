@@ -30,8 +30,8 @@ class Student extends Component {
       <div>
         <div className="student__nav-bar clearfix">
           <p>You are looking at <span>{osidToDisplayName(this.props.result.takingAgentId)}</span>
-          >>
-          <span>{this.props.mission.displayName.text}</span></p>
+          &nbsp; >>
+          <span> {this.props.result.displayName.text}</span></p>
         </div>
         <Mission />
       </div>
