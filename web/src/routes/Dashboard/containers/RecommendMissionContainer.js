@@ -5,7 +5,7 @@ import RecommendMission from '../views/RecommendMission'
 import {recommendMissionSelector} from '../selectors/recommendMissionSelector'
 import {createTestFlightMissions} from 'fbw-platform-common/reducers/edit-mission/createTestFlightMissions'
 import {updateSpawnDate} from 'fbw-platform-common/reducers/edit-mission/updateSpawnDate'
-import {getEnrolledSubject} from 'fbw-platform-common/selectors/bank'
+import {getEnrolledSubject} from 'fbw-platform-common/selectors/course'
 import { isTarget } from 'fbw-platform-common/selectors/mission'
 
 const mapDispatchToProps = (dispatch, ownProps) => {
@@ -14,7 +14,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       console.log('called updateSpawnDate', dateData)
       dispatch(updateSpawnDate(dateData));
     },
-    onSpawnPhaseIIMissions: (studentData, bankId, currentMission, spawnDate) => dispatch(createTestFlightMissions(studentData, bankId, currentMission, spawnDate)),
+    onSpawnPhaseIIMissions: (studentData, courseId, currentMission, spawnDate) => dispatch(createTestFlightMissions(studentData, courseId, currentMission, spawnDate)),
   }
 }
 

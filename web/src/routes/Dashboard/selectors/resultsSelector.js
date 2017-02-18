@@ -5,7 +5,7 @@ import 'moment-timezone'
 
 import {getMapping, getPhaseIResults, getPhaseIIResults} from 'fbw-platform-common/selectors'
 import {isTarget} from 'fbw-platform-common/selectors/mission'
-import {getRoster} from 'fbw-platform-common/selectors/bank'
+import {getRoster} from 'fbw-platform-common/selectors/course'
 import {notAchievedOnAttempt, notTaken} from './common'
 
 /**

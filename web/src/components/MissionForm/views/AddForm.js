@@ -19,13 +19,7 @@ export default function(props) {
 
   let alert = <div />;
   if (props.newMission.formError) {
-//    alert = (
-      // This should really be put back in ... after the demo?
-        // after the demo.
-//       <div className="formError">
-//         Please fill in all form data before saving.
-//       </div>
-//    )
+
   } else {
   }
 
@@ -40,12 +34,12 @@ export default function(props) {
   let buttonText = props.view.name === 'edit-mission' ? "Save mission" : "Create mission";
   if (!props.isCreateMissionInProgress) {
     form = (
-      <form onSubmit={(e) => {e.preventDefault(); props.view.name === 'edit-mission' ? props.onUpdateMission(props.newMission, props.currentBank.id, props.numberItemsForDirectives, props.itemBankId) : props.onAddMission(props.newMission, props.currentBank.id, props.numberItemsForDirectives, props.itemBankId); e.preventDefault();}}>
+      <form onSubmit={(e) => {e.preventDefault(); props.view.name === 'edit-mission' ? props.onUpdateMission(props.newMission, props.currentCourse.id, props.numberItemsForDirectives, props.itemCourseId) : props.onAddMission(props.newMission, props.currentCourse.id, props.numberItemsForDirectives); e.preventDefault();}}>
         <div className="form-section">
           <label className="form-label" htmlFor="displayName">Mission Name</label>
 
           <input type="text" className="mission-name-input"
-                 value={props.newMission.displayName.text || props.newMission.displayName}
+                 value={props.newMission.displayName}
                  placeholder="My new mission name"
                  id="displayName"
                  onChange={(e) => props.updateMissionForm({displayName: e.target.value})} />

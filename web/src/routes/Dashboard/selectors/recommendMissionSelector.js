@@ -5,7 +5,7 @@ import 'moment-timezone'
 
 import {getMapping} from 'fbw-platform-common/selectors'
 import {isTarget} from 'fbw-platform-common/selectors/mission'
-import {getRoster} from 'fbw-platform-common/selectors/bank'
+import {getRoster} from 'fbw-platform-common/selectors/course'
 import {osidToDisplayName, agentIdFromTakingAgentId, d2LDisplayNameToDisplayName,
   agentIdFromD2LRoster
 } from 'fbw-platform-common/selectors/login'
@@ -18,7 +18,7 @@ export const recommendMissionSelector = createSelector(
     state => state.result.phaseIResults,
     state => state.mission.currentMission,
     // state => state.mission.currentMissionSections,
-    state => state.bank.currentBank, // used for finding the itemBankID for case 2
+    state => state.course.currentBank, // used for finding the itemBankID for case 2
     getMapping,
     getRoster
   ]
@@ -79,7 +79,7 @@ export const recommendMissionSelector = createSelector(
   };
 });
 
-function composeDirectives(sections, bank) {
+function composeDirectives(sections, course) {
   let directives = _.reduce(sections, function (directivesResult, section) {
     let targetQuestions = section.questions ? _.filter(section.questions, isTarget) : section.childIds;
     let numberRight = _.reduce(targetQuestions, function(result, question) {
@@ -93,7 +93,7 @@ function composeDirectives(sections, bank) {
         learningObjectiveId: section.learningObjectiveId,
         quota: targetQuestions.length,
         waypointQuota: 1,
-        itemBankId: section.questions ? section.questions[0].assignedBankIds[0] : findBankLibrary(bank.id, [bank]),
+        itemBankId: section.questions ? section.questions[0].assignedBankIds[0] : findBankLibrary(course.id, [course]),
         minimumProficiency: section.minimumProficiency
       })
     }

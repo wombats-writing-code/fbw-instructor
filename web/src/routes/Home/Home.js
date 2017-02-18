@@ -12,28 +12,16 @@ import './Home.styles.css'
 
 class Home extends Component {
   static propTypes = {
-    onClickBank: React.PropTypes.func.isRequired,
+    onClickCourse: React.PropTypes.func.isRequired,
     onClickMission: React.PropTypes.func.isRequired,
     onClickAddMission: React.PropTypes.func.isRequired,
     onClickEditMission: React.PropTypes.func.isRequired,
     onGetMissions: React.PropTypes.func.isRequired,
-    banks: React.PropTypes.array,
+    courses: React.PropTypes.array,
     missions: React.PropTypes.array,
     currentMission: React.PropTypes.object,
-    currentBank: React.PropTypes.object,
+    currentCourse: React.PropTypes.object,
   }
-
-  componentDidMount() {
-  }
-
-  componentDidUpdate() {
-    if (this.props.privateBankId &&
-        !this.props.missions &&
-        !this.props.isGetMissionsInProgress) {
-      this.props.onGetMissions(this.props.currentBank.id)
-    }
-  }
-      // this.props.onLoadMissions(this.props.currentBank, this.props.enrolledBanks)
 
   render() {
     let props = this.props;
@@ -55,10 +43,10 @@ class Home extends Component {
 
     return (
       <div>
-        <NavBar logout={this._logout}/>
+        <NavBar username={props.username} logout={this._logout}/>
 
         <div className="medium-4 large-3 columns">
-          <SideBar {...props} _onClickBank={this._onClickBank}/>
+          <SideBar {...props} _onClickCourse={this._onClickCourse}/>
         </div>
 
         <div className="medium-8 large-9 columns">

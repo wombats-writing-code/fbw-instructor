@@ -7,24 +7,22 @@ import {updateMissionForm} from 'fbw-platform-common/reducers/edit-mission/updat
 // import {updateEditMissionForm} from 'fbw-platform-common/reducers/edit-mission/updateEditMissionForm'
 
 import {changeView} from '../../reducers/view'
+import {getCurrentCourse} from 'fbw-platform-common/selectors/course'
 
 import {moduleTreeSelector, itemsForDirectivesSelector, displayedDirectivesSelector} from './selectors/'
 
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    onAddMission: (newMission, bankId, directivesItemsMap, itemBankId) => {
-      dispatch(createMission(newMission, bankId, directivesItemsMap, itemBankId));
-      setTimeout( () => {       // this time out really should not be here but too lazy to do it right now before demo and dashboard will need to change anyways
-        dispatch(changeView({name: 'dashboard.resultsView', mission: newMission}))
-      }, 2000);
+    onAddMission: (newMission, courseId, directivesItemsMap, itemCourseId) => {
+      dispatch(createMission(newMission, courseId, directivesItemsMap, itemCourseId));
+
+      // TODO
+      dispatch(changeView({name: 'dashboard.resultsView', mission: newMission}))
     },
     // onSelectModule: (module) => dispatch(selectModule(module)),
-    onUpdateMission: (newMission, bankId, directiveItemsMap, itemBankId) => {
-      dispatch(updateMission(newMission, bankId, directiveItemsMap, itemBankId));
-      setTimeout( () => {       // this time out really should not be here but too lazy to do it right now before demo and dashboard will need to change anyways
-        dispatch(changeView({name: 'dashboard.resultsView', mission: newMission}))
-      }, 2000);
+    onUpdateMission: (newMission, courseId, directiveItemsMap, itemCourseId) => {
+      dispatch(updateMission(newMission, courseId, directiveItemsMap));
     },
     updateMissionForm: (missionFormData) => { dispatch(updateMissionForm(missionFormData)) },
     //updateEditMissionForm: (missionFormData) => { dispatch(updateEditMissionForm(missionFormData)) }
@@ -37,12 +35,10 @@ const mapStateToProps = (state, ownProps) => {
   // haven't decided if this should be passed down as props or from state yet
   return {
     view: state.view,
-    // mission: state.mission.currentMission,
     newMission: state.editMission.newMission,
     editMission: state.editMission.editMission,
     isCreateMissionInProgress: state.editMission.isCreateMissionInProgress,
-    currentBank: state.bank.currentBank,
-    itemBankId: state.bank.items ? state.bank.items[0].bankId : null, // need this to create the directives correctly on server-side
+    currentCourse: getCurrentCourse(state),
     moduleTree: moduleTreeSelector(state),
     displayedDirectives: displayedDirectivesSelector(state, ownProps),
     numberItemsForDirectives: itemsForDirectivesSelector(state),
