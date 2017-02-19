@@ -16,8 +16,7 @@ import {deleteMission} from 'fbw-platform-common/reducers/edit-mission/deleteMis
 import {addMission} from 'fbw-platform-common/reducers/edit-mission/addMission'
 import {editMission} from 'fbw-platform-common/reducers/edit-mission/editMission'
 
-import {getPhaseIResults} from 'fbw-platform-common/reducers/Result/getPhaseIResults'
-import {getPhaseIIResults} from 'fbw-platform-common/reducers/Result/getPhaseIIResults'
+import {getResults} from 'fbw-platform-common/reducers/Result/getResults'
 
 import {logOutUser} from 'fbw-platform-common/reducers/Login/logOutUser'
 
@@ -53,15 +52,14 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(getMissions({course, username}));
       // dispatch(getD2LClassRoster({url: d2lToken, orgUnitId, credentials}))
 
-      dispatch(getMapping({course: course, entityTypes: ['outcome']}));
-      dispatch(getItems(course.Id, username));  // these two mappings need to be modified after we switch to D2L / LMS
+      dispatch(getMapping({course: course, entityTypes: ['outcome', 'module'], relationshipTypes: ['HAS_PARENT_OF', 'HAS_PREREQUISITE_OF']}));
+      dispatch(getItems({course, username}));
 
       dispatch(changeView({name: 'dashboard.resultsView', mission: null}))      // true default
     },
     onGetMissions: (courseId) => dispatch(getMissions({subjectCourseId: courseId, username: null})),
-    onClickMission: (mission, courseId) => {
-      dispatch(getPhaseIResults(mission, courseId));
-      dispatch(getPhaseIIResults(mission, courseId));
+    onClickMission: (mission, course) => {
+      dispatch(getResults(mission, course));
       dispatch(selectMission(mission));
       dispatch(changeView({name: 'dashboard.resultsView', mission: mission}))      // true default
     },

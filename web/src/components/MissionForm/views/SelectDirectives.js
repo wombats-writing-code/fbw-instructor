@@ -10,7 +10,7 @@ class SelectDirectives extends Component {
   constructor() {
     super();
     this.state = {
-      isExpanded: false
+      isExpanded: true
     }
   }
 
@@ -29,12 +29,12 @@ class SelectDirectives extends Component {
       filterByModule = (
         <div className="clearfix select-modules-section" >
           <ol className="modules-list clearfix">
-            {_.map(props.moduleTree.children, (m, idx) => {
+            {_.map(props.mapping.modules, (m, idx) => {
               let isSelected = props.newMission.selectedModule === m;
-              // let unselectedStyle = props.newMission.selectedModule !== m ? styles.filterListItemUnselected : null;
 
               return (
-                <li key={`selectModule_${idx}`} className={isSelected ? "modules-list__item is-selected" : "modules-list__item"}
+                <li key={`selectModule_${idx}`}
+                    className={isSelected ? "modules-list__item is-selected" : "modules-list__item"}
                     onClick={(e) => props.updateMissionForm({selectedModule: m})}>
                     {m.displayName}
 
@@ -54,7 +54,7 @@ class SelectDirectives extends Component {
       <div className="select-directives">
         {selectedDirectivesLabel}
         <DirectivesList directives={selectedDirectives} selectedDirectives={selectedDirectives}
-                      moduleTree={props.moduleTree} numberItemsForDirectives={props.numberItemsForDirectives}
+                      mapping={props.mapping} numberItemsForDirectives={props.numberItemsForDirectives}
                       onClickDirective={props.updateMissionForm} />
 
           <div className="form-subsection">
@@ -74,7 +74,7 @@ class SelectDirectives extends Component {
             {filterByModule}
 
             <DirectivesList directives={props.displayedDirectives} selectedDirectives={selectedDirectives}
-                            moduleTree={props.moduleTree} numberItemsForDirectives={props.numberItemsForDirectives}
+                            mapping={props.mapping} numberItemsForDirectives={props.numberItemsForDirectives}
                             onClickDirective={props.updateMissionForm} />
         </div>
 

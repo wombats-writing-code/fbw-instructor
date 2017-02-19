@@ -2,8 +2,7 @@ import { connect } from 'react-redux'
 import Dashboard from './Dashboard'
 
 import {changeView, changeMouseOver, changeClick} from '../../reducers/view'
-import {getPhaseIIResults} from 'fbw-platform-common/reducers/Result/getPhaseIIResults'
-import {getPhaseIResults} from 'fbw-platform-common/reducers/Result/getPhaseIResults'
+import {getResults} from 'fbw-platform-common/reducers/Result/getResults'
 import {recommendMissionSelector} from './selectors/recommendMissionSelector'
 
 const mapDispatchToProps = (dispatch, ownProps) => {
@@ -20,8 +19,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     view: state.view,
     mission: state.mission ? state.mission.currentMission : null,
-    isGetPhaseIResultsInProgress: state.result && state.result.isGetPhaseIResultsInProgress,
-    isGetPhaseIIResultsInProgress: state.result && state.result.isGetPhaseIIResultsInProgress,
+    isGetResultsInProgress: state.result && state.result.isGetResultsInProgress,
     isGetSpawnResultsInProgress: false,     // TODO
     isSpawnInProgress: state.editMission && state.editMission.isSpawnInProgress,
   }

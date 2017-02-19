@@ -3,10 +3,14 @@ import { browserHistory } from 'react-router'
 
 import LoadingBox from '../../components/LoadingBox'
 import MissionForm from '../../components/MissionForm/'
-import SideBar from '../../components/SideBar'
 import NavBar from '../../components/NavBar'
 import _ from 'lodash'
 import DashboardContainer from '../Dashboard/'
+
+import Missions from './views/Missions'
+
+import {missionConfig} from 'fbw-platform-common/reducers/Mission'
+
 
 import './Home.styles.css'
 
@@ -46,7 +50,8 @@ class Home extends Component {
         <NavBar username={props.username} logout={this._logout}/>
 
         <div className="medium-4 large-3 columns">
-          <SideBar {...props} _onClickCourse={this._onClickCourse}/>
+          <Missions missions={this._getVisibleMissions()} onClickMission={this._onClickMission} />
+          {/* <SideBar {...props} _onClickCourse={this._onClickCourse}/> */}
         </div>
 
         <div className="medium-8 large-9 columns">
@@ -55,6 +60,15 @@ class Home extends Component {
       </div>
     )
   }
+
+  _getVisibleMissions() {
+    return _.filter(this.props.missions, {type: missionConfig.PHASE_I_MISSION_TYPE});
+  }
+
+  _onClickMission(mission) {
+
+  }
+
 
   _logout = () => {
     this.props.logout();

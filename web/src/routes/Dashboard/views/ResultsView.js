@@ -43,7 +43,7 @@ class ResultsView extends Component {
       </div>);
     }
 
-    if (props.viewData.results.length === 0) {
+    if (props.results.length === 0) {
       <p className="empty-results-text">
         No students have taken {props.missionType} yet, so no results available.
         Check back later.
@@ -129,12 +129,12 @@ class ResultsView extends Component {
           </p>
 
           <div className="summary-blurb flex-container align-center">
-            <p className="summary__number">{props.viewData ? props.viewData.results.length : 0}</p>
+            <p className="summary__number">{props.results ? props.results.length : 0}</p>
             <p className="summary__text">opened the mission</p>
           </div>
 
           <div className="summary-blurb flex-container align-center">
-            <p className="summary__number">{props.viewData ? props.viewData.studentsNotTaken.length : 0}</p>
+            <p className="summary__number">{props.results ? props.results.studentsNotTaken.length : 0}</p>
             <p className="summary__text">not opened</p>
           </div>
 

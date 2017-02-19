@@ -5,14 +5,14 @@ import ResultsView from '../views/ResultsView'
 import {makeResultsSelector} from '../selectors/resultsSelector'
 import {selectDirective} from 'fbw-platform-common/reducers/Mission/selectDirective'
 import {selectTarget} from 'fbw-platform-common/reducers/Mission/selectTarget'
-import {selectMissionResult} from 'fbw-platform-common/reducers/Mission/selectMissionResult'
+import {selectStudentResult} from 'fbw-platform-common/reducers/Mission/selectStudentResult'
 import {getMapping} from 'fbw-platform-common/selectors'
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     onClickDirective: (directiveIndex) => dispatch(selectDirective(directiveIndex)),
     onClickTarget: (target) => dispatch(selectTarget(target)),
-    onSelectMissionResult: (missionResult, currentDirectiveIndex, question) => dispatch(selectMissionResult(missionResult, currentDirectiveIndex, question)),
+    onSelectMissionResult: (missionResult, currentDirectiveIndex, question) => dispatch(selectStudentResult(missionResult, currentDirectiveIndex, question)),
   }
 }
 

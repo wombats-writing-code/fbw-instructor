@@ -7,22 +7,21 @@ import {updateMissionForm} from 'fbw-platform-common/reducers/edit-mission/updat
 // import {updateEditMissionForm} from 'fbw-platform-common/reducers/edit-mission/updateEditMissionForm'
 
 import {changeView} from '../../reducers/view'
+import {getMapping} from 'fbw-platform-common/selectors/'
 import {getCurrentCourse} from 'fbw-platform-common/selectors/course'
 
-import {moduleTreeSelector, itemsForDirectivesSelector, displayedDirectivesSelector} from './selectors/'
+import {itemsForDirectivesSelector, displayedDirectivesSelector} from './selectors/'
 
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    onAddMission: (newMission, courseId, directivesItemsMap, itemCourseId) => {
-      dispatch(createMission(newMission, courseId, directivesItemsMap, itemCourseId));
-
-      // TODO
-      dispatch(changeView({name: 'dashboard.resultsView', mission: newMission}))
+    onCreateMission: (newMission, course) => {
+      dispatch(createMission(newMission, course));
+      // dispatch(changeView({name: 'dashboard.resultsView', mission: newMission}))
     },
     // onSelectModule: (module) => dispatch(selectModule(module)),
-    onUpdateMission: (newMission, courseId, directiveItemsMap, itemCourseId) => {
-      dispatch(updateMission(newMission, courseId, directiveItemsMap));
+    onUpdateMission: (newMission, course, directiveItemsMap) => {
+      dispatch(updateMission(newMission, course, directiveItemsMap));
     },
     updateMissionForm: (missionFormData) => { dispatch(updateMissionForm(missionFormData)) },
     //updateEditMissionForm: (missionFormData) => { dispatch(updateEditMissionForm(missionFormData)) }
@@ -32,14 +31,13 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 const mapStateToProps = (state, ownProps) => {
   // console.log('state in MissionFormContainer', state);
 
-  // haven't decided if this should be passed down as props or from state yet
   return {
     view: state.view,
     newMission: state.editMission.newMission,
     editMission: state.editMission.editMission,
     isCreateMissionInProgress: state.editMission.isCreateMissionInProgress,
     currentCourse: getCurrentCourse(state),
-    moduleTree: moduleTreeSelector(state),
+    mapping: getMapping(state),
     displayedDirectives: displayedDirectivesSelector(state, ownProps),
     numberItemsForDirectives: itemsForDirectivesSelector(state),
   }

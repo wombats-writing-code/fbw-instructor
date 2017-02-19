@@ -5,7 +5,7 @@ import RecommendMission from '../views/RecommendMission'
 import {recommendMissionSelector} from '../selectors/recommendMissionSelector'
 import {createTestFlightMissions} from 'fbw-platform-common/reducers/edit-mission/createTestFlightMissions'
 import {updateSpawnDate} from 'fbw-platform-common/reducers/edit-mission/updateSpawnDate'
-import {getEnrolledSubject} from 'fbw-platform-common/selectors/course'
+import {getCurrentCourse} from 'fbw-platform-common/selectors/course'
 import { isTarget } from 'fbw-platform-common/selectors/mission'
 
 const mapDispatchToProps = (dispatch, ownProps) => {
@@ -23,7 +23,7 @@ const mapStateToProps = (state, ownProps) => {
   let currentMission = state.mission.currentMission;
 
   return {
-    currentBank: getEnrolledSubject(state),
+    currentCourse: getCurrentCourse(state),
     view: state.view,
     mission: currentMission,
     recommendation: recommendMissionSelector(state),

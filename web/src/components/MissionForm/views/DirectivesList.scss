@@ -10,6 +10,16 @@
   margin-bottom: 1rem;
 }
 
+.directives-list__item.target::before {
+  content: '\029BF';
+  font-size: 1.4em;
+  margin-right: .3em;
+}
+
+.directives-list__item.non-target .outcome-text {
+  margin-left: 3rem;
+}
+
 .directives-list__item:hover {
   opacity: .8;
 }
@@ -36,7 +46,7 @@
   border-radius: 2px;
   background: $app-blue-dark;
   color: #eee;
-  width: 10rem;
+  // width: 10rem;
 }
 
 .outcome-text {

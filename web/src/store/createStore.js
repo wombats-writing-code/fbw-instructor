@@ -38,8 +38,9 @@ export default (initialState = {}) => {
           ]),
           editMission: _.assign({}, state.editMission, {
             newMission: null,
+            isCreateMissionInProgress: false
           }),
-          mapping: _.omit(state.mapping, ['relationships']),
+          mapping: state.mapping,
           mission: _.assign({}, state.mission, {
             currentTarget: null,
             isGetMissionInProgress: false,
