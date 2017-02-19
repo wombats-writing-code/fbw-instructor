@@ -1,17 +1,45 @@
-
 import React, {Component} from 'react'
 import _ from 'lodash';
+const moment = require('moment');
 
-// import './Missions.scss'
+import LoadingBox from '../../../components/LoadingBox'
+
+import './Missions.scss'
 
 class Missions extends Component {
 
+  constructor() {
+    super();
+
+    this.state = {
+      confirmDeleteFocus: null,
+      confirmDeleteValue: '',
+      isConfirmDeleteVisible: false
+    }
+  }
 
   render() {
+    let props = this.props;
+
+    let createMissionButton;
+    if (!props.isGetMappingInProgress && props.missions) {
+      createMissionButton = <button className="button create-mission-button"
+                                    onClick={() => props.onClickAddMission()}>&#x0002B; Create a mission</button>
+    }
+
+    // === missionCollection: show only when missions are loaded and exist
+    if (!props.isGetMissionsInProgress && props.missions && props.missions.length === 0) {
+      return (
+        <div>
+          {createMissionButton}
+          <p className="">No missions yet</p>
+        </div>
+      )
+    }
+
     // === missionsLoadingBox: if there are no missions, and we aren't loading, display an empty box
-    // Also display the loading box while setting up the instructor's private course (first time)
     let missionsLoadingBox;
-    if ((props.isGetMissionsInProgress)) {
+    if (props.isGetMissionsInProgress) {
       missionsLoadingBox = LoadingBox('enter-active');
 
     } else if (!props.isGetMissionsInProgress) {
@@ -19,32 +47,41 @@ class Missions extends Component {
 
     }
 
-    // === missionCollection: show only when missions are loaded and exist
-    let missionCollection;
-    if (!props.isGetMissionsInProgress && props.missions) {
-      if (props.missions.length === 0) {
-        missionCollection = (
-          <ul key="missionCollection" className="">
-            <li key={0} className="">
-              <div className="">
-                <p className="">No missions yet</p>
-              </div>
-            </li>
-          </ul>
-        )
-      } else {
-        missionCollection = (
-          <ul key="missionCollection" className="clickable-list">
-            {_.map(props.missions, (mission, idx) => {
-              let key = `mission_${idx}`;
-              let isSelected = (props.currentMission && mission.id === props.currentMission.id);
+    return (
+      <div>
+        {createMissionButton}
 
-              let editMissionButton =  (<button className="button small"
-                  onClick={(e) => {props.onClickEditMission(mission, props.outcomes); e.stopPropagation()}}>Edit</button>)
+        <ul key="missionCollection" className="clickable-list">
+          {_.map(props.missions, (mission, idx) => {
+            let key = `mission_${idx}`;
+            let isSelected = (props.currentMission && mission.id === props.currentMission.id);
+
+            let editMissionButton =  (<button className="button small"
+                onClick={(e) => {props.onClickEditMission(mission); e.stopPropagation()}}>
+                  Edit</button>)
 
              let deleteMissionButton =  (<button className="button small warning"
-                       onClick={(e) => {props.onClickDeleteMission(mission, props.currentCourse.id); e.stopPropagation()}}>Delete</button>)
-              // console.log(mission, 'startTime', mission.startTime, 'deadline', mission.deadline)
+                     onClick={(e) => {this._onClickDelete(mission); e.stopPropagation()}}>
+                      Delete</button>)
+
+            // console.log(mission, 'startTime', mission.startTime, 'deadline', mission.deadline)
+            let confirmDelete = (
+              <div>
+                <input className="confirm-delete-input" placeholder="Type the mission name here"
+                      value={this.state.confirmDeleteValue}
+                      onChange={(e) => {this.setState({confirmDeleteValue: e.target.value}); e.stopPropagation()}} />
+
+                <div className="flex-container space-between">
+                  <button className="button small warning"
+                          onClick={(e) => {e.stopPropagation(); this._onConfirmDeleteMission(mission)}}>
+                           Confirm delete</button>
+
+                   <button className="button small"
+                           onClick={() => this.setState({isConfirmDeleteVisible: false})}>
+                            Cancel</button>
+                </div>
+              </div>
+            )
 
 
               return (
@@ -59,15 +96,38 @@ class Missions extends Component {
                   </p>
 
                   <div className="flex-container space-between mission-buttons">
-                    {deleteMissionButton}
-                    {editMissionButton}
+                    {this.state.isConfirmDeleteVisible ? null : deleteMissionButton}
+                    {this.state.isConfirmDeleteVisible ? null : editMissionButton}
                   </div>
+
+                  {this.state.confirmDeleteFocus === mission ? confirmDelete : null}
+
                 </li>
               )
-            })}
-          </ul>
-        )
-      }
+          })}
+        </ul>
+
+        {missionsLoadingBox}
+      </div>
+    )
+  }
+
+  _onClickDelete(mission) {
+    this.setState({
+      confirmDeleteFocus: mission,
+      isConfirmDeleteVisible: true
+    });
+  }
+
+  _onConfirmDeleteMission(mission) {
+    console.log('confirmDeleteValue', this.state.confirmDeleteValue, 'mission name', mission.displayName)
+
+    if (this.state.confirmDeleteValue === mission.displayName) {
+      this.setState({
+        confirmDeleteValue: '',
+        isConfirmDeleteVisible: false
+      });
+      this.props.onClickDeleteMission(mission);
     }
 
   }

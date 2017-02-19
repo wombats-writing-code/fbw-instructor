@@ -20,7 +20,6 @@ const mapStateToProps = (state, ownProps) => {
     view: state.view,
     mission: state.mission ? state.mission.currentMission : null,
     isGetResultsInProgress: state.result && state.result.isGetResultsInProgress,
-    isGetSpawnResultsInProgress: false,     // TODO
     isSpawnInProgress: state.editMission && state.editMission.isSpawnInProgress,
   }
 }

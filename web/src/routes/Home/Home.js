@@ -5,8 +5,9 @@ import LoadingBox from '../../components/LoadingBox'
 import MissionForm from '../../components/MissionForm/'
 import NavBar from '../../components/NavBar'
 import _ from 'lodash'
-import DashboardContainer from '../Dashboard/'
+import Dashboard from '../Dashboard/'
 
+import Courses from './views/Courses'
 import Missions from './views/Missions'
 
 import {missionConfig} from 'fbw-platform-common/reducers/Mission'
@@ -34,7 +35,7 @@ class Home extends Component {
     if (props.view.name.startsWith('dashboard')) {
       view = (
         <div>
-          <DashboardContainer.component></DashboardContainer.component>
+          <Dashboard />
         </div>
       )
     }  else if (props.view.name === 'add-mission' || props.view.name === 'edit-mission') {
@@ -50,8 +51,15 @@ class Home extends Component {
         <NavBar username={props.username} logout={this._logout}/>
 
         <div className="medium-4 large-3 columns">
-          <Missions missions={this._getVisibleMissions()} onClickMission={this._onClickMission} />
-          {/* <SideBar {...props} _onClickCourse={this._onClickCourse}/> */}
+          <Courses courses={props.courses}
+                    onClickCourse={(course) => props.onClickCourse(course, props.user)} />
+
+          <Missions missions={this._getVisibleMissions()}
+                    isGetMissionsInProgress={this.props.isGetMissionsInProgress}
+                    onClickMission={(mission) => this.props.onClickMission(mission, props.username)}
+                    onClickAddMission={() => this.props.onClickAddMission()}
+                    onClickDeleteMission={(mission) => this.props.onClickDeleteMission(mission)}
+                  />
         </div>
 
         <div className="medium-8 large-9 columns">

@@ -1,6 +1,4 @@
 import DashboardContainer from './DashboardContainer'
 
 // Sync route definition
-export default {
-  component : DashboardContainer
-}
+export default DashboardContainer

@@ -1,7 +1,7 @@
 import LoginComponent from 'fbw-platform-common/components/login/web/Login';
 import LoginContainer from 'fbw-platform-common/components/login/LoginContainer'
-import credentials from '../../d2lcredentials'
-const Login = LoginContainer(LoginComponent, credentials)
+import D2LConfig from '../../D2LConfig'
+const Login = LoginContainer(LoginComponent, D2LConfig)
 
 
 export default (store) => ({

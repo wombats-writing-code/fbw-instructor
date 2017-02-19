@@ -3,6 +3,8 @@ import Home from './Home'
 
 import {browserHistory} from 'react-router'
 
+const D2LConfig = require('../../D2LConfig');
+
 import {getMapping} from 'fbw-platform-common/reducers/Mapping/getMapping'
 
 import {selectCourse} from 'fbw-platform-common/reducers/Course/selectCourse'
@@ -37,29 +39,33 @@ const mapStateToProps = (state, ownProps) => {
     missions: state.mission ? state.mission.missions : [],
     currentMission: state.mission ? state.mission.currentMission : null,
     isGetMissionsInProgress: state.mission ? state.mission.isGetMissionsInProgress : null,
+    isGetMappingInProgress: state.mapping.isGetMappingInProgress,
     view: state.view,
+    user: getUser(state),
     username: getUser(state) ? getUser(state).username : null,
   }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    onClickCourse: (course, username) => {
-      console.log('clicked course', course, username);
-      // console.log('clicked course2', credentials, d2lToken, orgUnitId);
+    onClickCourse: (course, user) => {
+      console.log('clicked course', course, user.username);
+      // console.log('clicked course2', D2LConfig, d2lToken, orgUnitId);
 
       dispatch(selectCourse(course));
-      dispatch(getMissions({course, username}));
-      // dispatch(getD2LClassRoster({url: d2lToken, orgUnitId, credentials}))
+      dispatch(getMissions({course, username: user.username}));
+      dispatch(getD2LClassRoster({url: user.d2l.authenticatedUrl, courseId: course.Identifier, D2LConfig}))
 
       dispatch(getMapping({course: course, entityTypes: ['outcome', 'module'], relationshipTypes: ['HAS_PARENT_OF', 'HAS_PREREQUISITE_OF']}));
-      dispatch(getItems({course, username}));
+      dispatch(getItems({course, username: user.username}));
 
       dispatch(changeView({name: 'dashboard.resultsView', mission: null}))      // true default
     },
     onGetMissions: (courseId) => dispatch(getMissions({subjectCourseId: courseId, username: null})),
-    onClickMission: (mission, course) => {
-      dispatch(getResults(mission, course));
+    onClickMission: (mission, username) => {
+      // console.log('clicked mission', mission);
+
+      dispatch(getResults({mission, username}));
       dispatch(selectMission(mission));
       dispatch(changeView({name: 'dashboard.resultsView', mission: mission}))      // true default
     },
@@ -74,8 +80,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(changeView({name: 'edit-mission', mission: mission}));
       dispatch(editMission(mission, directives));
     },
-    onClickDeleteMission: (mission, courseId) => {
-      dispatch(deleteMission(mission, courseId))
+    onClickDeleteMission: (mission) => {
+      dispatch(deleteMission(mission))
     },
     logout: () => {
       dispatch(logOutUser())

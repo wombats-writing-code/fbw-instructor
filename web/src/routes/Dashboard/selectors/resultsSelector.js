@@ -1,5 +1,5 @@
 import { createSelector } from 'reselect'
-import 'lodash'
+import _ from 'lodash'
 import 'moment'
 import 'moment-timezone'
 
@@ -8,9 +8,55 @@ import {isTarget} from 'fbw-platform-common/selectors/mission'
 import {getRoster} from 'fbw-platform-common/selectors/course'
 import {notAchievedOnAttempt, notTaken} from './common'
 
+
+
+
+export const parseResults = (records, roster) => {
+
+  let groupedByStudent = _.groupBy(records, 'user.Identifier');
+  let studentsOpenedIdentifiers = _.uniq(_.map(records, 'user.Identifier'));
+  let studentsNotOpenedIdentifers = _.difference(_.map(roster, 'Identifier'), studentsOpenedIdentifiers);
+
+  console.log('studentsOpenedIdentifiers', studentsOpenedIdentifiers);
+  console.log('studentsNotOpenedIdentifers', studentsNotOpenedIdentifers)
+  console.log('roster', _.map(roster, 'Identifier'))
+  console.log('records', records);
+
+  let uniqueQuestions = _.uniq(_.map(records, 'question.id'));
+  let incorrectResponsesByQuestion = _.reduce(uniqueQuestions, (result, id) => {
+    result[id] = _.filter(records, r => {
+      if (r.question && r.question.response) {
+        return r.response.isCorrect === false;
+      }
+    });
+
+    return result;
+  }, {});
+
+  console.log('incorrectResponsesByQuestion', incorrectResponsesByQuestion)
+
+  return {
+    studentsOpened: _.map(studentsOpenedIdentifiers, id => _.find(roster, {Identifier: id})),
+    studentsNotOpened: _.map(studentsNotOpenedIdentifers, id => _.find(roster, {Identifier: id})),
+  };
+}
+
+
+
+
+
+
+
+
+
+
+
+
+// =================================
+
+
 /**
   this selector analyzes Phase I or PhaseII results for a mission
-
 */
 
 export const makeResultsSelector = () => {

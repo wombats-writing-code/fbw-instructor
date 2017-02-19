@@ -17,18 +17,12 @@ class Dashboard extends Component {
 
     if (!props.mission) return null;
 
-    let phaseIView, phaseIIView, recommendationView, gradesView;
-    if (props.mission && (!this.props.isGetPhaseIResultsInProgress && !this.props.isGetPhaseIIResultsInProgress)) {
-      phaseIView = (<ResultsView mission={this.props.mission}
+    let resultsView, recommendationView, gradesView;
+    if (props.mission && !this.props.isGetResultsInProgress) {
+      resultsView = (<ResultsView mission={this.props.mission}
                                 missionType="Phase I"
-                                isGetResultsInProgress={this.props.isGetPhaseIResultsInProgress}
+                                isGetResultsInProgress={this.props.isGetResultsInProgress}
                     />)
-
-      phaseIIView = props.mission.hasSpawnedFollowOnPhase ? (
-                    <ResultsView  mission={this.props.mission}
-                                  missionType="Phase II"
-                                  isGetResultsInProgress={this.props.isGetPhaseIIResultsInProgress}
-                    />) : null;
 
       if (!props.mission.hasSpawnedFollowOnPhase) {
         recommendationView = <RecommendMission />
@@ -41,7 +35,7 @@ class Dashboard extends Component {
     }
 
     let loadingBox;
-    if (this.props.isGetPhaseIResultsInProgress || this.props.isGetPhaseIIResultsInProgress) {
+    if (this.props.isGetResultsInProgress) {
       loadingBox = LoadingBox('enter-active')
     } else {
       loadingBox = LoadingBox('enter')
@@ -52,15 +46,12 @@ class Dashboard extends Component {
       <div className="columns">
         <div className="row">
           <p className="mission-name">
-            {this.props.mission ? this.props.mission.displayName.text : ''} &nbsp;
+            {this.props.mission ? this.props.mission.displayName : ''} &nbsp;
             <span className="light">{moment(props.mission.startTime).format('ddd, MMM D [at] hA')} &mdash; {moment(props.mission.deadline).format('ddd, MMM D [at] hA')}</span>
           </p>
         </div>
         <div className="row">
-          {phaseIView}
-        </div>
-        <div className="row">
-          {phaseIIView}
+          {resultsView}
         </div>
 
         <div className="row">
