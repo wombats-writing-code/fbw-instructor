@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import {Link} from 'react-router'
 import slug from 'slug'
-import {d2LDisplayNameToDisplayName} from 'fbw-platform-common/selectors/login'
+import {getD2LDisplayName} from 'fbw-platform-common/selectors/login'
 
 
 import './StudentLink.scss'
@@ -10,7 +10,7 @@ import './StudentLink.scss'
 const StudentLink = (props) => {
 
   let student = props.student;
-  let studentDisplayName = d2LDisplayNameToDisplayName(student.DisplayName);
+  let studentDisplayName = getD2LDisplayName(student);
 
   return (
     <Link key={student.Identifier} className="students-list__item"

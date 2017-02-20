@@ -48,7 +48,7 @@ class Home extends Component {
 
     return (
       <div>
-        <NavBar username={props.username} logout={this._logout}/>
+        <NavBar user={props.user} logout={this._logout}/>
 
         <div className="medium-4 large-3 columns">
           <Courses courses={props.courses}
@@ -56,7 +56,7 @@ class Home extends Component {
 
           <Missions missions={this._getVisibleMissions()}
                     isGetMissionsInProgress={this.props.isGetMissionsInProgress}
-                    onClickMission={(mission) => this.props.onClickMission(mission, props.username)}
+                    onClickMission={(mission) => this.props.onClickMission(mission, props.user)}
                     onClickAddMission={() => this.props.onClickAddMission()}
                     onClickDeleteMission={(mission) => this.props.onClickDeleteMission(mission)}
                   />

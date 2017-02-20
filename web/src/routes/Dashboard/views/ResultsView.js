@@ -4,7 +4,7 @@ import _ from 'lodash'
 import EmptyState from '../../../components/EmptyState'
 import QuestionResult from '../components/QuestionResult'
 import DirectiveCarousel from 'fbw-platform-common/components/mission/web/DirectiveCarousel'
-import {osidToDisplayName, d2LDisplayNameToDisplayName} from 'fbw-platform-common/selectors/login'
+import {getD2LDisplayName} from 'fbw-platform-common/selectors/login'
 import StudentLink from '../components/StudentLink'
 // import TargetCarouselComponent from 'fbw-platform-common/components/mission/web/TargetCarousel'
 // import TargetCarouselContainer from 'fbw-platform-common/components/mission/TargetCarouselContainer'
@@ -54,7 +54,7 @@ class ResultsView extends Component {
           <ol className="student-summary__list">
             {_.map(results.studentsNotOpened, (student, idx) => {
               return (<li key={`not-opened-${student.Identifer}-${idx}`} className="students-list__item">
-                {d2LDisplayNameToDisplayName(student.DisplayName)}
+                {getD2LDisplayName(student)}
               </li>)
             })}
           </ol>
@@ -62,7 +62,28 @@ class ResultsView extends Component {
 
         <div className="questions-summary">
           <p className="bold">Questions most missed: </p>
+          <ul>
+            {_.map(results.incorrectQuestionsRanked, (recordsForQuestion) => {
+              console.log('recordsForQuestion', recordsForQuestion);
+              return (
+                <li key={`incorrect-question-${recordsForQuestion[0].question.id}`}>
+                  <div>
+                    {_.map(recordsForQuestion, record => {
+                      let user = record.user;
+                      return (
+                        <p key={user.Identifer}>
+                          <span>{getD2LDisplayName(user)}</span>
+                          <span> chose {record.responseResult.choice.id}</span>
+                        </p>
+                      )
+                    })}
 
+                    <p>{recordsForQuestion[0].question.text}</p>
+                  </div>
+                </li>
+              )
+            })}
+          </ul>
         </div>
       </div>
 

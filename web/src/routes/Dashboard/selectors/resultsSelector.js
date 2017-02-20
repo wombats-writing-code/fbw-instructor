@@ -25,8 +25,9 @@ export const parseResults = (records, roster) => {
   let uniqueQuestions = _.uniq(_.map(records, 'question.id'));
   let incorrectResponsesByQuestion = _.reduce(uniqueQuestions, (result, id) => {
     result[id] = _.filter(records, r => {
-      if (r.question && r.question.response) {
-        return r.response.isCorrect === false;
+      let response = r.question.id === id && r.responseResult && r.responseResult.question.response;
+      if (response) {
+        return response.isCorrect === false;
       }
     });
 
@@ -35,7 +36,11 @@ export const parseResults = (records, roster) => {
 
   console.log('incorrectResponsesByQuestion', incorrectResponsesByQuestion)
 
+  let incorrectQuestionsResponses = _.filter(_.values(incorrectResponsesByQuestion), responses => responses.length > 0);
+
+
   return {
+    incorrectQuestionsRanked: _.orderBy(incorrectQuestionsResponses, array => array.length, ['desc']),
     studentsOpened: _.map(studentsOpenedIdentifiers, id => _.find(roster, {Identifier: id})),
     studentsNotOpened: _.map(studentsNotOpenedIdentifers, id => _.find(roster, {Identifier: id})),
   };

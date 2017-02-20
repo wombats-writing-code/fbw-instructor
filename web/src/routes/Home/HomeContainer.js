@@ -42,30 +42,32 @@ const mapStateToProps = (state, ownProps) => {
     isGetMappingInProgress: state.mapping.isGetMappingInProgress,
     view: state.view,
     user: getUser(state),
-    username: getUser(state) ? getUser(state).username : null,
   }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     onClickCourse: (course, user) => {
-      console.log('clicked course', course, user.username);
+      console.log('clicked course', course, user);
       // console.log('clicked course2', D2LConfig, d2lToken, orgUnitId);
 
       dispatch(selectCourse(course));
-      dispatch(getMissions({course, username: user.username}));
+      dispatch(getMissions({course, user: user}));
       dispatch(getD2LClassRoster({url: user.d2l.authenticatedUrl, courseId: course.Identifier, D2LConfig}))
 
-      dispatch(getMapping({course: course, entityTypes: ['outcome', 'module'], relationshipTypes: ['HAS_PARENT_OF', 'HAS_PREREQUISITE_OF']}));
-      dispatch(getItems({course, username: user.username}));
+      dispatch(getMapping({
+        course: course, entityTypes: ['outcome', 'module'],
+        relationshipTypes: ['HAS_PARENT_OF', 'HAS_PREREQUISITE_OF']
+      }));
+      dispatch(getItems({course, user: user}));
 
       dispatch(changeView({name: 'dashboard.resultsView', mission: null}))      // true default
     },
     onGetMissions: (courseId) => dispatch(getMissions({subjectCourseId: courseId, username: null})),
-    onClickMission: (mission, username) => {
+    onClickMission: (mission, user) => {
       // console.log('clicked mission', mission);
 
-      dispatch(getResults({mission, username}));
+      dispatch(getResults({mission, user}));
       dispatch(selectMission(mission));
       dispatch(changeView({name: 'dashboard.resultsView', mission: mission}))      // true default
     },
