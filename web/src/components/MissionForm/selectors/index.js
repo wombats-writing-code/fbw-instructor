@@ -8,7 +8,6 @@ export const getOutcomes = (state) => state.mapping ? state.mapping.outcomes : n
 const getRelationships = (state) => state.mapping ? state.mapping.relationships : null
 const getItems = (state) => state.course ? state.course.items : null
 const getSelectedDirectives = (state) => state.editMission && state.editMission.newMission ? state.editMission.newMission.selectedDirectives : null
-const getAddMissionForm = state => state.editMission.newMission
 
 
 export const itemsForDirectivesSelector = createSelector([getOutcomes, getItems], (outcomes, allItems) => {
@@ -27,24 +26,26 @@ export const itemsForDirectivesSelector = createSelector([getOutcomes, getItems]
 
 
 export const displayedDirectivesSelector = createSelector([
-  getAddMissionForm, getOutcomes, getModules, getRelationships
+  state => state.editMission,
+  state => state.editMission.outcomeQuery,
+  getOutcomes, getModules, getRelationships
 ],
-  (addMissionForm, outcomes, modules, relationships) => {
-    if (!addMissionForm) return null;
+  (editMission, outcomeQuery, outcomes, modules, relationships) => {
+    if (!editMission) return null;
 
-    let selectedModule = addMissionForm.selectedModule;
+    let selectedModule = editMission.selectedModule;
     let displayedDirectives;
     if (selectedModule) {
       displayedDirectives = _.filter(outcomes, outcome => {
         let module = getOutcomeModule(outcome, modules, relationships);
-        return (module === addMissionForm.selectedModule)
+        return (module === editMission.selectedModule)
       });
     } else {
       displayedDirectives = outcomes;
     }
 
-    if (addMissionForm.directiveSearchQuery) {
-      displayedDirectives = _.filter(displayedDirectives, o => matches(addMissionForm.directiveSearchQuery, o.displayName));
+    if (outcomeQuery) {
+      displayedDirectives = _.filter(displayedDirectives, o => matches(outcomeQuery, o.displayName));
     }
 
     return displayedDirectives;

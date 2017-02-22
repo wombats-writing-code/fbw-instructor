@@ -52,7 +52,7 @@ class Home extends Component {
 
         <div className="medium-4 large-3 columns">
           <Courses courses={props.courses}
-                    onClickCourse={(course) => props.onClickCourse(course, props.user)} />
+                    onClickCourse={(course) => props.onClickCourse(course, props.user, props.authenticatedUrl)} />
 
           <Missions missions={this._getVisibleMissions()}
                     isGetMissionsInProgress={this.props.isGetMissionsInProgress}

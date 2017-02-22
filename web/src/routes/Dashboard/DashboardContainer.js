@@ -3,14 +3,10 @@ import Dashboard from './Dashboard'
 
 import {changeView, changeMouseOver, changeClick} from '../../reducers/view'
 import {getResults} from 'fbw-platform-common/reducers/Result/getResults'
-import {recommendMissionSelector} from './selectors/recommendMissionSelector'
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     onChangeView: (viewName) => dispatch(changeView({name: viewName})),
-
-    // getPhaseIIResults: (mission, bankId) => dispatch(getPhaseIIResults(mission, bankId)),
-    // getPhaseIResults: (mission) => dispatch(getPhaseIResults(mission)),
   }
 }
 

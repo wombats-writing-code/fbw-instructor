@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import _ from 'lodash'
 import {Link} from 'react-router'
 import moment from 'moment'
-
+import {getD2LDisplayName} from 'fbw-platform-common/selectors/login'
 import { DateRangePicker } from 'react-dates'
 import 'react-dates/css/variables.scss'
 import 'react-dates/css/styles.scss'
@@ -31,53 +31,37 @@ class RecommendMissionView extends Component {
   render() {
     let props = this.props;
 
-    console.log('props of recommend mission', props);
-    if (!props.recommendation) {
+    if (!props.recommendations || props.recommendations.length === 0) {
       return null;
     }
 
-    if (props.recommendation.students.length === 0) {
-      return null;
-    }
+    // console.log('props of recommend mission', props.recommendations);
 
-    let spawnStatus, spawnVerb;
-    if (props.mission.hasSpawnedFollowOnPhase || props.spawnedMissions) {
-      spawnStatus = (
-        <p >
-          Testflight missions have been created. Every student has received a personalized mission targeting the directives they missed:
-        </p>
-      )
-      spawnVerb = 'received';
-
-    } else if (!props.isSpawnInProgress && !props.spawnedMissions) {
-      spawnStatus = <p>
-        Your Fly-by-Wire system recommends to give personalized Testflight missions:
-      </p>
-      spawnVerb = 'will get';
-    }
-
-    let studentCollection, phaseIIDatePicker;
-    if (this.state.isExpanded) {
+    let studentCollection, datePicker;
       studentCollection = (
-        <ul className="student-recommendation-list">
-          {_.map(props.recommendation.students, (student, idx) => {
-            return (
-              <li key={`student_${idx}`}>
-                <p>
-                  {/* <Link key={`studentName__${idx}`} className="link">{student.displayName}</Link> */}
-                  <span>{student.displayName}</span>
-                  <span> {spawnVerb} </span>
-                  <span>{student.nextMission.directives.length} </span>
-                  <span>directive{_getPlurality(student.nextMission.directives.length)} with a total of </span>
-                  <span>{student.nextMission.numberItemsForDirectives} </span>
-                  question{_getPlurality(student.nextMission.numberItemsForDirectives)}.</p>
-              </li>
-            )
-          })}
-        </ul>
+        <div>
+          <p className="bold">Recommendations</p>
+          <ul className="student-recommendations-list">
+            {_.map(props.recommendations, (rec, idx) => {
+              console.log('rec', rec);
+
+              return (
+                <li key={`student_${idx}`}>
+                  <p>
+                    <Link key={`studentName__${idx}`} className="link">{getD2LDisplayName(rec.student)}</Link>
+                    <span> will get </span>
+                    <span>{rec.goals.length} </span>
+                    <span>goal{_getPlurality(rec.goals.length)} with </span>
+                    <span>{rec.goals.length * 3} </span>
+                    question{_getPlurality(rec.goals.length * 3)}.</p>
+                </li>
+              )
+            })}
+          </ul>
+        </div>
       )
 
-      phaseIIDatePicker = (<div className="form-section clearfix">
+      datePicker = (<div className="form-section clearfix">
          <label className="form-label">Dates</label>
          <DateRangePicker className=""
                           focusedInput={this.state.focused}
@@ -86,16 +70,7 @@ class RecommendMissionView extends Component {
                           startDate={props.spawnDate.startTime}
                           endDate={props.spawnDate.deadline} />
        </div>)
-    }
 
-    let spawnButtonText;
-    if (this.props.isSpawnInProgress) {
-      spawnButtonText = 'Working...';
-    } else if (this.props.hasSpawnedFollowOnPhase) {
-      spawnButtonText = 'Missions launched';
-    } else {
-      spawnButtonText = 'Launch Phase II Missions!';
-    }
 
     let expandCollapseButtonText;
     if (props.mission) {
@@ -104,49 +79,15 @@ class RecommendMissionView extends Component {
       expandCollapseButtonText = 'No results yet';
     }
 
-    let now = moment.utc();
-    let recommendationBar = (
-      <div className="summary-bar flex-container align-center">
-        <p className="summary__mission-name">
-          Recommendation
-          <span className="summary__mission-name-type">Launch Phase II mission</span>
-        </p>
-
-        <div className="summary-blurb flex-container align-center">
-          <p className="summary__number">{props.recommendation ? props.recommendation.students.length : 0}</p>
-          <p className="summary__text">to get Phase II</p>
-        </div>
-
-        <button className="button spawn-button small"
-                disabled={props.isSpawnInProgress}
-                onClick={() => this.props.onSpawnPhaseIIMissions(this.props.recommendation.students,
-                  this.props.currentBank.id,
-                  this.props.mission,
-                  this.props.spawnDate || now)}>
-          {spawnButtonText}
-        </button>
-
-        <button className="expand-collapse-button" disabled={!props.mission}
-                onClick={() => this.setState({isExpanded: !this.state.isExpanded})}>
-          {expandCollapseButtonText}
-        </button>
-
-      </div>
-    )
-
     // console.log('focused', this.state.focused)
 
     return (
       <div className="">
-        {recommendationBar}
+        {/* {recommendationsBar} */}
 
-        {phaseIIDatePicker}
+        {datePicker}
         {studentCollection}
 
-        {/* {spawnStatus}
-        {spawnDate}
-        {spawnButton}
-        {loadingBox} */}
       </div>
     )
   }

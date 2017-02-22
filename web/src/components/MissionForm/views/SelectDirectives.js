@@ -16,11 +16,9 @@ class SelectDirectives extends Component {
 
   render() {
     let props = this.props;
-    let selectedModule = props.newMission.selectedModule;
-    let selectedDirectives = props.newMission.selectedDirectives;
     // console.log('props of SelectDirectives', props);
 
-    let selectedDirectivesLabel = selectedDirectives ?
+    let selectedDirectivesLabel = props.selectedOutcomeIds ?
                                   (<p className="select-directives__section-title">Selected goals (# questions available)</p>)
                                   : null;
 
@@ -30,12 +28,12 @@ class SelectDirectives extends Component {
         <div className="clearfix select-modules-section" >
           <ol className="modules-list clearfix">
             {_.map(props.mapping.modules, (m, idx) => {
-              let isSelected = props.newMission.selectedModule === m;
+              let isSelected = props.selectedModule === m;
 
               return (
                 <li key={`selectModule_${idx}`}
                     className={isSelected ? "modules-list__item is-selected" : "modules-list__item"}
-                    onClick={(e) => props.updateMissionForm({selectedModule: m})}>
+                    onClick={(e) => props.onSelectModule(m)}>
                     {m.displayName}
 
                 </li>
@@ -53,9 +51,10 @@ class SelectDirectives extends Component {
     return (
       <div className="select-directives">
         {selectedDirectivesLabel}
-        <DirectivesList directives={selectedDirectives} selectedDirectives={selectedDirectives}
+        <DirectivesList directives={_.map(props.selectedOutcomeIds, id => _.find(props.mapping.outcomes, {id: id}))}
+                      selectedOutcomeIds={props.selectedOutcomeIds}
                       mapping={props.mapping} numberItemsForDirectives={props.numberItemsForDirectives}
-                      onClickDirective={props.updateMissionForm} />
+                      onToggleOutcome={props.onToggleOutcome} />
 
           <div className="form-subsection">
             <p className="select-directives__section-title">Select goals</p>
@@ -63,19 +62,20 @@ class SelectDirectives extends Component {
             <div className="directive-search">
               <input className="directive-search-input"
                       placeholder="Search by directive name"
-                      value={props.newMission.directiveSearchQuery}
-                      onChange={(e) => props.updateMissionForm({directiveSearchQuery: e.target.value})}/>
+                      value={props.outcomeQuery}
+                      onChange={(e) => props.onChangeOutcomeSearch(e.target.value)}/>
             </div>
 
-            <p className="select-directives__section-title filter-by-module-text" onClick={() => this.setState({isExpanded: !this.state.isExpanded})}>
+            <p className="select-directives__section-title filter-by-module-text"
+              onClick={() => this.setState({isExpanded: !this.state.isExpanded})}>
               {filterByModuleText}
             </p>
 
             {filterByModule}
 
-            <DirectivesList directives={props.displayedDirectives} selectedDirectives={selectedDirectives}
+            <DirectivesList directives={props.displayedDirectives} selectedOutcomeIds={props.selectedOutcomeIds}
                             mapping={props.mapping} numberItemsForDirectives={props.numberItemsForDirectives}
-                            onClickDirective={props.updateMissionForm} />
+                            onToggleOutcome={props.onToggleOutcome} />
         </div>
 
       </div>

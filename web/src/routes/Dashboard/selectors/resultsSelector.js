@@ -17,10 +17,9 @@ export const parseResults = (records, roster) => {
   let studentsOpenedIdentifiers = _.uniq(_.map(records, 'user.Identifier'));
   let studentsNotOpenedIdentifers = _.difference(_.map(roster, 'Identifier'), studentsOpenedIdentifiers);
 
-  console.log('studentsOpenedIdentifiers', studentsOpenedIdentifiers);
-  console.log('studentsNotOpenedIdentifers', studentsNotOpenedIdentifers)
-  console.log('roster', _.map(roster, 'Identifier'))
-  console.log('records', records);
+  // console.log('studentsOpenedIdentifiers', studentsOpenedIdentifiers);
+  // console.log('studentsNotOpenedIdentifers', studentsNotOpenedIdentifers)
+  // console.log('roster', _.map(roster, 'Identifier'))
 
   let uniqueQuestions = _.uniq(_.map(records, 'question.id'));
   let incorrectResponsesByQuestion = _.reduce(uniqueQuestions, (result, id) => {
@@ -34,7 +33,7 @@ export const parseResults = (records, roster) => {
     return result;
   }, {});
 
-  console.log('incorrectResponsesByQuestion', incorrectResponsesByQuestion)
+  // console.log('incorrectResponsesByQuestion', incorrectResponsesByQuestion)
 
   let incorrectQuestionsResponses = _.filter(_.values(incorrectResponsesByQuestion), responses => responses.length > 0);
 

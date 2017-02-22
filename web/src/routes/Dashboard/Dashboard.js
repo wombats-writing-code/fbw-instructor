@@ -5,7 +5,6 @@ import React, {Component} from 'react'
 import moment from 'moment'
 import ResultsView from './containers/ResultsViewContainer'
 import GradesView from './containers/GradesViewContainer'
-import RecommendMission from './containers/RecommendMissionContainer'
 
 import LoadingBox from '../../components/LoadingBox'
 import './Dashboard.scss'
@@ -24,15 +23,10 @@ class Dashboard extends Component {
                                 isGetResultsInProgress={this.props.isGetResultsInProgress}
                     />)
 
-      if (!props.mission.hasSpawnedFollowOnPhase) {
-        recommendationView = <RecommendMission />
-      }
 
-      // points are available in real-time as soon as Phase II is spawned
-      if (props.mission.hasSpawnedFollowOnPhase) {
-        gradesView = <GradesView />
-      }
+      gradesView = <GradesView />
     }
+
 
     let loadingBox;
     if (this.props.isGetResultsInProgress) {
@@ -54,13 +48,9 @@ class Dashboard extends Component {
           {resultsView}
         </div>
 
-        <div className="row">
-          {recommendationView}
-        </div>
-
-        <div className="row">
+        {/* <div className="row">
           {gradesView}
-        </div>
+        </div> */}
 
         <div className="row">
           {loadingBox}

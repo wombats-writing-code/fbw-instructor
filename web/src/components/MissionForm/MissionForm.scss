@@ -1,6 +1,10 @@
 @import '../../styles/base';
 
 
+.mission-form {
+  text-align: left;
+}
+
 .form-section {
   margin-bottom: 1.5rem;
 }
@@ -14,10 +18,32 @@
   margin-bottom: 1.5rem;
 }
 
-.mission-name-input {
+.mission-type-button {
+  margin-right: 1em;
+  color: #222;
+  background: transparent;
+  border: 1px solid;
+  border-radius: 3px;
+}
+
+.mission-type-button:hover {
+  margin-right: 1em;
+  color: #fff;
+  background: $app-blue-2;
+  border: 1px solid;
+  border-color: transparent;
+}
+
+.mission-type-button.is-selected {
+  background: $app-blue-2;
+  color: #fff;
+}
+
+.mission-form__input {
   width: 100%;
   margin-bottom: 1.5rem;
-  background-color: #f0f0f0;
+  color: #111;
+  background-color: #f3f3f3;
   border: 1px solid #eee;
   height: 3rem;
   padding: .75rem .75rem .75rem 1rem;
@@ -43,12 +69,10 @@
   background-color: lighten($app-blue-dark, .1);
 }
 
-.DateRangePicker {
-  float:left;
-  margin-left: 0;
-  margin-right: auto;
+.datetime input {
+  @extend .mission-form__input;
 }
 
-.CalendarMonthGrid {
-  // transform: translateX(-150px);
+.recommendation {
+  font-size: .875rem;
 }

@@ -31,7 +31,7 @@ class ResultsView extends Component {
   render() {
     let results = this.props.results;
 
-    console.log('props of ResultsView', results)
+    // console.log('props of ResultsView', results)
 
     return (
       <div>
@@ -64,14 +64,14 @@ class ResultsView extends Component {
           <p className="bold">Questions most missed: </p>
           <ul>
             {_.map(results.incorrectQuestionsRanked, (recordsForQuestion) => {
-              console.log('recordsForQuestion', recordsForQuestion);
+              // console.log(recordsForQuestion[0].question.id)
               return (
                 <li key={`incorrect-question-${recordsForQuestion[0].question.id}`}>
                   <div>
-                    {_.map(recordsForQuestion, record => {
+                    {_.map(recordsForQuestion, (record, idx) => {
                       let user = record.user;
                       return (
-                        <p key={user.Identifer}>
+                        <p key={`user.Identifer-${idx}`}>
                           <span>{getD2LDisplayName(user)}</span>
                           <span> chose {record.responseResult.choice.id}</span>
                         </p>

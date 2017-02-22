@@ -34,10 +34,9 @@ export default (initialState = {}) => {
           course: state.course,
           result: _.omit(state.result, [
             'phaseIResults', 'phaseIIResults',
-            'isGetPhaseIResultsInProgress', 'isGetPhaseIIResultsInProgress'
+            'isGetResultsInProgress',
           ]),
           editMission: _.assign({}, state.editMission, {
-            newMission: null,
             isCreateMissionInProgress: false
           }),
           mapping: state.mapping,

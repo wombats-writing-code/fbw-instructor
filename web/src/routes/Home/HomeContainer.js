@@ -15,7 +15,6 @@ import {getMissions} from 'fbw-platform-common/reducers/Mission/getMissions'
 import {selectMission} from 'fbw-platform-common/reducers/Mission/selectMission'
 
 import {deleteMission} from 'fbw-platform-common/reducers/edit-mission/deleteMission'
-import {addMission} from 'fbw-platform-common/reducers/edit-mission/addMission'
 import {editMission} from 'fbw-platform-common/reducers/edit-mission/editMission'
 
 import {getResults} from 'fbw-platform-common/reducers/Result/getResults'
@@ -42,22 +41,25 @@ const mapStateToProps = (state, ownProps) => {
     isGetMappingInProgress: state.mapping.isGetMappingInProgress,
     view: state.view,
     user: getUser(state),
+    authenticatedUrl: state.login.user.authenticatedUrl
   }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    onClickCourse: (course, user) => {
+    onClickCourse: (course, user, authenticatedUrl) => {
       console.log('clicked course', course, user);
       // console.log('clicked course2', D2LConfig, d2lToken, orgUnitId);
 
       dispatch(selectCourse(course));
       dispatch(getMissions({course, user: user}));
-      dispatch(getD2LClassRoster({url: user.d2l.authenticatedUrl, courseId: course.Identifier, D2LConfig}))
+      dispatch(getD2LClassRoster({url: authenticatedUrl, courseId: course.Identifier, D2LConfig}))
 
       dispatch(getMapping({
-        course: course, entityTypes: ['outcome', 'module'],
-        relationshipTypes: ['HAS_PARENT_OF', 'HAS_PREREQUISITE_OF']
+        course: course,
+        entityTypes: ['outcome', 'module'],
+        relationshipTypes: ['HAS_PARENT_OF', 'HAS_PREREQUISITE_OF'],
+        user: user
       }));
       dispatch(getItems({course, user: user}));
 
@@ -71,12 +73,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(selectMission(mission));
       dispatch(changeView({name: 'dashboard.resultsView', mission: mission}))      // true default
     },
-    onClickAddMission: () =>
-    {
-      dispatch(changeView({name: 'add-mission'}))
-      dispatch(addMission());
-      // browserHistory.push('/missions/new')
-    },
+    onClickAddMission: () => dispatch(changeView({name: 'add-mission'})),
     onClickEditMission: (mission, directives) => {
       console.log('clicked edit mission', mission, directives);
       dispatch(changeView({name: 'edit-mission', mission: mission}));
