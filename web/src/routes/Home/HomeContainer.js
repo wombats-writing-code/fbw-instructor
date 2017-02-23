@@ -48,11 +48,10 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     onClickCourse: (course, user, authenticatedUrl) => {
-      console.log('clicked course', course, user);
+      // console.log('clicked course', course, user);
       // console.log('clicked course2', D2LConfig, d2lToken, orgUnitId);
-
       dispatch(selectCourse(course));
-      dispatch(getMissions({course, user: user}));
+      dispatch(getMissions({course, user: user, all: true}));
       dispatch(getD2LClassRoster({url: authenticatedUrl, courseId: course.Identifier, D2LConfig}))
 
       dispatch(getMapping({
@@ -73,9 +72,11 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(selectMission(mission));
       dispatch(changeView({name: 'dashboard.resultsView', mission: mission}))      // true default
     },
-    onClickAddMission: () => dispatch(changeView({name: 'add-mission'})),
+    onClickAddMission: (missions, user) => {
+      dispatch(changeView({name: 'add-mission'}))
+    },
     onClickEditMission: (mission, directives) => {
-      console.log('clicked edit mission', mission, directives);
+      // console.log('clicked edit mission', mission, directives);
       dispatch(changeView({name: 'edit-mission', mission: mission}));
       dispatch(editMission(mission, directives));
     },

@@ -14,7 +14,6 @@ class QuestionResult extends Component {
   render() {
     let props = this.props;
     let expandCollapseButtonText = this.state.isExpanded ? 'Hide' : 'Show';
-
     let expandedStudents = !this.state.isExpanded ? null :
           (
             <ul className="students-list">
@@ -22,9 +21,10 @@ class QuestionResult extends Component {
             </ul>
           )
 
-    console.log('outcome:', props.outcome);
-    console.log('result', props.result);
-    // console.log('question', props.question);
+    // console.log('outcome:', props.outcome);
+    // console.log('records', props.records);
+
+    // let everyone = _.
 
     return (
       <div key={`questionResult_${props.idx}`} className="question-result ">
@@ -32,16 +32,16 @@ class QuestionResult extends Component {
           <div className="medium-12 medium-centered columns">
             <div className="question-statistics">
               <p className="question-statistics__students-list">
-                <span className="bold">Everyone: </span>
-                {_.map(props.result.total, studentResult => {
-                  console.log('studentResult', studentResult);
+                <span className="bold">Incorrect: </span>
+                {_.map(props.records, (record, idx) => {
+                  // console.log('record', record);
 
-                  return (<StudentLink key={studentResult.takingAgentId} className="students-list__item"
-                                      studentResult={studentResult}
+                  return (<StudentLink key={`${idx}`} className="students-list__item"
+                                      student={record.user}
                                       onSelectResult={this.props.onSelectMissionResult}/>)
                 })}
               </p>
-              <p className="question-statistics__students-list">
+              {/* <p className="question-statistics__students-list">
                 <span className="bold">Incorrect: </span>
                 {_.map(props.result.notAchieved, studentResult => {
                   return (<StudentLink key={studentResult.takingAgentId} className="students-list__item"
@@ -55,11 +55,26 @@ class QuestionResult extends Component {
                   return (<StudentLink key={studentResult.takingAgentId} className="students-list__item"
                                       studentResult={studentResult}
                                       onSelectResult={this.props.onSelectMissionResult}/>)                })}
-              </p>
+              </p> */}
             </div>
 
+            {/* <div>
+              {_.map(recordsForQuestion, (record, idx) => {
+                let user = record.user;
+                return (
+                  <p key={`user.Identifer-${idx}`}>
+                    <span>{getD2LDisplayName(user)}</span>
+                    <span> chose {record.responseResult.choice.id}</span>
+                  </p>
+                )
+              })}
 
-            <QuestionCard question={props.result} outcome={props.outcome} isExpanded={false} isExpandable={true}
+              <p>{recordsForQuestion[0].question.text}</p>
+            </div> */}
+
+            <QuestionCard question={props.records[0].responseResult.question}
+                          outcome={props.outcome}
+                          isExpanded={false}
                           isSubmitEnabled={false}/>
           </div>
         </div>

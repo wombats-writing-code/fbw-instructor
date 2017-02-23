@@ -15,6 +15,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     view: state.view,
     mission: state.mission ? state.mission.currentMission : null,
+    missions: state.mission.missions,
     isGetResultsInProgress: state.result && state.result.isGetResultsInProgress,
     isSpawnInProgress: state.editMission && state.editMission.isSpawnInProgress,
   }

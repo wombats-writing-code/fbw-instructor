@@ -8,17 +8,7 @@
   color: #555;
 }
 
-.spawn-button {
-  display: block;
-  margin-right: 1rem;
-  margin-left: 0;
-  background-color: $app-blue-2;
-  color: #fff;
-  font-weight: 600;
-  margin-bottom: 0;
-}
-
-.spawn-button:hover {
-  background-color: $app-blue-2;
-  opacity: .8;
+.phase-2-summary {
+  text-align: left;
+  font-size: .875em
 }

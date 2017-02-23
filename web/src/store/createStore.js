@@ -3,7 +3,7 @@ import thunk from 'redux-thunk'
 import { browserHistory } from 'react-router'
 import persistState from 'redux-localstorage'
 import _ from 'lodash'
-
+import {stampNewMission} from 'fbw-platform-common/reducers/edit-mission'
 import moment from 'moment'
 
 import makeRootReducer from '../reducers/'
@@ -37,6 +37,7 @@ export default (initialState = {}) => {
             'isGetResultsInProgress',
           ]),
           editMission: _.assign({}, state.editMission, {
+            newMission: stampNewMission(),
             isCreateMissionInProgress: false
           }),
           mapping: state.mapping,

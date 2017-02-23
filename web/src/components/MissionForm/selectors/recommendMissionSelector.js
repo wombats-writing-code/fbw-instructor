@@ -4,17 +4,31 @@ import 'moment'
 import 'moment-timezone'
 
 import {getMapping} from 'fbw-platform-common/selectors'
+import {getRoster} from 'fbw-platform-common/selectors/course'
 import {isTarget} from 'fbw-platform-common/selectors/mission'
 
-export const computeRecommendations = (followsFromMissions, records, roster) => {
+const getRecords = (state) => {
+  return _.map(state.editMission.newMission.followsFromMissions, missionId => {
+    if (state.result.resultsByMission) {
+      return state.result.resultsByMission[missionId];
+    }
+  })
+}
+
+export const computeRecommendations = createSelector([
+  state => _.map(state.editMission.newMission.followsFromMissions, missionId => _.find(state.mission.missions, {id: missionId})),
+  getRecords,
+  getRoster
+  ],
+  (followsFromMissions, records, roster) => {
 
   if (!followsFromMissions) {
-    throw new TypeError('followsFromMissions needs to be a non-null array of missions')
+    // throw new TypeError('followsFromMissions needs to be a non-null array of missions')
     return null;
   }
 
   if (!records) {
-    throw new TypeError('records must be an array of arrays')
+    // throw new TypeError('records must be an array of arrays')
     return null;
   }
 
@@ -60,4 +74,4 @@ export const computeRecommendations = (followsFromMissions, records, roster) => 
   // console.log('byStudent', byStudent);
 
   return _.values(byStudent)
-}
+});

@@ -4,7 +4,7 @@ import EmptyState from '../../components/EmptyState'
 import LoadingBox from '../../components/LoadingBox'
 import SelectDirectives from './views/SelectDirectives';
 import {missionConfig} from 'fbw-platform-common/reducers/mission'
-import {getD2LDisplayName} from 'fbw-platform-common/selectors/login'
+import {getD2LDisplayName, getD2LUserIdentifier} from 'fbw-platform-common/selectors/login'
 
 import Select from 'react-select';
 import 'react-select/dist/react-select.css';
@@ -32,18 +32,20 @@ class MissionForm extends Component {
       loadingBox = LoadingBox('enter');
     }
 
-    console.log('mission form props', props);
+    // console.log('mission form props', props);
     // console.log('newMission prop of missionform', props.newMission);
     // console.log('displayedDirectives', props.displayedDirectives)
 
     let missionName, goalsForMission, composeMissions;
     if (props.newMission.type === missionConfig.PHASE_I_MISSION_TYPE) {
       missionName = (
-        <input type="text" className="mission-form__input"
-               value={props.newMission.displayName}
-               placeholder="My new mission name"
-               id="displayName"
-               onChange={(e) => props.onChangeMissionName(e.target.value)} />
+        <div className="form-section">
+          <input type="text" className="mission-form__input"
+                 value={props.newMission.displayName}
+                 placeholder="My new mission name"
+                 id="displayName"
+                 onChange={(e) => props.onChangeMissionName(e.target.value)} />
+        </div>
       )
 
       goalsForMission = (
@@ -62,10 +64,6 @@ class MissionForm extends Component {
       )
 
     } else {
-      missionName = (
-        <p>{props.newMission.displayName}</p>
-      )
-
       goalsForMission = (
         <div>
           <label className="form-label">Recommendations for students</label>
@@ -98,7 +96,7 @@ class MissionForm extends Component {
               matchProp="displayName"
               labelKey="displayName"
               valueKey="id"
-              onChange={(value) => props.onSelectFollowFromMissions(value)}
+              onChange={(value) => props.onSelectFollowFromMissions(value, props.user)}
           />
         </div>
       )
@@ -109,29 +107,23 @@ class MissionForm extends Component {
     let buttonText = props.view.name === 'edit-mission' ? "Save mission" : "Create mission";
     if (!props.isCreateMissionInProgress) {
       form = (
-        <form className="mission-form" onSubmit={(e) => {
-              e.preventDefault();
-              props.view.name === 'edit-mission' ?
-                props.onUpdateMission(props.newMission, props.currentCourse, props.user) :
-                props.onCreateMission(props.newMission, props.currentCourse, props.user);
-        }}>
+        <form className="mission-form" onSubmit={(e) => this._onSubmitForm(e)}>
 
         {composeMissions}
 
-         <div className="form-section">
-            <label className="form-label" htmlFor="displayName">Mission Name</label>
-            {missionName}
-         </div>
+        {missionName}
 
          <div className="form-section">
            <label className="form-label">Dates</label>
            <div className="row">
              <div className="datetime medium-6 columns">
                <Datetime inputProps={{placeholder: "Start date & time"}}
+                        value={props.newMission.startTime}
                         dateFormat={true} onChange={(momentObj) => this.props.onChangeMissionStart(momentObj)}  />
              </div>
              <div className="datetime medium-6 columns">
                <Datetime inputProps={{placeholder: "Start date & time"}}
+                         value={props.newMission.deadline}
                         dateFormat={true} onChange={(momentObj) => this.props.onChangeMissionEnd(momentObj)}  />
              </div>
            </div>
@@ -169,6 +161,47 @@ class MissionForm extends Component {
         {loadingBox}
       </div>
     )
+  }
+
+  _onSubmitForm(e) {
+    e.preventDefault();
+    let props = this.props;
+
+    // if (!props.newMission.startTime) {
+    //   this.setState({startTimeError: 'You must set a startTime'})
+    //   return;
+    // }
+
+    if (props.view.name === 'edit-mission') {
+      props.onUpdateMission(props.newMission, props.currentCourse, props.user);
+
+    } else {
+      if (props.newMission.type === missionConfig.PHASE_I_MISSION_TYPE) {
+        props.onCreateMission(props.newMission, props.currentCourse, props.user);
+
+      } else {
+        let followsFromMissionNames = _.map(props.newMission.followsFromMissions, id => {
+          return _.find(props.missions, {id: id}).displayName
+        });
+
+        // using this newMission form, stamp out a mission for each student recommendation
+        let newMissions = _.map(props.recommendations, rec => {
+          return _.assign({}, props.newMission, {
+            displayName: `Phase II (from ${followsFromMissionNames.join(' + ')})`,
+            description: `for ${getD2LDisplayName(rec.student)}`,
+            goals: rec.goals,
+            userId: getD2LUserIdentifier(rec.student)
+          })
+        });
+
+        // console.log('props.newMission', props.newMission);
+        // console.log('props.recs', props.recommendations);
+        // console.log('newMissions', newMissions)
+
+        props.onCreateMissions(newMissions, props.currentCourse, props.user);
+      }
+
+    }
   }
 }
 

@@ -57,7 +57,7 @@ class Home extends Component {
           <Missions missions={this._getVisibleMissions()}
                     isGetMissionsInProgress={this.props.isGetMissionsInProgress}
                     onClickMission={(mission) => this.props.onClickMission(mission, props.user)}
-                    onClickAddMission={() => this.props.onClickAddMission()}
+                    onClickAddMission={() => this.props.onClickAddMission(this._getVisibleMissions(), props.user)}
                     onClickDeleteMission={(mission) => this.props.onClickDeleteMission(mission)}
                   />
         </div>

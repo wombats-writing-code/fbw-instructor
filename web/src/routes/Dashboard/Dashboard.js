@@ -35,6 +35,14 @@ class Dashboard extends Component {
       loadingBox = LoadingBox('enter')
     }
 
+    let phase2Missions = _.map(props.mission.leadsToMissions, id => _.find(props.missions, {id: id}));
+    console.log('phaseIIMissions', phase2Missions)
+    let phase2Summary;
+    if (phase2Missions && phase2Missions.length > 0) {
+      phase2Summary = (<p className="phase-2-summary">
+        Phase II is launched.
+      </p>)
+    }
 
     return (
       <div className="columns">
@@ -44,6 +52,7 @@ class Dashboard extends Component {
             <span className="light">{moment(props.mission.startTime).format('ddd, MMM D [at] hA')} &mdash; {moment(props.mission.deadline).format('ddd, MMM D [at] hA')}</span>
           </p>
         </div>
+        
         <div className="row">
           {resultsView}
         </div>

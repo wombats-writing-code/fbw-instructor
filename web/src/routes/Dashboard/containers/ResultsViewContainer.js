@@ -19,7 +19,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    results: parseResults(state.result.results, state.course.roster),
+    results: parseResults(state),
     currentDirectiveIndex: state.mission.currentDirectiveIndex,
     currentTarget: state.mission.currentTarget,
     currentMission: state.mission.currentMission,

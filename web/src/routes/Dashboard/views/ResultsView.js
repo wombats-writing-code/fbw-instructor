@@ -3,9 +3,9 @@ import _ from 'lodash'
 
 import EmptyState from '../../../components/EmptyState'
 import QuestionResult from '../components/QuestionResult'
-import DirectiveCarousel from 'fbw-platform-common/components/mission/web/DirectiveCarousel'
-import {getD2LDisplayName} from 'fbw-platform-common/selectors/login'
-import StudentLink from '../components/StudentLink'
+import StudentStatusList from './StudentStatusList'
+
+// import DirectiveCarousel from 'fbw-platform-common/components/mission/web/DirectiveCarousel'
 // import TargetCarouselComponent from 'fbw-platform-common/components/mission/web/TargetCarousel'
 // import TargetCarouselContainer from 'fbw-platform-common/components/mission/TargetCarouselContainer'
 // const TargetCarousel = TargetCarouselContainer(TargetCarouselComponent)
@@ -13,7 +13,7 @@ import StudentLink from '../components/StudentLink'
 // we make a local copy of TargetCarousel here and change it
 // because our needs are slightly different from the one in common
 // after Unit 1, we'll refactor
-import TargetCarousel from './TargetCarousel'
+// import TargetCarousel from './TargetCarousel'
 
 
 import './ResultsView.scss'
@@ -24,66 +24,72 @@ class ResultsView extends Component {
     super();
 
     this.state = {
-      isExpanded: false,
+      isQuestionsExpanded: false,
     }
   }
 
   render() {
     let results = this.props.results;
+    // console.log('props of ResultsView', this.props)
 
-    // console.log('props of ResultsView', results)
+    if (!results) {
+      return null;
+    }
+
+    let resultsQuestions;
+    if (this.state.isQuestionsExpanded) {
+      resultsQuestions = (
+        <ol className="results__questions-list">
+          {_.map(results.incorrectQuestionsRanked, (recordsForQuestion) => {
+            // console.log(recordsForQuestion[0].question.id)
+            let outcome = _.find(this.props.outcomes, {id: recordsForQuestion[0].outcome});
+
+            return (
+              <li key={`incorrect-question-${recordsForQuestion[0].question.id}`}>
+                <QuestionResult records={recordsForQuestion} outcome={outcome} />
+              </li>
+            )
+          })}
+        </ol>
+      )
+    }
+
+    let resultsOutcomes;
+    if (this.state.isOutcomesExpanded) {
+      resultsOutcomes = (
+        <ol className="">
+          
+        </ol>
+      )
+    }
 
     return (
       <div>
-        <div className="student-summary">
-          <p className="bold">Opened up the mission: </p>
-          <ol className="student-summary__list">
-            {_.map(results.studentsOpened, student => {
-              return (
-                <li key={student.Identifier}>
-                      <StudentLink className="students-list__item"
-                                  student={student}
-                                  onSelectResult={(student) =>
-                                    this.props.onSelectStudentResult(student, 0, null)}
-                      />
-                </li>)
-            })}
-          </ol>
+        <p className="results__title">{this.props.mission.type}</p>
+        <StudentStatusList studentsOpened={results.studentsOpened} studentsNotOpened={results.studentsNotOpened}/>
 
-          <p className="bold">Not opened the mission: </p>
-          <ol className="student-summary__list">
-            {_.map(results.studentsNotOpened, (student, idx) => {
-              return (<li key={`not-opened-${student.Identifer}-${idx}`} className="students-list__item">
-                {getD2LDisplayName(student)}
-              </li>)
-            })}
-          </ol>
+        <div className="results__section">
+          <div className="flex-container space-between align-center">
+            <p className="results__subtitle">Questions most missed</p>
+            <button className="expand-collapse-button"
+                    onClick={(e) => this.setState({isQuestionsExpanded: !this.state.isQuestionsExpanded})}>
+              {this.state.isQuestionsExpanded ? 'Hide' : 'Show'}
+            </button>
+          </div>
+
+          {resultsQuestions}
         </div>
 
-        <div className="questions-summary">
-          <p className="bold">Questions most missed: </p>
-          <ul>
-            {_.map(results.incorrectQuestionsRanked, (recordsForQuestion) => {
-              // console.log(recordsForQuestion[0].question.id)
-              return (
-                <li key={`incorrect-question-${recordsForQuestion[0].question.id}`}>
-                  <div>
-                    {_.map(recordsForQuestion, (record, idx) => {
-                      let user = record.user;
-                      return (
-                        <p key={`user.Identifer-${idx}`}>
-                          <span>{getD2LDisplayName(user)}</span>
-                          <span> chose {record.responseResult.choice.id}</span>
-                        </p>
-                      )
-                    })}
+        <div className="results__section">
+          <div className="flex-container space-between align-center">
+            <p className="results__subtitle">Outcomes most missed</p>
+            <button className="expand-collapse-button"
+                    onClick={(e) => this.setState({isOutcomesExpanded: !this.state.isOutcomesExpanded})}>
+              {this.state.isOutcomesExpanded ? 'Hide' : 'Show'}
+            </button>
+          </div>
 
-                    <p>{recordsForQuestion[0].question.text}</p>
-                  </div>
-                </li>
-              )
-            })}
-          </ul>
+          {resultsOutcomes}
         </div>
       </div>
 
