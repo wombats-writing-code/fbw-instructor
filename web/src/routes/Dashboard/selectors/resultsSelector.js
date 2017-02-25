@@ -3,16 +3,13 @@ import _ from 'lodash'
 import 'moment'
 import 'moment-timezone'
 
-import {getMapping, getPhaseIResults, getPhaseIIResults} from 'fbw-platform-common/selectors'
+import {getMapping} from 'fbw-platform-common/selectors'
 import {isTarget} from 'fbw-platform-common/selectors/mission'
 import {getRoster} from 'fbw-platform-common/selectors/course'
 import {notAchievedOnAttempt, notTaken} from './common'
 
 
-export const parseResults = createSelector([
-  state => state.mission.currentMission ? state.result.resultsByMission[state.mission.currentMission.id] : null,
-  getRoster,
-  ], (records, roster) => {
+export const parseResults = (records, roster) => {
 
   if (!records || !roster) return;
 
@@ -47,4 +44,4 @@ export const parseResults = createSelector([
     studentsOpened: _.map(studentsOpenedIdentifiers, id => _.find(roster, {Identifier: id})),
     studentsNotOpened: _.map(studentsNotOpenedIdentifers, id => _.find(roster, {Identifier: id})),
   };
-});
+}

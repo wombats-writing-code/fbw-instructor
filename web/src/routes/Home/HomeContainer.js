@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
-import Home from './Home'
-
 import {browserHistory} from 'react-router'
+
+import Home from './Home'
 
 const D2LConfig = require('../../D2LConfig');
 
@@ -17,7 +17,7 @@ import {selectMission} from 'fbw-platform-common/reducers/Mission/selectMission'
 import {deleteMission} from 'fbw-platform-common/reducers/edit-mission/deleteMission'
 import {editMission} from 'fbw-platform-common/reducers/edit-mission/editMission'
 
-import {getResults} from 'fbw-platform-common/reducers/Result/getResults'
+import {getResults, getResultsBulk} from 'fbw-platform-common/reducers/Result/getResults'
 
 import {logOutUser} from 'fbw-platform-common/reducers/Login/logOutUser'
 
@@ -68,7 +68,11 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     onClickMission: (mission, user) => {
       // console.log('clicked mission', mission);
 
+      // this gets results for the mission that was clicked
       dispatch(getResults({mission, user}));
+      // we also want to get the results for all of its phase 2 missions
+      dispatch(getResultsBulk({missions: mission.leadsToMissions, user}));
+
       dispatch(selectMission(mission));
       dispatch(changeView({name: 'dashboard.resultsView', mission: mission}))      // true default
     },

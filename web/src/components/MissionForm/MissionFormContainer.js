@@ -12,7 +12,7 @@ import {selectModule} from 'fbw-platform-common/reducers/edit-mission/updateMiss
 import {changeOutcomeSearch} from 'fbw-platform-common/reducers/edit-mission/updateMissionForm'
 import {toggleOutcome} from 'fbw-platform-common/reducers/edit-mission/updateMissionForm'
 import {changeFollowsFromMissions} from 'fbw-platform-common/reducers/edit-mission/updateMissionForm'
-import {getResults} from 'fbw-platform-common/reducers/result/getResults'
+import {getResults} from 'fbw-platform-common/reducers/Result/getResults'
 
 import {changeView} from '../../reducers/view'
 import {getMapping, getUser} from 'fbw-platform-common/selectors/'

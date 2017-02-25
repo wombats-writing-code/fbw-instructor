@@ -1,6 +1,10 @@
 
 @import '../../../styles/base';
 
+.results-view {
+  margin-bottom: 1.5rem;
+}
+
 .results__title {
   text-align: left;
   padding-bottom: 3px;
@@ -12,10 +16,6 @@
   text-align: left;
   margin-bottom: 0;
   font-weight: 600;
-}
-
-.results-view {
-  margin-bottom: 1.5rem;
 }
 
 .empty-results {

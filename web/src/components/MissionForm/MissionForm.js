@@ -3,7 +3,7 @@ import moment from 'moment'
 import EmptyState from '../../components/EmptyState'
 import LoadingBox from '../../components/LoadingBox'
 import SelectDirectives from './views/SelectDirectives';
-import {missionConfig} from 'fbw-platform-common/reducers/mission'
+import {missionConfig} from 'fbw-platform-common/reducers/Mission'
 import {getD2LDisplayName, getD2LUserIdentifier} from 'fbw-platform-common/selectors/login'
 
 import Select from 'react-select';

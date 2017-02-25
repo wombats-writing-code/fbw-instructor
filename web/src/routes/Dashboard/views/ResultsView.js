@@ -30,7 +30,7 @@ class ResultsView extends Component {
 
   render() {
     let results = this.props.results;
-    // console.log('props of ResultsView', this.props)
+    console.log('props of ResultsView', this.props)
 
     if (!results) {
       return null;
@@ -58,14 +58,13 @@ class ResultsView extends Component {
     if (this.state.isOutcomesExpanded) {
       resultsOutcomes = (
         <ol className="">
-          
+
         </ol>
       )
     }
 
     return (
-      <div>
-        <p className="results__title">{this.props.mission.type}</p>
+      <div className="results-view">
         <StudentStatusList studentsOpened={results.studentsOpened} studentsNotOpened={results.studentsNotOpened}/>
 
         <div className="results__section">
