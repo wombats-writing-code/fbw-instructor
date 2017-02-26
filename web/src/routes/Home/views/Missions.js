@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
 import _ from 'lodash';
 const moment = require('moment');
-
-import LoadingBox from 'fbw-platform-common/components/loading-box/web/LoadingBox'
+import EmptyState from 'fbw-platform-common/components/empty-state/web/'
+import LoadingBox from 'fbw-platform-common/components/loading-box/web/'
 
 import './Missions.scss'
 
@@ -29,10 +29,11 @@ class Missions extends Component {
 
     // === missionCollection: show only when missions are loaded and exist
     if (!props.isGetMissionsInProgress && props.missions && props.missions.length === 0) {
+      console.log('props.missions', props.missions)
       return (
         <div>
           {createMissionButton}
-          <p className="">No missions yet</p>
+          {EmptyState("No missions yet")}
         </div>
       )
     }
@@ -90,9 +91,9 @@ class Missions extends Component {
                   <p className="row-title">{mission.displayName}</p>
                   <p className="row-subtitle">
                     <span className="">From </span>
-                    <span className="">{moment(mission.startTime).format('dddd MMM D')} </span>
+                    <span className="">{moment(mission.startTime).format('ddd MMM D [at] ha')} </span>
                     <span className="">to </span>
-                    <b className="">{moment(mission.deadline).format('dddd MMM D')}</b>
+                    <b className="">{moment(mission.deadline).format('ddd MMM D [at] ha')}</b>
                   </p>
 
                   <div className="flex-container space-between mission-buttons">

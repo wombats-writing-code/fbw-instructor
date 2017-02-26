@@ -14,7 +14,16 @@ import {missionConfig} from 'fbw-platform-common/reducers/Mission'
 */
 export const computeGrades = (mission, records, roster) => {
   if (!mission) {
-    throw new TypeError('mission must be non-null in 1st arg of computeGrades')
+    throw new TypeError('mission must be non-null in 1st arg of computeGrades');
+  }
+
+  if (!records) {
+    return;
+    // throw new TypeError('records must be an array, even if an empty one');
+  }
+
+  if (!roster) {
+    throw new TypeError('roster must be non-null');
   }
 
   let groupedByStudent = _.groupBy(records, 'user.Identifier');
@@ -26,7 +35,6 @@ export const computeGrades = (mission, records, roster) => {
     phaseIGrades = _.reduce(groupedByStudent, (result, records, userIdentifier) => {
       let targets = _.filter(records, r => isTarget(r.question));
       // console.log('records', records)
-      console.log('targets', targets)
 
       let grade = {
         points: pointsEarned(_.map(targets, 'responseResult.question')),

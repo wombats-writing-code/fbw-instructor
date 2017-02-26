@@ -41,11 +41,13 @@ class MissionForm extends Component {
     if (props.newMission.type === missionConfig.PHASE_I_MISSION_TYPE) {
       missionName = (
         <div className="form-section">
-          <input type="text" className="mission-form__input"
-                 value={props.newMission.displayName}
-                 placeholder="My new mission name"
-                 id="displayName"
-                 onChange={(e) => props.onChangeMissionName(e.target.value)} />
+          <div className="columns">
+            <input type="text" className="mission-form__input"
+                   value={props.newMission.displayName}
+                   placeholder="My new mission name"
+                   id="displayName"
+                   onChange={(e) => props.onChangeMissionName(e.target.value)} />
+          </div>
         </div>
       )
 
@@ -86,7 +88,7 @@ class MissionForm extends Component {
       composeMissions = (
         <div className="form-section compose-missions">
           <p className="small">
-            Phase II missions automatically pick goals that students missed in previous missions.
+            Phase II missions pick goals that students missed in previous missions.
             Pick one or more of these previous missions:
           </p>
           <Select
@@ -106,7 +108,7 @@ class MissionForm extends Component {
 
     let form;
     let buttonText = props.view.name === 'edit-mission' ? "Save mission" : "Create mission";
-    if (!props.isCreateMissionInProgress) {
+    if (!props.isCreateMissionInProgress && props.newMission.type) {
       form = (
         <form className="mission-form" onSubmit={(e) => this._onSubmitForm(e)}>
 
@@ -119,12 +121,13 @@ class MissionForm extends Component {
            <div className="row">
              <div className="datetime medium-6 columns">
                <Datetime inputProps={{placeholder: "Start date & time"}}
-                        value={props.newMission.startTime}
-                        dateFormat={true} onChange={(momentObj) => this.props.onChangeMissionStart(momentObj)}  />
+                        value={moment(props.newMission.startTime)}
+                        dateFormat={true}
+                        onChange={(momentObj) => this.props.onChangeMissionStart(momentObj)}  />
              </div>
              <div className="datetime medium-6 columns">
                <Datetime inputProps={{placeholder: "Start date & time"}}
-                         value={props.newMission.deadline}
+                         value={moment(props.newMission.deadline)}
                         dateFormat={true} onChange={(momentObj) => this.props.onChangeMissionEnd(momentObj)}  />
              </div>
            </div>
@@ -147,7 +150,8 @@ class MissionForm extends Component {
 
     return (
       <div className="mission-form">
-        <div className="flex-container space-around">
+        <div className="flex-container space-around align-center form-section">
+          <p className="mission-type-prompt">Select the type of mission</p>
           <button className={`mission-type-button button ${props.newMission.type === missionConfig.PHASE_I_MISSION_TYPE ? isSelectedStyle : null}`}
                   onClick={() => this.props.onChangeMissionType(missionConfig.PHASE_I_MISSION_TYPE)}>
             Phase I Mission
@@ -156,8 +160,8 @@ class MissionForm extends Component {
                   onClick={() => this.props.onChangeMissionType(missionConfig.PHASE_II_MISSION_TYPE)}>
             Phase II Mission
           </button>
-
         </div>
+
         {form}
         {loadingBox}
       </div>
@@ -174,7 +178,7 @@ class MissionForm extends Component {
     // }
 
     if (props.view.name === 'edit-mission') {
-      props.onUpdateMission(props.newMission, props.currentCourse, props.user);
+      props.onUpdateMission(props.newMission, props.user);
 
     } else {
       if (props.newMission.type === missionConfig.PHASE_I_MISSION_TYPE) {

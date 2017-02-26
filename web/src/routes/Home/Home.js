@@ -23,7 +23,6 @@ class Home extends Component {
     onClickEditMission: React.PropTypes.func.isRequired,
     onGetMissions: React.PropTypes.func.isRequired,
     courses: React.PropTypes.array,
-    missions: React.PropTypes.array,
     currentMission: React.PropTypes.object,
     currentCourse: React.PropTypes.object,
   }
@@ -55,10 +54,12 @@ class Home extends Component {
                     onClickCourse={(course) => props.onClickCourse(course, props.user, props.authenticatedUrl)} />
 
           <Missions missions={this._getVisibleMissions()}
+                    currentMission={this.props.currentMission}
                     isGetMissionsInProgress={this.props.isGetMissionsInProgress}
                     onClickMission={(mission) => this.props.onClickMission(mission, props.user)}
                     onClickAddMission={() => this.props.onClickAddMission(this._getVisibleMissions(), props.user)}
                     onClickDeleteMission={(mission) => this.props.onClickDeleteMission(mission, props.user)}
+                    onClickEditMission={(mission) => this.props.onClickEditMission(mission, props.user)}
                   />
         </div>
 
@@ -70,11 +71,9 @@ class Home extends Component {
   }
 
   _getVisibleMissions() {
+    if (!this.props.missions) return null;
+
     return _.filter(this.props.missions, {type: missionConfig.PHASE_I_MISSION_TYPE});
-  }
-
-  _onClickMission(mission) {
-
   }
 
 

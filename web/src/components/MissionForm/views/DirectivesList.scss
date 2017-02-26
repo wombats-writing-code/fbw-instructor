@@ -6,11 +6,13 @@
 }
 
 .directives-list__item {
+  font-size: .875rem;
   cursor: pointer;
   margin-bottom: 1rem;
 }
 
 .directives-list__item.target::before {
+  font-family: sans-serif;
   content: '\029BF';
   font-size: 1.4em;
   margin-right: .3em;

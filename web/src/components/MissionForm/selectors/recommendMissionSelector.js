@@ -34,15 +34,27 @@ export const computeRecommendations = createSelector([
 
   // console.log('computeRecommendations', followsFromMissions);
   // console.log('records', records);
+  // console.log('followsFromMissions', followsFromMissions);
+
 
   let studentIdentifiers = _.map(roster, 'Identifier');
+  let studentsOpenedIdentifiers = _.uniq(_.map(records, 'user.Identifier'));
 
   let byStudent = _.reduce(studentIdentifiers, (result, id) => {
-
     _.each(followsFromMissions, (mission, mIdx) => {
       // group records by student first
       let recordsByStudent = _.groupBy(records[mIdx], 'user.Identifier');
-      if (!recordsByStudent[id]) return;
+
+      // if the student didn't even open the mission,
+      // give them every outcome again
+      if (!recordsByStudent[id]) {
+        result[id] = {
+          student: _.find(roster, {Identifier: id}),
+          goals: _.flatMap(followsFromMissions, 'goals'),
+          followsFromMissions: result
+        }
+        return result;
+      }
 
       // group records by their section (goal)
       let bySection = _.groupBy(recordsByStudent[id], 'sectionIndex');

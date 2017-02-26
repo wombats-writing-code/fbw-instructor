@@ -32,7 +32,7 @@ class ResultsView extends Component {
   render() {
     let props = this.props;
     let results = props.results;
-    console.log('props of ResultsView', this.props)
+    // console.log('props of ResultsView', this.props)
 
     if (!results) {
       return null;
@@ -65,10 +65,17 @@ class ResultsView extends Component {
       )
     }
 
+    let refreshPrompt;
+    if (!props.results) {
+      refreshPrompt = <p className="prompt">Click on the mission again to refresh results.</p>
+    }
+
     return (
       <div className="results-view">
         <GradesTable grades={props.grades}
                      />
+
+        {refreshPrompt}
 
         <div className="results__section">
           <div className="flex-container space-between align-center">

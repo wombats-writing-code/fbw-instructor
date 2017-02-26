@@ -55,12 +55,14 @@
 .directive-search-input {
   width: 100%;
   margin-bottom: 1.6rem;
-  background-color: #f0f0f0;
   background-image: url('../../../assets/search.png');
   background-repeat: no-repeat;
   background-size: 1.25rem;
   background-position: 5px 50%;
-  border: 1px solid #eee;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom: 2px solid #aaa;
   padding: .7rem .75rem .7rem 2.25rem;
   box-radius: 3px;
   box-shadow: none;
@@ -68,7 +70,7 @@
 
 .directive-search-input:focus {
   outline: none;
-  background-color: #fafafa;
+  border-color: $app-blue-2;
 }
 
 // =========

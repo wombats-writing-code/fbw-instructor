@@ -6,17 +6,13 @@ import Home from './Home'
 const D2LConfig = require('../../D2LConfig');
 
 import {getMapping} from 'fbw-platform-common/reducers/Mapping/getMapping'
-
 import {selectCourse} from 'fbw-platform-common/reducers/Course/selectCourse'
 import {getItems} from 'fbw-platform-common/reducers/Course/getItems'
 import {getD2LClassRoster} from 'fbw-platform-common/reducers/Course/getD2LClassRoster'
-
 import {getMissions} from 'fbw-platform-common/reducers/Mission/getMissions'
 import {selectMission} from 'fbw-platform-common/reducers/Mission/selectMission'
-
 import {deleteMission} from 'fbw-platform-common/reducers/edit-mission/deleteMission'
 import {editMission} from 'fbw-platform-common/reducers/edit-mission/editMission'
-
 import {getResults, getResultsBulk} from 'fbw-platform-common/reducers/Result/getResults'
 
 import {logOutUser} from 'fbw-platform-common/reducers/Login/logOutUser'
@@ -27,7 +23,6 @@ import {getUser} from 'fbw-platform-common/selectors'
 import {getCurrentCourse} from 'fbw-platform-common/selectors/course'
 
 
-
 const mapStateToProps = (state, ownProps) => {
   console.log('state in HomeContainer', state);
   // console.log('offeredId:', state.mission && state.mission.currentMission ? state.mission.currentMission.assessmentOfferedId : null)
@@ -35,7 +30,7 @@ const mapStateToProps = (state, ownProps) => {
   return {
     courses: state.course ? state.course.courses : [],
     currentCourse: getCurrentCourse(state),
-    missions: state.mission ? state.mission.missions : [],
+    missions: state.mission.missions,
     currentMission: state.mission ? state.mission.currentMission : null,
     isGetMissionsInProgress: state.mission ? state.mission.isGetMissionsInProgress : null,
     isGetMappingInProgress: state.mapping.isGetMappingInProgress,
@@ -79,10 +74,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     onClickAddMission: (missions, user) => {
       dispatch(changeView({name: 'add-mission'}))
     },
-    onClickEditMission: (mission, directives) => {
+    onClickEditMission: (mission, user) => {
       // console.log('clicked edit mission', mission, directives);
       dispatch(changeView({name: 'edit-mission', mission: mission}));
-      dispatch(editMission(mission, directives));
+      dispatch(editMission(mission));
     },
     onClickDeleteMission: (mission, user) => {
       dispatch(deleteMission(mission, user))

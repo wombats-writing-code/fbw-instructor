@@ -59,7 +59,7 @@ class SelectDirectives extends Component {
 
             <div className="directive-search">
               <input className="directive-search-input"
-                      placeholder="Search by directive name"
+                      placeholder="Search by directive name, e.g. graph exponential"
                       value={props.outcomeQuery}
                       onChange={(e) => props.onChangeOutcomeSearch(e.target.value)}/>
             </div>
