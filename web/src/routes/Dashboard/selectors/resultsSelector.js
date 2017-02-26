@@ -6,11 +6,72 @@ import 'moment-timezone'
 import {getMapping} from 'fbw-platform-common/selectors'
 import {isTarget} from 'fbw-platform-common/selectors/mission'
 import {getRoster} from 'fbw-platform-common/selectors/course'
-import {notAchievedOnAttempt, notTaken} from './common'
 
+import {missionConfig} from 'fbw-platform-common/reducers/Mission'
+
+/**
+  computes the number of points students got on a mission
+*/
+export const computeGrades = (mission, records, roster) => {
+  if (!mission) {
+    throw new TypeError('mission must be non-null in 1st arg of computeGrades')
+  }
+
+  let groupedByStudent = _.groupBy(records, 'user.Identifier');
+  let studentsOpenedIdentifiers = _.uniq(_.map(records, 'user.Identifier'));
+  let studentsNotOpenedIdentifers = _.difference(_.map(roster, 'Identifier'), studentsOpenedIdentifiers);
+
+  let phaseIGrades;
+  if (mission.type === missionConfig.PHASE_I_MISSION_TYPE) {
+    phaseIGrades = _.reduce(groupedByStudent, (result, records, userIdentifier) => {
+      let targets = _.filter(records, r => isTarget(r.question));
+      // console.log('records', records)
+      console.log('targets', targets)
+
+      let grade = {
+        points: pointsEarned(_.map(targets, 'responseResult.question')),
+        user: records[0].user,
+        status: '',
+      }
+
+      result.push(grade);
+
+      return result;
+    }, []);
+
+    let studentsNotOpenedGrades = _.map(studentsNotOpenedIdentifers, id => {
+      return {
+        points: null,
+        user: _.find(roster, {Identifier: id}),
+        status: '---'
+      }
+    })
+
+    phaseIGrades = _.concat(phaseIGrades, studentsNotOpenedGrades);
+  }
+
+
+
+  // console.log('phaseIGrades', phaseIGrades)
+
+  // for phase II type missions
+  return phaseIGrades;
+}
+
+export const pointsEarned = (questions) => {
+  let numberCorrect = _.reduce(questions, (sum, question) => {
+    if (question && question.response && question.response.isCorrect) {
+      sum++;
+    }
+
+    return sum;
+  }, 0);
+
+  let percentCorrect = _.round((numberCorrect / questions.length) * 100, 1);
+  return percentCorrect;
+}
 
 export const parseResults = (records, roster) => {
-
   if (!records || !roster) return;
 
   let groupedByStudent = _.groupBy(records, 'user.Identifier');

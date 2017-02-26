@@ -1,6 +1,4 @@
-
 import React, {Component} from 'react'
-import EmptyState from '../../EmptyState'
 import './SelectDirectives.scss'
 
 import DirectivesList from './DirectivesList'

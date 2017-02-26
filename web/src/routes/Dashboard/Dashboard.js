@@ -1,12 +1,9 @@
-'use strict';
-
 import React, {Component} from 'react'
 import moment from 'moment'
 
 import {missionConfig} from 'fbw-platform-common/reducers/Mission'
 import ResultsView from './containers/ResultsViewContainer'
-import GradesView from './containers/GradesViewContainer'
-import LoadingBox from '../../components/LoadingBox'
+import LoadingBox from 'fbw-platform-common/components/loading-box/web/'
 import {parseResults} from './selectors/resultsSelector'
 import './Dashboard.scss'
 
@@ -17,20 +14,19 @@ class Dashboard extends Component {
 
     if (!props.mission) return null;
 
-    let resultsView, recommendationView, gradesView;
+    let resultsView, recommendationView;
     if (props.mission && !this.props.isGetResultsInProgress) {
       resultsView = (
         <div>
           <p className="results__title">Phase I</p>
-          <ResultsView results={this._getResults(props.mission, missionConfig.PHASE_I_MISSION_TYPE)}
-                                  mission={props.mission}
-                                  isGetResultsInProgress={props.isGetResultsInProgress}
+          <ResultsView results={this._getResults(props.mission)}
+                      records={this._getRecords(props.mission)}
+                        mission={props.mission}
+                        isGetResultsInProgress={props.isGetResultsInProgress}
                       />
         </div>
         )
 
-
-      gradesView = <GradesView />
     }
 
 
@@ -56,9 +52,10 @@ class Dashboard extends Component {
 
       )
     } else {
-      <p className="phase-2-summary">
-      Phase II has not been launched. Go to Create a Mission.
-      </p>
+      phase2Summary = (
+      <p className="phase-2-prompt">
+        Phase II has not been launched.
+      </p>)
     }
 
     return (
@@ -78,10 +75,6 @@ class Dashboard extends Component {
           {phase2Summary}
         </div>
 
-        {/* <div className="row">
-          {gradesView}
-        </div> */}
-
         <div className="row">
           {loadingBox}
         </div>
@@ -90,21 +83,21 @@ class Dashboard extends Component {
     )
   }
 
-  _getResults(mission, resultsType) {
-    let results;
-    if (resultsType === missionConfig.PHASE_I_MISSION_TYPE) {
-      let records = this.props.resultsByMission[mission.id];
-
-      results = parseResults(records, this.props.roster);
+  _getRecords(mission) {
+    let records;
+    if (mission.type === missionConfig.PHASE_I_MISSION_TYPE) {
+      records = this.props.resultsByMission[mission.id];
 
     } else {
-      // we need to parse the records of all missions
-      let records = _.compact(_.flatten(_.map(mission.leadsToMissions, id => this.props.resultsByMission[id])));
-
-      console.log('all records for Phase 2', records);
-
-      results = parseResults(records, this.props.roster);
+      records = _.compact(_.flatten(_.map(mission.leadsToMissions, id => this.props.resultsByMission[id])));
     }
+
+    return records;
+  }
+
+  _getResults(mission) {
+    let records = this._getRecords(mission);
+    let results = parseResults(records, this.props.roster);;
 
     return results;
   }

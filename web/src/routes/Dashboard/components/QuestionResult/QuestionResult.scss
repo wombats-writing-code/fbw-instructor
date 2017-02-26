@@ -1,20 +1,18 @@
 
-
-.question-result:not(:last-of-type) {
-  margin-bottom: 1.5rem;
-  padding-bottom: 1.5rem;
-  border-bottom: 1px solid #ddd;
+.question-result {
+    padding: 1em;
+    box-shadow: 0 0 1px 1px rgba(#000, .3);
+    margin-bottom: 1.5rem;
 }
 
 .question-statistics {
   text-align: left;
   font-size: .875rem;
-  margin-top: 1.125rem;
 }
 
 .question-statistics__students-list {
   font-size: .875em;
-  margin-bottom: .125rem;
+  margin-bottom: 1.125rem;
 }
 
 .students-list__item:not(:last-child)::after {

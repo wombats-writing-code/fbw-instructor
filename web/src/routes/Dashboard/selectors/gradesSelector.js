@@ -6,9 +6,7 @@ import {isTarget} from 'fbw-platform-common/selectors/mission'
 import {notAchievedOnAttempt} from './common'
 
 
-export const pointsSelector = createSelector([
-  getPhaseIResults, getPhaseIIResults
-], (phaseIResults, phaseIIResults) => {
+export const pointsSelector = (records) => {
 
   if (_.every(_.concat(phaseIResults, phaseIIResults), _.isUndefined)) return null;
 

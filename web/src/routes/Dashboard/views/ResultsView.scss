@@ -5,10 +5,17 @@
   margin-bottom: 1.5rem;
 }
 
+.results__section {
+  margin-bottom: 1.5rem;
+}
+
 .results__title {
   text-align: left;
+  border-top: 1px solid rgba(#333, .5);
+  border-bottom: 1px solid rgba(#333, .5);
   padding-bottom: 3px;
-  border-bottom: 1px solid rgba(#555, .5);
+  padding-top: 3px;
+  padding-left: 3px;
   font-weight: 600;
 }
 
@@ -16,6 +23,7 @@
   text-align: left;
   margin-bottom: 0;
   font-weight: 600;
+  font-size: .875rem;
 }
 
 .empty-results {
@@ -24,6 +32,7 @@
 }
 
 .results__questions-list {
+  margin-left: 0;
   list-style: none;
   margin-top: 1.5rem;
 }

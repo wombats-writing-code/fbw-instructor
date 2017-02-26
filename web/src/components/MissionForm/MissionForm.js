@@ -1,10 +1,6 @@
 import React, {Component} from 'react'
 import moment from 'moment'
-import EmptyState from '../../components/EmptyState'
-import LoadingBox from '../../components/LoadingBox'
-import SelectDirectives from './views/SelectDirectives';
-import {missionConfig} from 'fbw-platform-common/reducers/Mission'
-import {getD2LDisplayName, getD2LUserIdentifier} from 'fbw-platform-common/selectors/login'
+import _ from 'lodash'
 
 import Select from 'react-select';
 import 'react-select/dist/react-select.css';
@@ -12,7 +8,12 @@ import 'react-select/dist/react-select.css';
 import Datetime from 'react-datetime'
 require('./react-datetime.css')
 
-import _ from 'lodash'
+import EmptyState from 'fbw-platform-common/components/empty-state/web/EmptyState'
+import LoadingBox from 'fbw-platform-common/components/loading-box/web/LoadingBox'
+import {missionConfig} from 'fbw-platform-common/reducers/Mission'
+import {getD2LDisplayName, getD2LUserIdentifier} from 'fbw-platform-common/selectors/login'
+import SelectDirectives from './views/SelectDirectives';
+
 import './MissionForm.scss'
 
 class MissionForm extends Component {

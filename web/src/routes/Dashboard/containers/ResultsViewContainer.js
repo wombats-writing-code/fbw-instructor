@@ -7,6 +7,8 @@ import {selectDirective} from 'fbw-platform-common/reducers/Mission/selectDirect
 import {selectTarget} from 'fbw-platform-common/reducers/Mission/selectTarget'
 import {selectStudentResult} from 'fbw-platform-common/reducers/Mission/selectStudentResult'
 import {getMapping} from 'fbw-platform-common/selectors'
+import {getRoster} from 'fbw-platform-common/selectors/course'
+import {computeGrades} from '../selectors/resultsSelector'
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
@@ -19,6 +21,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
 const mapStateToProps = (state, ownProps) => {
   return {
+    grades: computeGrades(ownProps.mission, ownProps.records, getRoster(state)),
     currentDirectiveIndex: state.mission.currentDirectiveIndex,
     currentTarget: state.mission.currentTarget,
     currentMission: state.mission.currentMission,

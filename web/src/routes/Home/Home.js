@@ -1,16 +1,16 @@
 import React, {Component} from 'react'
 import { browserHistory } from 'react-router'
+import _ from 'lodash'
 
-import LoadingBox from '../../components/LoadingBox'
+import {missionConfig} from 'fbw-platform-common/reducers/Mission'
+import LoadingBox from 'fbw-platform-common/components/loading-box/web/'
 import MissionForm from '../../components/MissionForm/'
 import NavBar from '../../components/NavBar'
-import _ from 'lodash'
 import Dashboard from '../Dashboard/'
 
 import Courses from './views/Courses'
 import Missions from './views/Missions'
 
-import {missionConfig} from 'fbw-platform-common/reducers/Mission'
 
 
 import './Home.styles.css'
@@ -58,7 +58,7 @@ class Home extends Component {
                     isGetMissionsInProgress={this.props.isGetMissionsInProgress}
                     onClickMission={(mission) => this.props.onClickMission(mission, props.user)}
                     onClickAddMission={() => this.props.onClickAddMission(this._getVisibleMissions(), props.user)}
-                    onClickDeleteMission={(mission) => this.props.onClickDeleteMission(mission)}
+                    onClickDeleteMission={(mission) => this.props.onClickDeleteMission(mission, props.user)}
                   />
         </div>
 

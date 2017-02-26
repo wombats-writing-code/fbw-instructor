@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import _ from 'lodash';
 const moment = require('moment');
 
-import LoadingBox from '../../../components/LoadingBox'
+import LoadingBox from 'fbw-platform-common/components/loading-box/web/LoadingBox'
 
 import './Courses.scss'
 

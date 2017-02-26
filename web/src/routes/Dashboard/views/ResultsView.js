@@ -1,9 +1,10 @@
 import React, {Component} from 'react';
 import _ from 'lodash'
 
-import EmptyState from '../../../components/EmptyState'
+import EmptyState from 'fbw-platform-common/components/empty-state/web/EmptyState'
 import QuestionResult from '../components/QuestionResult'
 import StudentStatusList from './StudentStatusList'
+import GradesTable from './GradesTable'
 
 // import DirectiveCarousel from 'fbw-platform-common/components/mission/web/DirectiveCarousel'
 // import TargetCarouselComponent from 'fbw-platform-common/components/mission/web/TargetCarousel'
@@ -29,7 +30,8 @@ class ResultsView extends Component {
   }
 
   render() {
-    let results = this.props.results;
+    let props = this.props;
+    let results = props.results;
     console.log('props of ResultsView', this.props)
 
     if (!results) {
@@ -65,7 +67,8 @@ class ResultsView extends Component {
 
     return (
       <div className="results-view">
-        <StudentStatusList studentsOpened={results.studentsOpened} studentsNotOpened={results.studentsNotOpened}/>
+        <GradesTable grades={props.grades}
+                     />
 
         <div className="results__section">
           <div className="flex-container space-between align-center">
