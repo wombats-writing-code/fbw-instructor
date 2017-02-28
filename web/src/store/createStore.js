@@ -33,7 +33,6 @@ export default (initialState = {}) => {
         let subset = {
           course: state.course,
           result: _.omit(state.result, [
-            'phaseIResults', 'phaseIIResults',
             'isGetResultsInProgress',
           ]),
           editMission: _.assign({}, state.editMission, {
@@ -53,24 +52,9 @@ export default (initialState = {}) => {
 
         return subset;
       }
-
       // console.log('storing state:', subset)
 
       return {};
-    },
-    deserialize: serialized => {
-      let state = JSON.parse(serialized);
-      if (state) {
-        state.editMission.spawnDate = {
-          startTime: moment(),
-          deadline: moment().add(7, 'd')
-        }
-        console.log('deserialized', state);
-
-        return state;
-      }
-
-      return {}
     }
   }))
 
