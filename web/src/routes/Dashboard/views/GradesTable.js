@@ -22,6 +22,9 @@ class GradesTable extends Component {
     let expandCollapseButtonText = this.state.isExpanded ? 'Hide' : 'Show';
 
     // console.log('grades', props.grades)
+    if (!props.grades) {
+      return null;
+    }
 
     let columns = [
       {

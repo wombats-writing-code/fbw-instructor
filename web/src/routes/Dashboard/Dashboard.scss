@@ -2,9 +2,20 @@
 @import '../../styles/base';
 
 
+.results__title {
+  text-align: left;
+  border-top: 2px solid #333;
+  border-bottom: 2px solid #333;
+  padding-bottom: .5em;
+  padding-top: .5em;
+  padding-left: 3px;
+  font-weight: 600;
+}
+
 .mission-name {
   text-align: left;
   font-weight: 600;
+  margin-bottom: 0;
   color: #555;
 }
 
@@ -12,4 +23,23 @@
   padding: .5em 0 .5em .5em;
   background: #f3f3f3;
   text-align: left;
+}
+
+.dashboard-bar {
+  margin-bottom: 1.5rem;
+}
+
+.refresh-button, .refresh-button:focus {
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 0;
+  background: transparent;
+  padding: .5em 1em;
+  border: 1px solid #aaa;
+  border-radius: 3px;
+}
+
+.refresh-button:hover {
+  color: #555;
+  background: #f0f0f0;
 }

@@ -4,6 +4,7 @@
 export const CHANGE_VIEW = 'CHANGE_VIEW'
 export const SELECT_DIRECTIVE = 'SELECT_DIRECTIVE'
 
+import {RECEIVE_CREATE_MISSION, RECEIVE_CREATE_MISSIONS} from 'fbw-platform-common/reducers/edit-mission/'
 // ------------------------------------
 // Actions
 // ------------------------------------
@@ -32,11 +33,11 @@ export default function viewReducer (state = initialState, action) {
   switch (action.type) {
     case CHANGE_VIEW:
       return action.view
-    // 
-    // case SELECT_DIRECTIVE:
-    //   return _.assign({}, state, {
-    //     currentDirective: action.directive
-    //   });
+
+    case CHANGE_VIEW:
+      return _.assign({}, state, {
+        name: 'dashboard.resultsView'
+      })
 
     default:
       return state

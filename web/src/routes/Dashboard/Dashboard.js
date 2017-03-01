@@ -18,7 +18,14 @@ class Dashboard extends Component {
     if (props.mission && !this.props.isGetResultsInProgress) {
       resultsView = (
         <div>
-          <p className="results__title">Phase I</p>
+          <p className="results__title flex-container space-between">
+            <span>Phase I</span>
+            <span className=" ">
+              {moment(props.mission.startTime).format('ddd, MMM D [at] ha')}
+              &mdash;
+              {moment(props.mission.deadline).format('ddd, MMM D [at] ha')}
+            </span>
+          </p>
           <ResultsView results={this._getResults(props.mission)}
                       records={this._getRecords(props.mission)}
                         mission={props.mission}
@@ -44,8 +51,14 @@ class Dashboard extends Component {
     if (phase2Missions && phase2Missions.length > 0) {
       phase2Summary = (
         <div>
-        <p className="results__title">Phase II</p>
-        <ResultsView results={this._getResults(this.props.mission, missionConfig.PHASE_II_MISSION_TYPE)}
+          <p className="results__title flex-container space-between">
+            <span>Phase II</span>
+            <span className=" ">
+              {moment(this._getLeadsToMission(props.mission).startTime).format('ddd, MMM D [at] ha')}
+                &mdash;
+              {moment(this._getLeadsToMission(props.mission).deadline).format('ddd, MMM D [at] ha')}
+            </span>
+          </p>        <ResultsView results={this._getResults(this.props.mission, missionConfig.PHASE_II_MISSION_TYPE)}
                     mission={this.props.mission}
                     isGetResultsInProgress={props.isGetResultsInProgress}/>
         </div>
@@ -54,17 +67,21 @@ class Dashboard extends Component {
     } else {
       phase2Summary = (
       <p className="phase-2-prompt">
-        Phase II has not been launched.
+        No Phase II missions have been launched from this one.
       </p>)
     }
 
     return (
       <div className="columns">
-        <div className="row">
+        <div className="dashboard-bar flex-container space-between align-center">
           <p className="mission-name">
             {this.props.mission ? this.props.mission.displayName : ''} &nbsp;
-            <span className="light">{moment(props.mission.startTime).format('ddd, MMM D [at] hA')} &mdash; {moment(props.mission.deadline).format('ddd, MMM D [at] hA')}</span>
           </p>
+          <button className="button refresh-button"
+                  disabled={this.props.isGetResultsInProgress}
+                  onClick={() => this.props.onClickRefreshResults(props.mission, props.user)}>
+            {this.props.isGetResultsInProgress ? 'Refreshing...' : 'Refresh'}
+          </button>
         </div>
 
         <div className="row">
@@ -81,6 +98,10 @@ class Dashboard extends Component {
 
       </div>
     )
+  }
+
+  _getLeadsToMission(mission) {
+    return _.find(this.props.missions, {id: mission.leadsToMissions[0]});
   }
 
   _getRecords(mission) {

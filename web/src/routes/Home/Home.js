@@ -40,7 +40,7 @@ class Home extends Component {
     }  else if (props.view.name === 'add-mission' || props.view.name === 'edit-mission') {
       view = (
         <div>
-          <MissionForm />
+          <MissionForm currentMission={this.props.currentMission} />
         </div>
       )
     }

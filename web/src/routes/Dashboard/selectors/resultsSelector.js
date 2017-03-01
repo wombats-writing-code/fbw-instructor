@@ -17,11 +17,6 @@ export const computeGrades = (mission, records, roster) => {
     throw new TypeError('mission must be non-null in 1st arg of computeGrades');
   }
 
-  if (!records) {
-    return;
-    // throw new TypeError('records must be an array, even if an empty one');
-  }
-
   if (!roster) {
     throw new TypeError('roster must be non-null');
   }
@@ -29,6 +24,7 @@ export const computeGrades = (mission, records, roster) => {
   let groupedByStudent = _.groupBy(records, 'user.Identifier');
   let studentsOpenedIdentifiers = _.uniq(_.map(records, 'user.Identifier'));
   let studentsNotOpenedIdentifers = _.difference(_.map(roster, 'Identifier'), studentsOpenedIdentifiers);
+  // console.log('studentsNotOpenedIdentifers', studentsNotOpenedIdentifers)
 
   let phaseIGrades;
   if (mission.type === missionConfig.PHASE_I_MISSION_TYPE) {
@@ -56,8 +52,10 @@ export const computeGrades = (mission, records, roster) => {
     })
 
     phaseIGrades = _.concat(phaseIGrades, studentsNotOpenedGrades);
-  }
 
+  } else if (mission.type === missionConfig.PHASE_II_MISSION_TYPE) {
+
+  }
 
 
   // console.log('phaseIGrades', phaseIGrades)
@@ -86,8 +84,8 @@ export const parseResults = (records, roster) => {
   let studentsOpenedIdentifiers = _.uniq(_.map(records, 'user.Identifier'));
   let studentsNotOpenedIdentifers = _.difference(_.map(roster, 'Identifier'), studentsOpenedIdentifiers);
 
-  console.log('records', records);
-  console.log('studentsOpenedIdentifiers', studentsOpenedIdentifiers);
+  // console.log('records', records);
+  // console.log('studentsOpenedIdentifiers', studentsOpenedIdentifiers);
   // console.log('studentsNotOpenedIdentifers', studentsNotOpenedIdentifers)
   // console.log('roster', _.map(roster, 'Identifier'))
 

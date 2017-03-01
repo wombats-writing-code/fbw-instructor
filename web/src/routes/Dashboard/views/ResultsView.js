@@ -3,19 +3,7 @@ import _ from 'lodash'
 
 import EmptyState from 'fbw-platform-common/components/empty-state/web/EmptyState'
 import QuestionResult from '../components/QuestionResult'
-import StudentStatusList from './StudentStatusList'
 import GradesTable from './GradesTable'
-
-// import DirectiveCarousel from 'fbw-platform-common/components/mission/web/DirectiveCarousel'
-// import TargetCarouselComponent from 'fbw-platform-common/components/mission/web/TargetCarousel'
-// import TargetCarouselContainer from 'fbw-platform-common/components/mission/TargetCarouselContainer'
-// const TargetCarousel = TargetCarouselContainer(TargetCarouselComponent)
-
-// we make a local copy of TargetCarousel here and change it
-// because our needs are slightly different from the one in common
-// after Unit 1, we'll refactor
-// import TargetCarousel from './TargetCarousel'
-
 
 import './ResultsView.scss'
 
@@ -35,7 +23,9 @@ class ResultsView extends Component {
     // console.log('props of ResultsView', this.props)
 
     if (!results) {
-      return null;
+      return (
+        <GradesTable grades={props.grades} />
+      );
     }
 
     let resultsQuestions;
@@ -72,8 +62,7 @@ class ResultsView extends Component {
 
     return (
       <div className="results-view">
-        <GradesTable grades={props.grades}
-                     />
+        <GradesTable grades={props.grades} />
 
         {refreshPrompt}
 

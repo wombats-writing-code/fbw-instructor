@@ -37,7 +37,8 @@ export default (initialState = {}) => {
           ]),
           editMission: _.assign({}, state.editMission, {
             newMission: stampNewMission(),
-            isCreateMissionInProgress: false
+            isCreateMissionInProgress: false,
+            isCreateMissionsInProgress: false
           }),
           mapping: state.mapping,
           mission: _.assign({}, state.mission, {
