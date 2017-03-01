@@ -37,6 +37,8 @@ export default (initialState = {}) => {
           ]),
           editMission: _.assign({}, state.editMission, {
             newMission: stampNewMission(),
+            outcomeQuery: '',
+            selectedModule: null,
             isCreateMissionInProgress: false,
             isCreateMissionsInProgress: false
           }),

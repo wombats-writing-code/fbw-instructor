@@ -2,7 +2,16 @@ import React, {Component} from 'react'
 import QuestionCard from 'fbw-platform-common/components/question-card/web/QuestionCard'
 import StudentLink from '../StudentLink'
 
+// import {getChoiceAlphabet} from 'fbw-platform-common/'
+
 import './QuestionResult.scss'
+
+function getChoiceAlphabet(choice, choices) {
+  const Alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
+
+  let idx = _.findIndex(choices, {choiceId: choice.choiceId});
+  return Alphabet[idx];
+}
 
 class QuestionResult extends Component {
 
@@ -24,7 +33,17 @@ class QuestionResult extends Component {
     // console.log('outcome:', props.outcome);
     // console.log('records', props.records);
 
-    // let everyone = _.
+    let responseResult = _.find(props.records, 'responseResult').responseResult;
+    let question = responseResult.question;
+
+    // we artificially make a new 'question response object' by injecting the question with a correct response
+    // because instructors want to see the correct response to a question
+    let questionWithCorrectResponse = _.assign({}, question, {
+      response: {
+        choice: _.find(question.choices, {choiceId: question.solution.choiceId}),
+        isCorrect: true
+      }
+    });
 
     return (
       <div key={`questionResult_${props.idx}`} className="question-result ">
@@ -34,52 +53,25 @@ class QuestionResult extends Component {
               <p className="question-statistics__students-list">
                 <span className="bold">Incorrect: </span>
                 {_.map(props.records, (record, idx) => {
-                  // console.log('record', record);
+                  let studentChoice = record.responseResult.choice;
 
-                  return (<StudentLink key={`${idx}`} className="students-list__item"
-                                      student={record.user}
-                                      onSelectResult={this.props.onSelectMissionResult}/>)
+                  return (
+                    <div key={`student-link-${idx}`} className="students-list__item">
+                      <StudentLink student={record.user}
+                                  onSelectResult={this.props.onSelectMissionResult}/>
+                      <span className="student__choice-response">&#8201; ({getChoiceAlphabet(studentChoice, question.choices)})</span>
+                    </div>
+                    )
                 })}
               </p>
-              {/* <p className="question-statistics__students-list">
-                <span className="bold">Incorrect: </span>
-                {_.map(props.result.notAchieved, studentResult => {
-                  return (<StudentLink key={studentResult.takingAgentId} className="students-list__item"
-                                      studentResult={studentResult}
-                                      onSelectResult={this.props.onSelectMissionResult}/>)                })}
-              </p>
 
-              <p className="question-statistics__students-list">
-                <span className="bold">Correct: </span>
-                {_.map(props.result.achieved, studentResult => {
-                  return (<StudentLink key={studentResult.takingAgentId} className="students-list__item"
-                                      studentResult={studentResult}
-                                      onSelectResult={this.props.onSelectMissionResult}/>)                })}
-              </p> */}
-            </div>
-
-            {/* <div>
-              {_.map(recordsForQuestion, (record, idx) => {
-                let user = record.user;
-                return (
-                  <p key={`user.Identifer-${idx}`}>
-                    <span>{getD2LDisplayName(user)}</span>
-                    <span> chose {record.responseResult.choice.id}</span>
-                  </p>
-                )
-              })}
-
-              <p>{recordsForQuestion[0].question.text}</p>
-            </div> */}
-
-            <QuestionCard question={props.records[0].responseResult.question}
+              <QuestionCard question={questionWithCorrectResponse}
                           outcome={props.outcome}
                           isExpanded={false}
                           isSubmitEnabled={false}/>
+            </div>
           </div>
         </div>
-
-
       </div>
     )
   }

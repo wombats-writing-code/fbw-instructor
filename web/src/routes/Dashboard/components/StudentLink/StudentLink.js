@@ -13,7 +13,7 @@ const StudentLink = (props) => {
   let studentDisplayName = getD2LDisplayName(student);
 
   return (
-    <Link key={student.Identifier} className="students-list__item"
+    <Link key={student.Identifier}
               onClick={() => props.onSelectResult(student)}
               to={`/students/${studentDisplayName}/missions/${slug(studentDisplayName)}`}
               target="_blank">{studentDisplayName}</Link>
