@@ -58,7 +58,7 @@ const mapStateToProps = (state, ownProps) => {
     recommendations: computeRecommendations(state),
     isCreateMissionInProgress: state.editMission.isCreateMissionInProgress,
     displayedDirectives: displayedDirectivesSelector(state, ownProps),
-    numberItemsForDirectives: itemsForDirectivesSelector(state),
+    itemsForDirectives: itemsForDirectivesSelector(state),
   }
 }
 

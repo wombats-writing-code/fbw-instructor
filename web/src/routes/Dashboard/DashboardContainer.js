@@ -27,6 +27,7 @@ const mapStateToProps = (state, ownProps) => {
     mission: currentMission,
     missions: state.mission.missions,
     resultsByMission: state.result.resultsByMission,
+    isGetMissionsInProgress: state.mission.isGetMissionsInProgress,
     isGetResultsInProgress: state.result && state.result.isGetResultsInProgress,
   }
 }

@@ -57,7 +57,7 @@ class MissionForm extends Component {
           <SelectDirectives selectedOutcomeIds={props.newMission.goals}
                             selectedModule={props.selectedModule}
                             displayedDirectives={props.displayedDirectives}
-                            numberItemsForDirectives={props.numberItemsForDirectives}
+                            itemsForDirectives={props.itemsForDirectives}
                             mapping={props.mapping}
                             outcomeQuery={props.outcomeQuery}
                             onSelectModule={props.onSelectModule}

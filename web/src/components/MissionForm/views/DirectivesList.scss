@@ -7,7 +7,6 @@
 
 .directives-list__item {
   font-size: .875rem;
-  cursor: pointer;
   margin-bottom: 1rem;
 }
 
@@ -20,10 +19,6 @@
 
 .directives-list__item.non-target .outcome-text {
   margin-left: 3rem;
-}
-
-.directives-list__item:hover {
-  opacity: .8;
 }
 
 .select-directive-icon {
@@ -56,13 +51,29 @@
   text-align: left;
 }
 
-.number-items-for-directives {
-  margin-left: 1em;
-  font-size: .875rem;
-  color: #666;
+.preview-questions-button {
+  margin-left: 1rem;
+  background: transparent;
+  color: #333;
+  padding: 0;
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  border-radius: 0;
+  border-bottom: 1px solid #444;
+  font-size: .8rem;
+  margin-bottom: 0;
+  padding: .2em;
+}
+
+.preview-questions-button:hover {
+  background: transparent;
+  color: #777;
+  border-color: #aaa;
 }
 
 .add-remove-directive-button {
+  cursor: pointer;
   margin-left: 1em;
   font-size: .875rem;
   text-decoration: underline;
@@ -72,6 +83,20 @@
   color: $app-orange;
 }
 
+.add-remove-directive-button.remove:hover {
+  opacity: .8;
+}
+
 .add-remove-directive-button.add {
   color: $app-blue-dark;
+}
+
+.add-remove-directive-button.add:hover {
+  color: $app-blue-2;
+}
+
+.preview-question-card {
+  box-shadow: 0 0 1px 1px rgba(#333, .3);
+  padding: 1.5rem 0 0 1em;
+  margin-top: 1.5rem;
 }

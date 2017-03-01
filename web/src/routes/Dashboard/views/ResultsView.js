@@ -135,7 +135,7 @@ class ResultsView extends Component {
       })
     })
 
-    console.log('state for ', outcome.id, this.state.isOutcomeQuestionsExpanded[outcome.id])
+    // console.log('state for ', outcome.id, this.state.isOutcomeQuestionsExpanded[outcome.id])
   }
 }
 

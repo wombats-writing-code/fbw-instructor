@@ -51,7 +51,7 @@ class SelectDirectives extends Component {
         {selectedDirectivesLabel}
         <DirectivesList directives={_.map(props.selectedOutcomeIds, id => _.find(props.mapping.outcomes, {id: id}))}
                       selectedOutcomeIds={props.selectedOutcomeIds}
-                      mapping={props.mapping} numberItemsForDirectives={props.numberItemsForDirectives}
+                      mapping={props.mapping} itemsForDirectives={props.itemsForDirectives}
                       onToggleOutcome={props.onToggleOutcome} />
 
           <div className="form-subsection">
@@ -72,7 +72,7 @@ class SelectDirectives extends Component {
             {filterByModule}
 
             <DirectivesList directives={props.displayedDirectives} selectedOutcomeIds={props.selectedOutcomeIds}
-                            mapping={props.mapping} numberItemsForDirectives={props.numberItemsForDirectives}
+                            mapping={props.mapping} itemsForDirectives={props.itemsForDirectives}
                             onToggleOutcome={props.onToggleOutcome} />
         </div>
 

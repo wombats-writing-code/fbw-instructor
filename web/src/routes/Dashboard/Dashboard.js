@@ -15,7 +15,7 @@ class Dashboard extends Component {
     if (!props.mission) return null;
 
     let resultsView, recommendationView;
-    if (props.mission && !this.props.isGetResultsInProgress) {
+    if (props.mission && !this.props.isGetResultsInProgress && !this.props.isGetMissionsInProgress) {
       resultsView = (
         <div>
           <p className="results__title flex-container space-between">
@@ -64,7 +64,8 @@ class Dashboard extends Component {
         </div>
 
       )
-    } else {
+
+    } else if (!this.props.isGetMissionsInProgress) {
       phase2Summary = (
       <p className="phase-2-prompt">
         No Phase II missions have been launched from this one.

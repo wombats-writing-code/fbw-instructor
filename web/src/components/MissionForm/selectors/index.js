@@ -14,14 +14,15 @@ export const itemsForDirectivesSelector = createSelector([getOutcomes, getItems]
   //console.log('allItems', allItems, 'selectedDirectives', selectedDirectives);
   let outcomeIds = _.map(outcomes, 'id');
 
-  let numberItemsForDirectives = _.reduce(allItems, (result, item) => {
-      result[item.outcome] = (result[item.outcome] || 0) + 1;
+  let itemsForDirectives = _.reduce(allItems, (result, item) => {
+      result[item.outcome] = result[item.outcome] || [];
+      result[item.outcome].push(item);
 
     return result;
   }, {});
 
   // currently this is the full count of all items for a given LO
-  return numberItemsForDirectives;
+  return itemsForDirectives;
 })
 
 
