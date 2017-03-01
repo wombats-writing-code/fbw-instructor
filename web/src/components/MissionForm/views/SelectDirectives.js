@@ -1,7 +1,9 @@
 import React, {Component} from 'react'
-import './SelectDirectives.scss'
+import Select from 'react-select';
+import 'react-select/dist/react-select.css';
 
 import DirectivesList from './DirectivesList'
+import './SelectDirectives.scss'
 
 class SelectDirectives extends Component {
 
@@ -20,31 +22,31 @@ class SelectDirectives extends Component {
                                   (<p className="select-directives__section-title">Selected goals (# questions available)</p>)
                                   : null;
 
-    let filterByModule, filterByModuleText;
-    if (this.state.isExpanded) {
-      filterByModule = (
-        <div className="clearfix select-modules-section" >
-          <ol className="modules-list clearfix">
-            {_.map(props.mapping.modules, (m, idx) => {
-              let isSelected = props.selectedModule === m;
-
-              return (
-                <li key={`selectModule_${idx}`}
-                    className={isSelected ? "modules-list__item is-selected" : "modules-list__item"}
-                    onClick={(e) => props.onSelectModule(m)}>
-                    {m.displayName}
-
-                </li>
-              )
-            })}
-          </ol>
-        </div>
-      )
-
-      filterByModuleText = <span className="app-blue-dark">Hide modules</span>;
-    } else {
-      filterByModuleText = <span className="app-blue-dark">Filter by modules (Show)</span>;
-    }
+    // let filterByModule, filterByModuleText;
+    // if (this.state.isExpanded) {
+    //   filterByModule = (
+    //     <div className="clearfix select-modules-section" >
+    //       <ol className="modules-list clearfix">
+    //         {_.map(props.mapping.modules, (m, idx) => {
+    //           let isSelected = props.selectedModule === m;
+    //
+    //           return (
+    //             <li key={`selectModule_${idx}`}
+    //                 className={isSelected ? "modules-list__item is-selected" : "modules-list__item"}
+    //                 onClick={(e) => props.onSelectModule(m)}>
+    //                 {m.displayName}
+    //
+    //             </li>
+    //           )
+    //         })}
+    //       </ol>
+    //     </div>
+    //   )
+    //
+    //   filterByModuleText = <span className="app-blue-dark">Hide modules</span>;
+    // } else {
+    //   filterByModuleText = <span className="app-blue-dark">Filter by modules (Show)</span>;
+    // }
 
     return (
       <div className="select-directives">
@@ -55,27 +57,25 @@ class SelectDirectives extends Component {
                       onToggleOutcome={props.onToggleOutcome} />
 
           <div className="form-subsection">
-            <p className="select-directives__section-title">Select goals</p>
-
-            <div className="directive-search">
               <input className="directive-search-input"
                       placeholder="Search by directive name, e.g. graph exponential"
                       value={props.outcomeQuery}
                       onChange={(e) => props.onChangeOutcomeSearch(e.target.value)}/>
-            </div>
 
-            <p className="select-directives__section-title filter-by-module-text"
-              onClick={() => this.setState({isExpanded: !this.state.isExpanded})}>
-              {filterByModuleText}
-            </p>
+              <Select placeholder="...or search by module" className="select-module"
+                  value={props.selectedModule}
+                  name="displayName"
+                  options={props.mapping.modules}
+                  matchProp="id"
+                  labelKey="displayName"
+                  valueKey="id"
+                  onChange={(value) => props.onSelectModule(value)}
+              />
+          </div>
 
-            {filterByModule}
-
-            <DirectivesList directives={props.displayedDirectives} selectedOutcomeIds={props.selectedOutcomeIds}
-                            mapping={props.mapping} itemsForDirectives={props.itemsForDirectives}
-                            onToggleOutcome={props.onToggleOutcome} />
-        </div>
-
+          <DirectivesList directives={props.displayedDirectives} selectedOutcomeIds={props.selectedOutcomeIds}
+                          mapping={props.mapping} itemsForDirectives={props.itemsForDirectives}
+                          onToggleOutcome={props.onToggleOutcome} />
       </div>
     )
   }
