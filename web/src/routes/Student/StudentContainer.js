@@ -20,15 +20,8 @@ const mapStateToProps = (state, ownProps) => {
   console.log('state in StudentContainer', state);
 
   return {
-    mission: state.mission ? state.mission.currentMission : null,
-    result: state.result.currentResult
-    // view: state.view,
-    // currentBankId: state.bank.currentBank ? state.bank.currentBank.id : null,
-    // isGetPhaseIResultsInProgress: state.mission ? state.mission.isGetPhaseIResultsInProgress : false,
-    // isGetPhaseIIResultsInProgress: state.mission ? state.mission.isGetPhaseIIResultsInProgress : false,
-    // isGetSpawnResultsInProgress: false,     // TODO
-    // isSpawnInProgress: state.mission && state.mission.isSpawnInProgress,
-    // recommendation: recommendMissionSelector(state, ownProps)
+    student: state.result.currentStudent,
+    mission: state.mission.currentMission && state.mission.currentMission.questions ? state.mission.currentMission : null
   }
 }
 

@@ -1,12 +1,9 @@
-'use strict';
-
 import React, {Component} from 'react'
 
 import MissionComponent from 'fbw-platform-common/components/mission/web/Mission'
 import MissionContainer from  'fbw-platform-common/components/mission/MissionContainer'
 const Mission = MissionContainer(MissionComponent)
-
-import {osidToDisplayName} from 'fbw-platform-common/selectors/login'
+import {getD2LDisplayName} from 'fbw-platform-common/selectors/login'
 
 // import QuestionsComponent from 'fbw-platform-common/components/questions/web/Questions'
 // import QuestionContainer from  'fbw-platform-common/components/questions/QuestionsContainer'
@@ -22,18 +19,22 @@ class Student extends Component {
   }
 
   render() {
+    let props = this.props;
 
-    // if (!this.props.result) return null;
-    console.log('props of Student.js', this.props)
+    if (!props.mission) return null;
+
+    // console.log('props of Student.js', props)
+    // console.log('props.mission', props.mission)
 
     return (
       <div>
         <div className="student__nav-bar clearfix">
-          <p>You are looking at <span>{osidToDisplayName(this.props.result.takingAgentId)}</span>
+          <p>You are looking at <span>{getD2LDisplayName(props.student)}</span>
           &nbsp; >>
-          <span> {this.props.result.displayName.text}</span></p>
+          <span> {props.mission.displayName}</span></p>
         </div>
-        <Mission />
+
+        <Mission mission={props.mission}/>
       </div>
     )
   }

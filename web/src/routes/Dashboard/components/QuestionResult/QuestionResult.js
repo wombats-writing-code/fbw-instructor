@@ -44,8 +44,7 @@ class QuestionResult extends Component {
 
                   return (
                     <div key={`student-link-${idx}`} className="students-list__item">
-                      <StudentLink student={record.user}
-                                  onSelectResult={this.props.onSelectMissionResult}/>
+                      <StudentLink student={record.user} mission={props.mission} onSelectResult={this.props.onSelectResult}/>
                       <span className="student__choice-response">&#8201;
                         ({getChoiceAlphabet(studentChoice, question.choices)})
                       </span>

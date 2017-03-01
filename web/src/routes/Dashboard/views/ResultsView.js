@@ -27,7 +27,9 @@ class ResultsView extends Component {
 
     if (!results) {
       return (
-        <GradesTable grades={props.grades} />
+        <GradesTable grades={props.grades}
+                    mission={props.currentMission}
+                    onSelectStudent={(student) => this.props.onSelectStudentResult(student, props.currentMission, props.user)}/>
       );
     }
 
@@ -41,7 +43,9 @@ class ResultsView extends Component {
 
             return (
               <li key={`incorrect-question-${recordsForQuestion[0].question.id}`}>
-                <QuestionResult records={recordsForQuestion} outcome={outcome} />
+                <QuestionResult records={recordsForQuestion} outcome={outcome}
+                                mission={props.currentMission}
+                                onSelectResult={this.props.onSelectStudentResult}/>
               </li>
             )
           })}
@@ -64,9 +68,10 @@ class ResultsView extends Component {
             if (this.state.isOutcomeQuestionsExpanded[outcome.id]) {
               questionsForOutcome = _.map(recordsByQuestion, (records, qId) => {
                 return (
-                  <li key={`outcome__question--${qId}`} className="no-style">
-                    <QuestionResult records={records} outcome={outcome} />
-                  </li>
+                  <div key={`outcome__question--${qId}`} className="no-style">
+                    <QuestionResult records={records} outcome={outcome}
+                                    onSelectResult={(student) => this.props.onSelectStudentResult(student, props.mission, props.user)} />
+                  </div>
                 )
               })
             }
@@ -96,7 +101,9 @@ class ResultsView extends Component {
 
     return (
       <div className="results-view">
-        <GradesTable grades={props.grades} />
+        <GradesTable grades={props.grades}
+                    mission={props.currentMission}
+                    onSelectStudent={(student) => this.props.onSelectStudentResult(student, props.currentMission, props.user)}/>
 
         {refreshPrompt}
 

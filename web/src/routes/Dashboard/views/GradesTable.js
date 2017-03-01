@@ -1,10 +1,14 @@
 import React, {Component} from 'react';
+import {browserHistory} from 'react-router'
+import slug from 'slug'
 import _ from 'lodash'
-import {getD2LDisplayName} from 'fbw-platform-common/selectors/login'
-import './GradesTable.scss'
 
 import ReactTable from 'react-table'
 import 'react-table/react-table.css'
+
+import {getD2LDisplayName} from 'fbw-platform-common/selectors/login'
+import './GradesTable.scss'
+
 
 class GradesTable extends Component {
 
@@ -45,15 +49,28 @@ class GradesTable extends Component {
     return (
       <div className="grades-table">
 
-        <ReactTable className="grades-table" data={props.grades} columns={columns}
+        <ReactTable className="grades-table -highlight" data={props.grades} columns={columns}
                     showPagination={false}
                     defaultPageSize={props.grades.length}
+                    getTdProps={(state, rowInfo, column, instance) => this._onClickHandler(state, rowInfo, column, instance)}
           />
 
       </div>
     )
   }
 
+  _onClickHandler(state, rowInfo, column, instance) {
+    return {
+      onClick: e => {
+        // console.log('was clicked', rowInfo)
+        // console.log('props.mission', this.props.mission)
+        let user = rowInfo.row.user;
+        this.props.onSelectStudent(user);
+
+        browserHistory.push(`/students/${slug(getD2LDisplayName(user))}/missions/${slug(this.props.mission.displayName)}`);
+      }
+    }
+  }
 
 }
 
