@@ -4,9 +4,9 @@ import StudentLink from '../StudentLink'
 
 // import {getChoiceAlphabet} from 'fbw-platform-common/'
 
-import './QuestionResult.scss'
+import './OutcomeResult.scss'
 
-class QuestionResult extends Component {
+class OutcomeResult extends Component {
 
   constructor() {
     super();
@@ -16,6 +16,12 @@ class QuestionResult extends Component {
   render() {
     let props = this.props;
     let expandCollapseButtonText = this.state.isExpanded ? 'Hide' : 'Show';
+    let expandedStudents = !this.state.isExpanded ? null :
+          (
+            <ul className="students-list">
+
+            </ul>
+          )
 
     // console.log('outcome:', props.outcome);
     // console.log('records', props.records);
@@ -33,7 +39,7 @@ class QuestionResult extends Component {
     });
 
     return (
-      <div key={`questionResult_${props.idx}`} className="question-result ">
+      <div key={`OutcomeResult_${props.idx}`} className="question-result ">
         <div className="row">
           <div className="medium-12 medium-centered columns">
             <div className="question-statistics">
@@ -46,9 +52,7 @@ class QuestionResult extends Component {
                     <div key={`student-link-${idx}`} className="students-list__item">
                       <StudentLink student={record.user}
                                   onSelectResult={this.props.onSelectMissionResult}/>
-                      <span className="student__choice-response">&#8201;
-                        ({getChoiceAlphabet(studentChoice, question.choices)})
-                      </span>
+                      <span className="student__choice-response">&#8201; ({getChoiceAlphabet(studentChoice, question.choices)})</span>
                     </div>
                     )
                 })}
@@ -73,4 +77,4 @@ function getChoiceAlphabet(choice, choices) {
   return Alphabet[idx];
 }
 
-export default QuestionResult
+export default OutcomeResult

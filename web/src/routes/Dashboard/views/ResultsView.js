@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import _ from 'lodash'
+import pluralize from 'pluralize'
 
 import EmptyState from 'fbw-platform-common/components/empty-state/web/EmptyState'
 import QuestionResult from '../components/QuestionResult'
@@ -14,6 +15,8 @@ class ResultsView extends Component {
 
     this.state = {
       isQuestionsExpanded: false,
+      isOutcomesExpanded: true,
+      isOutcomeQuestionsExpanded: {}
     }
   }
 
@@ -49,8 +52,39 @@ class ResultsView extends Component {
     let resultsOutcomes;
     if (this.state.isOutcomesExpanded) {
       resultsOutcomes = (
-        <ol className="">
+        <ol className="results__outcomes-list">
+          {_.map(results.incorrectOutcomesRanked, (recordsForOutcome, idx) => {
+            // console.log(recordsForOutcome[0])
+            let outcome = _.find(this.props.outcomes, {id: recordsForOutcome[0].outcome});
+            let uniqueQuestions = _.uniqBy(recordsForOutcome, 'question.id');
 
+            let recordsByQuestion = _.groupBy(recordsForOutcome, 'question.id');
+
+            let questionsForOutcome;
+            if (this.state.isOutcomeQuestionsExpanded[outcome.id]) {
+              questionsForOutcome = _.map(recordsByQuestion, (records, qId) => {
+                return (
+                  <li key={`outcome__question--${qId}`} className="no-style">
+                    <QuestionResult records={records} outcome={outcome} />
+                  </li>
+                )
+              })
+            }
+
+            return (
+              <li key={`incorrect-outcome-${outcome.id}`}>
+                <p>
+                  {outcome.displayName}
+                  <button className="number-questions" onClick={() => this._toggleOutcomeQuestions(outcome)}>
+                    {this.state.isOutcomeQuestionsExpanded[outcome.id] ? 'Hide ' : 'Show '}
+                    {uniqueQuestions.length} {pluralize('question', uniqueQuestions.length)}
+                  </button>
+                </p>
+
+                {questionsForOutcome}
+              </li>
+            )
+          })}
         </ol>
       )
     }
@@ -67,7 +101,7 @@ class ResultsView extends Component {
         {refreshPrompt}
 
         <div className="results__section">
-          <div className="flex-container space-between align-center">
+          <div className="flex-container align-center">
             <p className="results__subtitle">Questions most missed</p>
             <button className="expand-collapse-button"
                     onClick={(e) => this.setState({isQuestionsExpanded: !this.state.isQuestionsExpanded})}>
@@ -79,7 +113,7 @@ class ResultsView extends Component {
         </div>
 
         <div className="results__section">
-          <div className="flex-container space-between align-center">
+          <div className="flex-container align-center">
             <p className="results__subtitle">Outcomes most missed</p>
             <button className="expand-collapse-button"
                     onClick={(e) => this.setState({isOutcomesExpanded: !this.state.isOutcomesExpanded})}>
@@ -94,7 +128,15 @@ class ResultsView extends Component {
     )
   }
 
+  _toggleOutcomeQuestions = (outcome) => {
+    this.setState({
+      isOutcomeQuestionsExpanded: _.assign({}, this.state.isOutcomeQuestionsExpanded, {
+        [outcome.id]: !this.state.isOutcomeQuestionsExpanded[outcome.id]
+      })
+    })
 
+    console.log('state for ', outcome.id, this.state.isOutcomeQuestionsExpanded[outcome.id])
+  }
 }
 
 export default ResultsView

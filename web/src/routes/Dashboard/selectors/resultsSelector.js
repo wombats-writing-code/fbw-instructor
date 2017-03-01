@@ -89,6 +89,9 @@ export const parseResults = (records, roster) => {
   // console.log('studentsNotOpenedIdentifers', studentsNotOpenedIdentifers)
   // console.log('roster', _.map(roster, 'Identifier'))
 
+  // ====
+  // compute responses by question
+  // ====
   let uniqueQuestions = _.uniq(_.map(records, 'question.id'));
   let incorrectResponsesByQuestion = _.reduce(uniqueQuestions, (result, id) => {
     result[id] = _.filter(records, r => {
@@ -100,14 +103,31 @@ export const parseResults = (records, roster) => {
 
     return result;
   }, {});
-
+  // filter out questions with 0 responses
+  let incorrectQuestionsResponses = _.filter(_.values(incorrectResponsesByQuestion), responses => responses.length > 0);
   // console.log('incorrectResponsesByQuestion', incorrectResponsesByQuestion)
 
-  let incorrectQuestionsResponses = _.filter(_.values(incorrectResponsesByQuestion), responses => responses.length > 0);
+  // ====
+  // compute outcomes
+  // ====
+  let uniqueOutcomes = _.uniq(_.map(records, 'outcome'));
+  let incorrectOutcomes = _.reduce(uniqueOutcomes, (result, id) => {
+    result[id] = _.filter(records, r => {
+      let response = r.outcome === id && r.responseResult && r.responseResult.question.response;
+      if (response) {
+        return response.isCorrect === false;
+      }
+    });
+
+    return result;
+  }, {});
+  let incorrectOutcomesResponses = _.filter(_.values(incorrectOutcomes), responses => responses.length > 0);
+  // console.log('incorrectOutcomes', incorrectOutcomes);
 
   return {
     // this is an array of an array of records for each question, sorted in descending order of incorrect responses
     incorrectQuestionsRanked: _.take(_.orderBy(incorrectQuestionsResponses, array => array.length, ['desc']), 3),
+    incorrectOutcomesRanked: _.take(_.orderBy(incorrectOutcomesResponses, array => array.length, ['desc']), 3),
     studentsOpened: _.map(studentsOpenedIdentifiers, id => _.find(roster, {Identifier: id})),
     studentsNotOpened: _.map(studentsNotOpenedIdentifers, id => _.find(roster, {Identifier: id})),
   };
