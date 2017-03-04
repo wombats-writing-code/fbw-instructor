@@ -11,9 +11,9 @@ export default (props) => {
 
   return (
     <div className="nav-bar flex-container align-center space-between">
-      <h1 className="app-title">
+      <h1 className="nav-bar__app-title">
         <span className="fbw-name">Fly-by-Wire</span>
-        <span className="app-name">Instructor App</span>
+        <span className="nav-bar__app-name">Instructor App</span>
       </h1>
       <p className="username">
         {getD2LDisplayName(props.user)}

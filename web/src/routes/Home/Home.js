@@ -50,7 +50,7 @@ class Home extends Component {
         <NavBar user={props.user} logout={this._logout}/>
 
         <div className="medium-4 large-3 columns">
-          <Courses courses={props.courses}
+          <Courses courses={props.courses} currentCourse={props.currentCourse}
                     onClickCourse={(course) => props.onClickCourse(course, props.user, props.authenticatedUrl)} />
 
           <Missions missions={this._getVisibleMissions()}

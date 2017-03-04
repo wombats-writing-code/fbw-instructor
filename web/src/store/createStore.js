@@ -50,7 +50,9 @@ export default (initialState = {}) => {
           }),
           login: state.login,
           location: state.location,
-          view: state.view
+          view: _.assign({}, state.view, {
+            name: 'dashboard.resultsView'
+          })
         };
 
         return subset;
