@@ -71,6 +71,10 @@
   background-color: lighten($app-blue-dark, .1);
 }
 
+.datetime {
+  font-family: sans-serif;
+}
+
 .datetime input {
   @extend .mission-form__input;
 }

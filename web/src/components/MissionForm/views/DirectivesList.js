@@ -23,7 +23,7 @@ class DirectivesList extends Component {
     // console.log('props of DirectivesList', props);
 
     return (
-      <ul className="directives-list">
+      <ol className="directives-list" style={{...props.styles}}>
         {_.map(props.directives, (outcome, idx) => {
           let itemsForDirective = props.itemsForDirectives[outcome.id] || [];
 
@@ -87,7 +87,7 @@ class DirectivesList extends Component {
             </li>
           )
         })}
-      </ul>
+      </ol>
     )
   }
 
