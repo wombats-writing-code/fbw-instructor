@@ -15,13 +15,14 @@ export default (props) => {
         <span className="fbw-name">Fly-by-Wire</span>
         <span className="nav-bar__app-name">Instructor App</span>
       </h1>
-      <p className="username">
-        {getD2LDisplayName(props.user)}
-      </p>
-      <div>
+
+      <div className="flex-container align-center space-between nav-bar__app-control">
+        <p className="nav-bar__username">
+          {getD2LDisplayName(props.user)}
+        </p>
         <Link className="guide-link" to="guide" target="_blank">Guide</Link>
         <button className="logout-button" tabIndex="1" onClick={props.logout}>
-          Logout
+          Log out
         </button>
       </div>
 

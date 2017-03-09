@@ -9,6 +9,7 @@ const karmaConfig = {
   files    : [
     {
       pattern  : `./${config.dir_test}/test-bundler.js`,
+      // patterns: 'components/**/*.spec.js',
       watched  : false,
       served   : true,
       included : true
@@ -19,6 +20,7 @@ const karmaConfig = {
   reporters     : ['mocha'],
   preprocessors : {
     [`${config.dir_test}/test-bundler.js`] : ['webpack']
+    // './!(node_modules)/**/*.js': ['webpack']
   },
   browsers : ['PhantomJS'],
   webpack  : {

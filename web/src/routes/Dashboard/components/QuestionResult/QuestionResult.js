@@ -17,6 +17,7 @@ class QuestionResult extends Component {
     let props = this.props;
     let expandCollapseButtonText = this.state.isExpanded ? 'Hide' : 'Show';
 
+    // console.log('QuestionResult props', props)
     // console.log('outcome:', props.outcome);
     // console.log('records', props.records);
 

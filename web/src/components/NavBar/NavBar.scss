@@ -5,7 +5,15 @@
   padding-top: 2rem;
   padding-bottom: 1rem;
   margin-bottom: 1.5rem;
-  background-color: $app-blue-dark;
+  // background-color: $app-blue-dark;
+  background: rgba(77,148,189,1);
+  background: -moz-linear-gradient(top, rgba(77,148,189,1) 0%, rgba(75,181,173,1) 100%);
+  background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(77,148,189,1)), color-stop(100%, rgba(75,181,173,1)));
+  background: -webkit-linear-gradient(top, rgba(77,148,189,1) 0%, rgba(75,181,173,1) 100%);
+  background: -o-linear-gradient(top, rgba(77,148,189,1) 0%, rgba(75,181,173,1) 100%);
+  background: -ms-linear-gradient(top, rgba(77,148,189,1) 0%, rgba(75,181,173,1) 100%);
+  background: linear-gradient(to bottom, rgba(77,148,189,1) 0%, rgba(75,181,173,1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7fc6bd', endColorstr='#4bb5c1', GradientType=0 );
 }
 
 .nav-bar__app-title {
@@ -16,6 +24,11 @@
   color: #fff;
 }
 
+.nav-bar__app-control {
+  font-size: .875rem;
+  font-weight: 600;
+  color: #fff;
+}
 
 .fbw-name {
   font-weight: 800;
@@ -26,18 +39,19 @@
   font-weight: 300;
 }
 
+.nav-bar__username {
+  font-weight: 400;
+  margin-right: 2em;
+  margin-bottom: 0;
+}
+
 .guide-link {
+  line-height: 1.5rem;
   color: #fff;
   margin-right: 2em;
-  font-size: .875rem;
 }
 
 a.guide-link:hover {
   color: #fff;
   opacity: .8;
-}
-
-.username {
-  color: #fff;
-  margin-bottom: 0;
 }

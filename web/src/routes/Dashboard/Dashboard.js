@@ -33,7 +33,6 @@ class Dashboard extends Component {
                       />
         </div>
         )
-
     }
 
 
@@ -71,6 +70,8 @@ class Dashboard extends Component {
         No Phase II missions have been launched from this one.
       </p>)
     }
+
+    // console.log('isGetResultsInProgress', this.props.isGetResultsInProgress)
 
     return (
       <div className="columns">

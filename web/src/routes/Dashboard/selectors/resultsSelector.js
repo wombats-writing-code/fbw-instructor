@@ -26,9 +26,11 @@ export const computeGrades = (mission, records, roster) => {
   let studentsNotOpenedIdentifers = _.difference(_.map(roster, 'Identifier'), studentsOpenedIdentifiers);
   // console.log('studentsNotOpenedIdentifers', studentsNotOpenedIdentifers)
 
-  let phaseIGrades;
-  if (mission.type === missionConfig.PHASE_I_MISSION_TYPE) {
-    phaseIGrades = _.reduce(groupedByStudent, (result, records, userIdentifier) => {
+  // TODO: note that this block will always run,
+  // because of the way we're redoing points grading
+  let grades;
+  if (true || mission.type === missionConfig.PHASE_I_MISSION_TYPE) {
+    grades = _.reduce(groupedByStudent, (result, records, userIdentifier) => {
       let targets = _.filter(records, r => isTarget(r.question));
       // console.log('records', records)
 
@@ -51,17 +53,12 @@ export const computeGrades = (mission, records, roster) => {
       }
     })
 
-    phaseIGrades = _.concat(phaseIGrades, studentsNotOpenedGrades);
-
-  } else if (mission.type === missionConfig.PHASE_II_MISSION_TYPE) {
-
+    grades = _.concat(grades, studentsNotOpenedGrades);
   }
 
+  // console.log('grades', grades)
 
-  // console.log('phaseIGrades', phaseIGrades)
-
-  // for phase II type missions
-  return phaseIGrades;
+  return grades;
 }
 
 export const pointsEarned = (questions) => {

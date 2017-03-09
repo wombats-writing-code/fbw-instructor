@@ -19,6 +19,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 }
 
 const mapStateToProps = (state, ownProps) => {
+  // console.log('isGetResultsInProgress?', state.result.isGetResultsInProgress)
+
   let currentMission = state.mission ? state.mission.currentMission : null;
   return {
     user: getUser(state),

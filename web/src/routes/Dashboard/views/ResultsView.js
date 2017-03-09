@@ -69,7 +69,7 @@ class ResultsView extends Component {
               questionsForOutcome = _.map(recordsByQuestion, (records, qId) => {
                 return (
                   <div key={`outcome__question--${qId}`} className="no-style">
-                    <QuestionResult records={records} outcome={outcome}
+                    <QuestionResult records={records} outcome={outcome} mission={props.mission} 
                                     onSelectResult={(student) => this.props.onSelectStudentResult(student, props.mission, props.user)} />
                   </div>
                 )
@@ -94,18 +94,11 @@ class ResultsView extends Component {
       )
     }
 
-    let refreshPrompt;
-    if (!props.results) {
-      refreshPrompt = <p className="prompt">Click on the mission again to refresh results.</p>
-    }
-
     return (
       <div className="results-view">
         <GradesTable grades={props.grades}
                     mission={props.currentMission}
                     onSelectStudent={(student) => this.props.onSelectStudentResult(student, props.currentMission, props.user)}/>
-
-        {refreshPrompt}
 
         <div className="results__section">
           <div className="flex-container align-center">
