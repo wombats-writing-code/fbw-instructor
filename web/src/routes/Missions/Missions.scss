@@ -1,0 +1,64 @@
+@import '../../styles/base';
+
+.mission-card {
+  box-shadow: 0 0 1px 1px rgba(#000, .3);
+  margin-bottom: 1.5rem;
+  background: #fafafc;
+}
+
+.mission-card:hover {
+  opacity: .8;
+}
+
+.mission-card__title {
+  font-size: .875rem;
+  font-weight: 600;
+  color: #444;
+  padding: .35rem 1rem;
+  text-align: left;
+  background: #f1f2f3;
+}
+
+.mission-card__body {
+  padding: 0 .7rem .75rem 1rem;
+}
+
+.mission-card__date {
+  text-align: left;
+  color: #777;
+  font-size: .875rem;
+}
+
+.mission-card__button {
+  margin-right: 1rem;
+  margin-bottom: 0;
+}
+
+.mission-card__timeline {
+  width: 80%;
+  position: relative;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 3rem;
+  margin-bottom: 4.5rem;
+}
+
+.create-mission-button {
+  width: 10rem;
+  display: block;
+  margin-left: auto;
+  margin-right: 0;
+  margin-bottom: 1.5rem;
+  background: $app-blue-2;
+}
+
+.create-mission-button:hover {
+  background: lighten($app-blue-2, 10%);
+}
+
+.confirm-delete-input {
+  width: 100%;
+  margin-bottom: 1em;
+  font-size: .875rem;
+}

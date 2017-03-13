@@ -29,7 +29,7 @@ export default (initialState = {}) => {
   // copy state to local storage
   enhancers.push(persistState(null, {
     slicer: paths => state => {
-      if (state) {
+      if (state && state.login && state.login.isLoggedIn) {
         let subset = {
           course: state.course,
           result: _.omit(state.result, [

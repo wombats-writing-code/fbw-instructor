@@ -8,9 +8,9 @@ import commonReducers from 'fbw-platform-common/reducers'
 
 export const makeRootReducer = (asyncReducers) => {
   return combineReducers({
+    ...commonReducers,
     location: locationReducer,
     view: viewReducer,
-    ...commonReducers,
     ...asyncReducers
   })
 }

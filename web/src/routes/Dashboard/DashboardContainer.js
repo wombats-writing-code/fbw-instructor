@@ -5,6 +5,7 @@ import {changeView, changeMouseOver, changeClick} from '../../reducers/view'
 import {getResults, getResultsBulk} from 'fbw-platform-common/reducers/Result/getResults'
 import {getUser} from 'fbw-platform-common/selectors'
 import {getRoster} from 'fbw-platform-common/selectors/course'
+import {editMission} from 'fbw-platform-common/reducers/edit-mission/editMission'
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
@@ -14,7 +15,18 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(getResults({mission, user}));
       // we also want to get the results for all of its phase 2 missions
       dispatch(getResultsBulk({missions: mission.leadsToMissions, user}));
-    }
+    },
+    onClickMission: (mission, user) => {
+      // console.log('clicked mission', mission);
+
+      // this gets results for the mission that was clicked
+      dispatch(getResults({mission, user}));
+      // we also want to get the results for all of its phase 2 missions
+      dispatch(getResultsBulk({missions: mission.leadsToMissions, user}));
+
+      dispatch(selectMission(mission));
+      dispatch(changeView({name: 'dashboard.resultsView', mission: mission}))      // true default
+    },
   }
 }
 
@@ -34,8 +46,5 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-export const getDashboardViewNameFromViewName = (viewName) => {
-  return viewName && viewName.split('.').length > 0 ? viewName.split('.')[1] : null
-}
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard)

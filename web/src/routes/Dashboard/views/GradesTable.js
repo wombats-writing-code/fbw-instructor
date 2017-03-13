@@ -62,12 +62,14 @@ class GradesTable extends Component {
   _onClickHandler(state, rowInfo, column, instance) {
     return {
       onClick: e => {
+        let student = rowInfo.row.user;
+        this.props.onSelectStudent(student, this.props.mission, this.props.user);
+
         // console.log('was clicked', rowInfo)
         // console.log('props.mission', this.props.mission)
-        let user = rowInfo.row.user;
-        this.props.onSelectStudent(user);
+        // console.log('student', student)
 
-        browserHistory.push(`/students/${slug(getD2LDisplayName(user))}/missions/${slug(this.props.mission.displayName)}`);
+        browserHistory.push(`/students/${slug(getD2LDisplayName(student))}/missions/${slug(this.props.mission.displayName)}`);
       }
     }
   }

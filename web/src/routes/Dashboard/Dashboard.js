@@ -52,6 +52,7 @@ class Dashboard extends Component {
         <div>
           <p className="results__title flex-container space-between">
             <span>Phase II</span>
+            <span className="edit-button" onClick={(e) => props.onClickEditMission(this._getLeadsToMission(props.mission), props.user)}>Edit</span>
             <span className=" ">
               {moment(this._getLeadsToMission(props.mission).startTime).format('ddd, MMM D [at] ha')}
                 &mdash;
@@ -103,7 +104,12 @@ class Dashboard extends Component {
   }
 
   _getLeadsToMission(mission) {
-    return _.find(this.props.missions, {id: mission.leadsToMissions[0]});
+    let leadsToMission = _.find(this.props.missions, {id: mission.leadsToMissions[0]});
+    if (mission.leadsToMissions.length > 0 && !leadsToMission) {
+      throw new Error('Current mission has leadsToMissions but not found in list of missions. Check DB.')
+    }
+
+    return leadsToMission
   }
 
   _getRecords(mission) {

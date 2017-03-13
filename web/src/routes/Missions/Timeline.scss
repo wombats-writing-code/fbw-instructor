@@ -1,0 +1,43 @@
+
+.timeline__line {
+  width: 100%;
+  height: 2px;
+  background: #ddd;
+  background-image: -webkit-gradient(
+      linear,
+      left top,
+      left bottom,
+      color-stop(0.5, rgb(221,221,221)),
+      color-stop(0.5, rgb(255,255,255))
+  );
+  background-image: -moz-linear-gradient(
+      center top,
+      rgb(221,221,221) 50%,
+      rgb(255,255,255) 50%
+  );
+}
+
+.timeline__point {
+  position: absolute;
+  top: 7px;
+  left: 20px;
+  color: #888;
+  font-size: .8rem;
+  max-width: 80px;
+  text-align: left;
+  line-height: 1.2;
+}
+
+.timeline__point__text {
+  font-weight: 300;
+}
+
+.timeline__point::before {
+  content: '';
+  background: #aaa;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  position: absolute;
+  top: -11.5px;
+}

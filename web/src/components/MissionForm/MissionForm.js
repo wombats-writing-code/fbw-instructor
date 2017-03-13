@@ -12,7 +12,9 @@ import EmptyState from 'fbw-platform-common/components/empty-state/web/EmptyStat
 import LoadingBox from 'fbw-platform-common/components/loading-box/web/LoadingBox'
 import {missionConfig} from 'fbw-platform-common/reducers/Mission'
 import {getD2LDisplayName, getD2LUserIdentifier} from 'fbw-platform-common/selectors/login'
+
 import SelectDirectives from './views/SelectDirectives';
+import SelectMissionType from './views/SelectMissionType';
 
 import './MissionForm.scss'
 
@@ -66,7 +68,8 @@ class MissionForm extends Component {
         </div>
       )
 
-    } else {
+    // once Phase II missions have been launched, we can only change their due dates
+    } else if (props.newMission.type === missionConfig.PHASE_II_MISSION_TYPE && props.view.name !== 'edit-mission') {
       goalsForMission = (
         <div>
           <label className="form-label">Recommendations for students</label>
@@ -107,8 +110,9 @@ class MissionForm extends Component {
 
 
     let form;
-    let buttonText = props.view.name === 'edit-mission' ? "Save mission" : "Create mission";
     if (!props.isCreateMissionInProgress && props.newMission.type) {
+      let buttonText = props.view.name === 'edit-mission' ? "Save & update mission" : "Create mission";
+
       form = (
         <form className="mission-form" onSubmit={(e) => this._onSubmitForm(e)}>
 
@@ -126,7 +130,7 @@ class MissionForm extends Component {
                         onChange={(momentObj) => this.props.onChangeMissionStart(momentObj)}  />
              </div>
              <div className="datetime medium-6 columns">
-               <Datetime inputProps={{placeholder: "Start date & time"}}
+               <Datetime inputProps={{placeholder: "Deadline date & time"}}
                          value={moment(props.newMission.deadline)}
                         dateFormat={true} onChange={(momentObj) => this.props.onChangeMissionEnd(momentObj)}  />
              </div>
@@ -146,21 +150,20 @@ class MissionForm extends Component {
       )
     }
 
-    let isSelectedStyle = "is-selected"
+    let selectMissionType; let missionTitle;
+    if (props.view.name !== 'edit-mission') {
+      selectMissionType = <SelectMissionType mission={props.newMission} onChangeMissionType={props.onChangeMissionType} />
+
+    } else {
+      missionTitle = <p>Editing {props.newMission.displayName}</p>
+
+    }
+
 
     return (
       <div className="mission-form">
-        <div className="flex-container space-around align-center form-section">
-          <p className="mission-type-prompt">Select the type of mission</p>
-          <button className={`mission-type-button button ${props.newMission.type === missionConfig.PHASE_I_MISSION_TYPE ? isSelectedStyle : null}`}
-                  onClick={() => this.props.onChangeMissionType(missionConfig.PHASE_I_MISSION_TYPE)}>
-            Phase I Mission
-          </button>
-          <button className={`mission-type-button button ${props.newMission.type === missionConfig.PHASE_II_MISSION_TYPE ? isSelectedStyle : null}`}
-                  onClick={() => this.props.onChangeMissionType(missionConfig.PHASE_II_MISSION_TYPE)}>
-            Phase II Mission
-          </button>
-        </div>
+        {missionTitle}
+        {selectMissionType}
 
         {form}
         {loadingBox}
@@ -172,13 +175,38 @@ class MissionForm extends Component {
     e.preventDefault();
     let props = this.props;
 
-    // if (!props.newMission.startTime) {
-    //   this.setState({startTimeError: 'You must set a startTime'})
-    //   return;
-    // }
+    if (!props.newMission.startTime) {
+      return this.setState({startTimeError: 'You must set a startTime'})
+    }
+
+    if (!props.newMission.deadline) {
+      return this.setState({deadlineError: 'You must set a deadline'})
+    }
+
+    if (props.newMission.type === missionConfig.PHASE_I_MISSION_TYPE && props.newMission.goals.length === 0) {
+      return this.setState({goalsError: 'You must choose at least 1 goal for a Phase I type mission.'})
+    }
 
     if (props.view.name === 'edit-mission') {
-      props.onUpdateMission(props.newMission, props.user);
+      if (props.newMission.type === missionConfig.PHASE_I_MISSION_TYPE) {
+        props.onUpdateMission(props.newMission, props.user);
+
+      } else {
+        throw new Error('Unimplemented. You need to write code to update ALL Phase II missions');
+
+        // need to get every phase II mission that this Phase I mission leads to
+        // let newMissions = _.map(props.recommendations, rec => {
+        //   return _.assign({}, props.newMission, {
+        //     displayName: `Phase II (from ${followsFromMissionNames.join(' + ')})`,
+        //     description: `for ${getD2LDisplayName(rec.student)}`,
+        //     goals: rec.goals,
+        //     userId: getD2LUserIdentifier(rec.student)
+        //   })
+        // });
+        // props.onUpdateMissions();
+
+        return;
+      }
 
     } else {
       if (props.newMission.type === missionConfig.PHASE_I_MISSION_TYPE) {

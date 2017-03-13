@@ -16,10 +16,9 @@ class Courses extends Component {
         <ul className="clickable-list">
           {_.map(props.courses, (course, idx) => {
             let key = `course_${idx}`;
-            let isSelected = (props.currentCourse && course.Code === props.currentCourse.Code);
 
             return (
-              <li key={key} className={isSelected ? "clickable-row__item is-selected" : "clickable-row__item"}
+              <li key={key} className={"clickable-row__item"}
                             onClick={() => props.onClickCourse(course)}>
 
                 <div >
