@@ -17,18 +17,18 @@ class Timeline extends Component {
     this.pointSpacing = this.width / this.props.points.length
     this.setState({needsUpdate: true})
 
-    console.log('width', this.width);
-    console.log('pointSpacing', this.pointSpacing);
+    // console.log('width', this.width);
+    // console.log('pointSpacing', this.pointSpacing);
   }
 
   componentDidUpdate() {
-    console.log('component updated')
+    // console.log('component updated')
   }
 
   render() {
     let props = this.props;
 
-    console.log('points', this.props.points);
+    // console.log('points', this.props.points);
 
 
     return (
@@ -38,8 +38,6 @@ class Timeline extends Component {
           let timelinePointStyle = {
             transform: `translateX(${idx* (this.pointSpacing)}px)`
           }
-
-          console.log('timelinePointStyle', timelinePointStyle)
 
           return (
             <div className="timeline__point" key={`point_${idx}`} style={timelinePointStyle}>

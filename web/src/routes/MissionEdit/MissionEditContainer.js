@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import MissionForm from './MissionForm'
+import MissionEdit from './MissionEdit'
 
 import {createMission, createMissions} from 'fbw-platform-common/reducers/edit-mission/createMission'
 import {updateMission} from 'fbw-platform-common/reducers/edit-mission/updateMission'
@@ -44,15 +44,16 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  // console.log('state in MissionFormContainer', state);
+  // console.log('state in editmissionContainer', state);
 
   return {
     currentCourse: getCurrentCourse(state),
     user: getUser(state),
-    view: state.view,
+    editView: state.location.query.view,
     missions: state.mission.missions,
     mapping: getMapping(state),
     newMission: state.editMission.newMission,
+    currentMission: state.mission.currentMission,
     selectedModule: state.editMission.selectedModule,
     outcomeQuery: state.editMission.outcomeQuery,
     recommendations: computeRecommendations(state),
@@ -62,4 +63,4 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MissionForm)
+export default connect(mapStateToProps, mapDispatchToProps)(MissionEdit)

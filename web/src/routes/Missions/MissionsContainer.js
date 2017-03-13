@@ -20,7 +20,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     getMissions: data => dispatch(getMissions(data)),
     getMapping: data => dispatch(getMapping(data)),
-    onChangeView: (viewName) => dispatch(changeView({name: viewName})),
     onClickRefreshResults: (mission, user) => {
       // this gets results for the mission that was clicked
       dispatch(getResults({mission, user}));
@@ -41,17 +40,19 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(getResultsBulk({missions: mission.leadsToMissions, user}));
 
       dispatch(selectMission(mission));
+
       browserHistory.push(`/dashboard/${slug(mission.displayName)}`)
-      // dispatch(changeView({name: 'dashboard.resultsView', mission: mission}))      // true default
     },
     onClickAddMission: (missions, user) => {
       dispatch(clickAddMission());
-      dispatch(changeView({name: 'add-mission'}))
+
+      browserHistory.push(`/mission-edit?view=new`, )
     },
     onClickEditMission: (mission, user) => {
       // console.log('clicked edit mission', mission, directives);
-      dispatch(changeView({name: 'edit-mission', mission: mission}));
       dispatch(editMission(mission));
+
+      browserHistory.push(`/mission-edit?view=edit`, )
     },
     onClickDeleteMission: (mission, user) => {
       dispatch(deleteMission(mission, user))

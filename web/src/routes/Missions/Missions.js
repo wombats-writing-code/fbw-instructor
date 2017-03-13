@@ -1,4 +1,3 @@
-'use strict'
 import moment from 'moment'
 import React, { Component } from 'react'
 import { browserHistory } from 'react-router'
@@ -47,7 +46,7 @@ class Missions extends Component {
     let createMissionButton;
     if (!props.isGetMappingInProgress && props.missions) {
       createMissionButton = (
-          <button className="button create-mission-button"
+          <button className="button missions__add-mission-button"
                   onClick={() => props.onClickAddMission()}>&#x0002B; Create a mission</button>
       )
     }

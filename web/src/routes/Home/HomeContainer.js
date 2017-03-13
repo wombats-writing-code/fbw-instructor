@@ -8,7 +8,6 @@ const D2LConfig = require('../../D2LConfig');
 import {selectCourse} from 'fbw-platform-common/reducers/Course/selectCourse'
 import {getItems} from 'fbw-platform-common/reducers/Course/getItems'
 import {getD2LClassRoster} from 'fbw-platform-common/reducers/Course/getD2LClassRoster'
-import {logOutUser} from 'fbw-platform-common/reducers/Login/logOutUser'
 
 import {changeView} from '../../reducers/view'
 
@@ -17,7 +16,7 @@ import {getCurrentCourse} from 'fbw-platform-common/selectors/course'
 
 
 const mapStateToProps = (state, ownProps) => {
-  console.log('state in HomeContainer', state);
+  // console.log('state in HomeContainer', state);
   // console.log('offeredId:', state.mission && state.mission.currentMission ? state.mission.currentMission.assessmentOfferedId : null)
 
   return {
@@ -40,10 +39,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
       // dispatch(changeView({name: 'dashboard.resultsView', mission: null}))      // true default
       browserHistory.push('/missions')
-    },
-    onGetMissions: (courseId) => dispatch(getMissions({subjectCourseId: courseId, username: null})),
-    logout: () => {
-      dispatch(logOutUser())
     }
   }
 }

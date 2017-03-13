@@ -6,9 +6,9 @@ import LoginRoute from './Login'
 import MissionsRoute from './Missions'
 import StudentRoute from './Student'
 import DashboardRoute from './Dashboard'
+import MissionEditRoute from './MissionEdit'
 
 import GuideRoute from './Guide'
-import MissionForm from '../components/MissionForm'
 
 /*  Note: Instead of using JSX, we recommend using react-router
     PlainRoute objects to build route definitions.   */
@@ -24,11 +24,8 @@ export const createRoutes = (store) => ({
     MissionsRoute(store),
     DashboardRoute(store),
     StudentRoute(store),
+    MissionEditRoute(store),
     GuideRoute(store),
-    {
-      path: '/missions/new',
-      component: MissionForm
-    }
   ]
 })
 
