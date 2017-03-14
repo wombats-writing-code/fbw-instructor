@@ -55,9 +55,11 @@ class Missions extends Component {
     if (!props.isGetMissionsInProgress && props.missions && props.missions.length === 0) {
       // console.log('props.missions', props.missions)
       return (
-        <div>
-          {createMissionButton}
-          {EmptyState("No missions yet")}
+        <div className="row">
+          <div className="large-7 large-centered columns">
+            {createMissionButton}
+            {EmptyState("No missions yet")}
+          </div>
         </div>
       )
     }

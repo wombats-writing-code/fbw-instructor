@@ -24,7 +24,11 @@ import {computeRecommendations} from './selectors/recommendMissionSelector'
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    onCreateMission: (newMission, course, user) => dispatch(createMission(newMission, course, user)),
+    onCreateMission: (newMission, course, user) => {
+      dispatch(createMission(newMission, course, user));
+
+      browserHistory.push('/missions');
+    },
     onCreateMissions: (newMissions, course, user) => {
       dispatch(createMissions(newMissions, course, user));
       // dispatch(changeView({name: 'dashboard.resultsView', mission: ownProps.currentMission}));
