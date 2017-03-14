@@ -1,4 +1,5 @@
 import { connect } from 'react-redux'
+import {browserHistory} from 'react-router'
 import MissionEdit from './MissionEdit'
 
 import {createMission, createMissions} from 'fbw-platform-common/reducers/edit-mission/createMission'
@@ -26,9 +27,15 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     onCreateMission: (newMission, course, user) => dispatch(createMission(newMission, course, user)),
     onCreateMissions: (newMissions, course, user) => {
       dispatch(createMissions(newMissions, course, user));
-      dispatch(changeView({name: 'dashboard.resultsView', mission: ownProps.currentMission}));
+      // dispatch(changeView({name: 'dashboard.resultsView', mission: ownProps.currentMission}));
+
+      browserHistory.push('/missions');
     },
-    onUpdateMission: (mission, user) => dispatch(updateMission(mission, user)),
+    onUpdateMission: (mission, user) => {
+      dispatch(updateMission(mission, user))
+
+      browserHistory.push('/missions');
+    },
     onChangeMissionName: (value) => dispatch(changeMissionName(value)),
     onChangeMissionType: (missionType) => dispatch(changeMissionType(missionType)),
     onChangeMissionStart: (momentObj) => dispatch(changeMissionStart(momentObj)),
