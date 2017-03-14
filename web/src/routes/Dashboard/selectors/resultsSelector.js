@@ -118,13 +118,16 @@ export const parseResults = (records, roster) => {
 
     return result;
   }, {});
-  let incorrectOutcomesResponses = _.filter(_.values(incorrectOutcomes), responses => responses.length > 0);
+  let incorrectOutcomesResponses = _.orderBy(_.filter(_.values(incorrectOutcomes), responses => responses.length > 0), array => array.length, ['desc']);
   // console.log('incorrectOutcomes', incorrectOutcomes);
 
   return {
     // this is an array of an array of records for each question, sorted in descending order of incorrect responses
-    incorrectQuestionsRanked: _.take(_.orderBy(incorrectQuestionsResponses, array => array.length, ['desc']), 3),
-    incorrectOutcomesRanked: _.take(_.orderBy(incorrectOutcomesResponses, array => array.length, ['desc']), 3),
+    incorrectQuestionsRanked: _.orderBy(incorrectQuestionsResponses, array => array.length, ['desc']),
+    incorrectOutcomesRanked: incorrectOutcomesResponses,
+    badOutcomes: _.filter(incorrectOutcomesResponses, array => array.length > 6),
+    mediumOutcomes: _.filter(incorrectOutcomesResponses, array => array.length >= 3 && array.length < 6),
+    goodOutcomes: _.filter(incorrectOutcomesResponses, array => array.length < 3),
     studentsOpened: _.map(studentsOpenedIdentifiers, id => _.find(roster, {Identifier: id})),
     studentsNotOpened: _.map(studentsNotOpenedIdentifers, id => _.find(roster, {Identifier: id})),
   };

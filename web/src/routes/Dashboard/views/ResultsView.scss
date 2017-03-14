@@ -10,22 +10,15 @@
 }
 
 .results__subtitle {
+  color: #555;
   text-align: left;
-  margin-bottom: 0;
+  margin-bottom: 1.5rem;
   font-weight: 600;
-  font-size: .875rem;
 }
 
-.results__questions-list {
-  text-align: left;
-  margin-left: 0;
-  list-style: none;
-  margin-top: 1.5rem;
-}
 
 .results__outcomes-list {
   text-align: left;
-  margin-top: 1.5rem;
   font-size: .875rem;
 }
 
@@ -56,4 +49,25 @@
 
 .number-questions:hover {
   background: #f0f0f0;
+}
+
+.circle-container {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  position: relative;
+  width: 180px;
+  height: 180px;
+}
+
+.circle__text {
+  width: 100%;
+  text-align: center;
+  display: block;
+  position: absolute;
+  top: 38%;
+}
+
+.circle__text.number {
+  font-size: 2.2rem;
+  font-weight: 600;
 }

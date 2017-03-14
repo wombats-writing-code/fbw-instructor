@@ -6,3 +6,31 @@
   font-size: .875rem;
   margin-bottom: 1.5rem;
 }
+
+.ReactTable {
+  border: none;
+}
+
+.ReactTable .rt-thead.-header {
+  box-shadow: none;
+  font-weight: 600;
+  color: #777;
+  border-bottom: 2px solid #666;
+}
+
+.ReactTable .rt-thead .rt-th.-cursor-pointer:hover {
+  background: #f0f0f0;
+}
+
+.ReactTable .rt-thead .rt-td, .ReactTable .rt-thead .rt-th {
+  border-right: none;
+}
+
+.ReactTable .rt-tbody .rt-td {
+  border-right: none;
+}
+
+
+.ReactTable .rt-tbody .rt-td:last-child {
+  border-right: none;
+}

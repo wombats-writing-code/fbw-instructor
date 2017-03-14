@@ -18,14 +18,14 @@ class Dashboard extends Component {
     if (props.mission && !this.props.isGetResultsInProgress && !this.props.isGetMissionsInProgress) {
       resultsView = (
         <div>
-          <p className="results__title flex-container space-between">
+          {/* <p className="results__title flex-container space-between">
             <span>Phase I</span>
             <span className=" ">
               {moment(props.mission.startTime).format('ddd, MMM D [at] ha')}
               &mdash;
               {moment(props.mission.deadline).format('ddd, MMM D [at] ha')}
             </span>
-          </p>
+          </p> */}
           <ResultsView results={this._getResults(props.mission)}
                       records={this._getRecords(props.mission)}
                         mission={props.mission}
@@ -50,7 +50,7 @@ class Dashboard extends Component {
     if (phase2Missions && phase2Missions.length > 0) {
       phase2Summary = (
         <div>
-          <p className="results__title flex-container space-between">
+          {/* <p className="results__title flex-container space-between">
             <span>Phase II</span>
             <span className="edit-button" onClick={(e) => props.onClickEditMission(this._getLeadsToMission(props.mission), props.user)}>Edit</span>
             <span className=" ">
@@ -58,7 +58,8 @@ class Dashboard extends Component {
                 &mdash;
               {moment(this._getLeadsToMission(props.mission).deadline).format('ddd, MMM D [at] ha')}
             </span>
-          </p>        <ResultsView results={this._getResults(this.props.mission, missionConfig.PHASE_II_MISSION_TYPE)}
+          </p>         */}
+          <ResultsView results={this._getResults(this.props.mission, missionConfig.PHASE_II_MISSION_TYPE)}
                     mission={this.props.mission}
                     isGetResultsInProgress={props.isGetResultsInProgress}/>
         </div>
@@ -75,8 +76,8 @@ class Dashboard extends Component {
     // console.log('isGetResultsInProgress', this.props.isGetResultsInProgress)
 
     return (
-      <div className="columns">
-        <div className="dashboard-bar flex-container space-between align-center">
+      <div className="">
+        <div className="dashboard-bar flex-container space-between align-center row">
           <p className="mission-name">
             {this.props.mission ? this.props.mission.displayName : ''} &nbsp;
           </p>
