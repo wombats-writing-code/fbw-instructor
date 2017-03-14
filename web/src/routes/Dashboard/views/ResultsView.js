@@ -10,7 +10,7 @@ import GradesTable from './GradesTable'
 import './ResultsView.scss'
 
 const BAD_COLOR = "#FF6F69";
-const MEDIUM_COLOR = "#FFEA82";
+const MEDIUM_COLOR = "#fce77f";
 const GOOD_COLOR = "#96CEB4";
 
 class ResultsView extends Component {
@@ -18,9 +18,16 @@ class ResultsView extends Component {
   constructor() {
     super();
 
+    this.instanceId = _.uniqueId();
+
     this.state = {
+      currentOutcomeCategory: 'badOutcomes',
       isQuestionsExpanded: false,
-      isOutcomesExpanded: true,
+      isOutcomesExpanded: {
+        'badOutcomes': true,
+        'mediumOutcomes': false,
+        'goodOutcomes': false,
+      },
       isOutcomeQuestionsExpanded: {}
     }
   }
@@ -28,7 +35,7 @@ class ResultsView extends Component {
   componentDidMount() {
     let results = this.props.results;
 
-    let badCircle = new ProgressBar.Circle('#bad-outcomes', {
+    let badCircle = new ProgressBar.Circle(`#bad-outcomes_${this.instanceId}`, {
       strokeWidth: 6,
       easing: 'easeInOut',
       duration: 1400,
@@ -40,7 +47,7 @@ class ResultsView extends Component {
 
     badCircle.animate(results.badOutcomes.length / this.props.currentMission.goals.length);  // Value from 0.0 to 1.0
 
-    let medCircle = new ProgressBar.Circle('#medium-outcomes', {
+    let medCircle = new ProgressBar.Circle(`#medium-outcomes_${this.instanceId}`, {
       strokeWidth: 6,
       easing: 'easeInOut',
       duration: 1400,
@@ -52,7 +59,7 @@ class ResultsView extends Component {
 
     medCircle.animate(results.mediumOutcomes.length / this.props.currentMission.goals.length);  // Value from 0.0 to 1.0
 
-    let goodCircle = new ProgressBar.Circle('#good-outcomes', {
+    let goodCircle = new ProgressBar.Circle(`#good-outcomes_${this.instanceId}`, {
       strokeWidth: 6,
       easing: 'easeInOut',
       duration: 1400,
@@ -69,12 +76,13 @@ class ResultsView extends Component {
     let props = this.props;
     let results = props.results;
     // console.log('props of ResultsView', this.props)
+    // console.log('currentOutcomeCategory', results[this.state.currentOutcomeCategory])
 
     let resultsOutcomes;
-    if (results && this.state.isOutcomesExpanded) {
+    if (results && this.state.isOutcomesExpanded[this.state.currentOutcomeCategory]) {
       resultsOutcomes = (
         <ol className="results__outcomes-list">
-          {_.map(results.incorrectOutcomesRanked, (recordsForOutcome, idx) => {
+          {_.map(results[this.state.currentOutcomeCategory], (recordsForOutcome, idx) => {
             // console.log(recordsForOutcome[0])
             let outcome = _.find(this.props.outcomes, {id: recordsForOutcome[0].outcome});
             let uniqueQuestions = _.uniqBy(recordsForOutcome, 'question.id');
@@ -119,16 +127,18 @@ class ResultsView extends Component {
           </div>
 
           <div className="flex-container align-center space-between">
-            <div id="bad-outcomes" className="circle-container">
+            <div id={`bad-outcomes_${this.instanceId}`} className="circle-container"
+                onClick={() => this._onClickOutcomeCategory('badOutcomes')}>
               <span className="circle__text number" style={{color: BAD_COLOR}}>
                 {results.badOutcomes.length} <br/>
               </span>
-              {/* <span className="circle__text">outcomes</span> */}
             </div>
-            <div id="medium-outcomes" className="circle-container">
+            <div id={`medium-outcomes_${this.instanceId}`} className="circle-container"
+                  onClick={() => this._onClickOutcomeCategory('mediumOutcomes')}>
               <span className="circle__text number" style={{color:  MEDIUM_COLOR}}>{results.mediumOutcomes.length}</span>
             </div>
-            <div id="good-outcomes" className="circle-container">
+            <div id={`good-outcomes_${this.instanceId}`} className="circle-container"
+                  onClick={() => this._onClickOutcomeCategory('goodOutcomes')}>
               <span className="circle__text number" style={{color: GOOD_COLOR}}>{results.goodOutcomes.length}</span>
             </div>
           </div>
@@ -145,6 +155,17 @@ class ResultsView extends Component {
       </div>
 
     )
+  }
+
+  _onClickOutcomeCategory = (category) => {
+    this.setState({
+      isOutcomesExpanded: {
+        [category]: true
+      },
+      currentOutcomeCategory: category
+    });
+
+    // console.log('state for ', outcome.id, this.state.isOutcomeQuestionsExpanded[outcome.id])
   }
 
   _toggleOutcomeQuestions = (outcome) => {

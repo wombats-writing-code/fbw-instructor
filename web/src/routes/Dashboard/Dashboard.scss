@@ -1,6 +1,19 @@
 
 @import '../../styles/base';
 
+.dashboard__title {
+  margin-bottom: 1.5rem;
+}
+
+.dashboard__mission-name {
+  font-size: 2.5rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  letter-spacing: -1px;
+  text-align: left;
+  font-weight: 600;
+  color: #555;
+}
 
 .results__title {
   text-align: left;
@@ -12,21 +25,10 @@
   font-weight: 600;
 }
 
-.mission-name {
-  text-align: left;
-  font-weight: 600;
-  margin-bottom: 0;
-  color: #555;
-}
-
 .phase-2-prompt {
   padding: .5em 0 .5em .5em;
   background: #f3f3f3;
   text-align: left;
-}
-
-.dashboard-bar {
-  margin-bottom: 1.5rem;
 }
 
 .refresh-button, .refresh-button:focus {
@@ -56,4 +58,49 @@
 
 .edit-button:hover {
   opacity: .8;
+}
+
+// .dashboard__body {
+//   margin-left: 5%;
+//   width: 85%;
+// }
+
+.dashboard__timeline {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  // min-height: 100vh;
+}
+
+
+.dashboard__timeline-line {
+  position: absolute;
+  height: 100%;
+  width: 3px;
+  background: #888;
+}
+
+.dashboard__timeline-point {
+  color: #666;
+  font-weight: bold;
+  position: absolute;
+  font-size: .875rem;
+  text-align: left;
+  top: -4px;
+  left: 12px;
+}
+
+.dashboard__timeline-point::before {
+  content: '';
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: #999;
+  left: -17px;
+  top: 4px;
+}
+
+.dashboard__timeline-point__text {
+
 }
