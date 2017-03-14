@@ -1,10 +1,10 @@
-
+@import '../../../../styles/base';
 
 .grades-table {
   margin-left: 0;
   text-align: left;
   font-size: .875rem;
-  margin-bottom: 1.5rem;
+  padding-bottom: 3rem;
 }
 
 .ReactTable {
@@ -14,7 +14,7 @@
 .ReactTable .rt-thead.-header {
   box-shadow: none;
   font-weight: 600;
-  color: #777;
+  color: $app-blue-2;
   border-bottom: 2px solid #666;
 }
 

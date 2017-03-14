@@ -36,35 +36,3 @@
 .results__section.dark .results__subtitle {
   color: #ddd;
 }
-
-.circle-container {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 1.5rem;
-  margin-bottom: 1.5rem;
-  position: relative;
-  width: 180px;
-  height: 180px;
-  cursor: pointer;
-}
-
-.circle__center-text {
-  font-size: 2.2rem;
-  font-weight: 600;
-  width: 100%;
-  text-align: center;
-  display: block;
-  position: absolute;
-  top: 38%;
-}
-
-.circle__caption-text {
-  color: #444;
-}
-
-.outcome-result-item {
-  list-style: none;
-  text-align: left;
-  font-size: .875rem;
-}
