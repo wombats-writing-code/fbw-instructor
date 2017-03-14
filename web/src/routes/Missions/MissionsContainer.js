@@ -32,7 +32,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(editMission(mission));
     },
     onClickMission: (mission, user) => {
-      console.log('clicked mission', mission, user);
+      // console.log('clicked mission', mission, user);
 
       // this gets results for the mission that was clicked
       dispatch(getResults({mission, user}));

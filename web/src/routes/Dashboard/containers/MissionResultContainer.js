@@ -1,7 +1,7 @@
 
 import { connect } from 'react-redux'
 
-import ResultsView from '../views/ResultsView'
+import MissionResult from '../views/MissionResult'
 import {parseResults} from '../selectors/resultsSelector'
 import {selectDirective} from 'fbw-platform-common/reducers/Mission/selectDirective'
 import {selectTarget} from 'fbw-platform-common/reducers/Mission/selectTarget'
@@ -15,7 +15,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     onClickDirective: (directiveIndex) => dispatch(selectDirective(directiveIndex)),
     onClickTarget: (target) => dispatch(selectTarget(target)),
     onSelectStudentResult: (student, mission, user) => {
-      console.log('onSelectStudentResult', student, mission, user)
+      // console.log('onSelectStudentResult', student, mission, user)
       dispatch(getStudentResult(student, mission, user))
     }
   }
@@ -34,4 +34,4 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ResultsView)
+export default connect(mapStateToProps, mapDispatchToProps)(MissionResult)

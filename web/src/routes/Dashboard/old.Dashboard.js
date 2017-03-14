@@ -2,10 +2,9 @@ import React, {Component} from 'react'
 import moment from 'moment'
 import $ from 'jquery'
 import {missionConfig} from 'fbw-platform-common/reducers/Mission'
+import ResultsView from './containers/ResultsViewContainer'
 import LoadingBox from 'fbw-platform-common/components/loading-box/web/'
 import {parseResults} from './selectors/resultsSelector'
-
-import MissionResult from './containers/MissionResultContainer'
 import './Dashboard.scss'
 
 class Dashboard extends Component {
@@ -30,7 +29,7 @@ class Dashboard extends Component {
         });
       }
 
-      // console.log('phaseIIPositionStyle', phase2Results.top);
+      console.log('phaseIIPositionStyle', phase2Results.top);
     }, 300);
   }
 
@@ -47,22 +46,14 @@ class Dashboard extends Component {
     }
 
 
-    let phaseIResults, recommendationView;
+    let resultsView, recommendationView;
     if (props.mission && !this.props.isGetResultsInProgress && !this.props.isGetMissionsInProgress) {
-      phaseIResults = (
-          <div>
-            <p className="dashboard__timeline-point__text">
-              <b>Phase I</b> &thinsp;
-              {moment(props.mission.startTime).format('ddd, MMM D [at] ha')}
-              &mdash;
-              {moment(props.mission.deadline).format('ddd, MMM D [at] ha')}
-            </p>
-            <MissionResult results={this._getResults(props.mission, missionConfig.PHASE_I_MISSION_TYPE)}
-                          records={this._getRecords(props.mission, missionConfig.PHASE_I_MISSION_TYPE)}
-                          mission={props.mission}
-                          isGetResultsInProgress={props.isGetResultsInProgress}
-                        />
-          </div>
+      resultsView = (
+          <ResultsView results={this._getResults(props.mission)}
+                      records={this._getRecords(props.mission)}
+                        mission={props.mission}
+                        isGetResultsInProgress={props.isGetResultsInProgress}
+                      />
         )
     }
 
@@ -70,30 +61,31 @@ class Dashboard extends Component {
     // console.log('phaseIIMissions', phase2Missions)
 
     let phase2Results;
+    let phase2TimelineText;
     if (phase2Missions && phase2Missions.length > 0) {
       phase2Results = (
-        <div>
-          <p className="dashboard__timeline-point__text">
-          <b>Phase II</b> &thinsp;
+          <ResultsView results={this._getResults(this.props.mission, missionConfig.PHASE_II_MISSION_TYPE)}
+                    mission={this.props.mission}
+                    isGetResultsInProgress={props.isGetResultsInProgress}/>
+      )
+
+      phase2TimelineText = (
+        <span className="dashboard__timeline-point__text">
+          <span>Phase II</span> &thinsp;
           <span className=" ">
             {moment(this._getLeadsToMission(props.mission).startTime).format('ddd, MMM D [at] ha')}
               &mdash;
             {moment(this._getLeadsToMission(props.mission).deadline).format('ddd, MMM D [at] ha')}
           </span>
-        </p>
-          <MissionResult results={this._getResults(this.props.mission, missionConfig.PHASE_II_MISSION_TYPE)}
-                    mission={this.props.mission}
-                    isGetResultsInProgress={props.isGetResultsInProgress}/>
-        </div>
+        </span>
       )
 
     } else if (!this.props.isGetMissionsInProgress) {
-      phase2Results = (
-        <p className="dashboard__timeline-point__text">
-          <b>Phase II</b> &thinsp;
-          No Phase II missions have been launched from this one.
-        </p>
-      )
+      phase2TimelineText = (
+      <p className="dashboard__timeline-point__text">
+        <span>Phase II</span> &thinsp;
+        No Phase II missions have been launched from this one.
+      </p>)
     }
 
     // console.log('isGetResultsInProgress', this.props.isGetResultsInProgress)
@@ -114,13 +106,32 @@ class Dashboard extends Component {
           <hr />
         </div>
 
-        <div className="row ">
-          <div className="mission-result-container">
-            {phaseIResults}
+
+        <div className="row dashboard__body-wrapper">
+          <div className="dashboard__timeline">
+            <div className="dashboard__timeline-line"></div>
+            <div className="dashboard__timeline-point">
+              <span className="dashboard__timeline-point__text">
+                <span>Phase I</span> &thinsp;
+                {moment(props.mission.startTime).format('ddd, MMM D [at] ha')}
+                &mdash;
+                {moment(props.mission.deadline).format('ddd, MMM D [at] ha')}
+              </span>
+            </div>
+
+            <div className="dashboard__timeline-point end" style={this.state.phaseIIPositionStyle}>
+              {phase2TimelineText}
+            </div>
           </div>
 
-          <div className="mission-result-container" id="phase2Results">
-            {phase2Results}
+          <div className="dashboard__body medium-11 columns">
+            <div className="row">
+              {resultsView}
+            </div>
+
+            <div className="row" id="phase2Results">
+              {phase2Results}
+            </div>
           </div>
         </div>
 
@@ -140,25 +151,20 @@ class Dashboard extends Component {
     return leadsToMission
   }
 
-  _getRecords(mission, getForMissionType) {
+  _getRecords(mission) {
     let records;
-    if (getForMissionType === missionConfig.PHASE_I_MISSION_TYPE) {
+    if (mission.type === missionConfig.PHASE_I_MISSION_TYPE) {
       records = this.props.resultsByMission[mission.id];
 
-      // console.log('records for phase 1', mission.displayName, records)
-    } else if (getForMissionType === missionConfig.PHASE_II_MISSION_TYPE) {
-      records = _.compact(_.flatten(_.map(mission.leadsToMissions, id => this.props.resultsByMission[id])));
-
-      // console.log('records for phase 2', mission.displayName, records)
     } else {
-      throw new Error('You must specify for Phase I or Phase II you want to get records')
+      records = _.compact(_.flatten(_.map(mission.leadsToMissions, id => this.props.resultsByMission[id])));
     }
 
     return records;
   }
 
-  _getResults(mission, getForMissionType) {
-    let records = this._getRecords(mission, getForMissionType);
+  _getResults(mission) {
+    let records = this._getRecords(mission);
     let results = parseResults(records, this.props.roster);;
 
     return results;

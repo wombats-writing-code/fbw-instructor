@@ -15,22 +15,6 @@
   color: #555;
 }
 
-.results__title {
-  text-align: left;
-  border-top: 2px solid #333;
-  border-bottom: 2px solid #333;
-  padding-bottom: .5em;
-  padding-top: .5em;
-  padding-left: 3px;
-  font-weight: 600;
-}
-
-.phase-2-prompt {
-  padding: .5em 0 .5em .5em;
-  background: #f3f3f3;
-  text-align: left;
-}
-
 .refresh-button, .refresh-button:focus {
   font-weight: 600;
   color: #555;
@@ -60,26 +44,6 @@
   opacity: .8;
 }
 
-// .dashboard__body {
-//   margin-left: 5%;
-//   width: 85%;
-// }
-
-.dashboard__timeline {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  // min-height: 100vh;
-}
-
-
-.dashboard__timeline-line {
-  position: absolute;
-  height: 100%;
-  width: 3px;
-  background: #888;
-}
-
 .dashboard__timeline-point {
   color: #666;
   font-weight: bold;
@@ -101,6 +65,36 @@
   top: 4px;
 }
 
-.dashboard__timeline-point__text {
 
+.dashboard__timeline-point__text {
+  padding: .5em .5em .5em .5em;
+  background: #f3f3f3;
+  text-shadow: 0px -1px 0px rgba(#fff,.5);
+  color: #444;
+  text-align: left;
 }
+
+.mission-result-container {
+  border-left: 4px solid #f0f0f0;
+}
+
+// //
+// .dashboard__body-wrapper {
+//   position: relative;
+// }
+//
+// .dashboard__timeline {
+//   position: absolute;
+//   width: 100%;
+//   height: 100%;
+//   left: 10px;
+//   top: 0;
+// }
+//
+// .dashboard__timeline-line {
+//   position: absolute;
+//   height: 100%;
+//   width: 3px;
+//   background: #888;
+// }
+//

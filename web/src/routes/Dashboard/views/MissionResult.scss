@@ -1,0 +1,70 @@
+@import '../../../styles/base';
+
+.mission-result {
+}
+
+.results__section {
+  padding: 1.5rem 2rem 0rem 2rem;
+}
+
+.results__section.dark {
+  background: #333;
+  color: #fff;
+}
+
+.results__subtitle {
+  text-transform: uppercase;
+  font-weight: 700;
+  color: #555;
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+  border-bottom: 2px solid transparent;
+  padding: .25em 1em;
+  cursor: pointer;
+}
+
+.results__subtitle:hover {
+  color: $app-blue-2;
+}
+
+.results__subtitle.is-active {
+  border-color: $app-blue-2;
+  color: $app-blue-2;
+}
+
+
+.results__section.dark .results__subtitle {
+  color: #ddd;
+}
+
+.circle-container {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+  position: relative;
+  width: 180px;
+  height: 180px;
+  cursor: pointer;
+}
+
+.circle__center-text {
+  font-size: 2.2rem;
+  font-weight: 600;
+  width: 100%;
+  text-align: center;
+  display: block;
+  position: absolute;
+  top: 38%;
+}
+
+.circle__caption-text {
+  color: #444;
+}
+
+.outcome-result-item {
+  list-style: none;
+  text-align: left;
+  font-size: .875rem;
+}

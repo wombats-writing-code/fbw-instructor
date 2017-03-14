@@ -150,7 +150,11 @@ class Missions extends Component {
           })}
         </ul>
 
-        {missionsLoadingBox}
+        <div className="row">
+          <div className="large-7 large-centered columns">
+            {missionsLoadingBox}
+          </div>
+        </div>
       </div>
     )
   }
