@@ -75,6 +75,8 @@ class OutcomesView extends Component {
     // console.log('props of OutcomesView', this.props)
     // console.log('currentOutcomeCategory', results[this.state.currentOutcomeCategory])
 
+    if (!results) return null;
+
     let badOutcomesList = _.map(results.badOutcomes, (recordsForOutcome, idx) => {
       return (
         <li className="outcome-result-item" key={`bad-outcome-result-item-${idx}`}>

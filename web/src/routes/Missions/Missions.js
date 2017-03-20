@@ -87,7 +87,8 @@ class Missions extends Component {
                   Edit</button>)
 
              let deleteMissionButton =  (<button className="button mission-card__button small warning"
-                     onClick={(e) => {this._onClickDelete(mission); e.stopPropagation()}}>
+                     onClick={(e) => {this._onClickDelete(mission); e.stopPropagation()}}
+                     >
                       Delete</button>)
 
             // console.log(mission, 'startTime', mission.startTime, 'deadline', mission.deadline)
@@ -95,6 +96,8 @@ class Missions extends Component {
               <div>
                 <input className="confirm-delete-input" placeholder="Type the mission name here"
                       value={this.state.confirmDeleteValue}
+                      onClick={(e) => {e.stopPropagation(); e.preventDefault();}}
+                      onFocus={(e) => {e.stopPropagation(); e.preventDefault();}}
                       onChange={(e) => {this.setState({confirmDeleteValue: e.target.value}); e.stopPropagation()}} />
 
                 <div className="flex-container">
@@ -103,7 +106,7 @@ class Missions extends Component {
                            Confirm delete</button>
 
                    <button className="button mission-card__button small"
-                           onClick={() => this.setState({isConfirmDeleteVisible: false})}>
+                           onClick={(e) => {this.setState({isConfirmDeleteVisible: false, confirmDeleteFocus: false}); e.stopPropagation(); }}>
                             Cancel</button>
                 </div>
               </div>
