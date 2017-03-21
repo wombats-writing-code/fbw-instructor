@@ -102,7 +102,7 @@ class Missions extends Component {
 
                 <div className="flex-container">
                   <button className="button mission-card__button small warning"
-                          onClick={(e) => {e.stopPropagation(); this._onConfirmDeleteMission(mission)}}>
+                          onClick={(e) => {this._onConfirmDeleteMission(mission); e.stopPropagation();}}>
                            Confirm delete</button>
 
                    <button className="button mission-card__button small"
@@ -172,14 +172,12 @@ class Missions extends Component {
   }
 
   _onConfirmDeleteMission(mission) {
-    // console.log('confirmDeleteValue', this.state.confirmDeleteValue, 'mission name', mission.displayName)
-
-    if (this.state.confirmDeleteValue === mission.displayName) {
+    if (this.state.confirmDeleteValue && _.trim(this.state.confirmDeleteValue) === _.trim(mission.displayName)) {
       this.setState({
         confirmDeleteValue: '',
         isConfirmDeleteVisible: false
       });
-      this.props.onClickDeleteMission(mission);
+      this.props.onClickDeleteMission(mission, this.props.user);
     }
 
   }

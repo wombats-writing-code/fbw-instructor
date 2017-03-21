@@ -56,6 +56,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     onClickDeleteMission: (mission, user) => {
       dispatch(deleteMission(mission, user))
+      browserHistory.push('/missions')
     },
   }
 }
