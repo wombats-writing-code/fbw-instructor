@@ -48,57 +48,68 @@ class OutcomesView extends Component {
 
   _drawOutcomes(results) {
 
-    setTimeout( () => {
-      console.log('this.instanceId', this.instanceId)
-      let badCircle = new ProgressBar.Circle(`#bad-outcomes_${this.instanceId}`, {
-        strokeWidth: 6,
-        easing: 'easeInOut',
-        duration: 1400,
-        color: BAD_COLOR,
-        trailColor: '#eee',
-        trailWidth: 1,
-        svgStyle: null
-      });
+    if (results) {
+      setTimeout( () => {
+        // console.log('this.instanceId', this.instanceId)
+        let badCircle = new ProgressBar.Circle(`#bad-outcomes_${this.instanceId}`, {
+          strokeWidth: 6,
+          easing: 'easeInOut',
+          duration: 1400,
+          color: BAD_COLOR,
+          trailColor: '#eee',
+          trailWidth: 1,
+          svgStyle: null
+        });
 
-      let medCircle = new ProgressBar.Circle(`#medium-outcomes_${this.instanceId}`, {
-        strokeWidth: 6,
-        easing: 'easeInOut',
-        duration: 1400,
-        color: MEDIUM_COLOR,
-        trailColor: '#eee',
-        trailWidth: 1,
-        svgStyle: null
-      });
+        let medCircle = new ProgressBar.Circle(`#medium-outcomes_${this.instanceId}`, {
+          strokeWidth: 6,
+          easing: 'easeInOut',
+          duration: 1400,
+          color: MEDIUM_COLOR,
+          trailColor: '#eee',
+          trailWidth: 1,
+          svgStyle: null
+        });
 
-      let goodCircle = new ProgressBar.Circle(`#good-outcomes_${this.instanceId}`, {
-        strokeWidth: 6,
-        easing: 'easeInOut',
-        duration: 1400,
-        color: GOOD_COLOR,
-        trailColor: '#eee',
-        trailWidth: 1,
-        svgStyle: null
-      });
+        let goodCircle = new ProgressBar.Circle(`#good-outcomes_${this.instanceId}`, {
+          strokeWidth: 6,
+          easing: 'easeInOut',
+          duration: 1400,
+          color: GOOD_COLOR,
+          trailColor: '#eee',
+          trailWidth: 1,
+          svgStyle: null
+        });
 
-      badCircle.animate(Math.min(results.badOutcomes.length / (this.props.currentMission.goals.length * 3), 1));  // Value from 0.0 to 1.0
-      medCircle.animate(Math.min(results.mediumOutcomes.length / (this.props.currentMission.goals.length * 3), 1));
-      goodCircle.animate(Math.min(results.goodOutcomes.length / (this.props.currentMission.goals.length * 3), 1));
+        badCircle.animate(Math.min(results.badOutcomes.length / (this.props.currentMission.goals.length * 3), 1));  // Value from 0.0 to 1.0
+        medCircle.animate(Math.min(results.mediumOutcomes.length / (this.props.currentMission.goals.length * 3), 1));
+        goodCircle.animate(Math.min(results.goodOutcomes.length / (this.props.currentMission.goals.length * 3), 1));
 
-    }, 100);
+      }, 100);
+    }
+
   }
 
   render() {
     let props = this.props;
     let results = props.results;
-    // console.log('props of OutcomesView', this.props)
+    console.log('props of OutcomesView isGetResultsInProgress', this.props.isGetResultsInProgress)
     // console.log('currentOutcomeCategory', results[this.state.currentOutcomeCategory])
 
-    if (!results) {
+    if (!results && props.isGetResultsInProgress) {
       return (
-        <div className="row">
+        <div className="row ">
           <div className="medium-12 medium-centered columns margin-bottom">
             {LoadingBox('enter-active')}
           </div>
+        </div>
+      );
+    }
+
+    if (!results && !props.isGetResultsInProgress) {
+      return (
+        <div className="row margin-bottom">
+          {EmptyState("No students have opened the mission yet")}
         </div>
       );
     }

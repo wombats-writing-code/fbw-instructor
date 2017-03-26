@@ -110,7 +110,7 @@ class Dashboard extends Component {
     return (
       <div className="">
         <div className="row dashboard__title">
-          <div className="flex-container space-between align-center">
+          <div className="columns flex-container space-between align-center">
             <p className="dashboard__mission-name">
               {this.props.mission ? this.props.mission.displayName : ''} &nbsp;
             </p>

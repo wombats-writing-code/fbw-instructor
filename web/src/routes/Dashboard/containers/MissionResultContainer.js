@@ -17,7 +17,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     onSelectStudentResult: (student, mission, user) => {
       // console.log('onSelectStudentResult', student, mission, user)
       dispatch(getStudentResult(student, mission, user))
-    }
+    },
   }
 }
 
@@ -31,6 +31,7 @@ const mapStateToProps = (state, ownProps) => {
     currentMission: state.mission.currentMission,
     outcomes: getMapping(state).outcomes,
     view: state.view,
+    isGetResultsInProgress: state.result && state.result.isGetResultsInProgress,
   }
 }
 
