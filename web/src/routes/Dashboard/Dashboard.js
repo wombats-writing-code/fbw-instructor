@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import {browserHistory} from 'react-router'
 import moment from 'moment'
 import $ from 'jquery'
 import {missionConfig} from 'fbw-platform-common/reducers/Mission'
@@ -32,12 +33,14 @@ class Dashboard extends Component {
 
       // console.log('phaseIIPositionStyle', phase2Results.top);
     }, 300);
+
+    if (!this.props.resultsByMission) {
+      this.props.onClickRefreshResults(this.props.mission, this.props.user)
+    }
   }
 
   render() {
     let props = this.props;
-
-    if (!props.mission) return null;
 
     let loadingBox;
     if (this.props.isGetResultsInProgress) {
@@ -45,6 +48,12 @@ class Dashboard extends Component {
     } else {
       loadingBox = LoadingBox('enter')
     }
+
+    if (!props.resultsByMission) {
+      return (<div className="row">
+        {loadingBox}
+      </div>)
+    };
 
 
     let phaseIResults, recommendationView;

@@ -33,7 +33,7 @@ export default (initialState = {}) => {
         let subset = {
           course: state.course,
           result: _.omit(state.result, [
-            'isGetResultsInProgress', 'isGetStudentResultInProgress'
+            'isGetResultsInProgress', 'isGetStudentResultInProgress', 'resultsByMission'
           ]),
           editMission: _.assign({}, state.editMission, {
             newMission: stampNewMission(),
