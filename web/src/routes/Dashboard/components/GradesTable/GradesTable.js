@@ -41,7 +41,7 @@ class GradesTable extends Component {
         accessor: 'points'
       },
       {
-        header: 'Status',
+        header: 'Last active',
         accessor: 'status'
       },
     ];

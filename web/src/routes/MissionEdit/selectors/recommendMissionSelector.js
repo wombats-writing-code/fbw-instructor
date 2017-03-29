@@ -34,7 +34,7 @@ export const computeRecommendations = createSelector([
 
   // console.log('computeRecommendations', followsFromMissions);
   // console.log('records', records);
-  // console.log('followsFromMissions', followsFromMissions);
+  console.log('followsFromMissions', followsFromMissions);
 
 
   let studentIdentifiers = _.map(roster, 'Identifier');
@@ -72,10 +72,12 @@ export const computeRecommendations = createSelector([
         return result;
       }, []);
 
+      let goals = _.uniq(_.concat((result[id] ? result[id].goals : []), notAchievedGoals));
+      console.log('goals', goals)
 
       result[id] = {
         student: recordsByStudent[id][0].user,
-        goals: _.concat((result[id] ? result[id].goals : []), notAchievedGoals),
+        goals: goals,
         followsFromMissions: _.concat((result[id] ? result[id].followsFromMissions : []), mission.id),
       }
     });

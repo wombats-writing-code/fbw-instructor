@@ -26,19 +26,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     onCreateMission: (newMission, course, user) => {
       dispatch(createMission(newMission, course, user));
-
-      browserHistory.push('/missions');
     },
     onCreateMissions: (newMissions, course, user) => {
       dispatch(createMissions(newMissions, course, user));
-      // dispatch(changeView({name: 'dashboard.resultsView', mission: ownProps.currentMission}));
-
-      browserHistory.push('/missions');
     },
     onUpdateMission: (mission, user) => {
       dispatch(updateMission(mission, user))
-
-      browserHistory.push('/missions');
     },
     onChangeMissionName: (value) => dispatch(changeMissionName(value)),
     onChangeMissionType: (missionType) => dispatch(changeMissionType(missionType)),

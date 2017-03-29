@@ -28,11 +28,9 @@ export const computeGrades = (mission, records, roster) => {
 
   // TODO: note that this block will always run,
   // because of the way we're redoing points grading
-  let grades;
-  if (true || mission.type === missionConfig.PHASE_I_MISSION_TYPE) {
-    grades = _.reduce(groupedByStudent, (result, records, userIdentifier) => {
+  let grades = _.reduce(groupedByStudent, (result, records, userIdentifier) => {
       let targets = _.filter(records, r => isTarget(r.question));
-      // console.log('records', records)
+      console.log('records', records)
 
       let grade = {
         points: pointsEarned(_.map(targets, 'responseResult.question')),
@@ -54,7 +52,7 @@ export const computeGrades = (mission, records, roster) => {
     })
 
     grades = _.concat(grades, studentsNotOpenedGrades);
-  }
+
 
   // console.log('grades', grades)
 
