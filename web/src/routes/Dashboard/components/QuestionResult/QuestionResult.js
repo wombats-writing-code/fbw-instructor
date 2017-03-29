@@ -62,7 +62,8 @@ class QuestionResult extends Component {
               <ul className="question-statistics__students-list">
                 <span className="bold">Incorrect: </span>
                 {_.map(props.records, (record, idx) => {
-                  let studentChoice = didRespond ? record.responseResult.choice : null;
+                  // console.log('record', record)
+                  let studentChoice = record.responseResult ? record.responseResult.choice : null;
 
                   return (
                     <div key={`student-link-${idx}`} className="students-list__item">
