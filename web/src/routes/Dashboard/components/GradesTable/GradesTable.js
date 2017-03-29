@@ -6,7 +6,7 @@ import _ from 'lodash'
 import ReactTable from 'react-table'
 import 'react-table/react-table.css'
 
-import {getD2LDisplayName} from 'fbw-platform-common/selectors/login'
+import {getD2LDisplayName, getD2LDisplayNameLastFirst} from 'fbw-platform-common/selectors/login'
 import './GradesTable.scss'
 
 
@@ -34,15 +34,19 @@ class GradesTable extends Component {
       {
         header: 'Name',
         id: 'displayName',
-        accessor: d => getD2LDisplayName(d.user),
+        accessor: d => getD2LDisplayNameLastFirst(d.user),
       },
       {
         header: 'Points (%)',
         accessor: 'points'
       },
       {
+        header: 'First opened',
+        accessor: 'firstActive'
+      },
+      {
         header: 'Last active',
-        accessor: 'status'
+        accessor: 'lastActive'
       },
     ];
 

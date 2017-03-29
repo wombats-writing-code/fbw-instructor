@@ -21,14 +21,35 @@ class QuestionResult extends Component {
     // console.log('outcome:', props.outcome);
     // console.log('records', props.records);
 
-    let responseResult = _.find(props.records, 'responseResult').responseResult;
+    let didRespond = _.find(props.records, 'responseResult');
+
+    // if there is no response (no student hasn't responded yet), we artificially create a responseResult
+    // so that we can display the question
+    let withResponse = _.find(props.records, 'responseResult');
+    if (!didRespond) {
+      // console.log('no response records', props.records);
+      withResponse = {
+        responseResult: {
+          question: props.records[0].question
+        }
+      }
+      // console.log('withResponse', withResponse);
+    }
+
+    let responseResult = withResponse.responseResult;
     let question = responseResult.question;
 
+    // ============
     // we artificially make a new 'question response object' by injecting the question with a correct response
     // because instructors want to see the correct response to a question
+
+    // if there is no solution attached with the question (because it hasn't been responded to),
+    // do this HACK: find the choice with displayName = 0
+    // =============
+    let solutionChoiceId = didRespond ? question.solution.choiceId : _.find(question.choices, c => c.displayName === 'Choice 0').choiceId;
     let questionWithCorrectResponse = _.assign({}, question, {
       response: {
-        choice: _.find(question.choices, {choiceId: question.solution.choiceId}),
+        choice: _.find(question.choices, {choiceId: solutionChoiceId}),
         isCorrect: true
       }
     });
@@ -41,7 +62,7 @@ class QuestionResult extends Component {
               <ul className="question-statistics__students-list">
                 <span className="bold">Incorrect: </span>
                 {_.map(props.records, (record, idx) => {
-                  let studentChoice = record.responseResult.choice;
+                  let studentChoice = didRespond ? record.responseResult.choice : null;
 
                   return (
                     <div key={`student-link-${idx}`} className="students-list__item">
@@ -57,6 +78,7 @@ class QuestionResult extends Component {
               <QuestionCard question={questionWithCorrectResponse}
                           outcome={props.outcome}
                           isExpanded={false}
+                          isExpandable={true}
                           isSubmitEnabled={false}/>
             </div>
           </div>
@@ -67,6 +89,8 @@ class QuestionResult extends Component {
 }
 
 function getChoiceAlphabet(choice, choices) {
+  if (!choice) return 'not responded';
+
   const Alphabet = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
 
   let idx = _.findIndex(choices, {choiceId: choice.choiceId});

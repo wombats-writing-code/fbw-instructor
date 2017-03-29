@@ -62,7 +62,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  console.log('state in MissionsContainer?', state, getUser(state))
+  // console.log('state in MissionsContainer?', state, getUser(state))
 
   let currentMission = state.mission ? state.mission.currentMission : null;
   return {

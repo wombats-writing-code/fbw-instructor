@@ -12,7 +12,7 @@ import GradesTable from '../components/GradesTable'
 import './OutcomesView.scss'
 
 const BAD_COLOR = "#FF6F69";
-const MEDIUM_COLOR = "#fce77f";
+const MEDIUM_COLOR = "#f8e57d";
 const GOOD_COLOR = "#96CEB4";
 
 class OutcomesView extends Component {
@@ -93,7 +93,7 @@ class OutcomesView extends Component {
   render() {
     let props = this.props;
     let results = props.results;
-    console.log('props of OutcomesView isGetResultsInProgress', this.props.isGetResultsInProgress)
+    // console.log('props of OutcomesView isGetResultsInProgress', this.props.isGetResultsInProgress)
     // console.log('currentOutcomeCategory', results[this.state.currentOutcomeCategory])
 
     if (!results && props.isGetResultsInProgress) {
@@ -114,30 +114,38 @@ class OutcomesView extends Component {
       );
     }
 
-    let badOutcomesList = _.map(results.badOutcomes, (recordsForOutcome, idx) => {
+    // console.log('badOutcomes', props.badOutcomes)
+
+    let badOutcomesList = _.map(results.badOutcomes, (recordsForOutcome, outcomeId, idx) => {
+      let outcome = _.find(props.outcomes, {id: outcomeId});
+
       return (
-        <li className="outcome-result-item" key={`bad-outcome-result-item-${idx}`}>
-          <OutcomeResult outcomes={props.outcomes} recordsForOutcome={recordsForOutcome} mission={props.mission}
+        <li className="outcome-result-item" key={`bad-outcome-result-item-${outcomeId}`}>
+          <OutcomeResult outcome={outcome} recordsForOutcome={recordsForOutcome} mission={props.mission}
                   onSelectStudentResult={(student) => this.props.onSelectStudentResult(student, props.mission, props.user)}
           />
         </li>
       )
     })
 
-    let mediumOutcomesList = _.map(results.mediumOutcomes, (recordsForOutcome, idx) => {
+    let mediumOutcomesList = _.map(results.mediumOutcomes, (recordsForOutcome, outcomeId, idx) => {
+      let outcome = _.find(props.outcomes, {id: outcomeId});
+
       return (
-        <li className="outcome-result-item" key={`good-outcome-result-item-${idx}`}>
-          <OutcomeResult outcomes={props.outcomes} recordsForOutcome={recordsForOutcome} mission={props.mission}
+        <li className="outcome-result-item" key={`good-outcome-result-item-${outcomeId}`}>
+          <OutcomeResult outcome={outcome} recordsForOutcome={recordsForOutcome} mission={props.mission}
                   onSelectStudentResult={(student) => this.props.onSelectStudentResult(student, props.mission, props.user)}
           />
         </li>
       )
     })
 
-    let goodOutcomesList = _.map(results.goodOutcomes, (recordsForOutcome, idx) => {
+    let goodOutcomesList = _.map(results.goodOutcomes, (recordsForOutcome, outcomeId, idx) => {
+      let outcome = _.find(props.outcomes, {id: outcomeId});
+
       return (
-        <li className="outcome-result-item" key={`good-outcome-result-item-${idx}`}>
-          <OutcomeResult outcomes={props.outcomes} recordsForOutcome={recordsForOutcome} mission={props.mission}
+        <li className="outcome-result-item" key={`good-outcome-result-item-${outcomeId}`}>
+          <OutcomeResult outcome={outcome} recordsForOutcome={recordsForOutcome} mission={props.mission}
                   onSelectStudentResult={(student) => this.props.onSelectStudentResult(student, props.mission, props.user)}
           />
         </li>
@@ -148,38 +156,45 @@ class OutcomesView extends Component {
     return (
       <div className="mission-result">
           <div className="row">
-            <div className="medium-4 columns no-left-padding">
+            <div className="large-4 columns no-left-padding">
               <div id={`bad-outcomes_${this.instanceId}`} className="circle-container ">
                 <span className="circle__center-text " style={{color: BAD_COLOR}}>
-                  {results.badOutcomes.length} <br/>
+                  <span className="circle__center-text__number">{_.size(results.badOutcomes)}</span> <br/>
+                  outcomes
                 </span>
               </div>
 
               <p className="circle__caption-text bold">
-                {results.badOutcomes.length} outcomes
+                &gt;50% of students did not achieve
               </p>
               {badOutcomesList}
             </div>
 
-            <div className="medium-4 columns">
+            <div className="large-4 columns">
               <div id={`medium-outcomes_${this.instanceId}`} className="circle-container">
-                <span className="circle__center-text " style={{color:  MEDIUM_COLOR}}>{results.mediumOutcomes.length}</span>
+                <span className="circle__center-text " style={{color:  MEDIUM_COLOR}}>
+                  <span className="circle__center-text__number">{_.size(results.mediumOutcomes)}</span> <br/>
+                  outcomes
+                  </span>
               </div>
 
               <p className="circle__caption-text bold">
-                {results.mediumOutcomes.length} outcomes
+                &lt;50% of students did not achieve
               </p>
               {mediumOutcomesList}
             </div>
 
-            <div className="medium-4 columns no-right-padding">
+            <div className="large-4 columns no-right-padding">
               <div id={`good-outcomes_${this.instanceId}`} className="circle-container"
                     >
-                <span className="circle__center-text " style={{color: GOOD_COLOR}}>{results.goodOutcomes.length}</span>
+                <span className="circle__center-text " style={{color: GOOD_COLOR}}>
+                  <span className="circle__center-text__number">{_.size(results.goodOutcomes)}</span> <br/>
+                  outcomes
+                </span>
               </div>
 
               <p className="circle__caption-text bold">
-                {results.goodOutcomes.length} outcomes
+                &lt;25% of students did not achieve
               </p>
               {goodOutcomesList}
             </div>

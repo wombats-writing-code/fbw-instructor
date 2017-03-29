@@ -168,7 +168,7 @@ class Dashboard extends Component {
 
   _getResults(mission, getForMissionType) {
     let records = this._getRecords(mission, getForMissionType);
-    let results = parseResults(records, this.props.roster);;
+    let results = parseResults(records, this.props.roster, mission);;
 
     return results;
   }

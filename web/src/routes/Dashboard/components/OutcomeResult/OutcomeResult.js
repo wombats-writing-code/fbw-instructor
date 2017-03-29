@@ -18,16 +18,17 @@ class OutcomeResult extends Component {
     let props = this.props;
     let recordsForOutcome = props.recordsForOutcome;
 
-    let outcome = _.find(props.outcomes, {id: recordsForOutcome[0].outcome});
     let uniqueQuestions = _.uniqBy(recordsForOutcome, 'question.id');
     let recordsByQuestion = _.groupBy(recordsForOutcome, 'question.id');
+
+    // console.log('uniqueQuestions for', props.outcome.displayName, _.map(uniqueQuestions, 'question.text'))
 
     let questionsForOutcome;
     if (this.state.isExpanded) {
       questionsForOutcome = _.map(recordsByQuestion, (records, qId) => {
         return (
           <div key={`outcome__question--${qId}`} className="no-style">
-            <QuestionResult records={records} outcome={outcome} mission={props.mission}
+            <QuestionResult records={records} outcome={props.outcome} mission={props.mission}
                             onSelectResult={props.onSelectStudentResult} />
           </div>
         )
@@ -37,7 +38,7 @@ class OutcomeResult extends Component {
     return (
       <div className="outcome-result">
         <p>
-          {outcome.displayName}
+          {props.outcome.displayName}
           <span className="number-questions" onClick={() => this.setState({isExpanded: !this.state.isExpanded})}>
             {this.state.isExpanded ? 'Hide ' : 'Show '}
             {uniqueQuestions.length} {pluralize('question', uniqueQuestions.length)}
