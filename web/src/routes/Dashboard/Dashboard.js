@@ -91,6 +91,7 @@ class Dashboard extends Component {
           </span>
         </p>
           <MissionResult results={this._getResults(this.props.mission, missionConfig.PHASE_II_MISSION_TYPE)}
+                        records={this._getRecords(props.mission, missionConfig.PHASE_II_MISSION_TYPE)}
                     mission={this.props.mission}
                     isGetResultsInProgress={props.isGetResultsInProgress}/>
         </div>
@@ -158,7 +159,7 @@ class Dashboard extends Component {
     } else if (getForMissionType === missionConfig.PHASE_II_MISSION_TYPE) {
       records = _.compact(_.flatten(_.map(mission.leadsToMissions, id => this.props.resultsByMission[id])));
 
-      // console.log('records for phase 2', mission.displayName, records)
+      console.log('records for phase 2', mission.displayName, records)
     } else {
       throw new Error('You must specify for Phase I or Phase II you want to get records')
     }

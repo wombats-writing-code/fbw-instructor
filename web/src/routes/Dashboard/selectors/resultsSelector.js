@@ -25,6 +25,8 @@ export const computeGrades = (mission, records, roster) => {
   let studentsOpenedIdentifiers = _.uniq(_.map(records, 'user.Identifier'));
   let studentsNotOpenedIdentifers = _.difference(_.map(roster, 'Identifier'), studentsOpenedIdentifiers);
   // console.log('studentsNotOpenedIdentifers', studentsNotOpenedIdentifers)
+  console.log('records', records)
+  console.log('studentsOpened', _.uniq(_.map(records, 'user')))
 
   // TODO: note that this block will always run,
   // because of the way we're redoing points grading
@@ -59,7 +61,7 @@ export const computeGrades = (mission, records, roster) => {
     grades = _.concat(grades, studentsNotOpenedGrades);
 
 
-  // console.log('grades', grades)
+  // console.log('grades for mission', mission, grades)
 
   return grades;
 }

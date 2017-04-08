@@ -33,7 +33,7 @@ class MissionResult extends Component {
       view = <OutcomesView {...props} />
     } else {
       view = <GradesTable grades={props.grades}
-                  mission={props.currentMission}
+                  mission={props.mission}
                   onSelectStudent={(student) => this.props.onSelectStudentResult(student, props.currentMission, props.user)}/>
     }
 
