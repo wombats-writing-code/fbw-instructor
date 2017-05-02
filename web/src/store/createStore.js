@@ -42,7 +42,7 @@ export default (initialState = {}) => {
             isCreateMissionInProgress: false,
             isCreateMissionsInProgress: false
           }),
-          mapping: state.mapping,
+          mapping: _.omit(state.mapping, ['currentEntity']),
           mission: _.assign({}, state.mission, {
             currentTarget: null,
             isGetMissionInProgress: false,

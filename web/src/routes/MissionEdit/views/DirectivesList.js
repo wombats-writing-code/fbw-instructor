@@ -51,8 +51,13 @@ class DirectivesList extends Component {
 
           }
 
-          let module = getOutcomeModule(outcome, props.mapping.modules, props.mapping.relationships);
-
+          let module = props.showModuleLabel && getOutcomeModule(outcome, props.mapping.modules, props.mapping.relationships);
+          let moduleLabel;
+          if (module) {
+            moduleLabel = (
+              <span className="directives-list__item__module-label truncate">{module ? module.displayName : null}</span>
+            )
+          }
           // console.log(props.itemsForDirectives, itemsForDirective)
           let previewItem;
           if (this.state.isOutcomeQuestionsExpanded[outcome.id]) {
@@ -78,7 +83,7 @@ class DirectivesList extends Component {
               <div className={`directives-list__item ${staggeredClass} flex-container align-center space-between`} >
                 {targetIcon}
                 <span className="outcome-text">{outcome.displayName}</span>
-                <span className="directives-list__item__module-label truncate">{module ? module.displayName : null}</span>
+                {moduleLabel}
 
                 <span className="button preview-questions-button"
                         onClick={(e) => {e.stopPropagation(); this._toggleOutcomeQuestions(outcome)}}>

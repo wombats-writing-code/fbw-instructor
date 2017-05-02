@@ -34,7 +34,7 @@ export const computeRecommendations = createSelector([
 
   // console.log('computeRecommendations', followsFromMissions);
   // console.log('records', records);
-  console.log('followsFromMissions', followsFromMissions);
+  // console.log('followsFromMissions', followsFromMissions);
 
 
   let studentIdentifiers = _.map(roster, 'Identifier');

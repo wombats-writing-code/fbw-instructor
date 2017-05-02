@@ -2,6 +2,7 @@
 @import '../../../styles/base';
 
 .directives-list {
+  margin-left: .5rem;
   text-align: left;
 }
 
@@ -11,9 +12,9 @@
 }
 
 .directives-list__target-icon {
-  width: 1.2rem;
-  height: 1.2rem;
-  margin-right: .7rem;
+  width: 1rem;
+  height: 1rem;
+  margin-right: .5rem;
 }
 
 .directives-list__item.non-target .outcome-text {

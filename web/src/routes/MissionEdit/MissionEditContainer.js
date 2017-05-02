@@ -13,14 +13,18 @@ import {selectModule} from 'fbw-platform-common/reducers/edit-mission/updateMiss
 import {changeOutcomeSearch} from 'fbw-platform-common/reducers/edit-mission/updateMissionForm'
 import {toggleOutcome} from 'fbw-platform-common/reducers/edit-mission/updateMissionForm'
 import {changeFollowsFromMissions} from 'fbw-platform-common/reducers/edit-mission/updateMissionForm'
+import {visualizeEntity, closeVisualizeEntity} from 'fbw-platform-common/reducers/Mapping/visualizeEntity'
+
 import {getResults} from 'fbw-platform-common/reducers/Result/getResults'
 
 import {changeView} from '../../reducers/view'
 import {getMapping, getUser} from 'fbw-platform-common/selectors/'
 import {getCurrentCourse, getRoster} from 'fbw-platform-common/selectors/course'
 
-import {itemsForDirectivesSelector, displayedDirectivesSelector} from './selectors/'
+import {itemsForDirectivesSelector, displayedDirectivesSelector, visualizeEntitiesSelector} from './selectors/'
 import {computeRecommendations} from './selectors/recommendMissionSelector'
+
+
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
@@ -40,6 +44,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     onSelectModule: (module) => dispatch(selectModule(module)),
     onChangeOutcomeSearch: (query) => dispatch(changeOutcomeSearch(query)),
     onToggleOutcome: (outcome) => dispatch(toggleOutcome(outcome)),
+    onVisualizeEntity: (entity) => dispatch(visualizeEntity(entity)),
+    onCloseVisualizeEntity: () => dispatch(closeVisualizeEntity()),
     onSelectFollowFromMissions: (missions, user) => {
       _.each(missions, m => dispatch(getResults({mission: m, user})));
       dispatch(changeFollowsFromMissions(missions))
@@ -59,6 +65,8 @@ const mapStateToProps = (state, ownProps) => {
     newMission: state.editMission.newMission,
     currentMission: state.mission.currentMission,
     selectedModule: state.editMission.selectedModule,
+    currentEntity: state.mapping.currentEntity,
+    visualizedEntities: visualizeEntitiesSelector(state),
     outcomeQuery: state.editMission.outcomeQuery,
     recommendations: computeRecommendations(state),
     isCreateMissionInProgress: state.editMission.isCreateMissionInProgress,

@@ -1,12 +1,23 @@
 import React, {Component} from 'react'
-import {getD2LDisplayName, getD2LUserIdentifier} from 'fbw-platform-common/selectors/login'
 
+import {getD2LDisplayName, getD2LUserIdentifier} from 'fbw-platform-common/selectors/login'
+import VisualizeEntity from './VisualizeEntity'
 import SelectDirectives from './SelectDirectives';
 
 class PhaseIBody extends Component {
 
   render() {
     let props = this.props;
+
+    let visualizeEntity;
+    if (props.currentEntity) {
+      visualizeEntity = (
+        <VisualizeEntity currentEntity={props.currentEntity}
+                        relationships={props.mapping.relationships}
+                        visualizedEntities={props.visualizedEntities}
+                        onClickCancel={props.onCloseVisualizeEntity}
+        />)
+    }
 
     return (
       <div className="phase-I-form">
@@ -30,10 +41,12 @@ class PhaseIBody extends Component {
                             outcomeQuery={props.outcomeQuery}
                             onSelectModule={props.onSelectModule}
                             onChangeOutcomeSearch={props.onChangeOutcomeSearch}
-                            onToggleOutcome={props.onToggleOutcome}/>
+                            onToggleOutcome={props.onToggleOutcome}
+                            onVisualizeEntity={props.onVisualizeEntity}
+                          />
         </div>
 
-
+        {visualizeEntity}
       </div>
     )
   }

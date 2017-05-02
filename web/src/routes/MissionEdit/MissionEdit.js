@@ -71,7 +71,7 @@ class MissionEdit extends Component {
           {body}
 
           <div className="">
-            <button className="button create-mission-button" type="submit">{buttonText}</button>
+            <button className="button create-mission-button" type="submit" disabled={!this._canSubmit()}>{buttonText}</button>
           </div>
 
         </form>
@@ -89,7 +89,7 @@ class MissionEdit extends Component {
 
 
     return (
-      <div className="mission-edit medium-10 large-8 medium-centered columns">
+      <div className="mission-edit medium-12 large-8 medium-centered columns">
         <div className="row">
           <button className="button go-back-button" onClick={() => this._onClickCancel()}>&larr; Go back</button>
         </div>
@@ -100,6 +100,14 @@ class MissionEdit extends Component {
         {loadingBox}
       </div>
     )
+  }
+
+  _canSubmit() {
+    if (this.props.newMission.displayName && this.props.newMission.startTime && this.props.newMission.deadline) {
+      return true;
+    }
+
+    return false;
   }
 
   _onSubmitForm(e) {

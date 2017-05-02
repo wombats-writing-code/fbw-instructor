@@ -40,7 +40,7 @@ export const displayedDirectivesSelector = createSelector([
     })
 
     let selectedModule = editMission.selectedModule;
-    let displayedDirectives = subsetOutcomes;
+    let displayedDirectives = [];
     if (selectedModule) {
       displayedDirectives = _.filter(subsetOutcomes, outcome => {
         let module = getOutcomeModule(outcome, modules, relationships);
@@ -54,6 +54,45 @@ export const displayedDirectivesSelector = createSelector([
 
     return displayedDirectives;
 })
+
+export const visualizeEntitiesSelector = createSelector([
+  state => state.mapping,
+  state => state.mapping.currentEntity
+  // state => state.assessment.questions,
+], (mapping, currentEntity) => {
+
+  if (!currentEntity) return null;
+
+  let entity = _.find(mapping.outcomes, {id: currentEntity.id});
+  let entities;
+  // if the entity is an outcome, get ALL of its prerequisites
+  if (entity) {
+    let rels = _.filter(mapping.relationships, {sourceId: entity.id, type: 'HAS_PREREQUISITE_OF'});
+    let prereqs = _.map(rels, r => _.find(mapping.outcomes, {id: r.targetId}));
+
+    entities = _.concat(entity, prereqs);
+
+  } else {
+    // if the entity is a module, get the children
+    let rels = _.filter(mapping.relationships, {targetId: currentEntity.id, type: 'HAS_PARENT_OF'});
+    let children = _.map(rels, r => _.find(mapping.outcomes, {id: r.sourceId}));
+
+    entities = children;
+  }
+
+  entities = _.compact(entities)
+
+  // let visualizeEntities = _.map(entities, entity => {
+  //   let questionsForEntity = _.filter(questions, {outcome: entity.id});
+  //
+  //   return _.assign({}, entity, {
+  //     questionCount: `(${questionsForEntity.length}) ${entity.displayName}`
+  //   })
+  // })
+
+  return entities;
+})
+
 
 export const getOutcomeModule = function(outcome, modules, relationships) {
   if (!outcome) {
