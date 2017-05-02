@@ -22,6 +22,11 @@
   border-right: 1px solid #ddd;
 }
 
+.select-modules__list {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
 .select-entity-section__title {
   font-size: .875rem;
   font-weight: 700;
@@ -63,9 +68,9 @@
   opacity: 1;
 }
 
-.modules-list__item.is-selected .visualize-icon:hover {
-  -webkit-filter: invert(.8);
-  filter: invert(.8);
+.modules-list__item.is-selected .visualize-icon {
+  -webkit-filter: invert(1);
+  filter: invert(1);
 }
 
 

@@ -27,7 +27,7 @@ class SelectDirectives extends Component {
         {selectedDirectivesLabel}
 
         <div className="row">
-          <div className="columns">
+          <div className="medium-8 large-8 medium-push-1 columns">
             <DirectivesList directives={_.map(props.selectedOutcomeIds, id => _.find(props.mapping.outcomes, {id: id}))}
                           selectedOutcomeIds={props.selectedOutcomeIds}
                           mapping={props.mapping} itemsForDirectives={props.itemsForDirectives}
@@ -48,20 +48,22 @@ class SelectDirectives extends Component {
           <div className="medium-5 columns no-right-padding">
             <div className="select-modules-section">
               <p className="select-entity-section__title">Modules</p>
-              {_.map(props.mapping.modules, module => {
-                let isSelectedClass = props.selectedModule === module ? 'is-selected' : null;
+              <div className="select-modules__list">
+                {_.map(props.mapping.modules, module => {
+                  let isSelectedClass = props.selectedModule === module ? 'is-selected' : null;
 
-                return (
-                  <div key={`${module.id}`} className={`modules-list__item flex-container space-between align-center ${isSelectedClass}`}
-                      onClick={() => props.onSelectModule(module)}
-                  >
-                    <p className="no-margin-bottom">{module.displayName}</p>
-                    <img className="visualize-icon" src={require('../assets/tree.png')}
-                          onClick={(e) => {e.stopPropagation(); e.preventDefault(); props.onVisualizeEntity(module)}}
-                    />
-                  </div>
-                )
-              })}
+                  return (
+                    <div key={`${module.id}`} className={`modules-list__item flex-container space-between align-center ${isSelectedClass}`}
+                        onClick={() => props.onSelectModule(module)}
+                    >
+                      <p className="no-margin-bottom">{module.displayName}</p>
+                      <img className="visualize-icon" src={require('../assets/tree.png')}
+                            onClick={(e) => {e.stopPropagation(); e.preventDefault(); props.onVisualizeEntity(module)}}
+                      />
+                    </div>
+                  )
+                })}
+              </div>
             </div>
           </div>
           <div className="medium-7 columns no-left-padding">

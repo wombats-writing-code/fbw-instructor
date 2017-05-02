@@ -54,8 +54,6 @@ class VisualizeEntity extends Component {
 
     if (!props.currentEntity || !props.visualizedEntities) return null;
 
-    console.log('props.currentEntity', props.currentEntity)
-
     return (
       <div>
         <Modal isOpen={props.currentEntity ? true : false} contentLabel="Modal">
