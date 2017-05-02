@@ -52,7 +52,6 @@ class DirectivesList extends Component {
           }
 
           let module = getOutcomeModule(outcome, props.mapping.modules, props.mapping.relationships);
-          let staggeredClass = isRootOutcome(outcome, props.mapping.outcomes, props.mapping.modules, props.mapping.relationships) ? 'target' : 'non-target';
 
           // console.log(props.itemsForDirectives, itemsForDirective)
           let previewItem;
@@ -66,9 +65,18 @@ class DirectivesList extends Component {
             )
           }
 
+          let targetIcon;
+          let staggeredClass = isRootOutcome(outcome, props.mapping.outcomes, props.mapping.modules, props.mapping.relationships) ? 'target' : 'non-target';
+          if (staggeredClass === 'target') {
+            targetIcon = (
+              <img className="directives-list__target-icon" src={require('../assets/target.png')} />
+            )
+          }
+
           return (
             <li key={`selectOutcome_${idx}`}>
               <div className={`directives-list__item ${staggeredClass} flex-container align-center space-between`} >
+                {targetIcon}
                 <span className="outcome-text">{outcome.displayName}</span>
                 <span className="directives-list__item__module-label truncate">{module ? module.displayName : null}</span>
 

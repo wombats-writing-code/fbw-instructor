@@ -22,32 +22,6 @@ class SelectDirectives extends Component {
                                   (<p className="select-directives__section-title">Selected goals (# questions available)</p>)
                                   : null;
 
-    // let filterByModule, filterByModuleText;
-    // if (this.state.isExpanded) {
-    //   filterByModule = (
-    //     <div className="clearfix select-modules-section" >
-    //       <ol className="modules-list clearfix">
-    //         {_.map(props.mapping.modules, (m, idx) => {
-    //           let isSelected = props.selectedModule === m;
-    //
-    //           return (
-    //             <li key={`selectModule_${idx}`}
-    //                 className={isSelected ? "modules-list__item is-selected" : "modules-list__item"}
-    //                 onClick={(e) => props.onSelectModule(m)}>
-    //                 {m.displayName}
-    //
-    //             </li>
-    //           )
-    //         })}
-    //       </ol>
-    //     </div>
-    //   )
-    //
-    //   filterByModuleText = <span className="app-blue-dark">Hide modules</span>;
-    // } else {
-    //   filterByModuleText = <span className="app-blue-dark">Filter by modules (Show)</span>;
-    // }
-
     return (
       <div className="select-directives">
         {selectedDirectivesLabel}

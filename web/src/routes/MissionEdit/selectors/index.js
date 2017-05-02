@@ -29,20 +29,23 @@ export const itemsForDirectivesSelector = createSelector([getOutcomes, getItems]
 export const displayedDirectivesSelector = createSelector([
   state => state.editMission,
   state => state.editMission.outcomeQuery,
-  getOutcomes, getModules, getRelationships
+  getOutcomes, getModules, getRelationships, itemsForDirectivesSelector
 ],
-  (editMission, outcomeQuery, outcomes, modules, relationships) => {
+  (editMission, outcomeQuery, outcomes, modules, relationships, itemsForDirectives) => {
     if (!editMission) return null;
 
+    // only show outcomes that have at least 6 questions
+    let subsetOutcomes = _.filter(outcomes, outcome => {
+      return itemsForDirectives[outcome.id] && itemsForDirectives[outcome.id].length >= 6;
+    })
+
     let selectedModule = editMission.selectedModule;
-    let displayedDirectives;
+    let displayedDirectives = subsetOutcomes;
     if (selectedModule) {
-      displayedDirectives = _.filter(outcomes, outcome => {
+      displayedDirectives = _.filter(subsetOutcomes, outcome => {
         let module = getOutcomeModule(outcome, modules, relationships);
         return (module === editMission.selectedModule)
       });
-    } else {
-      displayedDirectives = outcomes;
     }
 
     if (outcomeQuery) {
