@@ -85,6 +85,10 @@ class DirectivesList extends Component {
                 <span className="outcome-text">{outcome.displayName}</span>
                 {moduleLabel}
 
+                <img className="visualize-icon" src={require('../assets/tree.png')}
+                      onClick={(e) => {e.stopPropagation(); e.preventDefault(); props.onVisualizeEntity(outcome)}}
+                />
+
                 <span className="button preview-questions-button"
                         onClick={(e) => {e.stopPropagation(); this._toggleOutcomeQuestions(outcome)}}>
 

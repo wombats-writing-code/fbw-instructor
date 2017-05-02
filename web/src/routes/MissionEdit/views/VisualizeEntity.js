@@ -63,6 +63,7 @@ class VisualizeEntity extends Component {
             <p className="bold">{props.currentEntity.displayName}</p>
             <button className="button close" onClick={() => props.onClickCancel()}>X</button>
           </div>
+          <i className="">Most fundamental outcomes are on top. So the student will see the bottom-most outcome first.</i>
 
           <div id="xocesContainer"></div>
         </Modal>

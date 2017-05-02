@@ -31,7 +31,8 @@ class SelectDirectives extends Component {
             <DirectivesList directives={_.map(props.selectedOutcomeIds, id => _.find(props.mapping.outcomes, {id: id}))}
                           selectedOutcomeIds={props.selectedOutcomeIds}
                           mapping={props.mapping} itemsForDirectives={props.itemsForDirectives}
-                          onToggleOutcome={props.onToggleOutcome}  />
+                          onToggleOutcome={props.onToggleOutcome}
+                          onVisualizeEntity={props.onVisualizeEntity}/>
           </div>
         </div>
 
@@ -69,7 +70,8 @@ class SelectDirectives extends Component {
               <DirectivesList directives={props.displayedDirectives} selectedOutcomeIds={props.selectedOutcomeIds}
                               mapping={props.mapping} itemsForDirectives={props.itemsForDirectives}
                               showModuleLabel={false}
-                              onToggleOutcome={props.onToggleOutcome} styles={{listStyle: 'none'}} />
+                              onToggleOutcome={props.onToggleOutcome} styles={{listStyle: 'none'}}
+                              onVisualizeEntity={props.onVisualizeEntity}/>
             </div>
           </div>
         </div>
