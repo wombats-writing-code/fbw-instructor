@@ -5,12 +5,7 @@
 ## Development installation
 ```
 git clone https://github.com/wombats-writing-code/fbw-instructor.git
-```
-
-Install required packages in `ios`:
-```
-cd ios
-npm install
+cd web
 ```
 
 Install required dependencies in `web`:
@@ -20,9 +15,6 @@ npm install
 ```
 
 ## Development
-
-### iOS
-Work in progress. There's no folder for iOS yet.
 
 ### web
 To develop for web:

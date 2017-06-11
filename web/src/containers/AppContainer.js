@@ -26,7 +26,7 @@ class AppContainer extends Component {
     } else {
       let unsub = store.subscribe(() => {
         let state = store.getState();
-        console.log('state changed', state);
+        // console.log('state changed', state);
         unsub();
         if (isLoggedIn(state))  browserHistory.push('/')
       })
