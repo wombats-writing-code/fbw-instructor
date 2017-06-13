@@ -36,7 +36,7 @@ export const displayedDirectivesSelector = createSelector([
 
     // only show outcomes that have at least 6 questions
     let subsetOutcomes = _.filter(outcomes, outcome => {
-      return itemsForDirectives[outcome.id] && itemsForDirectives[outcome.id].length >= 4;
+      return itemsForDirectives[outcome.id] && itemsForDirectives[outcome.id].length >= 3;
     })
 
     let selectedModule = editMission.selectedModule;
