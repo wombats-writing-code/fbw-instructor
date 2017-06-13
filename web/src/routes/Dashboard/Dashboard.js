@@ -6,7 +6,7 @@ import {missionConfig} from 'fbw-platform-common/reducers/Mission'
 import LoadingBox from 'fbw-platform-common/components/loading-box/web/'
 import {parseResults} from './selectors/resultsSelector'
 
-import MissionResult from './containers/MissionResultContainer'
+import MissionResult from './components/MissionResult'
 import './Dashboard.scss'
 
 class Dashboard extends Component {
@@ -66,7 +66,7 @@ class Dashboard extends Component {
               &mdash;
               {moment(props.mission.deadline).format('ddd, MMM D [at] ha')}
             </p>
-            <MissionResult results={this._getResults(props.mission, missionConfig.PHASE_I_MISSION_TYPE)}
+            <MissionResult result={this._getResults(props.mission, missionConfig.PHASE_I_MISSION_TYPE)}
                           records={this._getRecords(props.mission, missionConfig.PHASE_I_MISSION_TYPE)}
                           mission={props.mission}
                           isGetResultsInProgress={props.isGetResultsInProgress}
@@ -90,7 +90,7 @@ class Dashboard extends Component {
             {moment(this._getLeadsToMission(props.mission).deadline).format('ddd, MMM D [at] ha')}
           </span>
         </p>
-          <MissionResult results={this._getResults(this.props.mission, missionConfig.PHASE_II_MISSION_TYPE)}
+          <MissionResult result={this._getResults(this.props.mission, missionConfig.PHASE_II_MISSION_TYPE)}
                         records={this._getRecords(props.mission, missionConfig.PHASE_II_MISSION_TYPE)}
                     mission={this.props.mission}
                     isGetResultsInProgress={props.isGetResultsInProgress}/>

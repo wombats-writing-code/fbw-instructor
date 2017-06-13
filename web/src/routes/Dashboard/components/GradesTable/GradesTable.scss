@@ -4,7 +4,6 @@
   margin-left: 0;
   text-align: left;
   font-size: .875rem;
-  padding-bottom: 3rem;
 }
 
 .ReactTable {
@@ -33,4 +32,8 @@
 
 .ReactTable .rt-tbody .rt-td:last-child {
   border-right: none;
+}
+
+.ReactTable .rt-td {
+  cursor: pointer;
 }

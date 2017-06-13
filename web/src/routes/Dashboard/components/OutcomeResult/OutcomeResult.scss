@@ -1,7 +1,7 @@
 @import '../../../../styles/base';
 
 
-.number-questions {
+.outcome-result__number-questions {
   color: $app-blue-2;
   text-decoration: underline;
   font-size: .8rem;
@@ -9,6 +9,23 @@
   cursor: default;
 }
 
+.outcome-result__number-questions:hover {
+  opacity: .8;
+}
+
+
 .number-questions:hover {
   color: lighten($app-blue-2, 10%);
+}
+
+.outcome-result__outcome-name {
+  margin-right: 1em;
+}
+
+.outcome-result__number-wrong {
+  font-size: .875em;
+}
+
+.outcome-result__see-questions-button:hover {
+  opacity: .8;
 }

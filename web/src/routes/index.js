@@ -3,6 +3,7 @@ import CoreLayout from '../layouts/CoreLayout/CoreLayout'
 import HomeContainer from './Home/index'
 import D2LCallbackRoute from './D2LCallback/'
 import LoginRoute from './Login'
+import LogOutSuccessRoute from './LogOutSuccess'
 import MissionsRoute from './Missions'
 import StudentRoute from './Student'
 import DashboardRoute from './Dashboard'
@@ -21,6 +22,7 @@ export const createRoutes = (store) => ({
     // CounterRoute(store),
     LoginRoute(store),
     D2LCallbackRoute(store),
+    LogOutSuccessRoute(store),
     MissionsRoute(store),
     DashboardRoute(store),
     StudentRoute(store),

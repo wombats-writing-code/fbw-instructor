@@ -6,7 +6,6 @@ import 'moment-timezone'
 import {getMapping} from 'fbw-platform-common/selectors'
 import {isTarget} from 'fbw-platform-common/selectors/mission'
 import {getRoster} from 'fbw-platform-common/selectors/course'
-
 import {missionConfig} from 'fbw-platform-common/reducers/Mission'
 
 /**
@@ -25,8 +24,8 @@ export const computeGrades = (mission, records, roster) => {
   let studentsOpenedIdentifiers = _.uniq(_.map(records, 'user.Identifier'));
   let studentsNotOpenedIdentifers = _.difference(_.map(roster, 'Identifier'), studentsOpenedIdentifiers);
   // console.log('studentsNotOpenedIdentifers', studentsNotOpenedIdentifers)
-  console.log('records', records)
-  console.log('studentsOpened', _.uniq(_.map(records, 'user')))
+  // console.log('records', records)
+  // console.log('studentsOpened', _.uniq(_.map(records, 'user')))
 
   // TODO: note that this block will always run,
   // because of the way we're redoing points grading
@@ -99,7 +98,6 @@ export const parseResults = (records, roster, mission) => {
 
   // console.log('incorrectResponsesByOutcome', incorrectResponsesByOutcome)
 
-
   // =====
   // calculate what percent of the class got each outcome incorrect
   // =====
@@ -138,10 +136,17 @@ export const parseResults = (records, roster, mission) => {
     return fractionIncorrectStudentsByOutcome[outcomeId].fractionIncorrect < .25;
   });
 
-  // console.log('badOutcomes', badOutcomes)
+  let reviewOutcomes = _.filter(incorrectResponsesByOutcome, (responses, outcomeId) => {
+    return responses.length > 0 &&
+            fractionIncorrectStudentsByOutcome[outcomeId].fractionIncorrect >= .5 &&
+            mission.goals.indexOf(outcomeId);
+  });
+
+  // console.log('reviewOutcomes', reviewOutcomes)
 
 
   return {
+    reviewOutcomes,
     badOutcomes,
     mediumOutcomes,
     goodOutcomes,

@@ -31,7 +31,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  console.log('roster', getRoster(state))
+  // console.log('roster', getRoster(state))
 
   let currentMission = state.mission ? state.mission.currentMission : null;
   return {

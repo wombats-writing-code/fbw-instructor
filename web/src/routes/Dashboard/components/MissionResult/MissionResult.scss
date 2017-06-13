@@ -1,4 +1,4 @@
-@import '../../../styles/base';
+@import '../../../../styles/base';
 
 .mission-result {
 }
@@ -35,4 +35,18 @@
 
 .results__section.dark .results__subtitle {
   color: #ddd;
+}
+
+.outcomes-action {
+  // background: #333;
+  // padding: 1.5rem;
+  text-align: left;
+  margin-bottom: 1.5rem;
+}
+
+.outcomes-action__prompt {
+  color: #777;
+  color: $app-red;
+  font-weight: 300;
+  font-size: 2rem;
 }

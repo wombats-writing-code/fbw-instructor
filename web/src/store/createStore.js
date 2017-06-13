@@ -26,42 +26,45 @@ export default (initialState = {}) => {
     }
   }
 
-  // copy state to local storage
-  enhancers.push(persistState(null, {
-    slicer: paths => state => {
-      if (state && state.login && state.login.isLoggedIn) {
-        let subset = {
-          course: state.course,
-          result: _.omit(state.result, [
-            'isGetResultsInProgress', 'isGetStudentResultInProgress', 'resultsByMission'
-          ]),
-          editMission: _.assign({}, state.editMission, {
-            newMission: stampNewMission(),
-            outcomeQuery: '',
-            selectedModule: null,
-            isCreateMissionInProgress: false,
-            isCreateMissionsInProgress: false
-          }),
-          mapping: _.omit(state.mapping, ['currentEntity']),
-          mission: _.assign({}, state.mission, {
-            currentTarget: null,
-            isGetMissionInProgress: false,
-            isGetMissionsInProgress: false
-          }),
-          login: state.login,
-          location: state.location,
-          view: _.assign({}, state.view, {
-            name: 'dashboard.resultsView'
-          })
-        };
+  if (__DEV__) {
+    // copy state to local storage
+    enhancers.push(persistState(null, {
+      slicer: paths => state => {
+        if (state && state.login && state.login.isLoggedIn) {
+          let subset = {
+            course: state.course,
+            result: _.omit(state.result, [
+              'isGetResultsInProgress', 'isGetStudentResultInProgress', 'resultsByMission'
+            ]),
+            editMission: _.assign({}, state.editMission, {
+              newMission: stampNewMission(),
+              outcomeQuery: '',
+              selectedModule: null,
+              isCreateMissionInProgress: false,
+              isCreateMissionsInProgress: false
+            }),
+            mapping: _.omit(state.mapping, ['currentEntity']),
+            mission: _.assign({}, state.mission, {
+              currentTarget: null,
+              isGetMissionInProgress: false,
+              isGetMissionsInProgress: false
+            }),
+            login: state.login,
+            location: state.location,
+            view: _.assign({}, state.view, {
+              name: 'dashboard.resultsView'
+            })
+          };
 
-        return subset;
+          return subset;
+        }
+        // console.log('storing state:', subset)
+
+        return {};
       }
-      // console.log('storing state:', subset)
+    }))
+  }
 
-      return {};
-    }
-  }))
 
   // ======================================================
   // Store Instantiation and HMR Setup

@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import slug from 'slug'
 
 import MissionComponent from 'fbw-platform-common/components/mission/web/Mission'
 import MissionContainer from  'fbw-platform-common/components/mission/MissionContainer'
@@ -23,7 +24,8 @@ class Student extends Component {
 
     if (!props.mission) return null;
 
-    // console.log('props of Student.js', props)
+    // console.log('missionName', props.params.missionName)
+    // console.log('slugged:', slug(props.params.missionName), slug('test 1'))
     // console.log('props.mission', props.mission)
 
     return (

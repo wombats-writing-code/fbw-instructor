@@ -29,7 +29,7 @@ class OutcomeResult extends Component {
         return (
           <div key={`outcome__question--${qId}`} className="no-style">
             <QuestionResult records={records} outcome={props.outcome} mission={props.mission}
-                            onSelectResult={props.onSelectStudentResult} />
+                            onSelectResult={props.onSelectStudentResponse} />
           </div>
         )
       })
@@ -38,8 +38,8 @@ class OutcomeResult extends Component {
     return (
       <div className="outcome-result">
         <p>
-          {props.outcome.displayName}
-          <span className="number-questions" onClick={() => this.setState({isExpanded: !this.state.isExpanded})}>
+          <span className="outcome-result__outcome-name">{props.outcome.displayName}</span>
+          <span className="outcome-result__number-questions" onClick={() => this.setState({isExpanded: !this.state.isExpanded})}>
             {this.state.isExpanded ? 'Hide ' : 'Show '}
             {uniqueQuestions.length} {pluralize('question', uniqueQuestions.length)}
           </span>
