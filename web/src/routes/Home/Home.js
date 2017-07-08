@@ -10,7 +10,7 @@ class Home extends Component {
 
     return (
       <div>
-        <div className="medium-4 large-4 columns end">
+        <div className="medium-12 large-6 columns end">
           <Courses courses={props.courses} currentCourse={props.currentCourse}
                     onClickCourse={(course) => props.onClickCourse(course, props.user, props.authenticatedUrl)} />
 

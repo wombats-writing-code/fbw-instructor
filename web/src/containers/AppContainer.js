@@ -4,7 +4,8 @@ import { Provider } from 'react-redux'
 
 import {isLoggedIn} from 'fbw-platform-common/selectors'
 
-require('../styles/foundation.min.css');
+import '../styles/foundation.min.css';
+import '../styles/core.scss';
 
 
 class AppContainer extends Component {

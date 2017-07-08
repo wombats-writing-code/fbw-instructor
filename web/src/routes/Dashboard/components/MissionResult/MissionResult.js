@@ -1,10 +1,17 @@
 import React, {Component} from 'react';
 import _ from 'lodash'
+import moment from 'moment'
 import pluralize from 'pluralize'
+import Modal from 'react-modal'
 const ProgressBar = require('progressbar.js')
 
 import GradesTable from '../GradesTable'
 import OutcomeResult from '../OutcomeResult'
+
+import {missionConfig} from 'fbw-platform-common/reducers/Mission'
+import {getD2LDisplayName, getD2LUserIdentifier} from 'fbw-platform-common/selectors/login'
+import {computeRecommendation} from '../../../MissionEdit/selectors/recommendMissionSelector'
+
 
 import './MissionResult.scss'
 
@@ -29,7 +36,7 @@ class MissionResult extends Component {
         <div className="outcomes-action">
           <p className="outcomes-action__prompt">Review <b>{props.result.reviewOutcomes.length}</b> outcomes: </p>
           <ol>
-            {_.map(props.result.reviewOutcomes, (responses, idx) => {              
+            {_.map(props.result.reviewOutcomes, (responses, idx) => {
               let outcomeId = responses[0].outcome;
               let outcome = _.find(props.outcomes, {id: outcomeId});
               if (!outcome) return null;
@@ -56,7 +63,13 @@ class MissionResult extends Component {
         <div className="results__section">
             <GradesTable grades={props.grades}
                           mission={props.mission}
-                          onSelectStudent={(student) => this.props.onSelectStudentResult(student, props.currentMission, props.user)}/>
+                          missions={props.missions}
+                          missionType={props.missionType}
+                          isCreateMissionInProgress={props.isCreateMissionInProgress}
+                          onSelectStudent={(student) => this.props.onSelectStudentResult(student, props.currentMission, props.user)}
+                          onClickCreateMission={(student) => this._onClickCreateMission(student)}
+                          onClickEditMission={(mission) => this._onClickEditMission(mission)}
+            />
         </div>
 
         <div className="results__section clearfix">
@@ -66,6 +79,38 @@ class MissionResult extends Component {
 
     )
   }
+
+  // Launches a Phase II mission
+  _onClickCreateMission(student) {
+    let recommendation = computeRecommendation(student, this.props.records, this.props.currentMission);
+
+    let newMission = _.assign({}, this.props.currentMission, {
+      displayName: `${this.props.currentMission.displayName} Phase II`,
+      description: `for ${getD2LDisplayName(student)}`,
+      type: missionConfig.PHASE_II_MISSION_TYPE,
+      startTime: new Date(),
+      deadline: moment().add(3, 'days'),
+      followsFromMissions: [this.props.currentMission.id],
+      goals: recommendation.goals,
+      userId: getD2LUserIdentifier(student),
+      questions: null
+    })
+
+    console.log('newMission', newMission)
+    console.log('currentMission', this.props.currentMission)
+
+    this.props.onCreateMissions([newMission], this.props.currentCourse, student);
+  }
+
+  _onClickEditMission(mission) {
+    console.log('_onClickEditMission', mission);
+
+    return
+
+    this.props.onClickEditMission(mission);
+  }
 }
+
+
 
 export default MissionResult

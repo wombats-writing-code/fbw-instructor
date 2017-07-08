@@ -78,35 +78,44 @@ class Dashboard extends Component {
     let phase2Missions = _.map(props.mission.leadsToMissions, id => _.find(props.missions, {id: id}));
     // console.log('phaseIIMissions', phase2Missions)
 
+    let launchMissionButtonText;
+    if (this.props.isCreateMissionInProgress) {
+      launchMissionButtonText = 'Working...';
+
+    } else if (phase2Missions && phase2Missions.length > 0) {
+      launchMissionButtonText = 'Phase II launched';
+
+    } else if ((!phase2Missions || phase2Missions.length === 0)) {
+      launchMissionButtonText = 'Launch Phase II for everyone';
+    }
+
+
     let phase2Results;
     if (phase2Missions && phase2Missions.length > 0) {
       phase2Results = (
         <div>
           <p className="dashboard__timeline-point__text">
           <b>Phase II</b> &thinsp;
-          <span className=" ">
-            {moment(this._getLeadsToMission(props.mission).startTime).format('ddd, MMM D [at] ha')}
-              &mdash;
-            {moment(this._getLeadsToMission(props.mission).deadline).format('ddd, MMM D [at] ha')}
-          </span>
         </p>
-          <MissionResult result={this._getResults(this.props.mission, missionConfig.PHASE_II_MISSION_TYPE)}
+          <MissionResult result={this._getResults(props.mission, missionConfig.PHASE_II_MISSION_TYPE)}
                         records={this._getRecords(props.mission, missionConfig.PHASE_II_MISSION_TYPE)}
                     mission={this.props.mission}
+                    missionType={missionConfig.PHASE_II_MISSION_TYPE}
                     isGetResultsInProgress={props.isGetResultsInProgress}/>
         </div>
       )
 
     } else if (!this.props.isGetMissionsInProgress) {
       phase2Results = (
-        <p className="dashboard__timeline-point__text">
-          <b>Phase II</b> &thinsp;
-          No Phase II missions have been launched from this one.
-        </p>
+        <div className="flex-container align-center space-between">
+          <p className="dashboard__timeline-point__text">
+            <b>Phase II</b> &thinsp;
+            No Phase II missions have been launched from this one.
+          </p>
+        </div>
+
       )
     }
-
-    // console.log('isGetResultsInProgress', this.props.isGetResultsInProgress)
 
     return (
       <div className="">
@@ -157,9 +166,10 @@ class Dashboard extends Component {
 
       // console.log('records for phase 1', mission.displayName, records)
     } else if (getForMissionType === missionConfig.PHASE_II_MISSION_TYPE) {
+      // console.log('leadsToMissions', mission.leadsToMissions)
+
       records = _.compact(_.flatten(_.map(mission.leadsToMissions, id => this.props.resultsByMission[id])));
 
-      console.log('records for phase 2', mission.displayName, records)
     } else {
       throw new Error('You must specify for Phase I or Phase II you want to get records')
     }

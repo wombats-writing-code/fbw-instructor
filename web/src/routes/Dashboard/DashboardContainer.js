@@ -27,6 +27,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(selectMission(mission));
       dispatch(changeView({name: 'dashboard.resultsView', mission: mission}))      // true default
     },
+    // onCreateMissions: (newMissions, course, user) => dispatch(createMissions(newMissions, course, user)),
   }
 }
 
@@ -43,6 +44,7 @@ const mapStateToProps = (state, ownProps) => {
     resultsByMission: state.result.resultsByMission,
     isGetMissionsInProgress: state.mission.isGetMissionsInProgress,
     isGetResultsInProgress: state.result && state.result.isGetResultsInProgress,
+    isCreateMissionInProgress: state.editMission.isCreateMissionInProgress,
   }
 }
 

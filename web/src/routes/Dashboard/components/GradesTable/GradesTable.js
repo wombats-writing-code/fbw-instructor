@@ -1,12 +1,15 @@
 import React, {Component} from 'react';
 import {browserHistory} from 'react-router'
 import slug from 'slug'
+import moment from 'moment'
 import _ from 'lodash'
 
 import ReactTable from 'react-table'
 import 'react-table/react-table.css'
 
+import {missionConfig} from 'fbw-platform-common/reducers/Mission'
 import {getD2LDisplayName, getD2LDisplayNameLastFirst} from 'fbw-platform-common/selectors/login'
+import LaunchPhaseII from '../LaunchPhaseII'
 import './GradesTable.scss'
 
 
@@ -35,37 +38,104 @@ class GradesTable extends Component {
         header: 'Name',
         id: 'displayName',
         accessor: d => getD2LDisplayNameLastFirst(d.user),
+        width: undefined
       },
       {
         header: 'Points (%)',
-        accessor: 'points'
+        accessor: 'points',
+        width: 90
       },
       {
         header: 'First opened',
-        accessor: 'firstActive'
+        accessor: 'firstActive',
+        width: undefined,
       },
       {
         header: 'Last active',
-        accessor: 'lastActive'
+        accessor: 'lastActive',
+        width: undefined
       },
+      {
+        header: 'Completed',
+        accessor: 'completed',
+        width: undefined,
+      }
     ];
+
+    // {/* <button className="grades-table__edit-mission-button"
+    //         onClick={(e) => this.props.onClickEditMission(grade.user)}
+    //   >
+    //   Edit &rarr;
+    // </button> */}
+
+    // if it's in the table for Phase II, show an edit button
+    let phaseIIBlock;
+    if (props.missionType === missionConfig.PHASE_II_MISSION_TYPE) {
+      phaseIIBlock = (
+        <div>
+          <p className="grades-table__phase-2-title">Duration</p>
+          {_.map(props.grades, (grade, idx) => {
+
+            let missionForUser = this._findMissionForUser(grade.user);
+
+              return (
+                <div className="grades-table__phase-2-row clearfix" key={`phase-2-status__${idx}`}>
+                  <p className="grades-table__edit-mission-dates"
+                    onClick={() => props.onClickEditMission(missionForUser)}>
+                    {missionForUser ? moment(missionForUser.startTime).format('ha ddd M/D') : ''}
+                      &mdash;
+                    {missionForUser ? moment(missionForUser.deadline).format('ha ddd M/D') : ''}
+                  </p>
+                </div>
+              )
+          })}
+        </div>
+      )
+
+    // if it's in the table for Phase I, show the Launch button
+    } else {
+      phaseIIBlock = (
+        <div>
+          <p className="grades-table__phase-2-title">Phase II status</p>
+          {_.map(props.grades, (grade, idx) => {
+              return (
+                <LaunchPhaseII key={`phase-2-status__${idx}`}
+                            student={grade.user}
+                            phaseIIDoesExist={_.find(props.missions, {user: grade.user.id, type: missionConfig.PHASE_II_MISSION_TYPE})}
+                            isCreateMissionInProgress={props.isCreateMissionInProgress}
+                            onClick={(student) => this.props.onClickCreateMission(student)}
+                />
+              )
+          })}
+        </div>
+      )
+    }
 
     return (
       <div className="grades-table">
-
-        <ReactTable className="grades-table -highlight" data={props.grades} columns={columns}
-                    showPagination={false}
-                    defaultPageSize={props.grades.length}
-                    getTdProps={(state, rowInfo, column, instance) => this._onClickHandler(state, rowInfo, column, instance)}
-          />
-
+        <div className="small-12 medium-9 columns">
+          <ReactTable className="grades-table -highlight" data={props.grades} columns={columns}
+                      showPagination={false}
+                      defaultPageSize={props.grades.length}
+                      getTdProps={(state, rowInfo, column, instance) => this._onClickHandler(state, rowInfo, column, instance)}
+            />
+        </div>
+        <div className="small-12 medium-3 columns">
+          {phaseIIBlock}
+        </div>
       </div>
     )
+  }
+
+  _findMissionForUser(user) {
+    return _.find(this.props.missions, {user: user.id, type: missionConfig.PHASE_II_MISSION_TYPE})
   }
 
   _onClickHandler(state, rowInfo, column, instance) {
     return {
       onClick: e => {
+        // console.log('e', e, 'column', column);
+
         let student = rowInfo.row.user;
         this.props.onSelectStudent(student, this.props.mission, this.props.user);
 
@@ -74,6 +144,9 @@ class GradesTable extends Component {
         // console.log('student', student)
 
         browserHistory.push(`/students/${slug(getD2LDisplayName(student))}/missions/${slug(this.props.mission.displayName)}`);
+      },
+      style: {
+        background: rowInfo.row.completed ? '#DFF2DF' : ''
       }
     }
   }

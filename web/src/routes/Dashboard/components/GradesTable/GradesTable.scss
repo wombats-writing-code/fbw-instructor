@@ -37,3 +37,52 @@
 .ReactTable .rt-td {
   cursor: pointer;
 }
+
+.grades-table__phase-2-title {
+  text-align: center;
+  font-weight: 600;
+  color: $app-blue-2;
+  margin-bottom: 0;
+  padding-top: .39rem;
+  padding-bottom: .3rem;
+  border-bottom: 2px solid #666;
+}
+
+.grades-table__phase-2-row {
+  border-bottom: 1px solid #eee;
+  padding: .345rem;
+}
+
+.grades-table__phase-2-row:last-of-type {
+  border-bottom: none;
+  margin-bottom: 1.5rem;
+}
+
+.grades-table__launch-mission-button, .grades-table__edit-mission-button {
+  font-weight: 500;
+  width: 100%;
+  color: #fff;
+  font-size: .85rem;
+  padding: .35rem 1rem;
+  background: $app-blue-2;
+  margin-bottom: 0;
+}
+
+.grades-table__launch-mission-button:hover, .grades-table__edit-mission-button:hover {
+  background: lighten($app-blue-2, 10%);
+}
+
+.grades-table__edit-mission-dates {
+  font-size: .85rem;
+  padding: .1rem 0;
+  cursor: pointer;
+  margin-bottom: 0;
+}
+
+.grades-table__edit-mission-dates:hover {
+  color: $app-blue-2;
+}
+
+// .grades-table__phase-2-row {
+//   height: 1.5rem;
+// }

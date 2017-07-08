@@ -29,18 +29,24 @@ export const computeGrades = (mission, records, roster) => {
 
   // TODO: note that this block will always run,
   // because of the way we're redoing points grading
-  let grades = _.reduce(groupedByStudent, (result, records, userIdentifier) => {
-      let targets = _.filter(records, r => isTarget(r.question));
-      // console.log('records', records)
-      let createdAt = _.map(records, r => moment(r.createdAt).valueOf());
-      let updatedAt = _.map(_.compact(_.map(records, 'responseResult.updatedAt')), t => moment(t).valueOf());
+  let grades = _.reduce(groupedByStudent, (result, studentRecords, userIdentifier) => {
+      let targets = _.filter(studentRecords, r => isTarget(r.question));
+      // console.log('studentRecords', studentRecords)
+      let createdAt = _.map(studentRecords, r => moment(r.createdAt).valueOf());
+      let updatedAt = _.map(_.compact(_.map(studentRecords, 'responseResult.updatedAt')), t => moment(t).valueOf());
       let timeStamps = _.concat(createdAt, updatedAt);
+
+      let completed = _.every(studentRecords, r => r.responseResult && r.responseResult.question.responded);
+
+      // console.log('completed', completed)
 
       let grade = {
         points: pointsEarned(_.map(targets, 'responseResult.question')),
-        user: records[0].user,
-        firstActive: moment(_.min(createdAt)).format('ddd, MMM Do h:mma'),
-        lastActive: moment(_.max(timeStamps)).format('ddd, MMM Do h:mma'),
+        user: studentRecords[0].user,
+        firstActive: moment(_.min(createdAt)).format('h:mma ddd M/D'),
+        lastActive: moment(_.max(timeStamps)).format('h:mma ddd M/D'),
+        // completed: _.toString(completed)
+        completed: completed ? "True" : ''
       }
 
       result.push(grade);
@@ -53,7 +59,8 @@ export const computeGrades = (mission, records, roster) => {
         points: null,
         user: _.find(roster, {Identifier: id}),
         firstActive: '---',
-        lastActive: '---'
+        lastActive: '---',
+        completed: null
       }
     })
 

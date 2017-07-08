@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import slug from 'slug'
 
+import EmptyState from 'fbw-platform-common/components/empty-state/web/'
 import MissionComponent from 'fbw-platform-common/components/mission/web/Mission'
 import MissionContainer from  'fbw-platform-common/components/mission/MissionContainer'
 const Mission = MissionContainer(MissionComponent)
@@ -27,6 +28,14 @@ class Student extends Component {
     // console.log('missionName', props.params.missionName)
     // console.log('slugged:', slug(props.params.missionName), slug('test 1'))
     // console.log('props.mission', props.mission)
+
+    if (!props.mission || !props.mission.questions || props.mission.questions.length === 0) {
+      return (
+        <div className="small-12 medium-8 medium-centered">
+          {EmptyState(`${getD2LDisplayName(props.student)} has not opened their mission yet.`)}
+        </div>
+      )
+    }
 
     return (
       <div>

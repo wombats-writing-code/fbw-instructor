@@ -15,6 +15,7 @@ const getRecords = (state) => {
   })
 }
 
+// computes recommendations for all students
 export const computeRecommendations = createSelector([
   state => _.map(state.editMission.newMission.followsFromMissions, missionId => _.find(state.mission.missions, {id: missionId})),
   getRecords,
@@ -73,7 +74,6 @@ export const computeRecommendations = createSelector([
       }, []);
 
       let goals = _.uniq(_.concat((result[id] ? result[id].goals : []), notAchievedGoals));
-      console.log('goals', goals)
 
       result[id] = {
         student: recordsByStudent[id][0].user,
@@ -89,3 +89,41 @@ export const computeRecommendations = createSelector([
 
   return _.values(byStudent)
 });
+
+// computes Phase II recommendation for a single student
+export const computeRecommendation = (student, records, mission) => {
+  let recommendation = {
+    student,
+    followsFromMissions: [mission.id]
+  };
+
+  // if the student has opened the mission
+  if (records && records.length > 0) {
+
+    // make sure we're only looking at the student's own records
+    let studentRecords = _.filter(records, r => r.user.Identifier === student.Identifier)
+    // console.log('studentRecords', studentRecords);
+
+    // group records by their section (goal)
+    let bySection = _.groupBy(studentRecords, 'sectionIndex');
+
+    // figure out which goals haven't been achieved
+    let notAchievedGoals = _.reduce(mission.goals, (result, outcomeId, idx) => {
+      // filter to get the records that correspond to target questions
+      let targetRecords = _.filter(bySection[idx], record => isTarget(record.question));
+      let achieved = _.every(bySection[idx], r => r.responseResult && r.responseResult.question.response && r.responseResult.question.response.isCorrect);
+      if (!achieved) result.push(outcomeId);
+
+      return result;
+    }, []);
+
+    recommendation.goals = _.uniq(notAchievedGoals);
+
+    // console.log('recommendation', recommendation.goals)
+
+  } else {
+    recommendation.goals = _.clone(mission.goals);
+  }
+
+  return recommendation;
+}
