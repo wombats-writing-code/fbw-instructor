@@ -1,3 +1,4 @@
+@import 'foundation.min.css';
 @import 'base';
 // @import '~normalize.css/normalize';
 
@@ -89,11 +90,11 @@ a:hover {
 }
 
 .no-left-padding {
-  padding-left: 0;
+  padding-left: 0 !important;
 }
 
 .no-right-padding {
-  padding-right: 0;
+  padding-right: 0 !important;
 }
 
 .margin-bottom {

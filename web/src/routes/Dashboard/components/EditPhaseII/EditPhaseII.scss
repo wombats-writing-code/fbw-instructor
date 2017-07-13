@@ -1,0 +1,50 @@
+@import '../../../../styles/base';
+
+.edit-phase-II__title {
+  font-weight: 300;
+  font-size: 1.25rem;
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(#888, .5);
+}
+
+.edit-phase-II__save,  .edit-phase-II__cancel, .edit-phase-II__confirm-delete {
+ font-size: .875rem;
+ min-width: 5rem;
+}
+
+.edit-phase-II__confirm-delete {
+  min-width: 8rem;
+}
+
+.edit-phase-II__cancel, .edit-phase-II__cancel:hover, .edit-phase-II__delete {
+ background: #eee;
+ color: #333;
+ margin-right: 1rem;
+}
+
+.edit-phase-II__cancel:hover, .edit-phase-II__delete {
+ opacity: .8;
+}
+
+.edit-phase-II__save {
+ background: $app-blue-2;
+}
+
+.edit-phase-II__save:hover {
+ background: lighten($app-blue-2, 20%);
+}
+
+.edit-phase-II__goals {
+  font-size: .875rem;
+}
+
+.edit-phase-II__goal-name {
+  margin-bottom: .125rem;
+}
+
+.edit-phase-II__confirm-delete-input {
+  margin-right: 1rem;
+  font-size: .875rem;
+  min-width: 22em;
+}

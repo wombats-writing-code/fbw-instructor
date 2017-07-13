@@ -70,7 +70,7 @@ const mapStateToProps = (state, ownProps) => {
     course: getCurrentCourse(state),
     view: state.view,
     roster: getRoster(state),
-    missions: state.mission.missions,
+    missions: _.orderBy(state.mission.missions, 'deadline'),
     resultsByMission: state.result.resultsByMission,
     isGetMissionsInProgress: state.mission.isGetMissionsInProgress,
     isGetResultsInProgress: state.result && state.result.isGetResultsInProgress,

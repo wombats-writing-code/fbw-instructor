@@ -2,11 +2,11 @@ import React, {Component} from 'react';
 import _ from 'lodash'
 import moment from 'moment'
 import pluralize from 'pluralize'
-import Modal from 'react-modal'
 const ProgressBar = require('progressbar.js')
 
 import GradesTable from '../GradesTable'
 import OutcomeResult from '../OutcomeResult'
+import EditPhaseII from '../EditPhaseII'
 
 import {missionConfig} from 'fbw-platform-common/reducers/Mission'
 import {getD2LDisplayName, getD2LUserIdentifier} from 'fbw-platform-common/selectors/login'
@@ -58,9 +58,23 @@ class MissionResult extends Component {
 
     }
 
+    let editPhaseII;
+    if (props.isEditMissionInProgress) {
+      editPhaseII = <EditPhaseII mission={props.currentEditMission}
+                        outcomes={props.outcomes}
+                        roster={props.roster}
+                        isUpdateMissionInProgress={props.isUpdateMissionInProgress}
+                        isDeleteMissionInProgress={props.isDeleteMissionInProgress}
+                        onChangeMissionStart={props.onChangeMissionStart} onChangeMissionEnd={props.onChangeMissionEnd}
+                        onClickCancel={props.onClickCancelEditMission}
+                        onDelete={(mission) => props.onClickDeleteEditMission(mission, props.user)}
+                        onSave={(mission) => props.onClickSaveEditMission(mission, props.user)}
+                      />
+    }
+
     return (
       <div className="mission-result clearfix">
-        <div className="results__section">
+        <div className="results__section clearfix">
             <GradesTable grades={props.grades}
                           mission={props.mission}
                           missions={props.missions}
@@ -75,6 +89,8 @@ class MissionResult extends Component {
         <div className="results__section clearfix">
           {outcomesAction}
         </div>
+
+        {editPhaseII}
       </div>
 
     )
@@ -97,15 +113,13 @@ class MissionResult extends Component {
     })
 
     console.log('newMission', newMission)
-    console.log('currentMission', this.props.currentMission)
+    // console.log('currentMission', this.props.currentMission)
 
     this.props.onCreateMissions([newMission], this.props.currentCourse, student);
   }
 
   _onClickEditMission(mission) {
-    console.log('_onClickEditMission', mission);
-
-    return
+    // console.log('_onClickEditMission', mission);
 
     this.props.onClickEditMission(mission);
   }

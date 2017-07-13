@@ -56,7 +56,7 @@ class GradesTable extends Component {
         width: undefined
       },
       {
-        header: 'Completed',
+        header: 'Done',
         accessor: 'completed',
         width: undefined,
       }
@@ -113,14 +113,14 @@ class GradesTable extends Component {
 
     return (
       <div className="grades-table">
-        <div className="small-12 medium-9 columns">
+        <div className="small-12 medium-9 columns no-left-padding">
           <ReactTable className="grades-table -highlight" data={props.grades} columns={columns}
                       showPagination={false}
                       defaultPageSize={props.grades.length}
                       getTdProps={(state, rowInfo, column, instance) => this._onClickHandler(state, rowInfo, column, instance)}
             />
         </div>
-        <div className="small-12 medium-3 columns">
+        <div className="small-12 medium-3 columns no-right-padding">
           {phaseIIBlock}
         </div>
       </div>
@@ -128,6 +128,16 @@ class GradesTable extends Component {
   }
 
   _findMissionForUser(user) {
+    if (!user) return null;
+
+    // console.log('user', user)
+    let lastName = user.LastName;
+    let displayName = user.DisplayName;
+
+    // if ((lastName && lastName.indexOf('Scotch') > -1) || (displayName && displayName.indexOf('Scotch') > -1)) {
+    //   console.log(_.find(this.props.missions, {user: user.id, type: missionConfig.PHASE_II_MISSION_TYPE}))
+    // }
+
     return _.find(this.props.missions, {user: user.id, type: missionConfig.PHASE_II_MISSION_TYPE})
   }
 
