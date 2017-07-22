@@ -47,7 +47,7 @@ class MissionResult extends Component {
                 <OutcomeResult key={`outcome-result_${idx}`}
                       recordsForOutcome={responses} outcome={outcome}
                       mission={props.currentMission}
-                      onSelectStudentResponse={(student) => props.onSelectStudentResult(student, props.currentMission, props.user)}
+                      onSelectStudent={(student) => props.onSelectStudentResult(student, props.currentMission, props.user)}
                 />
               )
 
