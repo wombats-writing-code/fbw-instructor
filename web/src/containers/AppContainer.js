@@ -18,9 +18,10 @@ class AppContainer extends Component {
     const state = store.getState();      // because AppContainer is the top-level parent
 
     // console.log('state in AppContainer', state)
-    if (window.location.pathname.indexOf('guide') > -1) {
+    if (window.location.pathname.indexOf('logout-success') > -1 || window.location.pathname.indexOf('guide') > -1) {
+      // do nothing on the logout-succcess page
 
-    } else if (window.location.pathname.indexOf('d2l-callback') === -1) {
+    } else if (window.location.pathname.indexOf('d2l-callback') === -1 && window.location.pathname.indexOf('guest-callback') === -1) {
       if (!isLoggedIn(state)) browserHistory.push('/login');
 
     } else {
