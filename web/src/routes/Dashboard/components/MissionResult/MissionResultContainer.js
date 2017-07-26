@@ -21,7 +21,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     onClickDirective: (directiveIndex) => dispatch(selectDirective(directiveIndex)),
     onClickTarget: (target) => dispatch(selectTarget(target)),
     onSelectStudentResult: (student, mission, user) => {
-      // console.log('onSelectStudentResult', student, mission, user)
+      console.log('onSelectStudentResult student:', student)
+      console.log('onSelectStudentResult mission', mission)
       dispatch(getStudentResult(student, mission, user))
     },
     onCreateMissions: (newMissions, course, user) => {

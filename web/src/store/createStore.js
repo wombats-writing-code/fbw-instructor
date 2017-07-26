@@ -35,6 +35,7 @@ export default (initialState = {}) => {
             course: state.course,
             result: _.omit(state.result, [
               'isGetResultsInProgress', 'isGetStudentResultInProgress', 'resultsByMission'
+              // 'isGetResultsInProgress', 'isGetStudentResultInProgress',
             ]),
             editMission: _.assign({}, state.editMission, {
               newMission: stampNewMission(),

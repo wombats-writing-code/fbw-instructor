@@ -29,7 +29,7 @@ class OutcomeResult extends Component {
         return (
           <div key={`outcome__question--${qId}`} className="no-style">
             <QuestionResult records={records} outcome={props.outcome} mission={props.mission}
-                            onSelectResult={props.onSelectStudentResponse} />
+                            onSelectStudent={props.onSelectStudent} />
           </div>
         )
       })

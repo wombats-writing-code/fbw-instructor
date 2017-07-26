@@ -30,7 +30,8 @@ export const computeGrades = (mission, records, roster) => {
   // TODO: note that this block will always run,
   // because of the way we're redoing points grading
   let grades = _.reduce(groupedByStudent, (result, studentRecords, userIdentifier) => {
-      let targets = _.filter(studentRecords, r => isTarget(r.question));
+      let targetRecords = _.uniqBy(_.filter(studentRecords, r => isTarget(r.question)), record => record.question.id);
+      // console.log('targetRecords', targetRecords)
       // console.log('studentRecords', studentRecords)
       let createdAt = _.map(studentRecords, r => moment(r.createdAt).valueOf());
       let updatedAt = _.map(_.compact(_.map(studentRecords, 'responseResult.updatedAt')), t => moment(t).valueOf());
@@ -41,7 +42,7 @@ export const computeGrades = (mission, records, roster) => {
       // console.log('completed', completed)
 
       let grade = {
-        points: pointsEarned(_.map(targets, 'responseResult.question')),
+        points: pointsEarned(_.map(targetRecords, 'responseResult.question')),
         user: studentRecords[0].user,
         firstActive: moment(_.min(createdAt)).format('h:mma ddd M/D'),
         lastActive: moment(_.max(timeStamps)).format('h:mma ddd M/D'),
@@ -73,6 +74,8 @@ export const computeGrades = (mission, records, roster) => {
 }
 
 export const pointsEarned = (questions) => {
+  // console.log('points earned for', questions)
+
   let numberCorrect = _.reduce(questions, (sum, question) => {
     if (question && question.response && question.response.isCorrect) {
       sum++;
@@ -82,6 +85,9 @@ export const pointsEarned = (questions) => {
   }, 0);
 
   let percentCorrect = _.round((numberCorrect / questions.length) * 100, 1);
+  // console.log('number correct', numberCorrect)
+  // console.log('percentCorrect', percentCorrect)
+
   return percentCorrect;
 }
 

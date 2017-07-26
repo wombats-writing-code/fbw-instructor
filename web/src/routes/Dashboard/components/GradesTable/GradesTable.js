@@ -153,7 +153,11 @@ class GradesTable extends Component {
         // console.log('props.mission', this.props.mission)
         // console.log('student', student)
 
-        browserHistory.push(`/students/${slug(getD2LDisplayName(student))}/missions/${slug(this.props.mission.displayName)}`);
+        // setTimeout(() => {
+          // console.log('debounced')
+          browserHistory.push(`/students/${slug(getD2LDisplayName(student))}/missions/${slug(this.props.mission.displayName)}`);
+        // }, 3000);
+
       },
       style: {
         background: rowInfo.row.completed ? '#DFF2DF' : ''

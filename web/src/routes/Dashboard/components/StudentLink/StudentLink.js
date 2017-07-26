@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import _ from 'lodash'
 import {Link} from 'react-router'
 import slug from 'slug'
 import {getD2LDisplayName} from 'fbw-platform-common/selectors/login'
@@ -16,10 +17,11 @@ const StudentLink = (props) => {
 
   return (
     <Link key={student.Identifier}
-              onClick={() => props.onSelectResult(student)}
+              onClick={() => props.onSelectStudent(student) }
               to={`/students/${slug(studentDisplayName)}/missions/${slug(props.mission.displayName)}`}
-              target="_blank">{studentDisplayName}</Link>
+              target="">{studentDisplayName}</Link>
   )
 }
+
 
 export default StudentLink
