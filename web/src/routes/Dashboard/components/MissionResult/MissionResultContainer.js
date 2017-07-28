@@ -40,6 +40,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
 
 const mapStateToProps = (state, ownProps) => {
+  console.log('state.missions in MissionResultContainer', state.mission.missions)
+  
   return {
     user: getUser(state),
     grades: computeGrades(ownProps.mission, ownProps.records, getRoster(state)),

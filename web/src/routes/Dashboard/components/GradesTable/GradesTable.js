@@ -78,6 +78,8 @@ class GradesTable extends Component {
 
             let missionForUser = this._findMissionForUser(grade.user);
 
+            console.log('missionForUser', missionForUser)
+
               return (
                 <div className="grades-table__phase-2-row clearfix" key={`phase-2-status__${idx}`}>
                   <p className="grades-table__edit-mission-dates"
