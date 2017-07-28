@@ -170,6 +170,9 @@ class Dashboard extends Component {
 
       records = _.compact(_.flatten(_.map(mission.leadsToMissions, id => this.props.resultsByMission[id])));
 
+      // console.log(records.length, 'records')
+      // console.log('records', records)
+
     } else {
       throw new Error('You must specify for Phase I or Phase II you want to get records')
     }

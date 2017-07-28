@@ -34,15 +34,16 @@ export default (initialState = {}) => {
           let subset = {
             course: state.course,
             result: _.omit(state.result, [
-              'isGetResultsInProgress', 'isGetStudentResultInProgress', 'resultsByMission'
-              // 'isGetResultsInProgress', 'isGetStudentResultInProgress',
+              // 'isGetResultsInProgress', 'isGetStudentResultInProgress', 'resultsByMission'
+              'isGetResultsInProgress', 'isGetStudentResultInProgress',
             ]),
             editMission: _.assign({}, state.editMission, {
               newMission: stampNewMission(),
               outcomeQuery: '',
               selectedModule: null,
               isCreateMissionInProgress: false,
-              isCreateMissionsInProgress: false
+              isCreateMissionsInProgress: false,
+              isDeleteMissionInProgress: false
             }),
             mapping: _.omit(state.mapping, ['currentEntity']),
             mission: _.assign({}, state.mission, {

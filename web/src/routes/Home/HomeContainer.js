@@ -34,7 +34,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       // console.log('clicked course', course, user);
       // console.log('clicked course2', D2LConfig, d2lToken, orgUnitId);
       dispatch(selectCourse(course));
-      dispatch(getD2LClassRoster({url: authenticatedUrl, courseId: course.Identifier, D2LConfig}))
+      dispatch(getD2LClassRoster({url: authenticatedUrl, courseId: course.Identifier, D2LConfig, user}))
       dispatch(getItems({course, user: user}));
 
       // dispatch(changeView({name: 'dashboard.resultsView', mission: null}))      // true default

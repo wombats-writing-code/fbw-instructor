@@ -33,6 +33,12 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
 const mapStateToProps = (state, ownProps) => {
   // console.log('roster', getRoster(state))
+  setTimeout(() => {
+    console.log('after refreshing')
+    console.log('state.result', state.result)
+    console.log('state.currentMission', state.mission.currentMission)
+
+  }, 2000);
 
   let currentMission = state.mission ? state.mission.currentMission : null;
   return {

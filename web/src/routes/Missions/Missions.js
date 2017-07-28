@@ -119,10 +119,12 @@ class Missions extends Component {
             ];
             if (mission.leadsToMissions && mission.leadsToMissions.length > 0) {
               let phase2 = _.find(props.missions, {id: mission.leadsToMissions[0]});
-              timelinePoints = _.concat(timelinePoints, [
-                {time: phase2.startTime, text: 'Phase 2 starts'},
-                {time: phase2.deadline, text: 'Phase 2 due'},
-              ]);
+              if (phase2) {
+                timelinePoints = _.concat(timelinePoints, [
+                  {time: phase2.startTime, text: 'Phase 2 starts'},
+                  {time: phase2.deadline, text: 'Phase 2 due'},
+                ]);
+              }
             }
 
 

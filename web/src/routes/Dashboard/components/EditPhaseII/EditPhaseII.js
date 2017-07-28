@@ -28,9 +28,13 @@ class EditPhaseII extends Component {
 
     if (!props.mission || !props.mission.course) return null;
 
-    // console.log(props.mission)
+    // console.log('props.roster', props.roster)
 
+    // let student = _.find(props.roster, {id: props.mission.user});
     let student = _.find(props.roster, {id: props.mission.user});
+
+    // console.log('student', student)
+
 
     let confirmDelete;
     if (this.state.isConfirmDeleteVisible) {
