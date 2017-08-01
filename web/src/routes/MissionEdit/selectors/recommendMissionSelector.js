@@ -16,6 +16,10 @@ const getRecords = (state) => {
 }
 
 // computes recommendations for all students
+// As of Aug 1, 2017, it appears that this is not actually used
+//   by any of the other components. It appears in ``MissionEditContainer``,
+//   but the ``recommendations`` do not show up in the UI, nor does
+//   there appear to be a way to "launch all phase II missions" there.
 export const computeRecommendations = createSelector([
   state => _.map(state.editMission.newMission.followsFromMissions, missionId => _.find(state.mission.missions, {id: missionId})),
   getRecords,
@@ -97,30 +101,36 @@ export const computeRecommendation = (student, records, mission) => {
     followsFromMissions: [mission.id]
   };
 
-  // if the student has opened the mission
-  if (records && records.length > 0) {
+  // console.log('student', student, 'records', records, 'mission', mission);
+
+  // if the mission has any records, they will appear here
+  // will be null while fetching
+  if (records) {
+    let studentRecords = _.filter(records, r => r.user.Identifier === student.Identifier)
 
     // make sure we're only looking at the student's own records
-    let studentRecords = _.filter(records, r => r.user.Identifier === student.Identifier)
-    // console.log('studentRecords', studentRecords);
+    if (studentRecords && studentRecords.length > 0) {
+      // if this student didn't even open phase I, they have no records.
+      // Give them all the goals back.
+      // group records by their section (goal)
+      let bySection = _.groupBy(studentRecords, 'sectionIndex');
 
-    // group records by their section (goal)
-    let bySection = _.groupBy(studentRecords, 'sectionIndex');
+      // figure out which goals haven't been achieved
+      let notAchievedGoals = _.reduce(mission.goals, (result, outcomeId, idx) => {
+        // filter to get the records that correspond to target questions
+        let targetRecords = _.filter(bySection[idx], record => isTarget(record.question));
+        let achieved = _.every(targetRecords, r => r.responseResult && r.responseResult.question.response && r.responseResult.question.response.isCorrect);
+        if (!achieved) result.push(outcomeId);
 
-    // figure out which goals haven't been achieved
-    let notAchievedGoals = _.reduce(mission.goals, (result, outcomeId, idx) => {
-      // filter to get the records that correspond to target questions
-      let targetRecords = _.filter(bySection[idx], record => isTarget(record.question));
-      let achieved = _.every(bySection[idx], r => r.responseResult && r.responseResult.question.response && r.responseResult.question.response.isCorrect);
-      if (!achieved) result.push(outcomeId);
+        return result;
+      }, []);
 
-      return result;
-    }, []);
+      recommendation.goals = _.uniq(notAchievedGoals);
 
-    recommendation.goals = _.uniq(notAchievedGoals);
-
-    // console.log('recommendation', recommendation.goals)
-
+      // console.log('recommendation', recommendation.goals)
+    } else {
+      recommendation.goals = _.clone(mission.goals);
+    }
   } else {
     recommendation.goals = _.clone(mission.goals);
   }
