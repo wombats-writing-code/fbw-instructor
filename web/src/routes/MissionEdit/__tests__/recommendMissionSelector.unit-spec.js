@@ -23,6 +23,23 @@ describe('the computeRecommendation selector', () => {
     result.goals.should.eql(mission.goals);
   });
 
+  it('returns the original mission goals if records null', () => {
+    const student = {
+      Identifier: 'guest_32'  // this student has achieved the second goal
+    };
+    const records = null;
+    const mission = {
+      goals: [
+        '590b5162d17c14593980f6bd',
+        '590b5162d17c14593980f6b1'
+      ],
+      id: 'foo'
+    };
+
+    const result = computeRecommendation(student, records, mission);
+    result.goals.should.eql(mission.goals);
+  });
+
   it('returns a goal for phase 2 if get even 1 target wrong', () => {
     const student = {
       Identifier: 'guest_97'  // this student has 1 or 2 targets right for first goal
