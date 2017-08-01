@@ -80,7 +80,7 @@ class MissionResult extends Component {
                           missions={props.missions}
                           missionType={props.missionType}
                           isCreateMissionInProgress={props.isCreateMissionInProgress}
-                          onSelectStudent={(student) => this.props.onSelectStudentResult(student, props.currentMission, props.user)}
+                          onSelectStudent={(student, mission) => this.props.onSelectStudentResult(student, mission, props.user)}
                           onClickCreateMission={(student) => this._onClickCreateMission(student)}
                           onClickEditMission={(mission) => this._onClickEditMission(mission)}
             />

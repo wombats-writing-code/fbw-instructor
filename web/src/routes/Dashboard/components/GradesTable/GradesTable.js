@@ -149,15 +149,20 @@ class GradesTable extends Component {
         // console.log('e', e, 'column', column);
 
         let student = rowInfo.row.user;
-        this.props.onSelectStudent(student, this.props.mission, this.props.user);
+        console.log('props', this.props);
+        console.log('student', student);
+
+        const clickedMission = this._selectClickedMissionForUser(student);
+        this.props.onSelectStudent(student,
+          clickedMission);
 
         // console.log('was clicked', rowInfo)
-        // console.log('props.mission', this.props.mission)
+        // console.log('props.mission in on click handler', this.props.mission)
         // console.log('student', student)
 
         // setTimeout(() => {
           // console.log('debounced')
-          browserHistory.push(`/students/${slug(getD2LDisplayName(student))}/missions/${slug(this.props.mission.displayName)}`);
+          browserHistory.push(`/students/${slug(getD2LDisplayName(student))}/missions/${slug(clickedMission.displayName)}`);
         // }, 3000);
 
       },
@@ -165,6 +170,20 @@ class GradesTable extends Component {
         background: rowInfo.row.completed ? '#DFF2DF' : ''
       }
     }
+  }
+
+  _selectClickedMissionForUser(user) {
+    // return the "clicked" mission for the given user
+    // if ``missionType`` in props, then must be phase II
+    //   otherwise it appears to be null
+    // For phase I missions, the ``user`` attribute appears
+    //   to be ``null``
+    const result = _.find(this.props.missions,{
+      type: this.props.missionType ? this.props.missionType : missionConfig.PHASE_I_MISSION_TYPE,
+      user: user._id
+    });
+
+    return result ? result : this.props.mission;
   }
 
 }
