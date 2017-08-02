@@ -21,7 +21,7 @@ const mapStateToProps = (state, ownProps) => {
 
   return {
     student: state.result.currentStudent,
-    mission: state.result.currentMission && state.result.currentMission.questions ? state.result.currentMission : null
+    mission: state.mission.currentMission && state.mission.currentMission.questions ? state.mission.currentMission : null
   }
 }
 
