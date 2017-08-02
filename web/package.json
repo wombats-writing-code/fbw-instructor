@@ -109,7 +109,7 @@
     "eslint-plugin-promise": "^2.0.1",
     "express": "^4.14.0",
     "extract-text-webpack-plugin": "^1.0.0",
-    "fbw-platform-common": "^3.1.100",
+    "fbw-platform-common": "^3.1.102",
     "fbw-utils": "^0.2.0",
     "file-loader": "^0.9.0",
     "fs-extra": "^0.30.0",
