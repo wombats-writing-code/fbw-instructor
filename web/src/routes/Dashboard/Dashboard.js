@@ -20,6 +20,9 @@ class Dashboard extends Component {
   }
 
   componentDidMount() {
+    // make sure the dashboard shows Phase I missions only
+    this.props.onResetDashboardMission(this.props.mission);
+
     // let timelineHeight =
     setTimeout(() => {
       let phase2Results = $('#phase2Results').position();

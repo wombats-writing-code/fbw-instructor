@@ -6,6 +6,7 @@ import {getResults, getResultsBulk} from 'fbw-platform-common/reducers/Result/ge
 import {getUser} from 'fbw-platform-common/selectors'
 import {getRoster} from 'fbw-platform-common/selectors/course'
 import {editMission} from 'fbw-platform-common/reducers/edit-mission/editMission'
+import {resetDashboardMission} from 'fbw-platform-common/reducers/Mission/resetDashboardMission'
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
@@ -27,6 +28,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(selectMission(mission));
       dispatch(changeView({name: 'dashboard.resultsView', mission: mission}))      // true default
     },
+    onResetDashboardMission: (mission) => dispatch(resetDashboardMission(mission))
     // onCreateMissions: (newMissions, course, user) => dispatch(createMissions(newMissions, course, user)),
   }
 }
