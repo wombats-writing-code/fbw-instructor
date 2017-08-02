@@ -16,18 +16,24 @@ describe('the GradesTable component', () => {
   beforeEach(() => {
     props = {
       mission: {
-        displayName: 'test mission 1'
+        displayName: 'test mission 1',
+        user: null,
+        _id: 321
       },
       missionType: null,
       missions: [
         {
           displayName: 'test mission 1',
           type: missionConfig.PHASE_I_MISSION_TYPE,
-          user: null
+          followsFromMissions: [],
+          user: null,
+          _id: 321
         }, {
           displayName: 'test mission 1 phase 2',
           type: missionConfig.PHASE_II_MISSION_TYPE,
-          user: 123
+          followsFromMissions: [321],
+          user: 123,
+          _id: 111
         }
       ]
     };
@@ -35,12 +41,16 @@ describe('the GradesTable component', () => {
   });
 
   it('selects phase I when no missionType', () => {
-    result.instance()._selectClickedMissionForUser(student).displayName.should.eql('test mission 1');
+    const studentMission = result.instance()._selectClickedMissionForUser(student);
+    studentMission.displayName.should.eql('test mission 1');
+    studentMission.should.eql(props.mission);
   });
 
   it('selects phase II when provided right missionType', () => {
     props.missionType = missionConfig.PHASE_II_MISSION_TYPE;
     result = shallow(<GradesTable {...props} />);
-    result.instance()._selectClickedMissionForUser(student).displayName.should.eql('test mission 1 phase 2');
+    const studentMission = result.instance()._selectClickedMissionForUser(student);
+    studentMission.displayName.should.eql('test mission 1 phase 2');
+    studentMission.user.should.eql(student._id);
   });
 });

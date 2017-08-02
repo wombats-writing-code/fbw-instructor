@@ -176,11 +176,13 @@ class GradesTable extends Component {
     // return the "clicked" mission for the given user
     // if ``missionType`` in props, then must be phase II
     //   otherwise it appears to be null
-    // For phase I missions, the ``user`` attribute appears
-    //   to be ``null``
-    const result = _.find(this.props.missions,{
-      type: this.props.missionType ? this.props.missionType : missionConfig.PHASE_I_MISSION_TYPE,
-      user: user._id
+    // For phase I missions, the ``user`` attribute is always ``null``
+    if (!user || !this.props.missionType) {
+      return this.props.mission;
+    }
+
+    const result = _.find(this.props.missions, (mission) => {
+      return mission.user === user._id && _.includes(mission.followsFromMissions, this.props.mission._id);
     });
 
     return result ? result : this.props.mission;
