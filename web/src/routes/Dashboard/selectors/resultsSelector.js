@@ -149,13 +149,14 @@ export const parseResults = (records, roster, mission) => {
     return fractionIncorrectStudentsByOutcome[outcomeId].fractionIncorrect < .25;
   });
 
-  let reviewOutcomes = _.filter(incorrectResponsesByOutcome, (responses, outcomeId) => {
-    return responses.length > 0 &&
-            fractionIncorrectStudentsByOutcome[outcomeId].fractionIncorrect >= .5 &&
-            mission.goals.indexOf(outcomeId);
-  });
+  console.log('incorrectResponsesByOutcome', incorrectResponsesByOutcome);
+  console.log('fractionIncorrectStudentsByOutcome', fractionIncorrectStudentsByOutcome);
 
-  // console.log('reviewOutcomes', reviewOutcomes)
+  let reviewOutcomes = filterReviewOutcomes(incorrectResponsesByOutcome,
+    fractionIncorrectStudentsByOutcome,
+    mission);
+
+  console.log('reviewOutcomes', reviewOutcomes)
 
 
   return {
@@ -166,6 +167,15 @@ export const parseResults = (records, roster, mission) => {
     studentsOpened: _.map(studentsOpenedIdentifiers, id => _.find(roster, {Identifier: id})),
     studentsNotOpened: _.map(studentsNotOpenedIdentifers, id => _.find(roster, {Identifier: id})),
   };
+}
+
+// export this for testing
+export const filterReviewOutcomes = (incorrectResponsesByOutcome, fractionIncorrectStudentsByOutcome, mission) => {
+  return _.filter(incorrectResponsesByOutcome, (responses, outcomeId) => {
+    return responses.length > 0 &&
+            fractionIncorrectStudentsByOutcome[outcomeId].fractionIncorrect >= .5 &&
+            mission.goals.indexOf(outcomeId) >= 0
+  });
 }
 
 // ====
