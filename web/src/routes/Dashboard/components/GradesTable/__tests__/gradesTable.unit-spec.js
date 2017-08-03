@@ -1,7 +1,8 @@
 import React          from 'react';
 import { shallow, mount }    from 'enzyme';
 let chai = require('chai');
-chai.should();
+let should = chai.should();
+import ReactTable from 'react-table'
 
 import {missionConfig} from 'fbw-platform-common/reducers/Mission'
 import GradesTable    from '../GradesTable';
@@ -30,11 +31,6 @@ describe('the GradesTable component', () => {
         _id: 321,
         id: 321
       },
-      grades: [{
-        user: {
-          id: 123
-        }
-      }],
       missionType: null,
       missions: [
         {
@@ -71,11 +67,37 @@ describe('the GradesTable component', () => {
 
   it('shows active launch button when user\'s linked phase II does not exist', () => {
     props.mission = mission2;
+    props.grades = [{
+      user: {
+        id: 123
+      }
+    }];
     result = mount(<GradesTable {...props} />);
     result.find(LaunchPhaseII).first().html().should.not.contain('disabled=""');
   });
 
   it('shows disabled "launched" button when user\' linked phase II does exist', () => {
+    props.grades = [{
+      user: {
+        id: 123
+      }
+    }];
+    result = mount(<GradesTable {...props} />);
     result.find(LaunchPhaseII).first().html().should.contain('disabled=""');
+  });
+
+  it('returns null when has no grades', () => {
+    props.grades = [];
+    result = mount(<GradesTable {...props} />);
+    // this used to throw a TypeError when grades === [], so just
+    //   being able to render is a plus
+    should.not.exist(result.html());
+  });
+
+  it('returns null when grades is null', () => {
+    result = mount(<GradesTable {...props} />);
+    // this used to throw a TypeError when grades === [], so just
+    //   being able to render is a plus
+    should.not.exist(result.html());
   });
 });

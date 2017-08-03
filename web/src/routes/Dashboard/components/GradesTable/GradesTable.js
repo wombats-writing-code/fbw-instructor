@@ -29,7 +29,7 @@ class GradesTable extends Component {
     let expandCollapseButtonText = this.state.isExpanded ? 'Hide' : 'Show';
 
     // console.log('grades', props.grades)
-    if (!props.grades) {
+    if (!props.grades || props.grades.length === 0) {
       return null;
     }
 
@@ -153,8 +153,8 @@ class GradesTable extends Component {
         // console.log('e', e, 'column', column);
 
         let student = rowInfo.row.user;
-        console.log('props', this.props);
-        console.log('student', student);
+        // console.log('props', this.props);
+        // console.log('student', student);
 
         const clickedMission = this._selectClickedMissionForUser(student);
         this.props.onSelectStudent(student,
