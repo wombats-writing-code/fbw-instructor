@@ -78,7 +78,7 @@ class GradesTable extends Component {
 
             let missionForUser = this._findMissionForUser(grade.user);
 
-            console.log('missionForUser', missionForUser)
+            // console.log('missionForUser', missionForUser)
 
               return (
                 <div className="grades-table__phase-2-row clearfix" key={`phase-2-status__${idx}`}>
@@ -103,7 +103,11 @@ class GradesTable extends Component {
               return (
                 <LaunchPhaseII key={`phase-2-status__${idx}`}
                             student={grade.user}
-                            phaseIIDoesExist={_.find(props.missions, {user: grade.user.id, type: missionConfig.PHASE_II_MISSION_TYPE})}
+                            phaseIIDoesExist={_.find(props.missions, (mission) => {
+                              return mission.user === grade.user.id &&
+                                mission.type === missionConfig.PHASE_II_MISSION_TYPE &&
+                                _.includes(mission.followsFromMissions, props.mission.id);
+                            })}
                             isCreateMissionInProgress={props.isCreateMissionInProgress}
                             onClick={(student) => this.props.onClickCreateMission(student)}
                 />
