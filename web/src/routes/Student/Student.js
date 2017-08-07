@@ -27,7 +27,7 @@ class Student extends Component {
 
     // console.log('missionName', props.params.missionName)
     // console.log('slugged:', slug(props.params.missionName), slug('test 1'))
-    console.log('props.mission', props.mission)
+    // console.log('props.mission', props.mission)
 
     if (!props.mission || !props.mission.questions || props.mission.questions.length === 0) {
       return (
@@ -45,7 +45,9 @@ class Student extends Component {
           <span> {props.mission.displayName}</span></p>
         </div>
 
-        <Mission mission={props.mission} doNotTakeMission={true}/>
+        <Mission user={props.student}
+          mission={props.mission}
+          doNotTakeMission={true}/>
       </div>
     )
   }
