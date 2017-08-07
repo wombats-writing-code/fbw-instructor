@@ -29,7 +29,8 @@ describe('the GradesTable component', () => {
         type: missionConfig.PHASE_I_MISSION_TYPE,
         user: null,
         _id: 321,
-        id: 321
+        id: 321,
+        questions: []
       },
       missionType: null,
       missions: [
@@ -99,5 +100,15 @@ describe('the GradesTable component', () => {
     // this used to throw a TypeError when grades === [], so just
     //   being able to render is a plus
     should.not.exist(result.html());
+  });
+
+  it('returns a phase I with no questions, when student has no phase II', () => {
+    props.missionType = missionConfig.PHASE_II_MISSION_TYPE;
+    result = shallow(<GradesTable {...props} />);
+    const studentMission = result.instance()._selectClickedMissionForUser({
+      _id: 45
+    });
+    studentMission.displayName.should.eql('test mission 1');
+    should.not.exist(studentMission.questions);
   });
 });

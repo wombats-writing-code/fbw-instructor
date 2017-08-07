@@ -160,6 +160,8 @@ class GradesTable extends Component {
         this.props.onSelectStudent(student,
           clickedMission);
 
+        // console.log('clickedMission', clickedMission);
+
         // console.log('was clicked', rowInfo)
         // console.log('props.mission in on click handler', this.props.mission)
         // console.log('student', student)
@@ -189,7 +191,13 @@ class GradesTable extends Component {
       return mission.user === user._id && _.includes(mission.followsFromMissions, this.props.mission._id);
     });
 
-    return result ? result : this.props.mission;
+    // If this is reached, the user has not opened their Phase II
+    //   so return a version of the Phase I, but with no
+    //   "questions" attached, so that the StudentResult
+    //   view shows "this user has not attempted the mission".
+    // By returning a version of the Phase I, we also enable the "back"
+    //   button to return the Dashboard to the right spot.
+    return result ? result : _.assign({}, this.props.mission, {questions: null});
   }
 
 }
