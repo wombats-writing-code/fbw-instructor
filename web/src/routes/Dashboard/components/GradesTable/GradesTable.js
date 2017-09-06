@@ -43,7 +43,7 @@ class GradesTable extends Component {
       {
         header: 'Points (%)',
         accessor: 'points',
-        width: 90
+        width: 111 // Seems to be the minimum to get 45 / 45; 100.0% to fit...
       },
       {
         header: 'First opened',
