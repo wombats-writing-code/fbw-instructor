@@ -23,7 +23,7 @@ describe('(resultsSelector) pointsEarned', () => {
     ];
 
     let points = pointsEarned(questions);
-    points.should.eql(100);
+    points.should.eql('3 / 3; 100%');
 
     done();
   });
@@ -42,7 +42,7 @@ describe('(resultsSelector) pointsEarned', () => {
     ];
 
     let points = pointsEarned(questions);
-    points.should.eql(0);
+    points.should.eql('0 / 3; 0%');
 
     done();
   });
@@ -61,7 +61,7 @@ describe('(resultsSelector) pointsEarned', () => {
     ];
 
     let points = pointsEarned(questions);
-    points.should.eql(0);
+    points.should.eql('0 / 3; 0%');
 
     done();
   });

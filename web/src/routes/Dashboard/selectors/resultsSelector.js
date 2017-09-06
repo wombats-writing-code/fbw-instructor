@@ -88,7 +88,7 @@ export const pointsEarned = (questions) => {
   // console.log('number correct', numberCorrect)
   // console.log('percentCorrect', percentCorrect)
 
-  return percentCorrect;
+  return `${numberCorrect} / ${questions.length}; ${percentCorrect}%`;
 }
 
 export const parseResults = (records, roster, mission) => {
