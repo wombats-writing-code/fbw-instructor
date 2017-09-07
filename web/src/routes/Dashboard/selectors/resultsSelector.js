@@ -43,6 +43,7 @@ export const computeGrades = (mission, records, roster) => {
 
       let grade = {
         points: pointsEarned(_.map(targetRecords, 'responseResult.question')),
+        numberUnattempted: numberUnansweredTargets(targetRecords),
         user: studentRecords[0].user,
         firstActive: moment(_.min(createdAt)).format('h:mma ddd M/D'),
         lastActive: moment(_.max(timeStamps)).format('h:mma ddd M/D'),
@@ -58,6 +59,7 @@ export const computeGrades = (mission, records, roster) => {
     let studentsNotOpenedGrades = _.map(studentsNotOpenedIdentifers, id => {
       return {
         points: null,
+        numberUnattempted: null,
         user: _.find(roster, {Identifier: id}),
         firstActive: '---',
         lastActive: '---',
@@ -66,7 +68,6 @@ export const computeGrades = (mission, records, roster) => {
     })
 
     grades = _.concat(grades, studentsNotOpenedGrades);
-
 
   // console.log('grades for mission', mission, grades)
 
@@ -89,6 +90,11 @@ export const pointsEarned = (questions) => {
   // console.log('percentCorrect', percentCorrect)
 
   return `${numberCorrect} / ${questions.length}; ${percentCorrect}%`;
+}
+
+export const numberUnansweredTargets = (targetQuestions) => {
+  // this should get moved to platform-common, to use in student app...
+  return _.filter(targetQuestions, targetQuestion => !targetQuestion.responseResult).length;
 }
 
 export const parseResults = (records, roster, mission) => {

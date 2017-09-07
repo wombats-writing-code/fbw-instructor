@@ -1,7 +1,8 @@
 let chai = require('chai');
 chai.should();
 
-import {pointsEarned, filterReviewOutcomes} from '../selectors/resultsSelector'
+import {pointsEarned, filterReviewOutcomes,
+  numberUnansweredTargets} from '../selectors/resultsSelector'
 
 // describe(`computeGrades`, () => {
 //   it(`should commpute the grades for a single student `)
@@ -128,4 +129,66 @@ describe('(resultsSelector) filterReviewOutcomes', () => {
 
     done();
   });
+})
+
+describe('numberUnansweredTargets selector', () => {
+
+  it(`should calculate 0 targets remaining when all responded`, function(done) {
+    const questions = [
+      {responseResult: true,
+       referenceNumber: '1',
+       id: '1'},
+      {responseResult: true,
+       referenceNumber: '2',
+       id: '2'},
+      {responseResult: true,
+       referenceNumber: '3',
+       id: '3'},
+    ];
+
+    let results = numberUnansweredTargets(questions);
+    results.should.eql(0);
+
+    done();
+  });
+
+  it(`should not calculate unresponded targets`, function(done) {
+    const questions = [
+      {responseResult: true,
+       referenceNumber: '1',
+       id: '1'},
+      {foo: 'bar',
+       referenceNumber: '2',
+       id: '2'},
+      {responseResult: true,
+       referenceNumber: '3',
+       id: '3'},
+    ];
+
+    let results = numberUnansweredTargets(questions);
+    results.should.eql(1);
+
+    done();
+  });
+
+  it(`should not calculate unresponded targets with responded false`, function(done) {
+    // this state should never actually happen?
+    const questions = [
+      {responseResult: true,
+       referenceNumber: '1',
+       id: '1'},
+      {responseResult: false,
+       referenceNumber: '2',
+       id: '2'},
+      {responseResult: true,
+       referenceNumber: '3',
+       id: '3'},
+    ];
+
+    let results = numberUnansweredTargets(questions);
+    results.should.eql(1);
+
+    done();
+  });
+
 })
