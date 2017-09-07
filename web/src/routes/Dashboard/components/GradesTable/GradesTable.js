@@ -49,8 +49,8 @@ class GradesTable extends Component {
         width: 111 // Seems to be the minimum to get 45 / 45; 100.0% to fit...
       },
       {
-        header: '# Unattempted',
-        accessor: 'numberUnattempted',
+        header: '# Attempted',
+        accessor: 'numberAttempted',
         style: {
           textAlign: 'center'
         },

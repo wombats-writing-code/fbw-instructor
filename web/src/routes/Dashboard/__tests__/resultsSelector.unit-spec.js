@@ -2,7 +2,7 @@ let chai = require('chai');
 chai.should();
 
 import {pointsEarned, filterReviewOutcomes,
-  numberUnansweredTargets} from '../selectors/resultsSelector'
+  numberUnansweredTargets, numberAttemptedTargets} from '../selectors/resultsSelector'
 
 // describe(`computeGrades`, () => {
 //   it(`should commpute the grades for a single student `)
@@ -187,6 +187,68 @@ describe('numberUnansweredTargets selector', () => {
 
     let results = numberUnansweredTargets(questions);
     results.should.eql(1);
+
+    done();
+  });
+
+})
+
+describe('numberAttemptedTargets selector', () => {
+
+  it(`should calculate 3 attempted targets when all responded`, function(done) {
+    const questions = [
+      {responseResult: true,
+       referenceNumber: '1',
+       id: '1'},
+      {responseResult: true,
+       referenceNumber: '2',
+       id: '2'},
+      {responseResult: true,
+       referenceNumber: '3',
+       id: '3'},
+    ];
+
+    let results = numberAttemptedTargets(questions);
+    results.should.eql(3);
+
+    done();
+  });
+
+  it(`should not calculate unresponded targets`, function(done) {
+    const questions = [
+      {responseResult: true,
+       referenceNumber: '1',
+       id: '1'},
+      {foo: 'bar',
+       referenceNumber: '2',
+       id: '2'},
+      {responseResult: true,
+       referenceNumber: '3',
+       id: '3'},
+    ];
+
+    let results = numberAttemptedTargets(questions);
+    results.should.eql(2);
+
+    done();
+  });
+
+  it(`should not calculate unresponded targets with responded false`, function(done) {
+    // this state should never actually happen?
+    const questions = [
+      {responseResult: true,
+       referenceNumber: '1',
+       id: '1'},
+      {responseResult: false,
+       referenceNumber: '2',
+       id: '2'},
+      {responseResult: true,
+       referenceNumber: '3',
+       id: '3'},
+    ];
+
+    let results = numberAttemptedTargets(questions);
+    results.should.eql(2);
 
     done();
   });
