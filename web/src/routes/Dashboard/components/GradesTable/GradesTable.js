@@ -144,18 +144,20 @@ class GradesTable extends Component {
     )
   }
 
-  _findMissionForUser(user) {
+  _findMissionForUser = (user) => {
     if (!user) return null;
 
     // console.log('user', user)
-    let lastName = user.LastName;
-    let displayName = user.DisplayName;
+    // let lastName = user.LastName;
+    // let displayName = user.DisplayName;
 
     // if ((lastName && lastName.indexOf('Scotch') > -1) || (displayName && displayName.indexOf('Scotch') > -1)) {
     //   console.log(_.find(this.props.missions, {user: user.id, type: missionConfig.PHASE_II_MISSION_TYPE}))
     // }
-
-    return _.find(this.props.missions, {user: user.id, type: missionConfig.PHASE_II_MISSION_TYPE})
+    return _.find(this.props.missions, (mission) => {
+      return mission.user === user._id && mission.type === missionConfig.PHASE_II_MISSION_TYPE &&
+      _.includes(mission.followsFromMissions, this.props.mission._id)
+    });
   }
 
   _onClickHandler(state, rowInfo, column, instance) {

@@ -19,7 +19,14 @@ describe('the GradesTable component', () => {
     type: missionConfig.PHASE_I_MISSION_TYPE,
     followsFromMissions: [],
     user: null,
-    _id: 321
+    _id: 4321
+  };
+  const mission2Phase2 = {
+    displayName: 'test mission 2 Phase 2',
+    type: missionConfig.PHASE_II_MISSION_TYPE,
+    followsFromMissions: [4321],
+    user: 123,
+    _id: 432123
   };
 
   beforeEach(() => {
@@ -110,5 +117,13 @@ describe('the GradesTable component', () => {
     });
     studentMission.displayName.should.eql('test mission 1');
     should.not.exist(studentMission.questions);
+  });
+
+  it('launches the right edit phase 2 modal when multiple phase 2s in props.missions', () => {
+    props.missions.push(mission2Phase2);
+    props.mission = mission2;
+    result = shallow(<GradesTable {...props} />);
+    const phase2Edit = result.instance()._findMissionForUser(student);
+    phase2Edit.should.eql(mission2Phase2);
   });
 });
