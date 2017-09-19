@@ -57,6 +57,14 @@ class GradesTable extends Component {
         width: undefined
       },
       {
+        header: 'Goals Achieved',
+        accessor: 'goalsAchieved',
+        style: {
+          textAlign: 'center'
+        },
+        width: undefined
+      },
+      {
         header: 'First opened',
         accessor: 'firstActive',
         width: undefined,

@@ -1,8 +1,11 @@
+import _ from 'lodash';
+
 let chai = require('chai');
 chai.should();
 
-import {pointsEarned, filterReviewOutcomes,
-  numberUnansweredTargets, numberAttemptedTargets} from '../selectors/resultsSelector'
+import { pointsEarned, filterReviewOutcomes,
+  numberUnansweredTargets, numberAttemptedTargets,
+  sortRecordsByOutcome, numberAchievedGoals } from '../selectors/resultsSelector'
 
 // describe(`computeGrades`, () => {
 //   it(`should commpute the grades for a single student `)
@@ -131,126 +134,215 @@ describe('(resultsSelector) filterReviewOutcomes', () => {
   });
 })
 
-describe('numberUnansweredTargets selector', () => {
+// Moved to fbw-platform-common
+// describe('numberUnansweredTargets selector', () => {
+//
+//   it(`should calculate 0 targets remaining when all responded`, function(done) {
+//     const questions = [
+//       {responseResult: true,
+//        referenceNumber: '1',
+//        id: '1'},
+//       {responseResult: true,
+//        referenceNumber: '2',
+//        id: '2'},
+//       {responseResult: true,
+//        referenceNumber: '3',
+//        id: '3'},
+//     ];
+//
+//     let results = numberUnansweredTargets(questions);
+//     results.should.eql(0);
+//
+//     done();
+//   });
+//
+//   it(`should not calculate unresponded targets`, function(done) {
+//     const questions = [
+//       {responseResult: true,
+//        referenceNumber: '1',
+//        id: '1'},
+//       {foo: 'bar',
+//        referenceNumber: '2',
+//        id: '2'},
+//       {responseResult: true,
+//        referenceNumber: '3',
+//        id: '3'},
+//     ];
+//
+//     let results = numberUnansweredTargets(questions);
+//     results.should.eql(1);
+//
+//     done();
+//   });
+//
+//   it(`should not calculate unresponded targets with responded false`, function(done) {
+//     // this state should never actually happen?
+//     const questions = [
+//       {responseResult: true,
+//        referenceNumber: '1',
+//        id: '1'},
+//       {responseResult: false,
+//        referenceNumber: '2',
+//        id: '2'},
+//       {responseResult: true,
+//        referenceNumber: '3',
+//        id: '3'},
+//     ];
+//
+//     let results = numberUnansweredTargets(questions);
+//     results.should.eql(1);
+//
+//     done();
+//   });
+//
+// })
 
-  it(`should calculate 0 targets remaining when all responded`, function(done) {
-    const questions = [
-      {responseResult: true,
-       referenceNumber: '1',
-       id: '1'},
-      {responseResult: true,
-       referenceNumber: '2',
-       id: '2'},
-      {responseResult: true,
-       referenceNumber: '3',
-       id: '3'},
-    ];
+// Moved to fbw-platform-common
+// describe('numberAttemptedTargets selector', () => {
+//
+//   it(`should calculate 3 attempted targets when all responded`, function(done) {
+//     const questions = [
+//       {responseResult: true,
+//        referenceNumber: '1',
+//        id: '1'},
+//       {responseResult: true,
+//        referenceNumber: '2',
+//        id: '2'},
+//       {responseResult: true,
+//        referenceNumber: '3',
+//        id: '3'},
+//     ];
+//
+//     let results = numberAttemptedTargets(questions);
+//     results.should.eql(3);
+//
+//     done();
+//   });
+//
+//   it(`should not calculate unresponded targets`, function(done) {
+//     const questions = [
+//       {responseResult: true,
+//        referenceNumber: '1',
+//        id: '1'},
+//       {foo: 'bar',
+//        referenceNumber: '2',
+//        id: '2'},
+//       {responseResult: true,
+//        referenceNumber: '3',
+//        id: '3'},
+//     ];
+//
+//     let results = numberAttemptedTargets(questions);
+//     results.should.eql(2);
+//
+//     done();
+//   });
+//
+//   it(`should not calculate unresponded targets with responded false`, function(done) {
+//     // this state should never actually happen?
+//     const questions = [
+//       {responseResult: true,
+//        referenceNumber: '1',
+//        id: '1'},
+//       {responseResult: false,
+//        referenceNumber: '2',
+//        id: '2'},
+//       {responseResult: true,
+//        referenceNumber: '3',
+//        id: '3'},
+//     ];
+//
+//     let results = numberAttemptedTargets(questions);
+//     results.should.eql(2);
+//
+//     done();
+//   });
+//
+// })
 
-    let results = numberUnansweredTargets(questions);
-    results.should.eql(0);
+describe('sortRecordsByOutcome selector', () => {
+
+  it(`should sort target records by the question outcome`, function(done) {
+    const records = [{
+      question: {
+        outcome: '1'
+      }
+    }, {
+      question: {
+        outcome: '2'
+      }
+    }, {
+      question: {
+        outcome: '3'
+      }
+    }, {
+      question: {
+        outcome: '1'
+      }
+    }];
+
+    const results = sortRecordsByOutcome(records);
+    _.keys(results).length.should.eql(3);
+    results['1'].length.should.eql(2);
+    results['2'].length.should.eql(1);
+    results['3'].length.should.eql(1);
 
     done();
   });
+});
 
-  it(`should not calculate unresponded targets`, function(done) {
-    const questions = [
-      {responseResult: true,
-       referenceNumber: '1',
-       id: '1'},
-      {foo: 'bar',
-       referenceNumber: '2',
-       id: '2'},
-      {responseResult: true,
-       referenceNumber: '3',
-       id: '3'},
-    ];
+describe('numberAchievedGoals selector', () => {
 
-    let results = numberUnansweredTargets(questions);
-    results.should.eql(1);
+  it(`should only include correctly responded goals`, function(done) {
+    const records = [{
+      responseResult: {
+        question: {
+          response: {
+            isCorrect: true
+          }
+        }
+      },
+      question: {
+        outcome: '1'
+      }
+    }, {
+      responseResult: {
+        question: {
+          response: {
+            isCorrect: true
+          }
+        }
+      },
+      question: {
+        outcome: '2'
+      }
+    }, {
+      responseResult: {
+        question: {
+          response: {
+            isCorrect: true
+          }
+        }
+      },
+      question: {
+        outcome: '3'
+      }
+    }, {
+      responseResult: {
+        question: {
+          response: {
+            isCorrect: false
+          }
+        }
+      },
+      question: {
+        outcome: '1'
+      }
+    }];
 
-    done();
-  });
-
-  it(`should not calculate unresponded targets with responded false`, function(done) {
-    // this state should never actually happen?
-    const questions = [
-      {responseResult: true,
-       referenceNumber: '1',
-       id: '1'},
-      {responseResult: false,
-       referenceNumber: '2',
-       id: '2'},
-      {responseResult: true,
-       referenceNumber: '3',
-       id: '3'},
-    ];
-
-    let results = numberUnansweredTargets(questions);
-    results.should.eql(1);
-
-    done();
-  });
-
-})
-
-describe('numberAttemptedTargets selector', () => {
-
-  it(`should calculate 3 attempted targets when all responded`, function(done) {
-    const questions = [
-      {responseResult: true,
-       referenceNumber: '1',
-       id: '1'},
-      {responseResult: true,
-       referenceNumber: '2',
-       id: '2'},
-      {responseResult: true,
-       referenceNumber: '3',
-       id: '3'},
-    ];
-
-    let results = numberAttemptedTargets(questions);
-    results.should.eql(3);
+    const results = numberAchievedGoals(records);
+    results.should.eql('2 / 3');
 
     done();
   });
-
-  it(`should not calculate unresponded targets`, function(done) {
-    const questions = [
-      {responseResult: true,
-       referenceNumber: '1',
-       id: '1'},
-      {foo: 'bar',
-       referenceNumber: '2',
-       id: '2'},
-      {responseResult: true,
-       referenceNumber: '3',
-       id: '3'},
-    ];
-
-    let results = numberAttemptedTargets(questions);
-    results.should.eql(2);
-
-    done();
-  });
-
-  it(`should not calculate unresponded targets with responded false`, function(done) {
-    // this state should never actually happen?
-    const questions = [
-      {responseResult: true,
-       referenceNumber: '1',
-       id: '1'},
-      {responseResult: false,
-       referenceNumber: '2',
-       id: '2'},
-      {responseResult: true,
-       referenceNumber: '3',
-       id: '3'},
-    ];
-
-    let results = numberAttemptedTargets(questions);
-    results.should.eql(2);
-
-    done();
-  });
-
-})
+});

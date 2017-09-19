@@ -1,12 +1,12 @@
-import { createSelector } from 'reselect'
+// import { createSelector } from 'reselect'
 import _ from 'lodash'
 import moment from 'moment'
 import 'moment-timezone'
 
-import {getMapping} from 'fbw-platform-common/selectors'
-import {isTarget} from 'fbw-platform-common/selectors/mission'
-import {getRoster} from 'fbw-platform-common/selectors/course'
-import {missionConfig} from 'fbw-platform-common/reducers/Mission'
+// import { getMapping } from 'fbw-platform-common/selectors'
+import { isTarget, numberAttemptedTargets } from 'fbw-platform-common/selectors/mission'
+// import { getRoster } from 'fbw-platform-common/selectors/course'
+// import { missionConfig } from 'fbw-platform-common/reducers/Mission'
 
 /**
   computes the number of points students got on a mission
@@ -30,44 +30,48 @@ export const computeGrades = (mission, records, roster) => {
   // TODO: note that this block will always run,
   // because of the way we're redoing points grading
   let grades = _.reduce(groupedByStudent, (result, studentRecords, userIdentifier) => {
-      let targetRecords = _.uniqBy(_.filter(studentRecords, r => isTarget(r.question)), record => record.question.id);
-      // console.log('targetRecords', targetRecords)
-      // console.log('studentRecords', studentRecords)
-      let createdAt = _.map(studentRecords, r => moment(r.createdAt).valueOf());
-      let updatedAt = _.map(_.compact(_.map(studentRecords, 'responseResult.updatedAt')), t => moment(t).valueOf());
-      let timeStamps = _.concat(createdAt, updatedAt);
+    // _.uniqBy works here and preserves the target, because the original target
+    //   appears in ``studentRecords`` before the re-asked / last target in a route.
+    let targetRecords = _.uniqBy(_.filter(studentRecords, r => isTarget(r.question)), record => record.question.id);
+    // console.log('targetRecords', targetRecords)
+    // console.log('studentRecords', studentRecords)
+    let createdAt = _.map(studentRecords, r => moment(r.createdAt).valueOf());
+    let updatedAt = _.map(_.compact(_.map(studentRecords, 'responseResult.updatedAt')), t => moment(t).valueOf());
+    let timeStamps = _.concat(createdAt, updatedAt);
 
-      let completed = _.every(studentRecords, r => r.responseResult && r.responseResult.question.responded);
+    let completed = _.every(studentRecords, r => r.responseResult && r.responseResult.question.responded);
 
-      // console.log('completed', completed)
+    // console.log('completed', completed)
 
-      let grade = {
-        points: pointsEarned(_.map(targetRecords, 'responseResult.question')),
-        numberAttempted: numberAttemptedTargets(targetRecords),
-        user: studentRecords[0].user,
-        firstActive: moment(_.min(createdAt)).format('h:mma ddd M/D'),
-        lastActive: moment(_.max(timeStamps)).format('h:mma ddd M/D'),
-        // completed: _.toString(completed)
-        completed: completed ? "True" : ''
-      }
+    let grade = {
+      points: pointsEarned(_.map(targetRecords, 'responseResult.question')),
+      numberAttempted: numberAttemptedTargets(targetRecords),
+      goalsAchieved: numberAchievedGoals(targetRecords),
+      user: studentRecords[0].user,
+      firstActive: moment(_.min(createdAt)).format('h:mma ddd M/D'),
+      lastActive: moment(_.max(timeStamps)).format('h:mma ddd M/D'),
+      // completed: _.toString(completed)
+      completed: completed ? 'True' : ''
+    }
 
-      result.push(grade);
+    result.push(grade);
 
-      return result;
-    }, []);
+    return result;
+  }, []);
 
-    let studentsNotOpenedGrades = _.map(studentsNotOpenedIdentifers, id => {
-      return {
-        points: null,
-        numberAttempted: null,
-        user: _.find(roster, {Identifier: id}),
-        firstActive: '---',
-        lastActive: '---',
-        completed: null
-      }
-    })
+  let studentsNotOpenedGrades = _.map(studentsNotOpenedIdentifers, id => {
+    return {
+      points: null,
+      numberAttempted: null,
+      goalsAchieved: null,
+      user: _.find(roster, { Identifier: id }),
+      firstActive: '---',
+      lastActive: '---',
+      completed: null
+    }
+  })
 
-    grades = _.concat(grades, studentsNotOpenedGrades);
+  grades = _.concat(grades, studentsNotOpenedGrades);
 
   // console.log('grades for mission', mission, grades)
 
@@ -92,15 +96,43 @@ export const pointsEarned = (questions) => {
   return `${numberCorrect} / ${questions.length}; ${percentCorrect}%`;
 }
 
-export const numberUnansweredTargets = (targetQuestions) => {
-  // this should get moved to platform-common, to use in student app...
-  return _.filter(targetQuestions, targetQuestion => !targetQuestion.responseResult).length;
+export const sortRecordsByOutcome = (targetRecords) => {
+// Group the targets by outcome, since they are now flattened
+  return _.reduce(targetRecords, (result, record) => {
+    const key = record.question.outcome;
+    if (!_.has(result, key)) {
+      result[key] = [];
+    }
+    result[key].push(record);
+    return result;
+  }, {});
 }
 
-export const numberAttemptedTargets = (targetQuestions) => {
-  // this should get moved to platform-common, to use in student app...
-  return _.filter(targetQuestions, targetQuestion => targetQuestion.responseResult).length;
+export const numberAchievedGoals = (targetRecords) => {
+  // Consider moving this to fbw-platform-common
+  // Takes in the student records, and calculates how many
+  //   of the goals were mastered -- all the target questions
+  //   sharing the same outcome were answered correctly on
+  //   the first try.
+  const recordsByOutcome = sortRecordsByOutcome(targetRecords);
+  const achieved = _.reduce(recordsByOutcome, (sum, recordList) => {
+    if (_.every(recordList, record => record.responseResult && record.responseResult.question.response.isCorrect)) {
+      return sum + 1;
+    }
+    return sum;
+  }, 0);
+  return achieved + ' / ' + _.keys(recordsByOutcome).length;
 }
+
+// export const numberUnansweredTargets = (targetQuestions) => {
+//   // this should get moved to platform-common, to use in student app...
+//   return _.filter(targetQuestions, targetQuestion => !targetQuestion.responseResult).length;
+// }
+//
+// export const numberAttemptedTargets = (targetQuestions) => {
+//   // this should get moved to platform-common, to use in student app...
+//   return _.filter(targetQuestions, targetQuestion => targetQuestion.responseResult).length;
+// }
 
 export const parseResults = (records, roster, mission) => {
   if (!records || !roster) return;
