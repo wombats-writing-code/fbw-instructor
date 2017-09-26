@@ -36,17 +36,49 @@ class DirectivesList extends Component {
                                     (<span key={`icon_${idx}`} className="select-directive-icon select">&#x02713;</span>)
 
           let removeButton;
+          let moveUpButton;
+          let moveDownButton;
           if (isSelected) {
             removeButton = (
-              <span className="add-remove-directive-button remove"
-                          onClick={(e) => {e.stopPropagation(); props.onToggleOutcome(outcome)}}>
+              <span
+                className="add-remove-directive-button remove"
+                onClick={(e) => { e.stopPropagation(); props.onToggleOutcome(outcome) }}>
               Remove</span>
             )
 
+            if (props.selectedOutcomesList) {
+              // Don't need these extra buttons in the "add" right-hand panel
+              if (idx !== 0) {
+                moveUpButton = (
+                  <span
+                    className="add-remove-directive-button move-up"
+                    onClick={(e) => { e.stopPropagation(); props.onMoveOutcomeUp(outcome) }}>
+                  Move Up</span>
+                )
+              } else {
+                moveUpButton = (
+                  <span className="move-up-spacer" />
+                )
+              }
+
+              if (idx !== props.directives.length - 1) {
+                moveDownButton = (
+                  <span
+                    className="add-remove-directive-button move-down"
+                    onClick={(e) => { e.stopPropagation(); props.onMoveOutcomeDown(outcome) }}>
+                  Move Down</span>
+                )
+              } else {
+                moveDownButton = (
+                  <span className="move-down-spacer" />
+                )
+              }
+            }
           } else {
             removeButton = (
-              <span className="add-remove-directive-button add"
-                      onClick={(e) => {e.stopPropagation(); props.onToggleOutcome(outcome)}}>
+              <span
+                className="add-remove-directive-button add"
+                onClick={(e) => { e.stopPropagation(); props.onToggleOutcome(outcome) }}>
               Add</span>);
 
           }
@@ -95,7 +127,8 @@ class DirectivesList extends Component {
                   {this.state.isOutcomeQuestionsExpanded[outcome.id] ? 'Hide ' : 'Preview '}
                   {itemsForDirective.length} {pluralize('question', itemsForDirective.length)}
                 </span>
-
+                {moveUpButton}
+                {moveDownButton}
                 {removeButton}
               </div>
 

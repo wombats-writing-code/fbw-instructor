@@ -27,12 +27,17 @@ class SelectDirectives extends Component {
         {selectedDirectivesLabel}
 
         <div className="row">
-          <div className="medium-8 large-8 medium-push-1 columns">
-            <DirectivesList directives={_.map(props.selectedOutcomeIds, id => _.find(props.mapping.outcomes, {id: id}))}
-                          selectedOutcomeIds={props.selectedOutcomeIds}
-                          mapping={props.mapping} itemsForDirectives={props.itemsForDirectives}
-                          onToggleOutcome={props.onToggleOutcome}
-                          onVisualizeEntity={props.onVisualizeEntity}/>
+          <div className="medium-10 large-10 medium-push-1 columns">
+            <DirectivesList
+              directives={_.map(props.selectedOutcomeIds, id => _.find(props.mapping.outcomes, {id: id}))}
+              selectedOutcomeIds={props.selectedOutcomeIds}
+              mapping={props.mapping} itemsForDirectives={props.itemsForDirectives}
+              onToggleOutcome={props.onToggleOutcome}
+              onMoveOutcomeUp={props.onMoveOutcomeUp}
+              onMoveOutcomeDown={props.onMoveOutcomeDown}
+              onVisualizeEntity={props.onVisualizeEntity}
+              selectedOutcomesList
+            />
           </div>
         </div>
 

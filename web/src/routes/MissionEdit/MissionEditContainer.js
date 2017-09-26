@@ -12,6 +12,8 @@ import {changeMissionEnd} from 'fbw-platform-common/reducers/edit-mission/update
 import {selectModule} from 'fbw-platform-common/reducers/edit-mission/updateMissionForm'
 import {changeOutcomeSearch} from 'fbw-platform-common/reducers/edit-mission/updateMissionForm'
 import {toggleOutcome} from 'fbw-platform-common/reducers/edit-mission/updateMissionForm'
+import {moveOutcomeUp} from 'fbw-platform-common/reducers/edit-mission/updateMissionForm'
+import {moveOutcomeDown} from 'fbw-platform-common/reducers/edit-mission/updateMissionForm'
 import {changeFollowsFromMissions} from 'fbw-platform-common/reducers/edit-mission/updateMissionForm'
 import {visualizeEntity, closeVisualizeEntity} from 'fbw-platform-common/reducers/Mapping/visualizeEntity'
 
@@ -44,6 +46,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     onSelectModule: (module) => dispatch(selectModule(module)),
     onChangeOutcomeSearch: (query) => dispatch(changeOutcomeSearch(query)),
     onToggleOutcome: (outcome) => dispatch(toggleOutcome(outcome)),
+    onMoveOutcomeUp: (outcome) => dispatch(moveOutcomeUp(outcome)),
+    onMoveOutcomeDown: (outcome) => dispatch(moveOutcomeDown(outcome)),
     onVisualizeEntity: (entity) => dispatch(visualizeEntity(entity)),
     onCloseVisualizeEntity: () => dispatch(closeVisualizeEntity()),
     onSelectFollowFromMissions: (missions, user) => {

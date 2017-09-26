@@ -42,6 +42,8 @@ class PhaseIBody extends Component {
                             onSelectModule={props.onSelectModule}
                             onChangeOutcomeSearch={props.onChangeOutcomeSearch}
                             onToggleOutcome={props.onToggleOutcome}
+                            onMoveOutcomeUp={props.onMoveOutcomeUp}
+                            onMoveOutcomeDown={props.onMoveOutcomeDown}
                             onVisualizeEntity={props.onVisualizeEntity}
                           />
         </div>
