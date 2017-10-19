@@ -65,9 +65,9 @@ class Dashboard extends Component {
           <div>
             <p className="dashboard__timeline-point__text">
               <b>Phase I</b> &thinsp;
-              {moment(props.mission.startTime).format('ha ddd M/D')}
+              {moment(props.mission.startTime).format('h:mm a ddd M/D')}
               &mdash;
-              {moment(props.mission.deadline).format('ha ddd M/D')}
+              {moment(props.mission.deadline).format('h:mm a ddd M/D')}
             </p>
             <MissionResult result={this._getResults(props.mission, missionConfig.PHASE_I_MISSION_TYPE)}
                           records={this._getRecords(props.mission, missionConfig.PHASE_I_MISSION_TYPE)}

@@ -42,7 +42,7 @@ class Timeline extends Component {
           return (
             <div className="timeline__point" key={`point_${idx}`} style={timelinePointStyle}>
               <span className="timeline__point__text">{point.text} </span>
-              {moment(point.time).format('ddd MMM D, ha')}
+              {moment(point.time).format('ddd MMM D, h:mm a')}
             </div>
           )
         })}

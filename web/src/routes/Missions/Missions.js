@@ -135,9 +135,9 @@ class Missions extends Component {
                 <div className="mission-card__body">
                   <p className="mission-card__date">
                     <span className="">From </span>
-                    <span className="">{moment(mission.startTime).format('ddd MMM D [at] ha')} </span>
+                    <span className="">{moment(mission.startTime).format('ddd MMM D [at] h:mm a')} </span>
                     <span className="">to </span>
-                    <b className="">{moment(mission.deadline).format('ddd MMM D [at] ha')}</b>
+                    <b className="">{moment(mission.deadline).format('ddd MMM D [at] h:mm a')}</b>
                   </p>
 
                   <div className="mission-card__timeline">

@@ -103,9 +103,9 @@ class GradesTable extends Component {
                 <div className="grades-table__phase-2-row clearfix" key={`phase-2-status__${idx}`}>
                   <p className="grades-table__edit-mission-dates"
                     onClick={() => props.onClickEditMission(missionForUser)}>
-                    {missionForUser ? moment(missionForUser.startTime).format('ha ddd M/D') : ''}
+                    {missionForUser ? moment(missionForUser.startTime).format('h:mm a ddd M/D') : ''}
                       &mdash;
-                    {missionForUser ? moment(missionForUser.deadline).format('ha ddd M/D') : ''}
+                    {missionForUser ? moment(missionForUser.deadline).format('h:mm a ddd M/D') : ''}
                   </p>
                 </div>
               )

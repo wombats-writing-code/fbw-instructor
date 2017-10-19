@@ -19,6 +19,9 @@ class PhaseIBody extends Component {
         />)
     }
 
+    console.log("in phase i body");
+    console.log('relationship', _.find(props.mapping.relationships, {id: "5932ad98fdbf1f790fabc29a"}));
+
     return (
       <div className="phase-I-form">
         <div className="form-section">
