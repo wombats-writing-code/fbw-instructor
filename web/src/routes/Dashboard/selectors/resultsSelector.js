@@ -23,6 +23,7 @@ export const computeGrades = (mission, records, roster) => {
   let groupedByStudent = _.groupBy(records, 'user.Identifier');
   let studentsOpenedIdentifiers = _.uniq(_.map(records, 'user.Identifier'));
   let studentsNotOpenedIdentifers = _.difference(_.map(roster, 'Identifier'), studentsOpenedIdentifiers);
+  // console.log('roster', roster);
   // console.log('studentsNotOpenedIdentifers', studentsNotOpenedIdentifers)
   // console.log('records.length', records.length, 'records', records)
   // console.log('studentsOpened', _.uniqBy(_.map(records, 'user'), 'id'))
@@ -48,8 +49,8 @@ export const computeGrades = (mission, records, roster) => {
       numberAttempted: numberAttemptedTargets(targetRecords),
       goalsAchieved: numberAchievedGoals(targetRecords),
       user: studentRecords[0].user,
-      firstActive: moment(_.min(createdAt)).format('h:mma ddd M/D'),
-      lastActive: moment(_.max(timeStamps)).format('h:mma ddd M/D'),
+      firstActive: moment(_.min(createdAt)).format('h:mm a ddd M/D'),
+      lastActive: moment(_.max(timeStamps)).format('h:mm a ddd M/D'),
       // completed: _.toString(completed)
       completed: completed ? 'True' : ''
     }
