@@ -48,9 +48,45 @@ class MissionEdit extends Component {
 
     let form;
     if (!props.isCreateMissionInProgress && props.newMission.type) {
-      let buttonText = props.editView === 'edit' ? "Save & update mission" : "Create mission";
-      form = (
-        <form className="mission-form" onSubmit={(e) => this._onSubmitForm(e)}>
+      const creatingMission = props.editView !== 'edit';
+      let buttonText = creatingMission ? "Create mission" : "Save & update mission";
+      let dateInputs;
+
+      if (props.newMission.type === missionConfig.PHASE_I_MISSION_TYPE) {
+        // If creating / editing a new Phase I mission, need to have 3 date fields.
+        //   Two for the Phase I, one for the Phase II deadline.
+        dateInputs = (
+          <div className="form-section">
+            <label className="form-label">Phase I Dates</label>
+            <div className="row">
+              <div className="datetime medium-6 columns">
+                <Datetime inputProps={{placeholder: "Phase I start date & time"}}
+                         value={moment(props.newMission.startTime)}
+                         dateFormat={true}
+                         onChange={(momentObj) => this.props.onChangeMissionStart(momentObj)}  />
+              </div>
+              <div className="datetime medium-6 columns">
+                <Datetime inputProps={{placeholder: "Phase II deadline date & time"}}
+                          value={moment(props.newMission.deadline)}
+                         dateFormat={true} onChange={(momentObj) => this.props.onChangeMissionEnd(momentObj)}  />
+              </div>
+            </div>
+            <div className="divider-row" />
+            <label className="form-label">Phase II Deadline</label>
+            <div className="row">
+              <div className="datetime medium-6 columns" />
+              <div className="datetime medium-6 columns">
+                <Datetime inputProps={{placeholder: "Phase II deadline date & time"}}
+                         value={moment(props.newMission.leadsToMissionsDeadline || null)}
+                         dateFormat={true}
+                         onChange={(momentObj) => this.props.onChangeMissionLeadsToEnd(momentObj)}  />
+              </div>
+            </div>
+          </div>
+        );
+      } else {
+        // Otherwise, just have two date fields
+        dateInputs = (
           <div className="form-section">
             <label className="form-label">Dates</label>
             <div className="row">
@@ -67,6 +103,12 @@ class MissionEdit extends Component {
               </div>
             </div>
           </div>
+        );
+      }
+
+      form = (
+        <form className="mission-form" onSubmit={(e) => this._onSubmitForm(e)}>
+          {dateInputs}
 
           {body}
 
@@ -80,13 +122,12 @@ class MissionEdit extends Component {
 
     let selectMissionType; let editMissionTitle;
     if (props.editView !== 'edit') {
-      selectMissionType = <SelectMissionType mission={props.newMission} onChangeMissionType={props.onChangeMissionType} />
-
+      selectMissionType = <SelectMissionType
+        mission={props.newMission}
+        onChangeMissionType={props.onChangeMissionType} />
     } else {
       editMissionTitle = <p>Editing {props.newMission.displayName}</p>
-
     }
-
 
     return (
       <div className="mission-edit medium-12 large-8 medium-centered columns">
@@ -103,7 +144,18 @@ class MissionEdit extends Component {
   }
 
   _canSubmit() {
-    if (this.props.newMission.displayName && this.props.newMission.startTime && this.props.newMission.deadline) {
+    if (this.props.newMission.type === missionConfig.PHASE_II_MISSION_TYPE &&
+        this.props.newMission.displayName &&
+        this.props.newMission.startTime &&
+        this.props.newMission.deadline) {
+      return true;
+    }
+
+    if (this.props.newMission.type === missionConfig.PHASE_I_MISSION_TYPE &&
+        this.props.newMission.displayName &&
+        this.props.newMission.startTime &&
+        this.props.newMission.deadline &&
+        this.props.newMission.leadsToMissionsDeadline) {
       return true;
     }
 
@@ -124,6 +176,11 @@ class MissionEdit extends Component {
 
     if (props.newMission.type === missionConfig.PHASE_I_MISSION_TYPE && props.newMission.goals.length === 0) {
       return this.setState({goalsError: 'You must choose at least 1 goal for a Phase I type mission.'})
+    }
+
+    if (props.newMission.type === missionConfig.PHASE_I_MISSION_TYPE &&
+        !props.newMission.leadsToMissionsDeadline) {
+      return this.setState({deadlineError: 'You must set a Phase II deadline.'})
     }
 
     if (props.editView === 'edit') {
