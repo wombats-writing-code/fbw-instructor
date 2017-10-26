@@ -101,7 +101,7 @@ export const computeRecommendation = (student, records, mission) => {
     followsFromMissions: [mission.id]
   };
 
-  // console.log('student', student, 'records', records, 'mission', mission);
+  console.log('student', student, 'records', records, 'mission', mission);
 
   // if the mission has any records, they will appear here
   // will be null while fetching
@@ -114,7 +114,7 @@ export const computeRecommendation = (student, records, mission) => {
       // Give them all the goals back.
       // group records by their section (goal)
       let bySection = _.groupBy(studentRecords, 'sectionIndex');
-
+      console.log('bySection', bySection)
       // figure out which goals haven't been achieved
       let notAchievedGoals = _.reduce(mission.goals, (result, outcomeId, idx) => {
         // filter to get the records that correspond to target questions

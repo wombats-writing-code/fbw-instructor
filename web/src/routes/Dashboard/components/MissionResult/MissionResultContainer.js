@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import {selectDirective} from 'fbw-platform-common/reducers/Mission/selectDirective'
 import {selectTarget} from 'fbw-platform-common/reducers/Mission/selectTarget'
 import {getStudentResult} from 'fbw-platform-common/reducers/Result/getStudentResult'
-import {createMissions} from 'fbw-platform-common/reducers/edit-mission/createMission'
+// import {createMissions} from 'fbw-platform-common/reducers/edit-mission/createMission'
 import {updateMission} from 'fbw-platform-common/reducers/edit-mission/updateMission'
 import {deleteMission} from 'fbw-platform-common/reducers/edit-mission/deleteMission'
 import {changeMissionStart, changeMissionEnd} from 'fbw-platform-common/reducers/edit-mission/updateMissionForm'
@@ -25,9 +25,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       console.log('onSelectStudentResult mission', mission)
       dispatch(getStudentResult(student, mission, user))
     },
-    onCreateMissions: (newMissions, course, user) => {
-      dispatch(createMissions(newMissions, course, user));
-    },
+    // onCreateMissions: (newMissions, course, user) => {
+    //   dispatch(createMissions(newMissions, course, user));
+    // },
     // onClickEditMission: mission => dispatch(editMission(mission, getMapping(state).outcomes)),
     onClickEditMission: mission => dispatch(clickEditMission(mission)),
     onChangeMissionStart: (momentObj) => dispatch(changeMissionStart(momentObj)),
@@ -41,7 +41,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
 
 const mapStateToProps = (state, ownProps) => {
   console.log('state.missions in MissionResultContainer', state.mission.missions)
-  
+
   return {
     user: getUser(state),
     grades: computeGrades(ownProps.mission, ownProps.records, getRoster(state)),

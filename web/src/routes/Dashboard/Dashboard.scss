@@ -6,6 +6,7 @@
 }
 
 .dashboard__mission-name {
+  flex: 1;
   font-size: 2.5rem;
   margin-top: 1rem;
   margin-bottom: 1rem;
@@ -79,22 +80,33 @@
   border-left: 4px solid #f0f0f0;
 }
 
-.dashboard__launch-mission-button {
-  flex: 1;
-  height: auto;
-  border: none;
-  margin-left: 1rem;
-  font-weight: 500;
-  text-align: left;
+.dashboard__launch-mission-bulk-button {
+  margin-right: 1rem;
   max-width: 200px;
   font-size: .875rem;
-  margin-bottom: 1.5rem;
-  line-height: 1.3;
-  padding: .55rem .5rem .75rem .5rem;
+  font-weight: 600;
+  margin-bottom: 0;
+  padding: .5em 1em;
+  border: 1px solid #aaa;
+  border-radius: 3px;
   background: $app-blue-2;
 }
 
-.dashboard__launch-mission-button:hover {
+.button.dashboard__launch-mission-bulk-button-disabled {
+  margin-right: 1rem;
+  max-width: 200px;
+  font-size: .875rem;
+  font-weight: 600;
+  margin-bottom: 0;
+  padding: .5em 1em;
+  border: 1px solid #aaa;
+  border-radius: 3px;
+  background: #6c6c6c;
+  pointer-events: none;
+  opacity: 1;
+}
+
+.dashboard__launch-mission-bulk-button:hover {
   background: lighten($app-blue-2, 10%);
 }
 

@@ -9,8 +9,8 @@ import OutcomeResult from '../OutcomeResult'
 import EditPhaseII from '../EditPhaseII'
 
 import {missionConfig} from 'fbw-platform-common/reducers/Mission'
-import {getD2LDisplayName, getD2LUserIdentifier} from 'fbw-platform-common/selectors/login'
-import {computeRecommendation} from '../../../MissionEdit/selectors/recommendMissionSelector'
+// import {getD2LDisplayName, getD2LUserIdentifier} from 'fbw-platform-common/selectors/login'
+// import {computeRecommendation} from '../../../MissionEdit/selectors/recommendMissionSelector'
 
 
 import './MissionResult.scss'
@@ -98,24 +98,25 @@ class MissionResult extends Component {
 
   // Launches a Phase II mission
   _onClickCreateMission(student) {
-    let recommendation = computeRecommendation(student, this.props.records, this.props.currentMission);
-
-    let newMission = _.assign({}, this.props.currentMission, {
-      displayName: `${this.props.currentMission.displayName} Phase II`,
-      description: `for ${getD2LDisplayName(student)}`,
-      type: missionConfig.PHASE_II_MISSION_TYPE,
-      startTime: new Date(),
-      deadline: moment().add(3, 'days'),
-      followsFromMissions: [this.props.currentMission.id],
-      goals: recommendation.goals,
-      userId: getD2LUserIdentifier(student),
-      questions: null
-    })
-
-    console.log('newMission', newMission)
+    // let recommendation = computeRecommendation(student, this.props.records, this.props.currentMission);
+    //
+    // let newMission = _.assign({}, this.props.currentMission, {
+    //   displayName: `${this.props.currentMission.displayName} Phase II`,
+    //   description: `for ${getD2LDisplayName(student)}`,
+    //   type: missionConfig.PHASE_II_MISSION_TYPE,
+    //   startTime: new Date(),
+    //   deadline: moment().add(3, 'days'),
+    //   followsFromMissions: [this.props.currentMission.id],
+    //   goals: recommendation.goals,
+    //   userId: getD2LUserIdentifier(student),
+    //   questions: null
+    // })
+    //
+    // console.log('newMission', newMission)
     // console.log('currentMission', this.props.currentMission)
 
-    this.props.onCreateMissions([newMission], this.props.currentCourse, student);
+    // this.props.onCreateMissions([newMission], this.props.currentCourse, this.props.user);
+    this.props.onCreateMissions([student]);
   }
 
   _onClickEditMission(mission) {

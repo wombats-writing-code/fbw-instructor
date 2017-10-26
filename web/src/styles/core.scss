@@ -33,9 +33,11 @@ button:focus {
   outline: none;
 }
 
-button:disabled, button:disabled:hover {
+button:disabled,
+button:disabled:hover,
+button[disabled] {
   cursor: default;
-  opacity: .5;
+  opacity: 1;
   background: #777;
 }
 
