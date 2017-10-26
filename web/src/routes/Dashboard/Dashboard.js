@@ -1,10 +1,13 @@
-import React, {Component} from 'react'
-import {browserHistory} from 'react-router'
+import _ from 'lodash'
+import React, { Component } from 'react'
 import moment from 'moment'
 import $ from 'jquery'
-import {missionConfig} from '@wombats-writing-code/fbw-platform-common/reducers/Mission'
+
+import { missionConfig } from '@wombats-writing-code/fbw-platform-common/reducers/Mission'
 import LoadingBox from '@wombats-writing-code/fbw-platform-common/components/loading-box/web/'
-import {parseResults} from './selectors/resultsSelector'
+import { parseResults } from './selectors/resultsSelector'
+import { getD2LDisplayName, getD2LUserIdentifier } from '@wombats-writing-code/fbw-platform-common/selectors/login'
+import { computeRecommendation } from '../MissionEdit/selectors/recommendMissionSelector'
 
 import MissionResult from './components/MissionResult'
 import './Dashboard.scss'
@@ -21,21 +24,21 @@ class Dashboard extends Component {
 
   componentDidMount() {
     // make sure the dashboard shows Phase I missions only
-    this.props.onResetDashboardMission(this.props.mission);
+    this.props.onResetDashboardMission(this.props.mission)
 
     // let timelineHeight =
     setTimeout(() => {
-      let phase2Results = $('#phase2Results').position();
+      let phase2Results = $('#phase2Results').position()
       if (phase2Results) {
         this.setState({
           phaseIIPositionStyle: {
             transform: `translateY(${phase2Results.top}px)`
           }
-        });
+        })
       }
 
       // console.log('phaseIIPositionStyle', phase2Results.top);
-    }, 300);
+    }, 300)
 
     if (!this.props.resultsByMission) {
       this.props.onClickRefreshResults(this.props.mission, this.props.user)
@@ -43,9 +46,9 @@ class Dashboard extends Component {
   }
 
   render() {
-    let props = this.props;
+    let props = this.props
 
-    let loadingBox;
+    let loadingBox
     if (this.props.isGetResultsInProgress) {
       loadingBox = LoadingBox('enter-active')
     } else {
@@ -58,24 +61,25 @@ class Dashboard extends Component {
       </div>)
     };
 
-
-    let phaseIResults, recommendationView;
+    let phaseIResults;
     if (props.mission && !this.props.isGetResultsInProgress && !this.props.isGetMissionsInProgress) {
       phaseIResults = (
-          <div>
-            <p className="dashboard__timeline-point__text">
-              <b>Phase I</b> &thinsp;
-              {moment(props.mission.startTime).format('h:mm a ddd M/D')}
-              &mdash;
-              {moment(props.mission.deadline).format('h:mm a ddd M/D')}
-            </p>
-            <MissionResult result={this._getResults(props.mission, missionConfig.PHASE_I_MISSION_TYPE)}
-                          records={this._getRecords(props.mission, missionConfig.PHASE_I_MISSION_TYPE)}
-                          mission={props.mission}
-                          isGetResultsInProgress={props.isGetResultsInProgress}
-                        />
-          </div>
-        )
+        <div>
+          <p className="dashboard__timeline-point__text">
+            <b>Phase I</b> &thinsp;
+            {moment(props.mission.startTime).format('h:mm a ddd M/D')}
+            &mdash;
+            {moment(props.mission.deadline).format('h:mm a ddd M/D')}
+          </p>
+          <MissionResult
+            result={this._getResults(props.mission, missionConfig.PHASE_I_MISSION_TYPE)}
+            records={this._getRecords(props.mission, missionConfig.PHASE_I_MISSION_TYPE)}
+            mission={props.mission}
+            isGetResultsInProgress={props.isGetResultsInProgress}
+            onCreateMissions={this._onCreateMissionsForStudents}
+          />
+        </div>
+      )
     }
 
     let phase2Missions = _.map(props.mission.leadsToMissions, id => _.find(props.missions, {id: id}));
@@ -83,31 +87,29 @@ class Dashboard extends Component {
 
     let launchMissionButtonText;
     if (this.props.isCreateMissionInProgress) {
-      launchMissionButtonText = 'Working...';
-
+      launchMissionButtonText = 'Working...'
     } else if (phase2Missions && phase2Missions.length > 0) {
-      launchMissionButtonText = 'Phase II launched';
-
+      launchMissionButtonText = 'Phase II launched'
     } else if ((!phase2Missions || phase2Missions.length === 0)) {
-      launchMissionButtonText = 'Launch Phase II for everyone';
+      launchMissionButtonText = 'Launch all Phase II\'s'
     }
 
-
-    let phase2Results;
+    let phase2Results
     if (phase2Missions && phase2Missions.length > 0) {
       phase2Results = (
         <div>
           <p className="dashboard__timeline-point__text">
-          <b>Phase II</b> &thinsp;
-        </p>
-          <MissionResult result={this._getResults(props.mission, missionConfig.PHASE_II_MISSION_TYPE)}
-                        records={this._getRecords(props.mission, missionConfig.PHASE_II_MISSION_TYPE)}
-                    mission={this.props.mission}
-                    missionType={missionConfig.PHASE_II_MISSION_TYPE}
-                    isGetResultsInProgress={props.isGetResultsInProgress}/>
+            <b>Phase II</b> &thinsp;
+          </p>
+          <MissionResult
+            result={this._getResults(props.mission, missionConfig.PHASE_II_MISSION_TYPE)}
+            records={this._getRecords(props.mission, missionConfig.PHASE_II_MISSION_TYPE)}
+            mission={this.props.mission}
+            missionType={missionConfig.PHASE_II_MISSION_TYPE}
+            isGetResultsInProgress={props.isGetResultsInProgress}
+          />
         </div>
       )
-
     } else if (!this.props.isGetMissionsInProgress) {
       phase2Results = (
         <div className="flex-container align-center space-between">
@@ -120,6 +122,26 @@ class Dashboard extends Component {
       )
     }
 
+    let launchAllPhaseIIButton = (
+      <button
+        className="button dashboard__launch-mission-bulk-button-disabled"
+        disabled>
+          {launchMissionButtonText}
+      </button>
+    );
+
+    // If the deadline is passed and there are no existing Phase II
+    //   missions, show a button for launching them.
+    if (this._canLaunchPhaseIIBulk()) {
+      launchAllPhaseIIButton = (
+        <button
+          className="button dashboard__launch-mission-bulk-button"
+          onClick={() => this._onCreateMissions()}>
+            {launchMissionButtonText}
+        </button>
+      )
+    }
+
     return (
       <div className="">
         <div className="row dashboard__title">
@@ -127,6 +149,7 @@ class Dashboard extends Component {
             <p className="dashboard__mission-name">
               {this.props.mission ? this.props.mission.displayName : ''} &nbsp;
             </p>
+            {launchAllPhaseIIButton}
             <button className="button refresh-button"
                     disabled={this.props.isGetResultsInProgress}
                     onClick={() => this.props.onClickRefreshResults(props.mission, props.user)}>
@@ -151,6 +174,59 @@ class Dashboard extends Component {
         </div>
       </div>
     )
+  }
+
+  _canLaunchPhaseIIBulk() {
+    const records = this._getRecords(this.props.mission, missionConfig.PHASE_I_MISSION_TYPE)
+    if (this.props.mission.type === missionConfig.PHASE_I_MISSION_TYPE &&
+        this.props.mission.leadsToMissions.length === 0 &&
+        this.props.mission.leadsToMissionsDeadline &&
+        records &&
+        records.length > 0) {
+      return true
+    }
+    return false
+  }
+
+  _onCreateMissions() {
+    // This gets a list of the students who took phase 1
+    //   and then calls the helper method
+    //   ````this._onCreateMissionsForStudents````
+    //   and passes it the list of students.
+    const records = this._getRecords(this.props.mission, missionConfig.PHASE_I_MISSION_TYPE)
+    const students = _.uniqBy(_.map(records, 'user'), 'Identifier');
+    this._onCreateMissionsForStudents(students);
+  }
+
+  _onCreateMissionsForStudents = (students) => {
+    // This computes the recommendation for each student,
+    //   and then calls the reducers.
+    if (!this.props.mission.leadsToMissionsDeadline) {
+      throw Error('Somehow you clicked Launch All Phase II\'s but there is no deadline set.')
+    }
+
+    let newMissions = _.map(students, (student) => {
+      const records = this._getRecords(this.props.mission, missionConfig.PHASE_I_MISSION_TYPE)
+      console.log('records', records)
+      let recommendation = computeRecommendation(student, records, this.props.mission);
+      console.log('recommendation', recommendation)
+      let newMission = _.assign({}, {
+        displayName: `${this.props.mission.displayName} Phase II`,
+        description: `for ${getD2LDisplayName(student)}`,
+        type: missionConfig.PHASE_II_MISSION_TYPE,
+        startTime: new Date(),
+        deadline: this.props.mission.leadsToMissionsDeadline,  // make this a moment obj?
+        followsFromMissions: [this.props.mission.id],
+        goals: recommendation.goals,
+        userId: getD2LUserIdentifier(student),
+        questions: null
+      })
+
+      console.log('newMission', newMission)
+      return newMission
+    })
+
+    this.props.onCreateMissions(newMissions, this.props.currentCourse, this.props.user);
   }
 
   _getLeadsToMission(mission) {
