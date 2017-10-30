@@ -7,8 +7,8 @@ import _ from 'lodash'
 import ReactTable from 'react-table'
 import 'react-table/react-table.css'
 
-import {missionConfig} from 'fbw-platform-common/reducers/Mission'
-import {getD2LDisplayName, getD2LDisplayNameLastFirst} from 'fbw-platform-common/selectors/login'
+import {missionConfig} from '@wombats-writing-code/fbw-platform-common/reducers/Mission'
+import {getD2LDisplayName, getD2LDisplayNameLastFirst} from '@wombats-writing-code/fbw-platform-common/selectors/login'
 import LaunchPhaseII from '../LaunchPhaseII'
 import './GradesTable.scss'
 

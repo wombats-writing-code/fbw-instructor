@@ -1,9 +1,9 @@
 import React, {Component} from 'react'
 import moment from 'moment'
 import $ from 'jquery'
-import {missionConfig} from 'fbw-platform-common/reducers/Mission'
+import {missionConfig} from '@wombats-writing-code/fbw-platform-common/reducers/Mission'
 import ResultsView from './containers/ResultsViewContainer'
-import LoadingBox from 'fbw-platform-common/components/loading-box/web/'
+import LoadingBox from '@wombats-writing-code/fbw-platform-common/components/loading-box/web/'
 import {parseResults} from './selectors/resultsSelector'
 import './Dashboard.scss'
 

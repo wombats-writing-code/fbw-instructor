@@ -2,11 +2,11 @@ import { connect } from 'react-redux'
 import Dashboard from './Dashboard'
 
 import {changeView, changeMouseOver, changeClick} from '../../reducers/view'
-import {getResults, getResultsBulk} from 'fbw-platform-common/reducers/Result/getResults'
-import {getUser} from 'fbw-platform-common/selectors'
-import {getRoster} from 'fbw-platform-common/selectors/course'
-import {editMission} from 'fbw-platform-common/reducers/edit-mission/editMission'
-import {resetDashboardMission} from 'fbw-platform-common/reducers/Mission/resetDashboardMission'
+import {getResults, getResultsBulk} from '@wombats-writing-code/fbw-platform-common/reducers/Result/getResults'
+import {getUser} from '@wombats-writing-code/fbw-platform-common/selectors'
+import {getRoster} from '@wombats-writing-code/fbw-platform-common/selectors/course'
+import {editMission} from '@wombats-writing-code/fbw-platform-common/reducers/edit-mission/editMission'
+import {resetDashboardMission} from '@wombats-writing-code/fbw-platform-common/reducers/Mission/resetDashboardMission'
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {

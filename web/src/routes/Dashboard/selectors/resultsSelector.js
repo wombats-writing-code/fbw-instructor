@@ -3,10 +3,10 @@ import _ from 'lodash'
 import moment from 'moment'
 import 'moment-timezone'
 
-// import { getMapping } from 'fbw-platform-common/selectors'
-import { isTarget, numberAttemptedTargets } from 'fbw-platform-common/selectors/mission'
-// import { getRoster } from 'fbw-platform-common/selectors/course'
-// import { missionConfig } from 'fbw-platform-common/reducers/Mission'
+// import { getMapping } from '@wombats-writing-code/fbw-platform-common/selectors'
+import { isTarget, numberAttemptedTargets } from '@wombats-writing-code/fbw-platform-common/selectors/mission'
+// import { getRoster } from '@wombats-writing-code/fbw-platform-common/selectors/course'
+// import { missionConfig } from '@wombats-writing-code/fbw-platform-common/reducers/Mission'
 
 /**
   computes the number of points students got on a mission
@@ -110,7 +110,7 @@ export const sortRecordsByOutcome = (targetRecords) => {
 }
 
 export const numberAchievedGoals = (targetRecords) => {
-  // Consider moving this to fbw-platform-common
+  // Consider moving this to @wombats-writing-code/fbw-platform-common
   // Takes in the student records, and calculates how many
   //   of the goals were mastered -- all the target questions
   //   sharing the same outcome were answered correctly on

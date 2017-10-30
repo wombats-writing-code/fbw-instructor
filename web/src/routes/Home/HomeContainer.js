@@ -5,14 +5,14 @@ import Home from './Home'
 
 const D2LConfig = require('../../D2LConfig');
 
-import {selectCourse} from 'fbw-platform-common/reducers/Course/selectCourse'
-import {getItems} from 'fbw-platform-common/reducers/Course/getItems'
-import {getD2LClassRoster} from 'fbw-platform-common/reducers/Course/getD2LClassRoster'
+import {selectCourse} from '@wombats-writing-code/fbw-platform-common/reducers/Course/selectCourse'
+import {getItems} from '@wombats-writing-code/fbw-platform-common/reducers/Course/getItems'
+import {getD2LClassRoster} from '@wombats-writing-code/fbw-platform-common/reducers/Course/getD2LClassRoster'
 
 import {changeView} from '../../reducers/view'
 
-import {getUser} from 'fbw-platform-common/selectors'
-import {getCurrentCourse} from 'fbw-platform-common/selectors/course'
+import {getUser} from '@wombats-writing-code/fbw-platform-common/selectors'
+import {getCurrentCourse} from '@wombats-writing-code/fbw-platform-common/selectors/course'
 
 
 const mapStateToProps = (state, ownProps) => {

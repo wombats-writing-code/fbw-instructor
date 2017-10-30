@@ -1,5 +1,5 @@
-import LoginComponent from 'fbw-platform-common/components/login/web/Login';
-import LoginContainer from 'fbw-platform-common/components/login/LoginContainer'
+import LoginComponent from '@wombats-writing-code/fbw-platform-common/components/login/web/Login';
+import LoginContainer from '@wombats-writing-code/fbw-platform-common/components/login/LoginContainer'
 import D2LConfig from '../../D2LConfig'
 const Login = LoginContainer(LoginComponent, D2LConfig)
 

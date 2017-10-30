@@ -4,17 +4,17 @@ import slug from 'slug'
 
 import Missions from './Missions'
 
-import {getMapping} from 'fbw-platform-common/reducers/Mapping/getMapping'
-import {getMissions} from 'fbw-platform-common/reducers/Mission/getMissions'
+import {getMapping} from '@wombats-writing-code/fbw-platform-common/reducers/Mapping/getMapping'
+import {getMissions} from '@wombats-writing-code/fbw-platform-common/reducers/Mission/getMissions'
 
 import {changeView} from '../../reducers/view'
-import {getResults, getResultsBulk} from 'fbw-platform-common/reducers/Result/getResults'
-import {getUser} from 'fbw-platform-common/selectors'
-import {getRoster, getCurrentCourse} from 'fbw-platform-common/selectors/course'
-import {editMission} from 'fbw-platform-common/reducers/edit-mission/editMission'
-import {selectMission} from 'fbw-platform-common/reducers/Mission/selectMission'
-import {deleteMission} from 'fbw-platform-common/reducers/edit-mission/deleteMission'
-import {clickAddMission} from 'fbw-platform-common/reducers/edit-mission/clickAddMission'
+import {getResults, getResultsBulk} from '@wombats-writing-code/fbw-platform-common/reducers/Result/getResults'
+import {getUser} from '@wombats-writing-code/fbw-platform-common/selectors'
+import {getRoster, getCurrentCourse} from '@wombats-writing-code/fbw-platform-common/selectors/course'
+import {editMission} from '@wombats-writing-code/fbw-platform-common/reducers/edit-mission/editMission'
+import {selectMission} from '@wombats-writing-code/fbw-platform-common/reducers/Mission/selectMission'
+import {deleteMission} from '@wombats-writing-code/fbw-platform-common/reducers/edit-mission/deleteMission'
+import {clickAddMission} from '@wombats-writing-code/fbw-platform-common/reducers/edit-mission/clickAddMission'
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {

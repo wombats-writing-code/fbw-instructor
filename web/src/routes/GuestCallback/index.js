@@ -1,5 +1,5 @@
-import GuestCallbackContainer from 'fbw-platform-common/components/guest-callback/GuestCallbackContainer'
-import GuestCallbackComponent from 'fbw-platform-common/components/guest-callback/web/GuestCallback'
+import GuestCallbackContainer from '@wombats-writing-code/fbw-platform-common/components/guest-callback/GuestCallbackContainer'
+import GuestCallbackComponent from '@wombats-writing-code/fbw-platform-common/components/guest-callback/web/GuestCallback'
 import GuestConfig from '../../D2LConfig'
 const GuestCallback = GuestCallbackContainer(GuestCallbackComponent, GuestConfig);
 

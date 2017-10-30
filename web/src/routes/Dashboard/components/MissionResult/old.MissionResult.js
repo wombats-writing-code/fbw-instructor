@@ -3,7 +3,7 @@ import _ from 'lodash'
 import pluralize from 'pluralize'
 const ProgressBar = require('progressbar.js')
 
-import EmptyState from 'fbw-platform-common/components/empty-state/web/EmptyState'
+import EmptyState from '@wombats-writing-code/fbw-platform-common/components/empty-state/web/EmptyState'
 import OutcomesView from './OutcomesView'
 import GradesTable from '../components/GradesTable'
 

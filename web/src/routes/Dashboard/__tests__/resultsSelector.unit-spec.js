@@ -134,7 +134,7 @@ describe('(resultsSelector) filterReviewOutcomes', () => {
   });
 })
 
-// Moved to fbw-platform-common
+// Moved to @wombats-writing-code/fbw-platform-common
 // describe('numberUnansweredTargets selector', () => {
 //
 //   it(`should calculate 0 targets remaining when all responded`, function(done) {
@@ -197,7 +197,7 @@ describe('(resultsSelector) filterReviewOutcomes', () => {
 //
 // })
 
-// Moved to fbw-platform-common
+// Moved to @wombats-writing-code/fbw-platform-common
 // describe('numberAttemptedTargets selector', () => {
 //
 //   it(`should calculate 3 attempted targets when all responded`, function(done) {

@@ -1,5 +1,5 @@
-import D2LCallbackContainer from 'fbw-platform-common/components/d2l-callback/D2LCallbackContainer'
-import D2LCallbackComponent from 'fbw-platform-common/components/d2l-callback/web/D2LCallback'
+import D2LCallbackContainer from '@wombats-writing-code/fbw-platform-common/components/d2l-callback/D2LCallbackContainer'
+import D2LCallbackComponent from '@wombats-writing-code/fbw-platform-common/components/d2l-callback/web/D2LCallback'
 import D2LConfig from '../../D2LConfig'
 const D2LCallback = D2LCallbackContainer(D2LCallbackComponent, D2LConfig);
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import NavBar from 'fbw-platform-common/components/nav-bar/web'
+import NavBar from '@wombats-writing-code/fbw-platform-common/components/nav-bar/web'
 import { LiveAnnouncer } from 'react-aria-live'
 import './CoreLayout.scss'
 import '../../styles/core.scss'

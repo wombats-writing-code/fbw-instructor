@@ -1,14 +1,14 @@
 import React, {Component} from 'react'
 import slug from 'slug'
 
-import EmptyState from 'fbw-platform-common/components/empty-state/web/'
-import MissionComponent from 'fbw-platform-common/components/mission/web/Mission'
-import MissionContainer from  'fbw-platform-common/components/mission/MissionContainer'
+import EmptyState from '@wombats-writing-code/fbw-platform-common/components/empty-state/web/'
+import MissionComponent from '@wombats-writing-code/fbw-platform-common/components/mission/web/Mission'
+import MissionContainer from  '@wombats-writing-code/fbw-platform-common/components/mission/MissionContainer'
 const Mission = MissionContainer(MissionComponent)
-import {getD2LDisplayName} from 'fbw-platform-common/selectors/login'
+import {getD2LDisplayName} from '@wombats-writing-code/fbw-platform-common/selectors/login'
 
-// import QuestionsComponent from 'fbw-platform-common/components/questions/web/Questions'
-// import QuestionContainer from  'fbw-platform-common/components/questions/QuestionsContainer'
+// import QuestionsComponent from '@wombats-writing-code/fbw-platform-common/components/questions/web/Questions'
+// import QuestionContainer from  '@wombats-writing-code/fbw-platform-common/components/questions/QuestionsContainer'
 // const Questions = QuestionContainer(QuestionsComponent)
 
 // import LoadingBox from '../../components/LoadingBox'

@@ -8,8 +8,8 @@ import GradesTable from '../GradesTable'
 import OutcomeResult from '../OutcomeResult'
 import EditPhaseII from '../EditPhaseII'
 
-import {missionConfig} from 'fbw-platform-common/reducers/Mission'
-import {getD2LDisplayName, getD2LUserIdentifier} from 'fbw-platform-common/selectors/login'
+import {missionConfig} from '@wombats-writing-code/fbw-platform-common/reducers/Mission'
+import {getD2LDisplayName, getD2LUserIdentifier} from '@wombats-writing-code/fbw-platform-common/selectors/login'
 import {computeRecommendation} from '../../../MissionEdit/selectors/recommendMissionSelector'
 
 

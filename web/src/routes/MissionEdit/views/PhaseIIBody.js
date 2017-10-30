@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import Select from 'react-select';
 import 'react-select/dist/react-select.css';
-import {getD2LDisplayName, getD2LUserIdentifier} from 'fbw-platform-common/selectors/login'
+import {getD2LDisplayName, getD2LUserIdentifier} from '@wombats-writing-code/fbw-platform-common/selectors/login'
 
 import SelectDirectives from './SelectDirectives';
 

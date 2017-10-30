@@ -4,7 +4,7 @@
 export const CHANGE_VIEW = 'CHANGE_VIEW'
 export const SELECT_DIRECTIVE = 'SELECT_DIRECTIVE'
 
-import {RECEIVE_CREATE_MISSION, RECEIVE_CREATE_MISSIONS} from 'fbw-platform-common/reducers/edit-mission/'
+import {RECEIVE_CREATE_MISSION, RECEIVE_CREATE_MISSIONS} from '@wombats-writing-code/fbw-platform-common/reducers/edit-mission/'
 // ------------------------------------
 // Actions
 // ------------------------------------

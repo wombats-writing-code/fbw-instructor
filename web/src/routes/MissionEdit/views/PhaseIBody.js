@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 
-import {getD2LDisplayName, getD2LUserIdentifier} from 'fbw-platform-common/selectors/login'
+import {getD2LDisplayName, getD2LUserIdentifier} from '@wombats-writing-code/fbw-platform-common/selectors/login'
 import VisualizeEntity from './VisualizeEntity'
 import SelectDirectives from './SelectDirectives';
 

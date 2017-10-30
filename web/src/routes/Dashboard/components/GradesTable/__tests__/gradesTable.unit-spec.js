@@ -4,7 +4,7 @@ let chai = require('chai');
 let should = chai.should();
 import ReactTable from 'react-table'
 
-import {missionConfig} from 'fbw-platform-common/reducers/Mission'
+import {missionConfig} from '@wombats-writing-code/fbw-platform-common/reducers/Mission'
 import GradesTable    from '../GradesTable';
 import LaunchPhaseII from '../../LaunchPhaseII';
 

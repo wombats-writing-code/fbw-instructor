@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { browserHistory, Router } from 'react-router'
 import { Provider } from 'react-redux'
 
-import {isLoggedIn} from 'fbw-platform-common/selectors'
+import {isLoggedIn} from '@wombats-writing-code/fbw-platform-common/selectors'
 
 // import '../styles/foundation.min.css';
 import '../styles/core.scss';

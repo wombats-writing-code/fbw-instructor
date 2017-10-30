@@ -6,10 +6,10 @@ import {browserHistory} from 'react-router'
 import Datetime from 'react-datetime'
 require('./react-datetime.css')
 
-import EmptyState from 'fbw-platform-common/components/empty-state/web/EmptyState'
-import LoadingBox from 'fbw-platform-common/components/loading-box/web/LoadingBox'
-import {missionConfig} from 'fbw-platform-common/reducers/Mission'
-import {getD2LDisplayName, getD2LUserIdentifier} from 'fbw-platform-common/selectors/login'
+import EmptyState from '@wombats-writing-code/fbw-platform-common/components/empty-state/web/EmptyState'
+import LoadingBox from '@wombats-writing-code/fbw-platform-common/components/loading-box/web/LoadingBox'
+import {missionConfig} from '@wombats-writing-code/fbw-platform-common/reducers/Mission'
+import {getD2LDisplayName, getD2LUserIdentifier} from '@wombats-writing-code/fbw-platform-common/selectors/login'
 
 import PhaseIBody from './views/PhaseIBody'
 import PhaseIIBody from './views/PhaseIIBody'

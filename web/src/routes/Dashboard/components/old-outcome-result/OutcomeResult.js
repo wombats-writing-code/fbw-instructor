@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
-import QuestionCard from 'fbw-platform-common/components/question-card/web/QuestionCard'
+import QuestionCard from '@wombats-writing-code/fbw-platform-common/components/question-card/web/QuestionCard'
 import StudentLink from '../StudentLink'
 
-// import {getChoiceAlphabet} from 'fbw-platform-common/'
+// import {getChoiceAlphabet} from '@wombats-writing-code/fbw-platform-common/'
 
 import './OutcomeResult.scss'
 

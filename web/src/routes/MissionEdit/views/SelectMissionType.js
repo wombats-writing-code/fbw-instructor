@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {missionConfig} from 'fbw-platform-common/reducers/Mission'
+import {missionConfig} from '@wombats-writing-code/fbw-platform-common/reducers/Mission'
 
 
 const SelectMissionType = (props) => {

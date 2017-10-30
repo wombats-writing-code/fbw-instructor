@@ -4,8 +4,8 @@ import pluralize from 'pluralize'
 const ProgressBar = require('progressbar.js')
 import Spinner from 'react-spinner'
 
-import LoadingBox from 'fbw-platform-common/components/loading-box/web/'
-import EmptyState from 'fbw-platform-common/components/empty-state/web/EmptyState'
+import LoadingBox from '@wombats-writing-code/fbw-platform-common/components/loading-box/web/'
+import EmptyState from '@wombats-writing-code/fbw-platform-common/components/empty-state/web/EmptyState'
 import OutcomeResult from '../components/OutcomeResult'
 import GradesTable from '../components/GradesTable'
 

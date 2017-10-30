@@ -3,7 +3,7 @@ import { shallow }    from 'enzyme';
 let chai = require('chai');
 chai.should();
 
-import { missionConfig } from 'fbw-platform-common/reducers/Mission'
+import { missionConfig } from '@wombats-writing-code/fbw-platform-common/reducers/Mission'
 
 import Student    from '../Student';
 

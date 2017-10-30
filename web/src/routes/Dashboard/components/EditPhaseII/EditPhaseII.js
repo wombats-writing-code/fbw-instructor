@@ -7,8 +7,8 @@ import Modal from 'react-modal'
 import Datetime from 'react-datetime'
 // require('./react-datetime.css')
 
-import {missionConfig} from 'fbw-platform-common/reducers/Mission'
-import {getD2LDisplayName, getD2LDisplayNameLastFirst} from 'fbw-platform-common/selectors/login'
+import {missionConfig} from '@wombats-writing-code/fbw-platform-common/reducers/Mission'
+import {getD2LDisplayName, getD2LDisplayNameLastFirst} from '@wombats-writing-code/fbw-platform-common/selectors/login'
 
 import './EditPhaseII.scss'
 

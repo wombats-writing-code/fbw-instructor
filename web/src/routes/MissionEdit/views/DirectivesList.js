@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import pluralize from 'pluralize'
 
-import QuestionCard from 'fbw-platform-common/components/question-card/web/QuestionCard'
+import QuestionCard from '@wombats-writing-code/fbw-platform-common/components/question-card/web/QuestionCard'
 import './DirectivesList.scss'
 
 import {getOutcomeModule, isRootOutcome} from '../selectors/'

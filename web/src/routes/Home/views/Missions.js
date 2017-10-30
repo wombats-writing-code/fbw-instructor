@@ -1,8 +1,8 @@
 import React, {Component} from 'react'
 import _ from 'lodash';
 const moment = require('moment');
-import EmptyState from 'fbw-platform-common/components/empty-state/web/'
-import LoadingBox from 'fbw-platform-common/components/loading-box/web/'
+import EmptyState from '@wombats-writing-code/fbw-platform-common/components/empty-state/web/'
+import LoadingBox from '@wombats-writing-code/fbw-platform-common/components/loading-box/web/'
 
 class Missions extends Component {
 

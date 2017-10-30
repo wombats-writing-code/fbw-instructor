@@ -3,9 +3,9 @@ import _ from 'lodash'
 import 'moment'
 import 'moment-timezone'
 
-import {getMapping} from 'fbw-platform-common/selectors'
-import {getRoster} from 'fbw-platform-common/selectors/course'
-import {isTarget} from 'fbw-platform-common/selectors/mission'
+import {getMapping} from '@wombats-writing-code/fbw-platform-common/selectors'
+import {getRoster} from '@wombats-writing-code/fbw-platform-common/selectors/course'
+import {isTarget} from '@wombats-writing-code/fbw-platform-common/selectors/mission'
 
 const getRecords = (state) => {
   return _.map(state.editMission.newMission.followsFromMissions, missionId => {
