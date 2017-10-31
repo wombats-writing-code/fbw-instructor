@@ -1,7 +1,7 @@
 import React from 'react'
 import MissionEdit from '../MissionEdit'
 import { mount, shallow } from 'enzyme'
-import { missionConfig } from 'fbw-platform-common/reducers/Mission'
+import { missionConfig } from '@wombats-writing-code/fbw-platform-common/reducers/Mission'
 
 import '../../../styles/foundation.min.css'
 import '../../../styles/core.scss'
@@ -29,7 +29,7 @@ describe('MissionEdit', () => {
     }
   })
 
-  it('should render three date inputs for Phase I mission type on create', () => {
+  it('should render four date inputs for Phase I mission type on create', () => {
     const div = global.document.createElement('div')
     global.document.body.appendChild(div)
 
@@ -40,12 +40,12 @@ describe('MissionEdit', () => {
       { attachTo: div }
     )
 
-    missionEdit.find('.rdt').length.should.be.eql(3)
+    missionEdit.find('.rdt').length.should.be.eql(4)
 
     missionEdit.detach()
   })
 
-  it('should render three date inputs for Phase I mission type on edit', () => {
+  it('should render four date inputs for Phase I mission type on edit', () => {
     const div = global.document.createElement('div')
     global.document.body.appendChild(div)
 
@@ -57,7 +57,7 @@ describe('MissionEdit', () => {
       { attachTo: div }
     )
 
-    missionEdit.find('.rdt').length.should.be.eql(3)
+    missionEdit.find('.rdt').length.should.be.eql(4)
 
     missionEdit.detach()
   })

@@ -53,8 +53,8 @@ class MissionEdit extends Component {
       let dateInputs;
 
       if (props.newMission.type === missionConfig.PHASE_I_MISSION_TYPE) {
-        // If creating / editing a new Phase I mission, need to have 3 date fields.
-        //   Two for the Phase I, one for the Phase II deadline.
+        // If creating / editing a new Phase I mission, need to have 4 date fields.
+        //   Two for the Phase I, two for the Phase II.
         dateInputs = (
           <div className="form-section">
             <label className="form-label">Phase I Dates</label>
@@ -72,9 +72,14 @@ class MissionEdit extends Component {
               </div>
             </div>
             <div className="divider-row" />
-            <label className="form-label">Phase II Deadline</label>
+            <label className="form-label">Phase II Dates</label>
             <div className="row">
-              <div className="datetime medium-6 columns" />
+              <div className="datetime medium-6 columns">
+                <Datetime inputProps={{placeholder: "Phase II start date & time"}}
+                         value={moment(props.newMission.leadsToMissionsStartTime || null)}
+                         dateFormat={true}
+                         onChange={(momentObj) => this.props.onChangeMissionLeadsToStartTime(momentObj)}  />
+              </div>
               <div className="datetime medium-6 columns">
                 <Datetime inputProps={{placeholder: "Phase II deadline date & time"}}
                          value={moment(props.newMission.leadsToMissionsDeadline || null)}
@@ -181,6 +186,11 @@ class MissionEdit extends Component {
     if (props.newMission.type === missionConfig.PHASE_I_MISSION_TYPE &&
         !props.newMission.leadsToMissionsDeadline) {
       return this.setState({deadlineError: 'You must set a Phase II deadline.'})
+    }
+
+    if (props.newMission.type === missionConfig.PHASE_I_MISSION_TYPE &&
+        !props.newMission.leadsToMissionsStartTime) {
+      return this.setState({startTimeError: 'You must set a Phase II start time.'})
     }
 
     if (props.editView === 'edit') {

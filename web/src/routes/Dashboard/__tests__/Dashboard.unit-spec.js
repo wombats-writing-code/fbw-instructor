@@ -2,7 +2,7 @@ import React from 'react'
 import moment from 'moment'
 import Dashboard from '../Dashboard'
 import { shallow } from 'enzyme'
-import { missionConfig } from 'fbw-platform-common/reducers/Mission'
+import { missionConfig } from '@wombats-writing-code/fbw-platform-common/reducers/Mission'
 
 import '../../../styles/foundation.min.css'
 import '../../../styles/core.scss'
@@ -20,7 +20,26 @@ const PHASE_I_MISSION_NOT_LAUNCHED_WITH_DEADLINE_SET = {
   goals: ['1', '2', '3']
 }
 
-const PHASE_I_MISSION_NOT_LAUNCHED_NO_DEADLINE = {
+const PHASE_I_MISSION_NOT_LAUNCHED_WITH_START_TIME_SET = {
+  displayName: 'phase 1',
+  leadsToMissions: [],
+  leadsToMissionsStartTime: moment().add(7, 'd'),
+  type: missionConfig.PHASE_I_MISSION_TYPE,
+  id: '1',
+  goals: ['1', '2', '3']
+}
+
+const PHASE_I_MISSION_NOT_LAUNCHED_WITH_BOTH_DATES_SET = {
+  displayName: 'phase 1',
+  leadsToMissions: [],
+  leadsToMissionsDeadline: moment().add(14, 'd'),
+  leadsToMissionsStartTime: moment().add(7, 'd'),
+  type: missionConfig.PHASE_I_MISSION_TYPE,
+  id: '1',
+  goals: ['1', '2', '3']
+}
+
+const PHASE_I_MISSION_NOT_LAUNCHED_NO_DATES = {
   displayName: 'phase 1',
   leadsToMissions: [],
   type: missionConfig.PHASE_I_MISSION_TYPE,
@@ -84,7 +103,7 @@ describe('Dashboard', () => {
   })
 
   it('should enable bulk launch phase 2 button if no phase 2 missions exist', () => {
-    props.mission = PHASE_I_MISSION_NOT_LAUNCHED_WITH_DEADLINE_SET
+    props.mission = PHASE_I_MISSION_NOT_LAUNCHED_WITH_BOTH_DATES_SET
 
     const dashboard = shallow(
       <Dashboard {...props} />
@@ -95,7 +114,29 @@ describe('Dashboard', () => {
   })
 
   it('should not enable bulk launch phase 2 button if no leadsToMissionsDeadline set', () => {
-    props.mission = PHASE_I_MISSION_NOT_LAUNCHED_NO_DEADLINE
+    props.mission = PHASE_I_MISSION_NOT_LAUNCHED_WITH_START_TIME_SET
+
+    const dashboard = shallow(
+      <Dashboard {...props} />
+    )
+
+    dashboard.find('.dashboard__launch-mission-bulk-button').length.should.be.eql(0)
+    dashboard.find('.dashboard__launch-mission-bulk-button-disabled').length.should.be.eql(1)
+  })
+
+  it('should not enable bulk launch phase 2 button if no leadsToMissionsStartTime set', () => {
+    props.mission = PHASE_I_MISSION_NOT_LAUNCHED_WITH_DEADLINE_SET
+
+    const dashboard = shallow(
+      <Dashboard {...props} />
+    )
+
+    dashboard.find('.dashboard__launch-mission-bulk-button').length.should.be.eql(0)
+    dashboard.find('.dashboard__launch-mission-bulk-button-disabled').length.should.be.eql(1)
+  })
+
+  it('should not enable bulk launch phase 2 button if no phase 2 dates set', () => {
+    props.mission = PHASE_I_MISSION_NOT_LAUNCHED_NO_DATES
 
     const dashboard = shallow(
       <Dashboard {...props} />
@@ -132,7 +173,8 @@ describe('Dashboard', () => {
     props.mission = {
       displayName: 'phase 1',
       leadsToMissions: [],
-      leadsToMissionsDeadline: moment().add(7, 'd'),
+      leadsToMissionsDeadline: moment().add(14, 'd'),
+      leadsToMissionsStartTime: moment().add(7, 'd'),
       type: missionConfig.PHASE_I_MISSION_TYPE,
       id: '5',  // in resultsByMission but no records -- should not happen.
       goals: ['1', '2', '3']
@@ -148,7 +190,8 @@ describe('Dashboard', () => {
     props.mission = {
       displayName: 'phase 1',
       leadsToMissions: [],
-      leadsToMissionsDeadline: moment().add(7, 'd'),
+      leadsToMissionsDeadline: moment().add(14, 'd'),
+      leadsToMissionsStartTime: moment().add(7, 'd'),
       type: missionConfig.PHASE_I_MISSION_TYPE,
       id: '6',  // not in resultsByMission
       goals: ['1', '2', '3']
@@ -163,7 +206,19 @@ describe('Dashboard', () => {
   })
 
   it('_onCreateMissionsForStudents should throw exception if no deadline for phase 2 set', () => {
-    props.mission = PHASE_I_MISSION_NOT_LAUNCHED_NO_DEADLINE
+    props.mission = PHASE_I_MISSION_NOT_LAUNCHED_WITH_START_TIME_SET
+
+    const dashboard = shallow(
+      <Dashboard {...props} />
+    )
+
+    should.throw(() => {
+      dashboard.instance()._onCreateMissionsForStudents([])
+    })
+  })
+
+  it('_onCreateMissionsForStudents should throw exception if no start time for phase 2 set', () => {
+    props.mission = PHASE_I_MISSION_NOT_LAUNCHED_WITH_DEADLINE_SET
 
     const dashboard = shallow(
       <Dashboard {...props} />
@@ -175,7 +230,7 @@ describe('Dashboard', () => {
   })
 
   it('should pass along unique list of students when calling _onCreateMissions', () => {
-    props.mission = PHASE_I_MISSION_NOT_LAUNCHED_WITH_DEADLINE_SET
+    props.mission = PHASE_I_MISSION_NOT_LAUNCHED_WITH_BOTH_DATES_SET
     props.resultsByMission = {
       '1': [stampUserRecord('123'),
         stampUserRecord('234'),
@@ -200,7 +255,7 @@ describe('Dashboard', () => {
   })
 
   it('should call props.onCreateMissions when calling _onCreateMissionsForStudents', () => {
-    props.mission = PHASE_I_MISSION_NOT_LAUNCHED_WITH_DEADLINE_SET
+    props.mission = PHASE_I_MISSION_NOT_LAUNCHED_WITH_BOTH_DATES_SET
     props.resultsByMission = {
       '1': [stampUserRecord('123'),
         stampUserRecord('234'),
@@ -220,7 +275,7 @@ describe('Dashboard', () => {
   })
 
   it('_onCreateMissionsForStudents should pass all args to props.onCreateMissions', () => {
-    props.mission = PHASE_I_MISSION_NOT_LAUNCHED_WITH_DEADLINE_SET
+    props.mission = PHASE_I_MISSION_NOT_LAUNCHED_WITH_BOTH_DATES_SET
     props.resultsByMission = {
       '1': [stampUserRecord('123'),
         stampUserRecord('234'),
@@ -261,7 +316,7 @@ describe('Dashboard', () => {
     // This is called from MissionResult, where the instructor has
     //   individual student-level control, so we need to make
     //   sure it could work.
-    props.mission = PHASE_I_MISSION_NOT_LAUNCHED_WITH_DEADLINE_SET
+    props.mission = PHASE_I_MISSION_NOT_LAUNCHED_WITH_BOTH_DATES_SET
     props.resultsByMission = {
       '1': [stampUserRecord('123'),
         stampUserRecord('234'),

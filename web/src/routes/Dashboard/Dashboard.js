@@ -181,6 +181,7 @@ class Dashboard extends Component {
     if (this.props.mission.type === missionConfig.PHASE_I_MISSION_TYPE &&
         this.props.mission.leadsToMissions.length === 0 &&
         this.props.mission.leadsToMissionsDeadline &&
+        this.props.mission.leadsToMissionsStartTime &&
         records &&
         records.length > 0) {
       return true
@@ -204,6 +205,9 @@ class Dashboard extends Component {
     if (!this.props.mission.leadsToMissionsDeadline) {
       throw Error('Somehow you clicked Launch All Phase II\'s but there is no deadline set.')
     }
+    if (!this.props.mission.leadsToMissionsStartTime) {
+      throw Error('Somehow you clicked Launch All Phase II\'s but there is no start time set.')
+    }
 
     let newMissions = _.map(students, (student) => {
       const records = this._getRecords(this.props.mission, missionConfig.PHASE_I_MISSION_TYPE)
@@ -214,7 +218,7 @@ class Dashboard extends Component {
         displayName: `${this.props.mission.displayName} Phase II`,
         description: `for ${getD2LDisplayName(student)}`,
         type: missionConfig.PHASE_II_MISSION_TYPE,
-        startTime: new Date(),
+        startTime: this.props.mission.leadsToMissionsStartTime,
         deadline: this.props.mission.leadsToMissionsDeadline,  // make this a moment obj?
         followsFromMissions: [this.props.mission.id],
         goals: recommendation.goals,
