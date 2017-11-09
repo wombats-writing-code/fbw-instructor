@@ -115,7 +115,7 @@ class MissionResult extends Component {
     console.log('newMission', newMission)
     // console.log('currentMission', this.props.currentMission)
 
-    this.props.onCreateMissions([newMission], this.props.currentCourse, student);
+    this.props.onCreateMissions([newMission], this.props.currentCourse, this.props.user);
   }
 
   _onClickEditMission(mission) {
