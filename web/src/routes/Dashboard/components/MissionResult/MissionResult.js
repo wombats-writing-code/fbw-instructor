@@ -1,12 +1,10 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react'
 import _ from 'lodash'
-import moment from 'moment'
-import pluralize from 'pluralize'
-const ProgressBar = require('progressbar.js')
 
 import GradesTable from '../GradesTable'
 import OutcomeResult from '../OutcomeResult'
 import EditPhaseII from '../EditPhaseII'
+import EditPhaseIIDates from '../EditPhaseIIDates'
 
 import { missionConfig } from '@wombats-writing-code/fbw-platform-common/reducers/Mission'
 // import {getD2LDisplayName, getD2LUserIdentifier} from '@wombats-writing-code/fbw-platform-common/selectors/login'
@@ -59,17 +57,28 @@ class MissionResult extends Component {
     }
 
     let editPhaseII;
+    console.log('props.isEditMissionDatesInProgress', props.isEditMissionDatesInProgress)
     if (props.isEditMissionInProgress) {
       editPhaseII = <EditPhaseII mission={props.currentEditMission}
                         outcomes={props.outcomes}
                         roster={props.roster}
                         isUpdateMissionInProgress={props.isUpdateMissionInProgress}
                         isDeleteMissionInProgress={props.isDeleteMissionInProgress}
-                        onChangeMissionStart={props.onChangeMissionStart} onChangeMissionEnd={props.onChangeMissionEnd}
+                        onChangeMissionStart={props.onChangeMissionStart}
+                        onChangeMissionEnd={props.onChangeMissionEnd}
                         onClickCancel={props.onClickCancelEditMission}
                         onDelete={(mission) => props.onClickDeleteEditMission(mission, props.user)}
                         onSave={(mission) => props.onClickSaveEditMission(mission, props.user)}
                       />
+    } else if (props.isEditMissionDatesInProgress) {
+      editPhaseII = <EditPhaseIIDates
+        mission={props.currentEditMission}
+        missions={props.missions}
+        onChangeMissionStart={props.onChangeMissionStart}
+        onChangeMissionEnd={props.onChangeMissionEnd}
+        onClickCancel={props.onClickCancelEditMissionDates}
+        onSave={(mission) => props.onClickSaveEditMission(mission, props.user)}
+      />
     }
 
     return (

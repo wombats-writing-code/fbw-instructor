@@ -98,8 +98,13 @@ class Dashboard extends Component {
     if (phase2Missions && phase2Missions.length > 0) {
       phase2Results = (
         <div>
-          <p className="dashboard__timeline-point__text">
-            <b>Phase II</b> &thinsp;
+          <p className="dashboard__timeline-point__text phase-ii-dashboard">
+            <span className="phase-ii-label"><b>Phase II</b> &thinsp;</span>
+            <button
+              className="button dashboard__launch-mission-edit-phase-ii-button"
+              onClick={() => this.props.onClickEditMissionDates(props.mission)}>
+                Edit All Phase IIs
+            </button>
           </p>
           <MissionResult
             result={this._getResults(props.mission, missionConfig.PHASE_II_MISSION_TYPE)}
@@ -107,6 +112,7 @@ class Dashboard extends Component {
             mission={this.props.mission}
             missionType={missionConfig.PHASE_II_MISSION_TYPE}
             isGetResultsInProgress={props.isGetResultsInProgress}
+            isEditMissionDatesInProgress={props.isEditMissionDatesInProgress}
           />
         </div>
       )
@@ -211,9 +217,9 @@ class Dashboard extends Component {
 
     let newMissions = _.map(students, (student) => {
       const records = this._getRecords(this.props.mission, missionConfig.PHASE_I_MISSION_TYPE)
-      console.log('records', records)
+      // console.log('records', records)
       let recommendation = computeRecommendation(student, records, this.props.mission);
-      console.log('recommendation', recommendation)
+      // console.log('recommendation', recommendation)
       let newMission = _.assign({}, {
         displayName: `${this.props.mission.displayName} Phase II`,
         description: `for ${getD2LDisplayName(student)}`,

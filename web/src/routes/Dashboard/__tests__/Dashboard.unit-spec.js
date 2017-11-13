@@ -296,7 +296,7 @@ describe('Dashboard', () => {
       missions[1].userId.should.eql('234')
       missions[2].userId.should.eql('345')
       course.should.eql(props.currentCourse)
-      user.should.eql(props.user)
+      user.should.eql(props.user)  // should use logged in user, not student
     }
 
     const dashboard = shallow(

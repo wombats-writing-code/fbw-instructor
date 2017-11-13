@@ -76,6 +76,20 @@
   text-align: left;
 }
 
+.phase-ii-dashboard {
+  display: flex;
+}
+
+.phase-ii-label {
+  flex: 1;
+}
+
+.phase-ii-dashboard .dashboard__launch-mission-edit-phase-ii-button {
+  padding: 0.5em 1em;
+  font-size: 0.875em;
+  margin: 0;
+}
+
 .mission-result-container {
   border-left: 4px solid #f0f0f0;
 }

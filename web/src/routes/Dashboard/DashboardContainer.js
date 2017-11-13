@@ -8,6 +8,9 @@ import { getCurrentCourse, getRoster } from '@wombats-writing-code/fbw-platform-
 import { editMission } from '@wombats-writing-code/fbw-platform-common/reducers/edit-mission/editMission'
 import { resetDashboardMission } from '@wombats-writing-code/fbw-platform-common/reducers/Mission/resetDashboardMission'
 import { createMissions } from '@wombats-writing-code/fbw-platform-common/reducers/edit-mission/createMission'
+import {
+  clickEditMissionDates
+} from '@wombats-writing-code/fbw-platform-common/reducers/edit-mission/clickEditMissionDates'
 
 
 const mapDispatchToProps = (dispatch, ownProps) => {
@@ -30,6 +33,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       dispatch(selectMission(mission));
       dispatch(changeView({name: 'dashboard.resultsView', mission: mission}))      // true default
     },
+    onClickEditMissionDates: mission => dispatch(clickEditMissionDates(mission)),
     onResetDashboardMission: (mission) => dispatch(resetDashboardMission(mission)),
     onCreateMissions: (newMissions, course, user) => dispatch(createMissions(newMissions, course, user)),
   }
