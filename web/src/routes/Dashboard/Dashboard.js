@@ -9,6 +9,7 @@ import { parseResults } from './selectors/resultsSelector'
 import { getD2LDisplayName, getD2LUserIdentifier } from '@wombats-writing-code/fbw-platform-common/selectors/login'
 import { computeRecommendation } from '../MissionEdit/selectors/recommendMissionSelector'
 
+import EditPhaseIIDates from './components/EditPhaseIIDates'
 import MissionResult from './components/MissionResult'
 import './Dashboard.scss'
 
@@ -148,8 +149,22 @@ class Dashboard extends Component {
       )
     }
 
+    // if want to bulk-edit the phase II dates, then show the modal
+    let editPhaseIIDates
+    if (props.isEditMissionDatesInProgress) {
+      editPhaseIIDates = <EditPhaseIIDates
+        mission={props.currentEditMission}
+        missions={props.missions}
+        onChangeMissionStart={props.onChangeMissionStart}
+        onChangeMissionEnd={props.onChangeMissionEnd}
+        onClickCancel={props.onClickCancelEditMissionDates}
+        onSave={(missions) => props.onClickSaveEditMissions(missions, props.user)}
+      />
+    }
+
     return (
       <div className="">
+        {editPhaseIIDates}
         <div className="row dashboard__title">
           <div className="columns flex-container space-between align-center">
             <p className="dashboard__mission-name">

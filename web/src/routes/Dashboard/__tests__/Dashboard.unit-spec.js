@@ -205,6 +205,26 @@ describe('Dashboard', () => {
     dashboard.find('.dashboard__launch-mission-bulk-button-disabled').length.should.be.eql(1)
   })
 
+  it('should not render the Edit All Phase IIs button if no phase II missions', () => {
+    props.mission = PHASE_I_MISSION_NOT_LAUNCHED_WITH_DEADLINE_SET
+
+    const dashboard = shallow(
+      <Dashboard {...props} />
+    )
+
+    dashboard.find('.dashboard__launch-mission-edit-phase-ii-button').length.should.be.eql(0)
+  })
+
+  it('should render the Edit All Phase IIs button if phase II missions', () => {
+    props.mission = PHASE_I_MISSION_LAUNCHED
+
+    const dashboard = shallow(
+      <Dashboard {...props} />
+    )
+
+    dashboard.find('.dashboard__launch-mission-edit-phase-ii-button').length.should.be.eql(1)
+  })
+
   it('_onCreateMissionsForStudents should throw exception if no deadline for phase 2 set', () => {
     props.mission = PHASE_I_MISSION_NOT_LAUNCHED_WITH_START_TIME_SET
 

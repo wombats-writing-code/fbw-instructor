@@ -44,7 +44,7 @@ class EditPhaseIIDates extends Component {
             <div className="datetime medium-6 columns">
               <Datetime
                 inputProps={{ placeholder: "Start date & time" }}
-                value={moment(props.mission.leadsToMissionsStartTime)}
+                value={moment(props.mission.startTime)}
                 dateFormat
                 onChange={(momentObj) => props.onChangeMissionStart(momentObj)}
               />
@@ -52,7 +52,7 @@ class EditPhaseIIDates extends Component {
             <div className="datetime medium-6 columns">
               <Datetime
                 inputProps={{ placeholder: "Deadline date & time" }}
-                value={moment(props.mission.leadsToMissionsDeadline)}
+                value={moment(props.mission.deadline)}
                 dateFormat
                 onChange={(momentObj) => props.onChangeMissionEnd(momentObj)}
               />
@@ -65,7 +65,7 @@ class EditPhaseIIDates extends Component {
               Cancel
             </button>
             <button className="button edit-phase-II__save" disabled={props.isUpdateMissionInProgress}
-                    onClick={() => this._onSave(props.mission)}>
+                    onClick={() => this._onSave()}>
               {props.isUpdateMissionInProgress ? 'Working...' : 'Save'}
             </button>
           </div>
@@ -74,7 +74,7 @@ class EditPhaseIIDates extends Component {
     )
   }
 
-  _onSave = (mission) => {
+  _onSave = () => {
     // We need to massage this a bit, because we are going to bulk
     //   update all the Phase II's.
     // The mission sent here is the Phase I. We need to find
@@ -82,6 +82,15 @@ class EditPhaseIIDates extends Component {
     //   to pass along. The output missions need to each include
     //   an `id` and `startTime` or `deadline`.
     let missions = []
+    const phase2missions = _.filter(this.props.missions, mission => _.indexOf(mission.followsFromMissions, this.props.mission.id) >= 0)
+    if (phase2missions) {
+      missions = _.map(phase2missions, phase2mission => {
+        return _.assign({}, phase2mission, {
+          startTime: this.props.mission.startTime,
+          deadline: this.props.mission.deadline
+        })
+      })
+    }
     this.props.onSave(missions)
   }
 

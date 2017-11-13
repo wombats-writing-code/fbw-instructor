@@ -14,9 +14,6 @@ import {
 import {
   clickEditMission, cancelEditMission
 } from '@wombats-writing-code/fbw-platform-common/reducers/edit-mission/clickEditMission'
-import {
-  cancelEditMissionDates
-} from '@wombats-writing-code/fbw-platform-common/reducers/edit-mission/clickEditMissionDates'
 import { getMapping, getUser } from '@wombats-writing-code/fbw-platform-common/selectors'
 import { getCurrentCourse, getRoster } from '@wombats-writing-code/fbw-platform-common/selectors/course'
 
@@ -41,7 +38,6 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     onChangeMissionStart: (momentObj) => dispatch(changeMissionStart(momentObj)),
     onChangeMissionEnd: (momentObj) => dispatch(changeMissionEnd(momentObj)),
     onClickCancelEditMission: () => dispatch(cancelEditMission()),
-    onClickCancelEditMissionDates: () => dispatch(cancelEditMissionDates()),
     onClickDeleteEditMission: (mission, user) => dispatch(deleteMission(mission, user)),
     onClickSaveEditMission: (mission, user) => dispatch(updateMission(mission, user)),
     onClickSaveEditMissions: (missions, user) => dispatch(updateMissions(missions, user)),

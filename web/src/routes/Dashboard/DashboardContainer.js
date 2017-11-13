@@ -9,9 +9,14 @@ import { editMission } from '@wombats-writing-code/fbw-platform-common/reducers/
 import { resetDashboardMission } from '@wombats-writing-code/fbw-platform-common/reducers/Mission/resetDashboardMission'
 import { createMissions } from '@wombats-writing-code/fbw-platform-common/reducers/edit-mission/createMission'
 import {
-  clickEditMissionDates
+  clickEditMissionDates, cancelEditMissionDates
 } from '@wombats-writing-code/fbw-platform-common/reducers/edit-mission/clickEditMissionDates'
-
+import {
+  changeMissionStart, changeMissionEnd
+} from '@wombats-writing-code/fbw-platform-common/reducers/edit-mission/updateMissionForm'
+import {
+  updateMissions
+} from '@wombats-writing-code/fbw-platform-common/reducers/edit-mission/updateMission'
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
@@ -36,6 +41,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     onClickEditMissionDates: mission => dispatch(clickEditMissionDates(mission)),
     onResetDashboardMission: (mission) => dispatch(resetDashboardMission(mission)),
     onCreateMissions: (newMissions, course, user) => dispatch(createMissions(newMissions, course, user)),
+    onChangeMissionStart: (momentObj) => dispatch(changeMissionStart(momentObj)),
+    onChangeMissionEnd: (momentObj) => dispatch(changeMissionEnd(momentObj)),
+    onClickCancelEditMissionDates: () => dispatch(cancelEditMissionDates()),
+    onClickSaveEditMissions: (missions, user) => dispatch(updateMissions(missions, user)),
   }
 }
 
@@ -49,10 +58,12 @@ const mapStateToProps = (state, ownProps) => {
     roster: getRoster(state),
     mission: currentMission,
     missions: state.mission.missions,
+    currentEditMission: state.editMission.newMission,
     resultsByMission: state.result.resultsByMission,
     isGetMissionsInProgress: state.mission.isGetMissionsInProgress,
     isGetResultsInProgress: state.result && state.result.isGetResultsInProgress,
     isCreateMissionInProgress: state.editMission.isCreateMissionInProgress,
+    isEditMissionDatesInProgress: state.editMission.isEditMissionDatesInProgress
   }
 }
 
