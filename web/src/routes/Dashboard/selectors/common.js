@@ -1,5 +1,5 @@
 let moment = require('moment')
-
+import { getD2LDisplayNameLastFirst } from '@wombats-writing-code/fbw-platform-common/selectors/login'
 
 export const notTaken = (takens, roster) => {
   let takingAgentIds = _.map(takens, 'takingAgentId');
@@ -72,4 +72,55 @@ export const sortBySubmissionTime  = (responseA, responseB) => {
   } else {
     return true;
   }
+}
+
+export const tableHeaders = () => {
+  // Shared with GradesTable and Dashboard
+  return [
+    {
+      header: 'Name',
+      id: 'displayName',
+      accessor: d => getD2LDisplayNameLastFirst(d.user),
+      width: undefined
+    },
+    {
+      header: 'Points (%)',
+      accessor: 'points',
+      style: {
+        textAlign: 'center'
+      },
+      width: 111 // Seems to be the minimum to get 45 / 45; 100.0% to fit...
+    },
+    {
+      header: '# Attempted',
+      accessor: 'numberAttempted',
+      style: {
+        textAlign: 'center'
+      },
+      width: undefined
+    },
+    {
+      header: 'Goals Achieved',
+      accessor: 'goalsAchieved',
+      style: {
+        textAlign: 'center'
+      },
+      width: undefined
+    },
+    {
+      header: 'First opened',
+      accessor: 'firstActive',
+      width: undefined,
+    },
+    {
+      header: 'Last active',
+      accessor: 'lastActive',
+      width: undefined
+    },
+    {
+      header: 'Done',
+      accessor: 'completed',
+      width: undefined,
+    }
+  ];
 }

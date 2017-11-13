@@ -3,10 +3,16 @@ import React, { Component } from 'react'
 import moment from 'moment'
 import $ from 'jquery'
 
+import { CSVLink } from 'react-csv'
+
 import { missionConfig } from '@wombats-writing-code/fbw-platform-common/reducers/Mission'
 import LoadingBox from '@wombats-writing-code/fbw-platform-common/components/loading-box/web/'
-import { parseResults } from './selectors/resultsSelector'
-import { getD2LDisplayName, getD2LUserIdentifier } from '@wombats-writing-code/fbw-platform-common/selectors/login'
+import { parseResults, computeGrades } from './selectors/resultsSelector'
+import { tableHeaders } from './selectors/common'
+import {
+  getD2LDisplayName, getD2LUserIdentifier,
+  getD2LDisplayNameLastFirst
+} from '@wombats-writing-code/fbw-platform-common/selectors/login'
 import { computeRecommendation } from '../MissionEdit/selectors/recommendMissionSelector'
 
 import EditPhaseIIDates from './components/EditPhaseIIDates'
@@ -162,6 +168,10 @@ class Dashboard extends Component {
       />
     }
 
+    const filename = this.props.mission
+      ? `${this.props.mission.displayName}-grades.csv`
+      : `mission-grades-${moment.toISOString()}.csv`
+
     return (
       <div className="">
         {editPhaseIIDates}
@@ -170,6 +180,11 @@ class Dashboard extends Component {
             <p className="dashboard__mission-name">
               {this.props.mission ? this.props.mission.displayName : ''} &nbsp;
             </p>
+            <CSVLink
+              data={this._formatResultsForDownload()}
+              className="download-csv-link"
+              filename={filename}
+            >Download CSV </CSVLink>
             {launchAllPhaseIIButton}
             <button className="button refresh-button"
                     disabled={this.props.isGetResultsInProgress}
@@ -195,6 +210,60 @@ class Dashboard extends Component {
         </div>
       </div>
     )
+  }
+
+  _updateResults = (label, currentResults, grades) => {
+    const newResults = _.assign([], currentResults)
+    _.each(grades, grade => {
+      newResults.push([
+        label,
+        getD2LDisplayNameLastFirst(grade.user),
+        grade.points,
+        grade.numberAttempted,
+        grade.goalsAchieved,
+        grade.firstActive,
+        grade.lastActive,
+        grade.complete
+      ])
+    })
+    return newResults
+  }
+
+  _formatResultsForDownload = () => {
+    if (!this.props.roster) {
+      return [];
+    }
+
+    // We first add a row with some metadata...
+    //   1) Mission name
+    //   2) Mission dates
+    //   3) Timestamp the data was downloaded
+    let results = [
+      ['Mission name', this.props.mission.displayName,
+       'Start time', moment(this.props.mission.startTime).toString(),
+       'Deadline', moment(this.props.mission.deadline).toString(),
+       'Download time', moment().toString()], [], []]
+
+    // Then we add actual headers to match what is on the screen,
+    //   and we add a column:
+    //   1) Phase I or Phase II
+    let headers = _.concat(['Phase I or II'], _.map(tableHeaders(), 'header'))
+    // For FF, need to replace any # with text
+    headers = _.map(headers, header => _.replace(header, '#', 'Num'));
+    results.push(headers)
+
+    // Then do phase 1 grades
+    const phaseIGrades = _.filter(computeGrades(this.props.mission,
+      this._getRecords(this.props.mission, missionConfig.PHASE_I_MISSION_TYPE),
+      this.props.roster), grade => grade.points)
+    results = this._updateResults('Phase I', results, phaseIGrades)
+
+    // Next do phase 2 grades
+    const phaseIIGrades = _.filter(computeGrades(this.props.mission,
+      this._getRecords(this.props.mission, missionConfig.PHASE_II_MISSION_TYPE),
+      this.props.roster), grade => grade.points);
+    results = this._updateResults('Phase II', results, phaseIIGrades)
+    return results;
   }
 
   _canLaunchPhaseIIBulk() {

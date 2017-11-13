@@ -98,7 +98,7 @@ describe('Dashboard', () => {
         '5': []
       },
       user: {},
-      editView: ''
+      editView: '',
     }
   })
 
@@ -368,6 +368,38 @@ describe('Dashboard', () => {
       Identifier: '321',
       DisplayName: 'user'
     }])
+  })
+
+  it('should render the download as CSV link', () => {
+    props.mission = PHASE_I_MISSION_NOT_LAUNCHED_WITH_BOTH_DATES_SET
+    const dashboard = shallow(
+      <Dashboard {...props} />
+    )
+    dashboard.find('.download-csv-link').length.should.be.eql(1)
+  })
+
+  it('should not return any data without a roster', () => {
+    props.mission = PHASE_I_MISSION_NOT_LAUNCHED_WITH_BOTH_DATES_SET
+    const dashboard = shallow(
+      <Dashboard {...props} />
+    )
+    dashboard.instance()._formatResultsForDownload().should.eql([])
+  })
+
+  it('should return data with a roster', () => {
+    props.mission = PHASE_I_MISSION_NOT_LAUNCHED_WITH_BOTH_DATES_SET
+    props.roster = [{
+      id: 1
+    }]
+    props.resultsByMission['1'] = [{
+      user: {
+        id: 1
+      }
+    }]
+    const dashboard = shallow(
+      <Dashboard {...props} />
+    )
+    dashboard.instance()._formatResultsForDownload().should.not.eql([])
   })
 
   // after( () => {

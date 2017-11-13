@@ -9,6 +9,7 @@ import 'react-table/react-table.css'
 
 import {missionConfig} from '@wombats-writing-code/fbw-platform-common/reducers/Mission'
 import {getD2LDisplayName, getD2LDisplayNameLastFirst} from '@wombats-writing-code/fbw-platform-common/selectors/login'
+import { tableHeaders } from '../../selectors/common'
 import LaunchPhaseII from '../LaunchPhaseII'
 import './GradesTable.scss'
 
@@ -33,53 +34,7 @@ class GradesTable extends Component {
       return null;
     }
 
-    let columns = [
-      {
-        header: 'Name',
-        id: 'displayName',
-        accessor: d => getD2LDisplayNameLastFirst(d.user),
-        width: undefined
-      },
-      {
-        header: 'Points (%)',
-        accessor: 'points',
-        style: {
-          textAlign: 'center'
-        },
-        width: 111 // Seems to be the minimum to get 45 / 45; 100.0% to fit...
-      },
-      {
-        header: '# Attempted',
-        accessor: 'numberAttempted',
-        style: {
-          textAlign: 'center'
-        },
-        width: undefined
-      },
-      {
-        header: 'Goals Achieved',
-        accessor: 'goalsAchieved',
-        style: {
-          textAlign: 'center'
-        },
-        width: undefined
-      },
-      {
-        header: 'First opened',
-        accessor: 'firstActive',
-        width: undefined,
-      },
-      {
-        header: 'Last active',
-        accessor: 'lastActive',
-        width: undefined
-      },
-      {
-        header: 'Done',
-        accessor: 'completed',
-        width: undefined,
-      }
-    ];
+    let columns = tableHeaders();
 
     // {/* <button className="grades-table__edit-mission-button"
     //         onClick={(e) => this.props.onClickEditMission(grade.user)}
