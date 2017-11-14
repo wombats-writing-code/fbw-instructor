@@ -6,9 +6,9 @@
   version "15.6.0"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-15.6.0.tgz#3b3e92a60b65045e4df48fda324de84d83addbc4"
 
-"@wombats-writing-code/fbw-platform-common@4.0.7":
-  version "4.0.7"
-  resolved "https://registry.yarnpkg.com/@wombats-writing-code/fbw-platform-common/-/fbw-platform-common-4.0.7.tgz#9267560e6e83a1f4a403f1d50ac6e4665c3ad1ee"
+"@wombats-writing-code/fbw-platform-common@4.0.8":
+  version "4.0.8"
+  resolved "https://registry.yarnpkg.com/@wombats-writing-code/fbw-platform-common/-/fbw-platform-common-4.0.8.tgz#f1e7cd7455025f1a4e126bd293e94a83a4fccd12"
   dependencies:
     axios "^0.15.2"
     babel-core "^6.1.21"
@@ -4710,8 +4710,8 @@ moment-timezone@^0.5.7:
     moment ">= 2.9.0"
 
 "moment@>= 2.9.0", moment@>=1.6.0:
-  version "2.19.1"
-  resolved "https://registry.yarnpkg.com/moment/-/moment-2.19.1.tgz#56da1a2d1cbf01d38b7e1afc31c10bcfa1929167"
+  version "2.19.2"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.19.2.tgz#8a7f774c95a64550b4c7ebd496683908f9419dbe"
 
 moment@^2.15.2:
   version "2.18.1"
