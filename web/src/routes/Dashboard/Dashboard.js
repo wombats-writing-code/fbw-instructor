@@ -184,7 +184,7 @@ class Dashboard extends Component {
             </p>
             <DownloadLink
               data={this._formatResultsForDownload()}
-              mimetype="text/csv"
+              mimetype="text/csv;encoding:utf-8"
               className="download-csv-link"
               filename={filename}
             >Download CSV</DownloadLink>

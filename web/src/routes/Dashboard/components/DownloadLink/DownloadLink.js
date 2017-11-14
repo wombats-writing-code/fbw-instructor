@@ -24,6 +24,17 @@ class DownloadLink extends Component {
     }
     return `data:${mimetype},${encodeURIComponent(this.props.data)}`
   }
+  downloadIE = (e) => {
+    // Because we need to use built-in methods for IE
+    let mimetype = this.props.mimetype || 'application/octet-stream'
+    if (navigator.msSaveBlob) {
+      console.log('filename', this.props.filename);
+      navigator.msSaveBlob(new Blob([this.props.data], {
+        type: mimetype
+      }), this.props.filename);
+      e.preventDefault();
+    }
+  }
   render() {
     const { filename, children, ...rest } = this.props
     return (
@@ -31,7 +42,8 @@ class DownloadLink extends Component {
         download={filename}
         {...rest}
         ref={link => { this.link = link }}
-        href={this.constructBlob()} >
+        href={this.constructBlob()}
+        onClick={this.downloadIE}>
         {children}
       </a>
     )
