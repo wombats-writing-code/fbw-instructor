@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import moment from 'moment'
 import $ from 'jquery'
 
-import { CSVLink } from 'react-csv'
+// import { CSVLink } from 'react-csv'
 
 import { missionConfig } from '@wombats-writing-code/fbw-platform-common/reducers/Mission'
 import LoadingBox from '@wombats-writing-code/fbw-platform-common/components/loading-box/web/'
@@ -17,6 +17,8 @@ import { computeRecommendation } from '../MissionEdit/selectors/recommendMission
 
 import EditPhaseIIDates from './components/EditPhaseIIDates'
 import MissionResult from './components/MissionResult'
+import DownloadLink from './components/DownloadLink'
+
 import './Dashboard.scss'
 
 class Dashboard extends Component {
@@ -180,11 +182,12 @@ class Dashboard extends Component {
             <p className="dashboard__mission-name">
               {this.props.mission ? this.props.mission.displayName : ''} &nbsp;
             </p>
-            <CSVLink
+            <DownloadLink
               data={this._formatResultsForDownload()}
+              mimetype="text/csv"
               className="download-csv-link"
               filename={filename}
-            >Download CSV </CSVLink>
+            >Download CSV</DownloadLink>
             {launchAllPhaseIIButton}
             <button className="button refresh-button"
                     disabled={this.props.isGetResultsInProgress}
@@ -223,7 +226,7 @@ class Dashboard extends Component {
         grade.goalsAchieved,
         grade.firstActive,
         grade.lastActive,
-        grade.complete
+        grade.completed
       ])
     })
     return newResults
@@ -263,7 +266,14 @@ class Dashboard extends Component {
       this._getRecords(this.props.mission, missionConfig.PHASE_II_MISSION_TYPE),
       this.props.roster), grade => grade.points);
     results = this._updateResults('Phase II', results, phaseIIGrades)
-    return results;
+
+    // Now format it into a CSV string
+    results = _.map(results, row => {
+      return _.map(row, element => {
+        return `"${element}"`
+      }).join(',')
+    }).join('\n')
+    return results
   }
 
   _canLaunchPhaseIIBulk() {
