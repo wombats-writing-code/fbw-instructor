@@ -38,9 +38,10 @@ describe('the MissionResult component', () => {
     result = shallow(<MissionResult {...props} />);
   });
 
-  it('should send logged in props user when calling onCreateMissions', (done) => {
-    props.onCreateMissions = (missions, course, user) => {
-      user.Identifier.should.eql('foo');
+  it('should send student user when calling onCreateMissions', (done) => {
+    props.onCreateMissions = (students) => {
+      students.length.should.eql(1);
+      students[0].Identifier.should.eql('bar');
       done();
     }
 

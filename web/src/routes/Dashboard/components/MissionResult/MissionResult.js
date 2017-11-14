@@ -1,16 +1,13 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react'
 import _ from 'lodash'
-import moment from 'moment'
-import pluralize from 'pluralize'
-const ProgressBar = require('progressbar.js')
 
 import GradesTable from '../GradesTable'
 import OutcomeResult from '../OutcomeResult'
 import EditPhaseII from '../EditPhaseII'
 
-import {missionConfig} from '@wombats-writing-code/fbw-platform-common/reducers/Mission'
-import {getD2LDisplayName, getD2LUserIdentifier} from '@wombats-writing-code/fbw-platform-common/selectors/login'
-import {computeRecommendation} from '../../../MissionEdit/selectors/recommendMissionSelector'
+// import { missionConfig } from '@wombats-writing-code/fbw-platform-common/reducers/Mission'
+// import {getD2LDisplayName, getD2LUserIdentifier} from '@wombats-writing-code/fbw-platform-common/selectors/login'
+// import {computeRecommendation} from '../../../MissionEdit/selectors/recommendMissionSelector'
 
 
 import './MissionResult.scss'
@@ -61,15 +58,16 @@ class MissionResult extends Component {
     let editPhaseII;
     if (props.isEditMissionInProgress) {
       editPhaseII = <EditPhaseII mission={props.currentEditMission}
-                        outcomes={props.outcomes}
-                        roster={props.roster}
-                        isUpdateMissionInProgress={props.isUpdateMissionInProgress}
-                        isDeleteMissionInProgress={props.isDeleteMissionInProgress}
-                        onChangeMissionStart={props.onChangeMissionStart} onChangeMissionEnd={props.onChangeMissionEnd}
-                        onClickCancel={props.onClickCancelEditMission}
-                        onDelete={(mission) => props.onClickDeleteEditMission(mission, props.user)}
-                        onSave={(mission) => props.onClickSaveEditMission(mission, props.user)}
-                      />
+        outcomes={props.outcomes}
+        roster={props.roster}
+        isUpdateMissionInProgress={props.isUpdateMissionInProgress}
+        isDeleteMissionInProgress={props.isDeleteMissionInProgress}
+        onChangeMissionStart={props.onChangeMissionStart}
+        onChangeMissionEnd={props.onChangeMissionEnd}
+        onClickCancel={props.onClickCancelEditMission}
+        onDelete={(mission) => props.onClickDeleteEditMission(mission, props.user)}
+        onSave={(mission) => props.onClickSaveEditMission(mission, props.user)}
+      />
     }
 
     return (
@@ -98,24 +96,25 @@ class MissionResult extends Component {
 
   // Launches a Phase II mission
   _onClickCreateMission(student) {
-    let recommendation = computeRecommendation(student, this.props.records, this.props.currentMission);
-
-    let newMission = _.assign({}, this.props.currentMission, {
-      displayName: `${this.props.currentMission.displayName} Phase II`,
-      description: `for ${getD2LDisplayName(student)}`,
-      type: missionConfig.PHASE_II_MISSION_TYPE,
-      startTime: new Date(),
-      deadline: moment().add(3, 'days'),
-      followsFromMissions: [this.props.currentMission.id],
-      goals: recommendation.goals,
-      userId: getD2LUserIdentifier(student),
-      questions: null
-    })
-
-    console.log('newMission', newMission)
+    // let recommendation = computeRecommendation(student, this.props.records, this.props.currentMission);
+    //
+    // let newMission = _.assign({}, this.props.currentMission, {
+    //   displayName: `${this.props.currentMission.displayName} Phase II`,
+    //   description: `for ${getD2LDisplayName(student)}`,
+    //   type: missionConfig.PHASE_II_MISSION_TYPE,
+    //   startTime: new Date(),
+    //   deadline: moment().add(3, 'days'),
+    //   followsFromMissions: [this.props.currentMission.id],
+    //   goals: recommendation.goals,
+    //   userId: getD2LUserIdentifier(student),
+    //   questions: null
+    // })
+    //
+    // console.log('newMission', newMission)
     // console.log('currentMission', this.props.currentMission)
 
-    this.props.onCreateMissions([newMission], this.props.currentCourse, this.props.user);
+    // this.props.onCreateMissions([newMission], this.props.currentCourse, this.props.user);
+    this.props.onCreateMissions([student]);
   }
 
   _onClickEditMission(mission) {

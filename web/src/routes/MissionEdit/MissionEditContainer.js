@@ -9,6 +9,8 @@ import {changeMissionName} from '@wombats-writing-code/fbw-platform-common/reduc
 import {changeMissionType} from '@wombats-writing-code/fbw-platform-common/reducers/edit-mission/updateMissionForm'
 import {changeMissionStart} from '@wombats-writing-code/fbw-platform-common/reducers/edit-mission/updateMissionForm'
 import {changeMissionEnd} from '@wombats-writing-code/fbw-platform-common/reducers/edit-mission/updateMissionForm'
+import {changeMissionLeadsToEnd} from '@wombats-writing-code/fbw-platform-common/reducers/edit-mission/updateMissionForm'
+import {changeMissionLeadsToStart} from '@wombats-writing-code/fbw-platform-common/reducers/edit-mission/updateMissionForm'
 import {selectModule} from '@wombats-writing-code/fbw-platform-common/reducers/edit-mission/updateMissionForm'
 import {changeOutcomeSearch} from '@wombats-writing-code/fbw-platform-common/reducers/edit-mission/updateMissionForm'
 import {toggleOutcome} from '@wombats-writing-code/fbw-platform-common/reducers/edit-mission/updateMissionForm'
@@ -43,6 +45,14 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     onChangeMissionType: (missionType) => dispatch(changeMissionType(missionType)),
     onChangeMissionStart: (momentObj) => dispatch(changeMissionStart(momentObj)),
     onChangeMissionEnd: (momentObj) => dispatch(changeMissionEnd(momentObj)),
+    onChangeMissionLeadsToEnd: (momentObj) => {
+      // console.log('calling reducer to change leadsToMissionsDeadline')
+      dispatch(changeMissionLeadsToEnd(momentObj))
+    },
+    onChangeMissionLeadsToStartTime: (momentObj) => {
+      // console.log('calling reducer to change leadsToMissionsStartTime')
+      dispatch(changeMissionLeadsToStart(momentObj))
+    },
     onSelectModule: (module) => dispatch(selectModule(module)),
     onChangeOutcomeSearch: (query) => dispatch(changeOutcomeSearch(query)),
     onToggleOutcome: (outcome) => dispatch(toggleOutcome(outcome)),

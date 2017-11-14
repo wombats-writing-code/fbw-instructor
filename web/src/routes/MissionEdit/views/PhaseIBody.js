@@ -1,3 +1,5 @@
+import _ from 'lodash'
+
 import React, {Component} from 'react'
 
 import {getD2LDisplayName, getD2LUserIdentifier} from '@wombats-writing-code/fbw-platform-common/selectors/login'

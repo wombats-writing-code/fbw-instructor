@@ -1,19 +1,24 @@
 import { connect } from 'react-redux'
 
-import {selectDirective} from '@wombats-writing-code/fbw-platform-common/reducers/Mission/selectDirective'
-import {selectTarget} from '@wombats-writing-code/fbw-platform-common/reducers/Mission/selectTarget'
-import {getStudentResult} from '@wombats-writing-code/fbw-platform-common/reducers/Result/getStudentResult'
-import {createMissions} from '@wombats-writing-code/fbw-platform-common/reducers/edit-mission/createMission'
-import {updateMission} from '@wombats-writing-code/fbw-platform-common/reducers/edit-mission/updateMission'
-import {deleteMission} from '@wombats-writing-code/fbw-platform-common/reducers/edit-mission/deleteMission'
-import {changeMissionStart, changeMissionEnd} from '@wombats-writing-code/fbw-platform-common/reducers/edit-mission/updateMissionForm'
-import {clickEditMission, cancelEditMission} from '@wombats-writing-code/fbw-platform-common/reducers/edit-mission/clickEditMission'
-import {getMapping, getUser} from '@wombats-writing-code/fbw-platform-common/selectors'
-import {getCurrentCourse, getRoster} from '@wombats-writing-code/fbw-platform-common/selectors/course'
+import { selectDirective } from '@wombats-writing-code/fbw-platform-common/reducers/Mission/selectDirective'
+import { selectTarget } from '@wombats-writing-code/fbw-platform-common/reducers/Mission/selectTarget'
+import { getStudentResult } from '@wombats-writing-code/fbw-platform-common/reducers/Result/getStudentResult'
+// import {createMissions} from '@wombats-writing-code/fbw-platform-common/reducers/edit-mission/createMission'
+import {
+  updateMission, updateMissions
+} from '@wombats-writing-code/fbw-platform-common/reducers/edit-mission/updateMission'
+import { deleteMission } from '@wombats-writing-code/fbw-platform-common/reducers/edit-mission/deleteMission'
+import {
+  changeMissionStart, changeMissionEnd
+} from '@wombats-writing-code/fbw-platform-common/reducers/edit-mission/updateMissionForm'
+import {
+  clickEditMission, cancelEditMission
+} from '@wombats-writing-code/fbw-platform-common/reducers/edit-mission/clickEditMission'
+import { getMapping, getUser } from '@wombats-writing-code/fbw-platform-common/selectors'
+import { getCurrentCourse, getRoster } from '@wombats-writing-code/fbw-platform-common/selectors/course'
 
 import MissionResult from './MissionResult'
-import {parseResults, computeGrades} from '../../selectors/resultsSelector'
-
+import { parseResults, computeGrades } from '../../selectors/resultsSelector'
 
 
 const mapDispatchToProps = (dispatch, ownProps) => {
@@ -25,9 +30,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       console.log('onSelectStudentResult mission', mission)
       dispatch(getStudentResult(student, mission, user))
     },
-    onCreateMissions: (newMissions, course, user) => {
-      dispatch(createMissions(newMissions, course, user));
-    },
+    // onCreateMissions: (newMissions, course, user) => {
+    //   dispatch(createMissions(newMissions, course, user));
+    // },
     // onClickEditMission: mission => dispatch(editMission(mission, getMapping(state).outcomes)),
     onClickEditMission: mission => dispatch(clickEditMission(mission)),
     onChangeMissionStart: (momentObj) => dispatch(changeMissionStart(momentObj)),
@@ -35,6 +40,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     onClickCancelEditMission: () => dispatch(cancelEditMission()),
     onClickDeleteEditMission: (mission, user) => dispatch(deleteMission(mission, user)),
     onClickSaveEditMission: (mission, user) => dispatch(updateMission(mission, user)),
+    onClickSaveEditMissions: (missions, user) => dispatch(updateMissions(missions, user)),
   }
 }
 
@@ -57,6 +63,7 @@ const mapStateToProps = (state, ownProps) => {
     isGetResultsInProgress: state.result && state.result.isGetResultsInProgress,
     isCreateMissionInProgress: state.editMission.isCreateMissionInProgress,
     isEditMissionInProgress: state.editMission.isEditMissionInProgress,
+    isEditMissionDatesInProgress: state.editMission.isEditMissionDatesInProgress,
     isUpdateMissionInProgress: state.editMission.isUpdateMissionInProgress,
     isDeleteMissionInProgress: state.editMission.isDeleteMissionInProgress
   }
