@@ -66,7 +66,7 @@ class MissionEdit extends Component {
                          onChange={(momentObj) => this.props.onChangeMissionStart(momentObj)}  />
               </div>
               <div className="datetime medium-6 columns">
-                <Datetime inputProps={{placeholder: "Phase II deadline date & time"}}
+                <Datetime inputProps={{placeholder: "Phase I deadline date & time"}}
                           value={moment(props.newMission.deadline)}
                          dateFormat={true} onChange={(momentObj) => this.props.onChangeMissionEnd(momentObj)}  />
               </div>
