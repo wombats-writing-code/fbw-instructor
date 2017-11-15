@@ -13,10 +13,6 @@ const SelectMissionType = (props) => {
               onClick={() => props.onChangeMissionType(missionConfig.PHASE_I_MISSION_TYPE)}>
         Phase I Mission
       </button>
-      <button className={`mission-type-button button ${props.mission.type === missionConfig.PHASE_II_MISSION_TYPE ? isSelectedStyle : null}`}
-              onClick={() => props.onChangeMissionType(missionConfig.PHASE_II_MISSION_TYPE)}>
-        Phase II Mission
-      </button>
     </div>
   )
 
