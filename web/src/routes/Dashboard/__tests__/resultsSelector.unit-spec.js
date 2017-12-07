@@ -1,11 +1,12 @@
 import _ from 'lodash';
 
 let chai = require('chai');
-chai.should();
+const should = chai.should();
 
 import { pointsEarned, filterReviewOutcomes,
   numberUnansweredTargets, numberAttemptedTargets,
-  sortRecordsByOutcome, numberAchievedGoals } from '../selectors/resultsSelector'
+  sortRecordsByOutcome, numberAchievedGoals,
+  parseGradeForCSV } from '../selectors/resultsSelector'
 
 // describe(`computeGrades`, () => {
 //   it(`should commpute the grades for a single student `)
@@ -345,4 +346,69 @@ describe('numberAchievedGoals selector', () => {
 
     done();
   });
+});
+
+describe('parseGradeForCSV selector', () => {
+
+  it(`should throw exception if nothing passed in`, function() {
+    should.throw(() => {
+      parseGradeForCSV();
+    })
+  })
+
+  it('should throw exception if grade missing attributes', () => {
+    should.throw(() => {
+      parseGradeForCSV({
+        foo: 'bar'
+      })
+    })
+
+    should.throw(() => {
+      parseGradeForCSV({
+        points: ''
+      })
+    })
+
+    should.throw(() => {
+      parseGradeForCSV({
+        goalsAchieved: ''
+      })
+    })
+  })
+
+  it('should throw exception is grade missing digits', () => {
+    should.throw(() => {
+      parseGradeForCSV({
+        points: '1',
+        goalsAchieved: '1 / 2'
+      })
+    })
+
+    should.throw(() => {
+      parseGradeForCSV({
+        points: '1 / 2',
+        goalsAchieved: '1 /'
+      })
+    })
+  })
+
+  it('should reformat questions', () => {
+    let result = parseGradeForCSV({
+      points: '1 / 2; 50%',
+      goalsAchieved: '3 / 4'
+    })
+
+    result.questionsCorrect.should.eql('1')
+    result.totalQuestions.should.eql('2')
+  })
+
+  it('should reformat goals', () => {
+    let result = parseGradeForCSV({
+      points: '1 / 2; 50%',
+      goalsAchieved: '3 / 4'
+    })
+
+    result.goalsMastered.should.eql('3')
+    result.totalGoals.should.eql('4')
+  })
 });

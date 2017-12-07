@@ -7,8 +7,8 @@ import $ from 'jquery'
 
 import { missionConfig } from '@wombats-writing-code/fbw-platform-common/reducers/Mission'
 import LoadingBox from '@wombats-writing-code/fbw-platform-common/components/loading-box/web/'
-import { parseResults, computeGrades } from './selectors/resultsSelector'
-import { tableHeaders } from './selectors/common'
+import { parseResults,
+  computeGrades, parseGradeForCSV } from './selectors/resultsSelector'
 import {
   getD2LDisplayName, getD2LUserIdentifier,
   getD2LDisplayNameLastFirst
@@ -218,15 +218,16 @@ class Dashboard extends Component {
   _updateResults = (label, currentResults, grades) => {
     const newResults = _.assign([], currentResults)
     _.each(grades, grade => {
+      let csvGrade = parseGradeForCSV(grade)
       newResults.push([
         label,
         getD2LDisplayNameLastFirst(grade.user),
-        grade.points,
-        grade.numberAttempted,
-        grade.goalsAchieved,
-        grade.firstActive,
-        grade.lastActive,
-        grade.completed
+        csvGrade.questionsCorrect,
+        csvGrade.totalQuestions,
+        csvGrade.goalsMastered,
+        csvGrade.totalGoals,
+        '',
+        csvGrade.questionsCorrect === csvGrade.totalQuestions ? 'Perfect Mission!' : ''
       ])
     })
     return newResults
@@ -234,25 +235,18 @@ class Dashboard extends Component {
 
   _formatResultsForDownload = () => {
     if (!this.props.roster) {
-      return [];
+      return []
     }
 
-    // We first add a row with some metadata...
-    //   1) Mission name
-    //   2) Mission dates
-    //   3) Timestamp the data was downloaded
-    let results = [
-      ['Mission name', this.props.mission.displayName,
-       'Start time', moment(this.props.mission.startTime).toString(),
-       'Deadline', moment(this.props.mission.deadline).toString(),
-       'Download time', moment().toString()], [], []]
+    let results = []
 
-    // Then we add actual headers to match what is on the screen,
+    // The headers we'll use are what the teachers are used to receiving,
     //   and we add a column:
     //   1) Phase I or Phase II
-    let headers = _.concat(['Phase I or II'], _.map(tableHeaders(), 'header'))
-    // For FF, need to replace any # with text
-    headers = _.map(headers, header => _.replace(header, '#', 'Num'));
+    let headers = ['Phase I or II', 'Last Name, First Name',
+      'Questions Correct', 'Total Questions', 'Goals Mastered',
+      'Total Goals', '', 'Notes']
+
     results.push(headers)
 
     // Then do phase 1 grades

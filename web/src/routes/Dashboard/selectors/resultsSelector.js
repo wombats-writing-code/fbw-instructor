@@ -275,3 +275,41 @@ export const getIncorrectResponsesByQuestion = (records) => {
 
   return incorrectResponsesByQuestion;
 }
+
+
+export const parseGradeForCSV = (grade) => {
+  // Expects an input grade object with:
+  //  {
+  //    points: '#1 / #2; ##%',
+  //    goalsAchieved: '#3 / #4'
+  //  }
+  // Needs to return:
+  //  {
+  //    questionsCorrect: #1,
+  //    totalQuestions: #2,
+  //    goalsMastered: #3,
+  //    totalGoals: #4
+  //  }
+  if (!grade) {
+    throw new Error('grade must be non-null');
+  }
+
+  if (!grade.points || !grade.goalsAchieved) {
+    throw new Error('grade must include points and goalsAchieved');
+  }
+  const findDigits = /(\d+)/g
+
+  if (grade.points.match(findDigits).length < 2) {
+    throw new Error('grade.points must include at least two numbers');
+  }
+  if (grade.goalsAchieved.match(findDigits).length < 2) {
+    throw new Error('grade.goalsAchieved must include at least two numbers');
+  }
+
+  return {
+    questionsCorrect: grade.points.match(findDigits)[0],
+    totalQuestions: grade.points.match(findDigits)[1],
+    goalsMastered: grade.goalsAchieved.match(findDigits)[0],
+    totalGoals: grade.goalsAchieved.match(findDigits)[1]
+  }
+}
