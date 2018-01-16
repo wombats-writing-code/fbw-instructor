@@ -125,13 +125,16 @@ class MissionEdit extends Component {
       )
     }
 
-    let selectMissionType; let editMissionTitle;
+    let selectMissionType;
+    let editMissionTitle;
     if (props.editView !== 'edit') {
       selectMissionType = <SelectMissionType
         mission={props.newMission}
         onChangeMissionType={props.onChangeMissionType} />
-    } else {
+    } else if (props.newMission.displayName) {
       editMissionTitle = <p>Editing {props.newMission.displayName}</p>
+    } else {
+      editMissionTitle = <p>Changes saved!</p>
     }
 
     return (
