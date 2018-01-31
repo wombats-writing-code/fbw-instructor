@@ -4,6 +4,7 @@ import HomeContainer from './Home/index'
 import D2LCallbackRoute from './D2LCallback/'
 import GuestCallbackRoute from './GuestCallback/'
 import LoginRoute from './Login'
+import LoginErrorRoute from './LoginError'
 import LogOutSuccessRoute from './LogOutSuccess'
 import MissionsRoute from './Missions'
 import StudentRoute from './Student'
@@ -30,6 +31,7 @@ export const createRoutes = (store) => ({
     StudentRoute(store),
     MissionEditRoute(store),
     GuideRoute(store),
+    LoginErrorRoute(store)
   ]
 })
 

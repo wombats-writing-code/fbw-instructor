@@ -6,9 +6,9 @@
   version "15.6.0"
   resolved "https://registry.yarnpkg.com/@types/react/-/react-15.6.0.tgz#3b3e92a60b65045e4df48fda324de84d83addbc4"
 
-"@wombats-writing-code/fbw-platform-common@4.0.9":
-  version "4.0.9"
-  resolved "https://registry.yarnpkg.com/@wombats-writing-code/fbw-platform-common/-/fbw-platform-common-4.0.9.tgz#d0eee22e3831b56d88004b0e6214241715eb07de"
+"@wombats-writing-code/fbw-platform-common@4.0.10":
+  version "4.0.10"
+  resolved "https://registry.yarnpkg.com/@wombats-writing-code/fbw-platform-common/-/fbw-platform-common-4.0.10.tgz#2c23e61bfc5db17c93f2102bb239c70e92198632"
   dependencies:
     axios "^0.15.2"
     babel-core "^6.1.21"
