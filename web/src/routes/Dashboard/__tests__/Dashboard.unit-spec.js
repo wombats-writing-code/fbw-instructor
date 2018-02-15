@@ -402,6 +402,83 @@ describe('Dashboard', () => {
     dashboard.instance()._formatResultsForDownload().should.not.eql([])
   })
 
+  it('should alphabetize the grade results and maintain headers', () => {
+    props.mission = PHASE_I_MISSION_NOT_LAUNCHED_WITH_BOTH_DATES_SET
+    const dashboard = shallow(
+      <Dashboard {...props} />
+    )
+    const input = [['zoo', '2', '3'], ['qqq', '2', '3'], ['aaa', '4', '5']]
+    const expected = [['zoo', '2', '3'], ['aaa', '4', '5'], ['qqq', '2', '3']]
+    dashboard.instance()._alphabetizeRows(input).should.eql(expected)
+  })
+
+  it('should calculate the number of goals mastered', () => {
+    props.mission = PHASE_I_MISSION_NOT_LAUNCHED_WITH_BOTH_DATES_SET
+    const dashboard = shallow(
+      <Dashboard {...props} />
+    )
+    const input = [['zoo', '2', '3'],
+      ['qqq', '2', '3', '5', '0', ''],
+      ['aaa', '', '', '', '', '', '4', '3', '2', '1', ''],
+      ['mmm', '2', '3', '4', '5', '', '0', '1', '2', '3', '']]
+    const expected = [['zoo', '2', '3'],
+      ['qqq', '2', '3', '5', '0', '', '', '', '', '', '', '5'],
+      ['aaa', '', '', '', '', '', '4', '3', '2', '1', '', '2'],
+      ['mmm', '2', '3', '4', '5', '', '0', '1', '2', '3', '', '6']]
+    dashboard.instance()._calculateNumGoalsMastered(input).should.eql(expected)
+  })
+
+  it('should format phase 1 grades', () => {
+    props.mission = PHASE_I_MISSION_NOT_LAUNCHED_WITH_BOTH_DATES_SET
+    const dashboard = shallow(
+      <Dashboard {...props} />
+    )
+    const input = [{
+      points: '1 / 2; 50%',
+      goalsAchieved: '2 / 3',
+      user: {
+        DisplayName: 'name, foo'
+      }
+    }]
+    const expected = [['name, foo', '1', '2', '2', '3', '']]
+    dashboard.instance()._updateResults('Phase I', [], input).should.eql(expected)
+  })
+
+  it('should put phase 2 grades on the same row as phase 1, if student did both', () => {
+    props.mission = PHASE_I_MISSION_NOT_LAUNCHED_WITH_BOTH_DATES_SET
+    const dashboard = shallow(
+      <Dashboard {...props} />
+    )
+    const current = [['name, foo', '1', '2', '2', '3', '']]
+    const input = [{
+      points: '3 / 5; 60%',
+      goalsAchieved: '6 / 7',
+      user: {
+        DisplayName: 'name, foo'
+      }
+    }]
+    const expected = [['name, foo', '1', '2', '2', '3', '', '3', '5', '6', '7', '']]
+    dashboard.instance()._updateResults('Phase II', current, input).should.eql(expected)
+  })
+
+  it('should create a new row for students who only did phase 2', () => {
+    props.mission = PHASE_I_MISSION_NOT_LAUNCHED_WITH_BOTH_DATES_SET
+    const dashboard = shallow(
+      <Dashboard {...props} />
+    )
+    const current = [['name, foo', '1', '2', '2', '3', '']]
+    const input = [{
+      points: '3 / 5; 60%',
+      goalsAchieved: '6 / 7',
+      user: {
+        DisplayName: 'bar, zim'
+      }
+    }]
+    const expected = [['name, foo', '1', '2', '2', '3', ''],
+      ['bar, zim', '', '', '', '', '', '3', '5', '6', '7', '']]
+    dashboard.instance()._updateResults('Phase II', current, input).should.eql(expected)
+  });
+
   // after( () => {
   //
   // })

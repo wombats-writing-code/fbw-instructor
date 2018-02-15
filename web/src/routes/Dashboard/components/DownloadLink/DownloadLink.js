@@ -28,7 +28,7 @@ class DownloadLink extends Component {
     // Because we need to use built-in methods for IE
     let mimetype = this.props.mimetype || 'application/octet-stream'
     if (navigator.msSaveBlob) {
-      console.log('filename', this.props.filename);
+      // console.log('filename', this.props.filename);
       navigator.msSaveBlob(new Blob([this.props.data], {
         type: mimetype
       }), this.props.filename);

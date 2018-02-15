@@ -215,20 +215,93 @@ class Dashboard extends Component {
     )
   }
 
+  _alphabetizeRows = (results) => {
+    // Alphabatize all the results by the value in column 0.
+    // Keep the first element from ``results``(the headers).
+    const newResults = [_.assign([], results[0])]
+    results.splice(0, 1)
+    return _.concat(newResults, _.orderBy(results, result => result[0]))
+  }
+
+  _calculateNumGoalsMastered = (results) => {
+    // Calculate the total number of goals mastered in Phase 1 and 2.
+    // Will have to account for the following edge cases:
+    //   * Only did phase 1, so the record entry will not have enough filler
+    //     columns.
+    //   * Only did phase 2, so nothing to sum from phase 1
+    const newResults = [_.assign([], results[0])]
+    results.splice(0, 1)
+    return _.concat(newResults, _.map(results, (result) => {
+      if (result.length === 6) {
+        // Did Phase 1 only, no Phase 2 data
+        return _.concat(result, [
+          '',
+          '',
+          '',
+          '',
+          '', // divider
+          result[3]
+        ])
+      } else if (result[3] === '') {
+        // Did Phase 2 only, no Phase 1 data
+        return _.concat(result, [result[8]])
+      }
+      // Has both phase 1 and phase 2 data
+      return _.concat(result, ['' + (parseInt(result[3]) + parseInt(result[8]))])
+      // Impossible to have no Phase 1 or Phase 2 data at this point
+    }))
+  }
+
   _updateResults = (label, currentResults, grades) => {
     const newResults = _.assign([], currentResults)
+    const existingUsers = _.map(newResults, result => result[0])
+    // If this is a set of Phase 1 results, then we just populate
+    //   rows into newResults.
+    // If this is a set of Phase 2 results, we need to look for
+    //   an existing match on the grade.user. If a match exists,
+    //   append the data. If no match, create a new row with filler
+    //   blanks for Phase 1 data.
     _.each(grades, grade => {
-      let csvGrade = parseGradeForCSV(grade)
-      newResults.push([
-        label,
-        getD2LDisplayNameLastFirst(grade.user),
-        csvGrade.questionsCorrect,
-        csvGrade.totalQuestions,
-        csvGrade.goalsMastered,
-        csvGrade.totalGoals,
-        '',
-        csvGrade.questionsCorrect === csvGrade.totalQuestions ? 'Perfect Mission!' : ''
-      ])
+      const csvGrade = parseGradeForCSV(grade)
+      const username = getD2LDisplayNameLastFirst(grade.user)
+      if (label === 'Phase I') {
+        newResults.push([
+          username,
+          // Phase 1 results
+          csvGrade.questionsCorrect,
+          csvGrade.totalQuestions,
+          csvGrade.goalsMastered,
+          csvGrade.totalGoals,
+          ''
+        ])
+      } else {
+        const userIndex = existingUsers.indexOf(username)
+        if (userIndex > -1) {
+          newResults[userIndex] = _.concat(newResults[userIndex], [
+            csvGrade.questionsCorrect,
+            csvGrade.totalQuestions,
+            csvGrade.goalsMastered,
+            csvGrade.totalGoals,
+            '' // divider
+          ])
+        } else {
+          newResults.push([
+            username,
+            // Phase 1 results
+            '',
+            '',
+            '',
+            '',
+            '', // divider
+            // Phase 2 results
+            csvGrade.questionsCorrect,
+            csvGrade.totalQuestions,
+            csvGrade.goalsMastered,
+            csvGrade.totalGoals,
+            '' // divider
+          ])
+        }
+      }
     })
     return newResults
   }
@@ -240,12 +313,15 @@ class Dashboard extends Component {
 
     let results = []
 
-    // The headers we'll use are what the teachers are used to receiving,
-    //   and we add a column:
-    //   1) Phase I or Phase II
-    let headers = ['Phase I or II', 'Last Name, First Name',
-      'Questions Correct', 'Total Questions', 'Goals Mastered',
-      'Total Goals', '', 'Notes']
+    // The headers we'll use let us keep one row per student, and
+    //   so we have separate columns for Phase 1 results versus Phase 2 results.
+    // Note that the "Total Goals Mastered" is just a sum of the
+    //   Phase 1 and Phase 2 Goals Mastered.
+    let headers = ['Last Name, First Name',
+      'Ph 1 Questions Correct', 'Ph 1 Total Questions', 'Ph 1 Goals Mastered',
+      'Ph 1 Total Goals', '',
+      'Ph 2 Questions Correct', 'Ph 2 Total Questions', 'Ph 2 Goals Mastered',
+      'Ph 2 Total Goals', '', 'Total Goals Mastered', '', 'Notes']
 
     results.push(headers)
 
@@ -255,11 +331,18 @@ class Dashboard extends Component {
       this.props.roster), grade => grade.points)
     results = this._updateResults('Phase I', results, phaseIGrades)
 
-    // Next do phase 2 grades
+    // Next do phase 2 grades, matching on student ID
+    // Make sure to add a new row if the student missed phase 1
     const phaseIIGrades = _.filter(computeGrades(this.props.mission,
       this._getRecords(this.props.mission, missionConfig.PHASE_II_MISSION_TYPE),
       this.props.roster), grade => grade.points);
     results = this._updateResults('Phase II', results, phaseIIGrades)
+
+    // Alphabetize by last name
+    results = this._alphabetizeRows(results)
+
+    // Add in the summary column for number of goals mastered
+    results = this._calculateNumGoalsMastered(results)
 
     // Now format it into a CSV string
     results = _.map(results, row => {
