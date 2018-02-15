@@ -240,14 +240,17 @@ class Dashboard extends Component {
           '',
           '',
           '', // divider
-          result[3]
+          result[3],
+          result[4]
         ])
       } else if (result[3] === '') {
         // Did Phase 2 only, no Phase 1 data
-        return _.concat(result, [result[8]])
+        return _.concat(result, [result[8], result[9]])
       }
       // Has both phase 1 and phase 2 data
-      return _.concat(result, ['' + (parseInt(result[3]) + parseInt(result[8]))])
+      return _.concat(result,
+        ['' + (parseInt(result[3]) + parseInt(result[8])),
+          result[4]])
       // Impossible to have no Phase 1 or Phase 2 data at this point
     }))
   }
@@ -321,7 +324,7 @@ class Dashboard extends Component {
       'Ph 1 Questions Correct', 'Ph 1 Total Questions', 'Ph 1 Goals Mastered',
       'Ph 1 Total Goals', '',
       'Ph 2 Questions Correct', 'Ph 2 Total Questions', 'Ph 2 Goals Mastered',
-      'Ph 2 Total Goals', '', 'Total Goals Mastered', '', 'Notes']
+      'Ph 2 Total Goals', '', 'Total Goals Mastered', 'Total Goals', '', 'Notes']
 
     results.push(headers)
 
