@@ -374,8 +374,13 @@ class Dashboard extends Component {
     //   and then calls the helper method
     //   ````this._onCreateMissionsForStudents````
     //   and passes it the list of students.
-    const records = this._getRecords(this.props.mission, missionConfig.PHASE_I_MISSION_TYPE)
-    const students = _.uniqBy(_.map(records, 'user'), 'Identifier');
+    // const records = this._getRecords(this.props.mission, missionConfig.PHASE_I_MISSION_TYPE)
+    // const students = _.uniqBy(_.map(records, 'user'), 'Identifier');
+    // but we want to launch phase II for all students in the roster ... if we have one.
+    // To differentiate between QCC and ACC, the roster is empty for QCC, so
+    //   we can use the method above, to only launch Phase II for students
+    //   who did Phase I.
+    const students = _.uniqBy(this.props.roster, 'Identifier');
     this._onCreateMissionsForStudents(students);
   }
 
