@@ -255,10 +255,14 @@ describe('Dashboard', () => {
       '1': [stampUserRecord('123'),
         stampUserRecord('234'),
         stampUserRecord('123'),
-        stampUserRecord('234'),
-        stampUserRecord('345')],
+        stampUserRecord('234')],
       '2': [stampUserRecord('321')]
     }
+    props.roster = [
+      stampUserRecord('123').user,
+      stampUserRecord('234').user,
+      stampUserRecord('345').user
+    ]
 
     const dashboard = shallow(
       <Dashboard {...props} />
