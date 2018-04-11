@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.org/wombats-writing-code/fbw-instructor.svg?branch=master)](https://travis-ci.org/wombats-writing-code/fbw-instructor)
 
 # Fly-by-Wire Instructor (web + mobile)
 

@@ -1,18 +1,18 @@
 sudo: false
 language: node_js
 node_js:
-  - "6"
+  - "8"
 
 cache:
   directories:
-    - node_modules
+    - web/node_modules
 
 install:
+  - cd web
   - npm install
 
 script:
-  - npm run deploy:dev
-  - npm run deploy:prod
+  - npm run test
 
 after_success:
   - npm run codecov
