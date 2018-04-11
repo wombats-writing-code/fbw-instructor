@@ -1,7 +1,7 @@
 sudo: false
 language: node_js
 node_js:
-  - "6"
+  - "8"
 
 cache:
   directories:
@@ -11,8 +11,7 @@ install:
   - npm install
 
 script:
-  - npm run deploy:dev
-  - npm run deploy:prod
+  - npm run test
 
 after_success:
   - npm run codecov
