@@ -8,10 +8,10 @@ cache:
     - node_modules
 
 install:
-  - npm install
+  - cd web && npm install
 
 script:
-  - npm run test
+  - cd web && npm run test
 
 after_success:
-  - npm run codecov
+  - cd web && npm run codecov
