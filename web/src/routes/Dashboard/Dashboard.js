@@ -256,6 +256,10 @@ class Dashboard extends Component {
   }
 
   _updateResults = (label, currentResults, grades) => {
+    function calculatePercentage (numerator, denominator) {
+      return parseFloat((numerator / denominator * 100).toFixed(2))
+    }
+
     const newResults = _.assign([], currentResults)
     const existingUsers = _.map(newResults, result => result[0])
     // If this is a set of Phase 1 results, then we just populate
@@ -273,8 +277,10 @@ class Dashboard extends Component {
           // Phase 1 results
           csvGrade.questionsCorrect,
           csvGrade.totalQuestions,
+          calculatePercentage(csvGrade.questionsCorrect, csvGrade.totalQuestions),
           csvGrade.goalsMastered,
           csvGrade.totalGoals,
+          calculatePercentage(csvGrade.goalsMastered, csvGrade.totalGoals),
           ''
         ])
       } else {
@@ -283,8 +289,10 @@ class Dashboard extends Component {
           newResults[userIndex] = _.concat(newResults[userIndex], [
             csvGrade.questionsCorrect,
             csvGrade.totalQuestions,
+            calculatePercentage(csvGrade.questionsCorrect, csvGrade.totalQuestions),
             csvGrade.goalsMastered,
             csvGrade.totalGoals,
+            calculatePercentage(csvGrade.goalsMastered, csvGrade.totalGoals),
             '' // divider
           ])
         } else {
@@ -295,12 +303,16 @@ class Dashboard extends Component {
             '',
             '',
             '',
+            '',
+            '',
             '', // divider
             // Phase 2 results
             csvGrade.questionsCorrect,
             csvGrade.totalQuestions,
+            calculatePercentage(csvGrade.questionsCorrect, csvGrade.totalQuestions),
             csvGrade.goalsMastered,
             csvGrade.totalGoals,
+            calculatePercentage(csvGrade.goalsMastered, csvGrade.totalGoals),
             '' // divider
           ])
         }
@@ -321,10 +333,11 @@ class Dashboard extends Component {
     // Note that the "Total Goals Mastered" is just a sum of the
     //   Phase 1 and Phase 2 Goals Mastered.
     let headers = ['Last Name, First Name',
-      'Ph 1 Questions Correct', 'Ph 1 Total Questions', 'Ph 1 Goals Mastered',
-      'Ph 1 Total Goals', '',
-      'Ph 2 Questions Correct', 'Ph 2 Total Questions', 'Ph 2 Goals Mastered',
-      'Ph 2 Total Goals', '', 'Total Goals Mastered', 'Total Goals', '', 'Notes']
+      'Ph 1 Questions Correct', 'Ph 1 Total Questions', '% Questions',
+      'Ph 1 Goals Mastered', 'Ph 1 Total Goals', '% Goals', '',
+      'Ph 2 Questions Correct', 'Ph 2 Total Questions', '% Questions',
+      'Ph 2 Goals Mastered', 'Ph 2 Total Goals', '% Goals',
+      '', 'Total Goals Mastered', 'Total Goals', '', 'Notes']
 
     results.push(headers)
 
