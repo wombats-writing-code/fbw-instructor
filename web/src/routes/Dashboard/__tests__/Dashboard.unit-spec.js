@@ -444,7 +444,7 @@ describe('Dashboard', () => {
         DisplayName: 'name, foo'
       }
     }]
-    const expected = [['name, foo', '1', '2', '2', '3', '']]
+    const expected = [['name, foo', '1', '2', 50, '2', '3', 66.67, '']]
     dashboard.instance()._updateResults('Phase I', [], input).should.eql(expected)
   })
 
@@ -453,7 +453,7 @@ describe('Dashboard', () => {
     const dashboard = shallow(
       <Dashboard {...props} />
     )
-    const current = [['name, foo', '1', '2', '2', '3', '']]
+    const current = [['name, foo', '1', '2', 60, '2', '3', 66.67, '']]
     const input = [{
       points: '3 / 5; 60%',
       goalsAchieved: '6 / 7',
@@ -461,7 +461,7 @@ describe('Dashboard', () => {
         DisplayName: 'name, foo'
       }
     }]
-    const expected = [['name, foo', '1', '2', '2', '3', '', '3', '5', '6', '7', '']]
+    const expected = [['name, foo', '1', '2', 60, '2', '3', 66.67, '', '3', '5', 60, '6', '7', 85.71, '']]
     dashboard.instance()._updateResults('Phase II', current, input).should.eql(expected)
   })
 
@@ -470,7 +470,7 @@ describe('Dashboard', () => {
     const dashboard = shallow(
       <Dashboard {...props} />
     )
-    const current = [['name, foo', '1', '2', '2', '3', '']]
+    const current = [['name, foo', '1', '2', 50, '2', '3', 66.67, '']]
     const input = [{
       points: '3 / 5; 60%',
       goalsAchieved: '6 / 7',
@@ -478,8 +478,8 @@ describe('Dashboard', () => {
         DisplayName: 'bar, zim'
       }
     }]
-    const expected = [['name, foo', '1', '2', '2', '3', ''],
-      ['bar, zim', '', '', '', '', '', '3', '5', '6', '7', '']]
+    const expected = [['name, foo', '1', '2', 50, '2', '3', 66.67, ''],
+      ['bar, zim', '', '', '', '', '', '', '', '3', '5', 60, '6', '7', 85.71, '']]
     dashboard.instance()._updateResults('Phase II', current, input).should.eql(expected)
   });
 
