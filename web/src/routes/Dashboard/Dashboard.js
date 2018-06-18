@@ -412,7 +412,7 @@ class Dashboard extends Component {
       let recommendation = computeRecommendation(student, records, this.props.mission);
       // console.log('recommendation', recommendation)
       let newMission = _.assign({}, {
-        displayName: `${this.props.mission.displayName} Phase II`,
+        displayName: `${this.props.mission.displayName} Attempt 2`,
         description: `for ${getD2LDisplayName(student)}`,
         type: missionConfig.PHASE_II_MISSION_TYPE,
         startTime: this.props.mission.leadsToMissionsStartTime,
