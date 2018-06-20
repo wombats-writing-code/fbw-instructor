@@ -204,4 +204,10 @@ if (!__DEV__) {
   )
 }
 
+
+webpackConfig.externals = [{
+  xmlhttprequest: '{XMLHttpRequest:XMLHttpRequest}'
+}]
+
+
 module.exports = webpackConfig
