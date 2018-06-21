@@ -232,25 +232,32 @@ class Dashboard extends Component {
     const newResults = [_.assign([], results[0])]
     results.splice(0, 1)
     return _.concat(newResults, _.map(results, (result) => {
-      if (result.length === 6) {
+      if (result.length === 13) {
         // Did Phase 1 only, no Phase 2 data
         return _.concat(result, [
           '',
           '',
           '',
           '',
+          '',
+          '',
+          '',
+          '',
+          '',
+          '',
+          '',
           '', // divider
-          result[3],
-          result[4]
+          result[4],
+          result[5]
         ])
-      } else if (result[3] === '') {
+      } else if (result[4] === '') {
         // Did Phase 2 only, no Phase 1 data
-        return _.concat(result, [result[8], result[9]])
+        return _.concat(result, [result[16], result[17]])
       }
       // Has both phase 1 and phase 2 data
       return _.concat(result,
-        ['' + (parseInt(result[3]) + parseInt(result[8])),
-          result[4]])
+        ['' + (parseInt(result[4]) + parseInt(result[16])),
+          result[5]])
       // Impossible to have no Phase 1 or Phase 2 data at this point
     }))
   }
@@ -281,6 +288,11 @@ class Dashboard extends Component {
           csvGrade.goalsMastered,
           csvGrade.totalGoals,
           calculatePercentage(csvGrade.goalsMastered, csvGrade.totalGoals),
+          csvGrade.numberWaypointsCorrect,
+          csvGrade.numberWaypointsAttempted,
+          csvGrade.numberWaypoints,
+          calculatePercentage(csvGrade.numberWaypointsCorrect, csvGrade.numberWaypoints),
+          calculatePercentage(csvGrade.numberWaypointsAttempted, csvGrade.numberWaypoints),
           ''
         ])
       } else {
@@ -293,12 +305,22 @@ class Dashboard extends Component {
             csvGrade.goalsMastered,
             csvGrade.totalGoals,
             calculatePercentage(csvGrade.goalsMastered, csvGrade.totalGoals),
+            csvGrade.numberWaypointsCorrect,
+            csvGrade.numberWaypointsAttempted,
+            csvGrade.numberWaypoints,
+            calculatePercentage(csvGrade.numberWaypointsCorrect, csvGrade.numberWaypoints),
+            calculatePercentage(csvGrade.numberWaypointsAttempted, csvGrade.numberWaypoints),
             '' // divider
           ])
         } else {
           newResults.push([
             username,
             // Phase 1 results
+            '',
+            '',
+            '',
+            '',
+            '',
             '',
             '',
             '',
@@ -313,6 +335,11 @@ class Dashboard extends Component {
             csvGrade.goalsMastered,
             csvGrade.totalGoals,
             calculatePercentage(csvGrade.goalsMastered, csvGrade.totalGoals),
+            csvGrade.numberWaypointsCorrect,
+            csvGrade.numberWaypointsAttempted,
+            csvGrade.numberWaypoints,
+            calculatePercentage(csvGrade.numberWaypointsCorrect, csvGrade.numberWaypoints),
+            calculatePercentage(csvGrade.numberWaypointsAttempted, csvGrade.numberWaypoints),
             '' // divider
           ])
         }
@@ -333,10 +360,15 @@ class Dashboard extends Component {
     // Note that the "Total Goals Mastered" is just a sum of the
     //   Phase 1 and Phase 2 Goals Mastered.
     let headers = ['Last Name, First Name',
-      'Ph 1 Questions Correct', 'Ph 1 Total Questions', '% Questions',
-      'Ph 1 Goals Mastered', 'Ph 1 Total Goals', '% Goals', '',
+      'Ph 1 Target Questions Correct', 'Ph 1 Total Target Questions', '% Target Questions',
+      'Ph 1 Goals Mastered', 'Ph 1 Total Goals', '% Goals',
+      'Ph 1 Waypoints Correct', 'Ph 1 Waypoints Attempted', 'Ph 1 Total Waypoints',
+      '% Waypoints Correct', '% Waypoints Attempted',
+      '',
       'Ph 2 Questions Correct', 'Ph 2 Total Questions', '% Questions',
       'Ph 2 Goals Mastered', 'Ph 2 Total Goals', '% Goals',
+      'Ph 2 Waypoints Correct', 'Ph 2 Waypoints Attempted', 'Ph 2 Total Waypoints',
+      '% Waypoints Correct', '% Waypoints Attempted',
       '', 'Total Goals Mastered', 'Total Goals', '', 'Notes']
 
     results.push(headers)

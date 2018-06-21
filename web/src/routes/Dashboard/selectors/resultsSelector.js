@@ -4,7 +4,9 @@ import moment from 'moment'
 import 'moment-timezone'
 
 // import { getMapping } from '@wombats-writing-code/fbw-platform-common/selectors'
-import { isTarget, numberAttemptedTargets } from '@wombats-writing-code/fbw-platform-common/selectors/mission'
+import { isTarget,
+  numberAttemptedQuestions,
+  numberCorrectQuestions } from '@wombats-writing-code/fbw-platform-common/selectors/mission'
 // import { getRoster } from '@wombats-writing-code/fbw-platform-common/selectors/course'
 // import { missionConfig } from '@wombats-writing-code/fbw-platform-common/reducers/Mission'
 
@@ -33,7 +35,17 @@ export const computeGrades = (mission, records, roster) => {
   let grades = _.reduce(groupedByStudent, (result, studentRecords, userIdentifier) => {
     // _.uniqBy works here and preserves the target, because the original target
     //   appears in ``studentRecords`` before the re-asked / last target in a route.
-    let targetRecords = _.uniqBy(_.filter(studentRecords, r => isTarget(r.question)), record => record.question.id);
+    let allTargets = _.filter(studentRecords, r => isTarget(r.question));
+    let targetRecords = _.uniqBy(allTargets, record => record.question.id);
+
+    // But we also need to find the re-asked / last target questions,
+    //    so we can add it to the list of waypoint questions.
+    let waypointTargetRecords = _.filter(allTargets, target =>
+      _.map(targetRecords, 'instanceId').indexOf(target.instanceId) === -1
+    );
+    let waypointRecords = _.concat(waypointTargetRecords, _.filter(studentRecords, r => !isTarget(r.question)));
+    let waypointQuestionsResponded = _.compact(_.map(waypointRecords, record => record.responseResult ? record.responseResult.question : null));
+
     // console.log('targetRecords', targetRecords)
     // console.log('studentRecords', studentRecords)
     let createdAt = _.map(studentRecords, r => moment(r.createdAt).valueOf());
@@ -46,14 +58,17 @@ export const computeGrades = (mission, records, roster) => {
 
     let grade = {
       points: pointsEarned(_.map(targetRecords, 'responseResult.question')),
-      numberAttempted: numberAttemptedTargets(targetRecords),
+      numberAttempted: numberAttemptedQuestions(targetRecords),
       goalsAchieved: numberAchievedGoals(targetRecords),
       user: studentRecords[0].user,
       firstActive: moment(_.min(createdAt)).format('h:mm a ddd M/D'),
       lastActive: moment(_.max(timeStamps)).format('h:mm a ddd M/D'),
-      // completed: _.toString(completed)
-      completed: completed ? 'True' : ''
+      completed: completed ? 'True' : '',
+      numberWaypointsAttempted: numberAttemptedQuestions(waypointRecords),
+      numberWaypoints: waypointRecords.length,
+      numberWaypointsCorrect: numberCorrectQuestions(waypointQuestionsResponded)
     }
+    // console.log('grade', grade);
 
     result.push(grade);
 
@@ -281,21 +296,29 @@ export const parseGradeForCSV = (grade) => {
   // Expects an input grade object with:
   //  {
   //    points: '#1 / #2; ##%',
-  //    goalsAchieved: '#3 / #4'
+  //    goalsAchieved: '#3 / #4',
+  //    numberWaypointsCorrect: 5,
+  //    numberWaypoints: 10,
+  //    numberWaypointsAttempted: 10
   //  }
   // Needs to return:
   //  {
   //    questionsCorrect: #1,
   //    totalQuestions: #2,
   //    goalsMastered: #3,
-  //    totalGoals: #4
+  //    totalGoals: #4,
+  //    numberWaypointsCorrect: 5,
+  //    numberWaypoints: 10,
+  //    numberWaypointsAttempted: 10
   //  }
   if (!grade) {
     throw new Error('grade must be non-null');
   }
 
-  if (!grade.points || !grade.goalsAchieved) {
-    throw new Error('grade must include points and goalsAchieved');
+  if (!grade.points || !grade.goalsAchieved || _.isNull(grade.numberWaypoints) ||
+      _.isNull(grade.numberWaypointsCorrect) || _.isNull(grade.numberWaypointsAttempted)) {
+    throw new Error('grade must include points, goalsAchieved, numberWaypoints,' +
+      'numberWaypointsCorrect, and numberWaypointsAttempted');
   }
   const findDigits = /(\d+)/g
 
@@ -310,6 +333,9 @@ export const parseGradeForCSV = (grade) => {
     questionsCorrect: grade.points.match(findDigits)[0],
     totalQuestions: grade.points.match(findDigits)[1],
     goalsMastered: grade.goalsAchieved.match(findDigits)[0],
-    totalGoals: grade.goalsAchieved.match(findDigits)[1]
+    totalGoals: grade.goalsAchieved.match(findDigits)[1],
+    numberWaypoints: grade.numberWaypoints,
+    numberWaypointsCorrect: grade.numberWaypointsCorrect,
+    numberWaypointsAttempted: grade.numberWaypointsAttempted
   }
 }
