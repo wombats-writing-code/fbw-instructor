@@ -4,13 +4,66 @@ let chai = require('chai');
 const should = chai.should();
 
 import { pointsEarned, filterReviewOutcomes,
-  numberUnansweredTargets, numberAttemptedTargets,
   sortRecordsByOutcome, numberAchievedGoals,
-  parseGradeForCSV } from '../selectors/resultsSelector'
+  parseGradeForCSV, computeGrades } from '../selectors/resultsSelector'
 
-// describe(`computeGrades`, () => {
-//   it(`should commpute the grades for a single student `)
-// })
+
+const RECORDS = require('./mockRecords.json');
+
+describe(`computeGrades`, () => {
+  const mission = {
+    _id: "5aa2bd5f4ba44700133bd4e3",
+    displayName: "Chapter 1 review",
+    description: "",
+    type: "PHASE_I_MISSION_TYPE",
+    startTime: "2018-03-09T07:00:00.000Z",
+    deadline: "2018-06-19T04:00:00.000Z",
+    course: "5a33e14bf36d28127699c9de",
+    user: null,
+    leadsToMissionsDeadline: "2018-03-22T04:00:00.000Z",
+    leadsToMissionsStartTime: "2018-03-19T04:00:00.000Z",
+    followsFromMissions:[],
+    leadsToMissions: [],
+    id: "5aa2bd5f4ba44700133bd4e3"
+  }
+  const records = RECORDS;
+  const roster = [{
+      _id: "5aa2bf9e4ba44700133bd4e4",
+      Identifier: "guest1",
+      FirstName: "john",
+      LastName: "hancock",
+      UniqueName: "john hancock14",
+    }, {
+      _id: "5aa2bfe34ba44700133bd4f3",
+      Identifier: "guest2",
+      FirstName: "ada",
+      LastName: "lovelace",
+      UniqueName: "ada lovelace97",
+    }, {
+      _id: "5aa2c4a24ba44700133bd4ff",
+      Identifier: "guest3",
+      FirstName: "i",
+      LastName: "forgot",
+      UniqueName: "i forgot73"}];
+
+  it(`should commpute the grades for each student `, () => {
+    let results = computeGrades(mission, records, roster);
+    results.length.should.eql(3);
+    results[0].user.Identifier.should.eql("guest1");
+    results[1].user.Identifier.should.eql("guest2");
+    results[2].user.Identifier.should.eql("guest3");
+    results[0].goalsAchieved.should.eql("0 / 2");
+    results[0].points.should.eql("0 / 4; 0%");
+    results[0].numberAttempted.should.eql(2);
+  })
+
+  it('should include waypoint calculations', () => {
+    let results = computeGrades(mission, records, roster);
+    results[0].numberWaypoints.should.eql(10);
+    results[0].numberWaypointsAttempted.should.eql(10);
+    results[0].numberWaypointsCorrect.should.eql(7);
+  })
+})
 
 describe('(resultsSelector) pointsEarned', () => {
 
@@ -365,13 +418,46 @@ describe('parseGradeForCSV selector', () => {
 
     should.throw(() => {
       parseGradeForCSV({
-        points: ''
+        points: '',
+        goalsAchieved: '',
+        numberWaypoints: 0,
+        numberWaypointsCorrect: 0
       })
     })
 
     should.throw(() => {
       parseGradeForCSV({
-        goalsAchieved: ''
+        points: '',
+        goalsAchieved: '',
+        numberWaypoints: 0,
+        numberWaypointsAttempted: 0
+      })
+    })
+
+    should.throw(() => {
+      parseGradeForCSV({
+        points: '',
+        goalsAchieved: '',
+        numberWaypointsCorrect: 0,
+        numberWaypointsAttempted: 0
+      })
+    })
+
+    should.throw(() => {
+      parseGradeForCSV({
+        points: '',
+        numberWaypoints: 0,
+        numberWaypointsCorrect: 0,
+        numberWaypointsAttempted: 0
+      })
+    })
+
+    should.throw(() => {
+      parseGradeForCSV({
+        goalsAchieved: '',
+        numberWaypoints: 0,
+        numberWaypointsCorrect: 0,
+        numberWaypointsAttempted: 0
       })
     })
   })
@@ -380,14 +466,20 @@ describe('parseGradeForCSV selector', () => {
     should.throw(() => {
       parseGradeForCSV({
         points: '1',
-        goalsAchieved: '1 / 2'
+        goalsAchieved: '1 / 2',
+        numberWaypoints: 0,
+        numberWaypointsCorrect: 0,
+        numberWaypointsAttempted: 0
       })
     })
 
     should.throw(() => {
       parseGradeForCSV({
         points: '1 / 2',
-        goalsAchieved: '1 /'
+        goalsAchieved: '1 /',
+        numberWaypoints: 0,
+        numberWaypointsCorrect: 0,
+        numberWaypointsAttempted: 0
       })
     })
   })
@@ -395,7 +487,10 @@ describe('parseGradeForCSV selector', () => {
   it('should reformat questions', () => {
     let result = parseGradeForCSV({
       points: '1 / 2; 50%',
-      goalsAchieved: '3 / 4'
+      goalsAchieved: '3 / 4',
+      numberWaypoints: 0,
+      numberWaypointsCorrect: 0,
+      numberWaypointsAttempted: 0
     })
 
     result.questionsCorrect.should.eql('1')
@@ -405,10 +500,27 @@ describe('parseGradeForCSV selector', () => {
   it('should reformat goals', () => {
     let result = parseGradeForCSV({
       points: '1 / 2; 50%',
-      goalsAchieved: '3 / 4'
+      goalsAchieved: '3 / 4',
+      numberWaypoints: 0,
+      numberWaypointsCorrect: 0,
+      numberWaypointsAttempted: 0
     })
 
     result.goalsMastered.should.eql('3')
     result.totalGoals.should.eql('4')
+  })
+
+  it('should pass through waypoint numbers', () => {
+    let result = parseGradeForCSV({
+      points: '1 / 2; 50%',
+      goalsAchieved: '3 / 4',
+      numberWaypoints: 0,
+      numberWaypointsCorrect: 1,
+      numberWaypointsAttempted: 2
+    })
+
+    result.numberWaypoints.should.eql(0)
+    result.numberWaypointsCorrect.should.eql(1)
+    result.numberWaypointsAttempted.should.eql(2)
   })
 });
