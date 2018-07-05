@@ -75,7 +75,7 @@ class Dashboard extends Component {
       phaseIResults = (
         <div>
           <p className="dashboard__timeline-point__text">
-            <b>Phase I</b> &thinsp;
+            <b>Attempt 1</b> &thinsp;
             {moment(props.mission.startTime).format('h:mm a ddd M/D')}
             &mdash;
             {moment(props.mission.deadline).format('h:mm a ddd M/D')}
@@ -98,9 +98,9 @@ class Dashboard extends Component {
     if (this.props.isCreateMissionInProgress) {
       launchMissionButtonText = 'Working...'
     } else if (phase2Missions && phase2Missions.length > 0) {
-      launchMissionButtonText = 'Phase II launched'
+      launchMissionButtonText = 'Attempt 2 launched'
     } else if ((!phase2Missions || phase2Missions.length === 0)) {
-      launchMissionButtonText = 'Launch all Phase II\'s'
+      launchMissionButtonText = 'Launch all Attempt 2\'s'
     }
 
     let phase2Results
@@ -108,11 +108,11 @@ class Dashboard extends Component {
       phase2Results = (
         <div>
           <p className="dashboard__timeline-point__text phase-ii-dashboard">
-            <span className="phase-ii-label"><b>Phase II</b> &thinsp;</span>
+            <span className="phase-ii-label"><b>Attempt 2</b> &thinsp;</span>
             <button
               className="button dashboard__launch-mission-edit-phase-ii-button"
               onClick={() => this.props.onClickEditMissionDates(props.mission)}>
-                Edit All Phase IIs
+                Edit All Attempt 2's
             </button>
           </p>
           <MissionResult
@@ -129,8 +129,8 @@ class Dashboard extends Component {
       phase2Results = (
         <div className="flex-container align-center space-between">
           <p className="dashboard__timeline-point__text">
-            <b>Phase II</b> &thinsp;
-            No Phase II missions have been launched from this one.
+            <b>Attempt 2</b> &thinsp;
+            No Attempt 2's have been launched from this one.
           </p>
         </div>
 
@@ -360,14 +360,14 @@ class Dashboard extends Component {
     // Note that the "Total Goals Mastered" is just a sum of the
     //   Phase 1 and Phase 2 Goals Mastered.
     let headers = ['Last Name, First Name',
-      'Ph 1 Target Questions Correct', 'Ph 1 Total Target Questions', '% Target Questions',
-      'Ph 1 Goals Mastered', 'Ph 1 Total Goals', '% Goals',
-      'Ph 1 Waypoints Correct', 'Ph 1 Waypoints Attempted', 'Ph 1 Total Waypoints',
+      'Att 1 Target Questions Correct', 'Att 1 Total Target Questions', '% Target Questions',
+      'Att 1 Goals Mastered', 'Att 1 Total Goals', '% Goals',
+      'Att 1 Waypoints Correct', 'Att 1 Waypoints Attempted', 'Att 1 Total Waypoints',
       '% Waypoints Correct', '% Waypoints Attempted',
       '',
-      'Ph 2 Questions Correct', 'Ph 2 Total Questions', '% Questions',
-      'Ph 2 Goals Mastered', 'Ph 2 Total Goals', '% Goals',
-      'Ph 2 Waypoints Correct', 'Ph 2 Waypoints Attempted', 'Ph 2 Total Waypoints',
+      'Att 2 Questions Correct', 'Att 2 Total Questions', '% Questions',
+      'Att 2 Goals Mastered', 'Att 2 Total Goals', '% Goals',
+      'Att 2 Waypoints Correct', 'Att 2 Waypoints Attempted', 'Att 2 Total Waypoints',
       '% Waypoints Correct', '% Waypoints Attempted',
       '', 'Total Goals Mastered', 'Total Goals', '', 'Notes']
 
@@ -432,10 +432,10 @@ class Dashboard extends Component {
     // This computes the recommendation for each student,
     //   and then calls the reducers.
     if (!this.props.mission.leadsToMissionsDeadline) {
-      throw Error('Somehow you clicked Launch All Phase II\'s but there is no deadline set.')
+      throw Error('Somehow you clicked Launch All Attempt 2\'s but there is no deadline set.')
     }
     if (!this.props.mission.leadsToMissionsStartTime) {
-      throw Error('Somehow you clicked Launch All Phase II\'s but there is no start time set.')
+      throw Error('Somehow you clicked Launch All Attempt 2\'s but there is no start time set.')
     }
 
     let newMissions = _.map(students, (student) => {
@@ -486,7 +486,7 @@ class Dashboard extends Component {
       // console.log('records', records)
 
     } else {
-      throw new Error('You must specify for Phase I or Phase II you want to get records')
+      throw new Error('You must specify for Attempt 1 or Attempt 2 you want to get records')
     }
 
     return records;

@@ -8,10 +8,10 @@ const SelectMissionType = (props) => {
 
   return (
     <div className="flex-container space-around align-center form-section">
-      <p className="mission-type-prompt">Select the type of mission</p>
+      <p className="mission-type-prompt">Select the type of assignment</p>
       <button className={`mission-type-button button ${props.mission.type === missionConfig.PHASE_I_MISSION_TYPE ? isSelectedStyle : null}`}
               onClick={() => props.onChangeMissionType(missionConfig.PHASE_I_MISSION_TYPE)}>
-        Phase I Mission
+        Attempt 1
       </button>
     </div>
   )
