@@ -21,9 +21,12 @@ class AppContainer extends Component {
     if (window.location.pathname.indexOf('logout-success') > -1 || window.location.pathname.indexOf('guide') > -1) {
       // do nothing on the logout-succcess page
 
-    } else if (window.location.pathname.indexOf('d2l-callback') === -1 && window.location.pathname.indexOf('guest-callback') === -1) {
+    } else if (window.location.pathname.indexOf('d2l-callback') === -1 &&
+        window.location.pathname.indexOf('guest-callback') === -1 &&
+        window.location.pathname.indexOf('reset-password') === -1 &&
+        window.location.pathname.indexOf('resend-verification-email') === -1 &&
+        window.location.pathname.indexOf('set-password') === -1) {
       if (!isLoggedIn(state)) browserHistory.push('/login');
-
     } else {
       let unsub = store.subscribe(() => {
         let state = store.getState();
