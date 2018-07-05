@@ -10,6 +10,9 @@ import MissionsRoute from './Missions'
 import StudentRoute from './Student'
 import DashboardRoute from './Dashboard'
 import MissionEditRoute from './MissionEdit'
+import ResetPasswordRoute from './ResetPassword'
+import ResendVerificationEmailRoute from './ResendVerificationEmail'
+import SetNewPassword from './SetNewPassword'
 
 import GuideRoute from './Guide'
 
@@ -31,7 +34,13 @@ export const createRoutes = (store) => ({
     StudentRoute(store),
     MissionEditRoute(store),
     GuideRoute(store),
-    LoginErrorRoute(store)
+    LoginErrorRoute(store),
+    ResetPasswordRoute(store),
+    ResendVerificationEmailRoute(store),
+    {
+      path: '/set-password/:userId',
+      component: SetNewPassword
+    }
   ]
 })
 
