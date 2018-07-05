@@ -31,10 +31,10 @@ class EditPhaseIIDates extends Component {
     return (
       <Modal isOpen={props.mission ? true : false} contentLabel="edit-phase-II-mission-modal">
         <p className="columns edit-phase-II__title">
-          Edit All Phase II Dates
+          Edit All Attempt 2 Dates
         </p>
         <div className="row">
-          <p>NOTE: This overrides any existing Phase II Dates.
+          <p>NOTE: This overrides any existing Attempt 2 Dates.
             If you want to grant individual student exceptions,
             change those dates manually AFTER using this form.</p>
         </div>

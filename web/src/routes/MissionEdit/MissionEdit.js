@@ -57,31 +57,31 @@ class MissionEdit extends Component {
         //   Two for the Phase I, two for the Phase II.
         dateInputs = (
           <div className="form-section">
-            <label className="form-label">Phase I Dates</label>
+            <label className="form-label">Attempt 1 Dates</label>
             <div className="row">
               <div className="datetime medium-6 columns">
-                <Datetime inputProps={{placeholder: "Phase I start date & time"}}
+                <Datetime inputProps={{placeholder: "Attempt 1 start date & time"}}
                          value={moment(props.newMission.startTime)}
                          dateFormat={true}
                          onChange={(momentObj) => this.props.onChangeMissionStart(momentObj)}  />
               </div>
               <div className="datetime medium-6 columns">
-                <Datetime inputProps={{placeholder: "Phase I deadline date & time"}}
+                <Datetime inputProps={{placeholder: "Attempt 1 deadline date & time"}}
                           value={moment(props.newMission.deadline)}
                          dateFormat={true} onChange={(momentObj) => this.props.onChangeMissionEnd(momentObj)}  />
               </div>
             </div>
             <div className="divider-row" />
-            <label className="form-label">Phase II Dates</label>
+            <label className="form-label">Attempt 2 Dates</label>
             <div className="row">
               <div className="datetime medium-6 columns">
-                <Datetime inputProps={{placeholder: "Phase II start date & time"}}
+                <Datetime inputProps={{placeholder: "Attempt 2 start date & time"}}
                          value={moment(props.newMission.leadsToMissionsStartTime || null)}
                          dateFormat={true}
                          onChange={(momentObj) => this.props.onChangeMissionLeadsToStartTime(momentObj)}  />
               </div>
               <div className="datetime medium-6 columns">
-                <Datetime inputProps={{placeholder: "Phase II deadline date & time"}}
+                <Datetime inputProps={{placeholder: "Attempt 2 deadline date & time"}}
                          value={moment(props.newMission.leadsToMissionsDeadline || null)}
                          dateFormat={true}
                          onChange={(momentObj) => this.props.onChangeMissionLeadsToEnd(momentObj)}  />
@@ -183,17 +183,17 @@ class MissionEdit extends Component {
     }
 
     if (props.newMission.type === missionConfig.PHASE_I_MISSION_TYPE && props.newMission.goals.length === 0) {
-      return this.setState({goalsError: 'You must choose at least 1 goal for a Phase I type mission.'})
+      return this.setState({goalsError: 'You must choose at least 1 goal for Attempt 1.'})
     }
 
     if (props.newMission.type === missionConfig.PHASE_I_MISSION_TYPE &&
         !props.newMission.leadsToMissionsDeadline) {
-      return this.setState({deadlineError: 'You must set a Phase II deadline.'})
+      return this.setState({deadlineError: 'You must set an Attempt 2 deadline.'})
     }
 
     if (props.newMission.type === missionConfig.PHASE_I_MISSION_TYPE &&
         !props.newMission.leadsToMissionsStartTime) {
-      return this.setState({startTimeError: 'You must set a Phase II start time.'})
+      return this.setState({startTimeError: 'You must set an Attempt 2 start time.'})
     }
 
     if (props.editView === 'edit') {
@@ -201,7 +201,7 @@ class MissionEdit extends Component {
         props.onUpdateMission(props.newMission, props.user);
 
       } else {
-        throw new Error('Unimplemented. You need to write code to update ALL Phase II missions');
+        throw new Error('Unimplemented. You need to write code to update ALL Attempt 2\'s');
 
         // need to get every phase II mission that this Phase I mission leads to
         // let newMissions = _.map(props.recommendations, rec => {
@@ -229,7 +229,7 @@ class MissionEdit extends Component {
         // using this newMission form, stamp out a mission for each student recommendation
         let newMissions = _.map(props.recommendations, rec => {
           return _.assign({}, props.newMission, {
-            displayName: `Phase II (from ${followsFromMissionNames.join(' + ')})`,
+            displayName: `Attempt 2 (from ${followsFromMissionNames.join(' + ')})`,
             description: `for ${getD2LDisplayName(rec.student)}`,
             goals: rec.goals,
             userId: getD2LUserIdentifier(rec.student)

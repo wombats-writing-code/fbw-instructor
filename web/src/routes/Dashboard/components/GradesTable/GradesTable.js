@@ -72,7 +72,7 @@ class GradesTable extends Component {
     } else {
       phaseIIBlock = (
         <div>
-          <p className="grades-table__phase-2-title">Phase II status</p>
+          <p className="grades-table__phase-2-title">Attempt 2 status</p>
           {_.map(props.grades, (grade, idx) => {
               return (
                 <LaunchPhaseII key={`phase-2-status__${idx}`}
