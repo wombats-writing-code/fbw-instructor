@@ -22,7 +22,13 @@ export const computeGrades = (mission, records, roster) => {
     throw new TypeError('roster must be non-null');
   }
 
+  console.log('original records in computeGrades', records);
   let groupedByStudent = _.groupBy(records, 'user.Identifier');
+  console.log('after grouping', groupedByStudent);
+  // Sort groupedByStudent by createdTime ... for some reason
+  //   on -dev they are getting shuffled.
+  groupedByStudent = _.map(groupedByStudent, studentRecords => _.sortBy(studentRecords, 'createdAt'));
+  console.log('sorted', groupedByStudent);
   let studentsOpenedIdentifiers = _.uniq(_.map(records, 'user.Identifier'));
   let studentsNotOpenedIdentifers = _.difference(_.map(roster, 'Identifier'), studentsOpenedIdentifiers);
   // console.log('roster', roster);
